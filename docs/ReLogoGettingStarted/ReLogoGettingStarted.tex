@@ -1255,6 +1255,7 @@ Table \ref{tab:graphical} lists the various elements available for use in the Us
    \label{tab:graphical}
       \end{minipage}
 \end{table}
+Additionally, \emph{Observer}s are provided with a \emph{registerModelParameterListener(String,Closure)} method which allows for registering a closure to execute when a specified model parameter (such as those defined by the Global, Slider, Chooser, Switch and Input elements) are modified.
 
 Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also be used to create more advanced GUIs. The elements available are listed in Table \ref{tab:graphical2}. Listing \ref{lst:swingbuilder} shows a code snippet example. Note that the usage pattern of the elements in Table~\ref{tab:graphical2} is to assign the elements to a variable and use SwingBuilder's \emph{widget} method to incorporate them into panels you create with \emph{addPanel}\footnote{The \emph{addPanel} method passes its closure argument to a SwingBuilder \emph{panel} element.}.
 
