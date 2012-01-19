@@ -888,15 +888,17 @@ The next step is to launch the Zombies model. Once it is launched, we go to the 
 \item
 Right click on the Data Sets label (Fig.~\ref{fig:datasetscenario}) and choose Add DataSet.
 \item
-Choose the UserObserver as the Agent Class and click on Next.
+In the Data Set Editor, type Agent Counts as the Data Set ID, and Non-Aggregate\footnote{The current example is for defining non-aggregate data sources. For an example showing how to create aggregate data sources see the Data Collection section of the \href{http://repast.sourceforge.net/docs/RepastJavaGettingStarted.pdf}{Repast Java Getting Started document}.} as the Data Set type. Click Next.
 \item
-Click Add to add a Simple Agent Mapping. Left click on \emph{current tick: double} in the source column in the second row and choose \emph{timestamp}() from the drop down list.
+In the next few steps, we specify the data sources that make up our data set. The Standard Sources tab allows us to add some standard data sources to our data set. For this tutorial we uncheck all of the boxes.
 \item
-Click Add again. The tick mapping should be added again. Choose \emph{getRelogoRun}\footnote{Groovy automatically generates ``getters" and ``setters" for properties you define. If the property is ``relogoRun" like in this example, the methods \emph{getRelogoRun} and \emph{setRelogoRun} are generated. This capitalization scheme, where the beginning of multiple contiguous words are capitalized, is a standard in many programming languages, including Groovy, and is referred to as ``camel-casing". } from the drop down list.
+Next, select the Method Data Sources tab. The Method Data Sources tab allows us to create data sources that will call methods on agents in our model. For the Source Class select UserObserver. Click Add to add an entry . Left click in the Method column of the added entry and choose \emph{timestamp} from the drop down list.
+\item\label{it:toRepeat}
+Click Add again. This time choose \emph{getRelogoRun}\footnote{Groovy automatically generates ``getters" and ``setters" for properties you define. If the property is ``relogoRun" like in this example, the methods \emph{getRelogoRun} and \emph{setRelogoRun} are generated. This capitalization scheme, where the beginning of multiple contiguous words are capitalized, is a standard in many programming languages, including Groovy, and is referred to as ``camel-casing". } from the drop down list.
 \item
-Repeat Step 4, but choose \emph{remainingHumans} from the list.
+Repeat Step \ref{it:toRepeat}, but choose \emph{remainingHumans} from the list.
 \item
-Repeat Step 4, but choose \emph{remainingZombies} from the drop down list.
+Repeat Step \ref{it:toRepeat}, but choose \emph{remainingZombies} from the drop down list.
 \end{enumerate}
 \begin{figure}
 \begin{center}
@@ -933,17 +935,19 @@ At this point you should see the Data Set Editor window looking like Fig.~\ref{f
 \end{center}
 \end{figure}
 
-Next we'll create a file outputter. To do this we carry out the following steps:
+Now that we've created a data set we want to be able to output this data set. We have the option of outputting the data set to the console or, as we'll be doing next, to output the data to a file sink. To do this we carry out the following steps:
 
 \begin{enumerate}
 \item
-Right click on Outputters label in the Scenario Tree (you may have to scroll down a bit).
+Right click on Text Sinks in the Scenario Tree (you may have to scroll down a bit), and click Add File Sink.
 \item
-Click on \emph{timestamp} in File Columns and click the green right arrow.
+Choose Agent Counts for the Data Set ID.
+\item
+Click on \emph{timestamp} in the first column and click the green right arrow.
 \item
 Repeat for the remaining items in the column.
 \item
-Click Next, then Finish (the default location for the file outputter is good for the purpose of this guide).
+Click Next, then Finish (the default location for the text sink is good for the purpose of this guide).
 \end{enumerate}
 We've chosen the data items from our data set that we wish to output, in this case in comma-delimited form. As we did for the data set, don't forget to save this setting (Fig.~\ref{fig:save}).
 
@@ -960,7 +964,7 @@ Now we initialize the runtime (Fig.~\ref{fig:initruntime}) and run the model via
 \end{center}
 \end{figure}
 
-We can also directly connect to some external tools. To demonstrate this, we launch the Zombies model again. After initializing the runtime, and running the model, we turn our attention to the External Tools buttons at the top of the runtime window (Fig.~\ref{fig:externaltools}). For now we'll demonstrate how we can easily export our data into Microsoft Excel. To do this we choose the Spreadsheets plugin, the button with the calculator icon. If you have Excel on your machine, chances are the default location is correct. Otherwise select the appropriate location via the Browse button. Click Next and you should see that the File Outputter is selected (Fig.~\ref{fig:spreadsheet}). Click Finish and Excel should launch with the data displayed in a spreadsheet. We recommend experimenting with the various other external tool plugins on your own.
+We can also directly connect to some external tools. To demonstrate this, we launch the Zombies model again. After initializing the runtime, and running the model, we turn our attention to the External Tools buttons at the top of the runtime window (Fig.~\ref{fig:externaltools}). For now we'll demonstrate how we can easily export our data into Microsoft Excel. To do this we choose the Spreadsheets plugin, the button with the calculator icon. If you have Excel on your machine, chances are the default location is correct. Otherwise select the appropriate location via the Browse button. Click Next and you should see that the file sink we defined is selected (Fig.~\ref{fig:spreadsheet}). Click Finish and Excel should launch with the data displayed in a spreadsheet. We recommend experimenting with the various other external tool plugins on your own.
 
 \begin{figure}
 \begin{center}
@@ -979,7 +983,7 @@ We can also directly connect to some external tools. To demonstrate this, we lau
 \centerline {
 \includegraphics[width=4in]{GettingStartedImages/Spreadsheet.png}
 }
-\caption{The Spreadsheet wizard with the File Outputter selected.}
+\caption{The Spreadsheet wizard with the file sink selected.}
 \label{fig:spreadsheet}
 \end{center}
 \end{figure}
@@ -1241,6 +1245,7 @@ Table \ref{tab:graphical} lists the various elements available for use in the Us
            Element Types    & Commands\footnote{The (WL) refers to variants \emph{with labels}.} \\
       \midrule
       Button      & addButton(WL)\footnote{Include variants with observer specified by id.\label{fn:obs}}\\
+      State Change Button\footnote{State change buttons do not advance the simulation schedule.} & addStateChangeButton(WL)\footref{fn:obs} \\
      ToggleButton & addToggleButton(WL)\footref{fn:obs} \\
      Slider & addSlider(WL) \\
      Chooser & addChooser(WL) \\
@@ -1254,6 +1259,7 @@ Table \ref{tab:graphical} lists the various elements available for use in the Us
    \label{tab:graphical}
       \end{minipage}
 \end{table}
+Additionally, \emph{Observer}s are provided with a \emph{registerModelParameterListener(String,Closure)} method which allows for registering a closure to execute when a specified model parameter (such as those defined by the Global, Slider, Chooser, Switch and Input elements) are modified. This method would typically be called from within a \emph{setup}-like \emph{Observer} method.
 
 Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also be used to create more advanced GUIs. The elements available are listed in Table \ref{tab:graphical2}. Listing \ref{lst:swingbuilder} shows a code snippet example. Note that the usage pattern of the elements in Table~\ref{tab:graphical2} is to assign the elements to a variable and use SwingBuilder's \emph{widget} method to incorporate them into panels you create with \emph{addPanel}\footnote{The \emph{addPanel} method passes its closure argument to a SwingBuilder \emph{panel} element.}.
 
