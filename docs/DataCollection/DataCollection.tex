@@ -150,6 +150,19 @@ To write data to a file, we need to define a file sink. To create a file sink ri
 \end{figure}
 
 
+\begin{figure}[h]
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{images/fs2.png}
+}
+\caption{File Sink Dialog 2}
+\label{fig:fs2}
+\end{center}
+\end{figure}
+
+
+
 Once you've selected the data sources you wish to record, click Next to define the file properties (see fig.~\ref{fig:fs2}). The file name specifies the name of the file to write the data and you can specify whether or not to insert the current time into the file name. The delimiter string will be used use to separate the data entries. Data can be written in two formats. Tabular format records the data in typical spreadsheet type tabular format. Each data source will be a column in the table and the name of the data source will be the column header. For example,
 
 \noindent\begin{minipage}[h]{\textwidth}
@@ -183,16 +196,41 @@ Click finish to add the file sink to the scenario and don't forget to save the s
 
 To define a console sink, click on the Text Sinks node in the scenario tree and select "Add Console Sink." The steps to define a console sink are nearly identical those used to define a file sink. You choose a data set, select the data sources from the data set, specify a delimiter and a format type. You can also enable / disable a console sink in the console sink wizard. This can be useful to enable a console sink for debugging and then disable it for production runs.
 
-\begin{figure}[h]
-\begin{center}
+\subsection{Batch Runs}
+Output during batch runs now consists of a single file. The file will automatically include the batch run number. For example,
+
+\noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\centerline {
-\includegraphics[width=4in]{images/fs2.png}
-}
-\caption{File Sink Dialog 2}
-\label{fig:fs2}
-\end{center}
-\end{figure}
+\lstset{language=java,caption=Batch Run Output}
+\begin{lstlisting}
+"run", "tick", "Human Count", "Zombie Count"
+1, 1.0, 199, 6
+1, 2.0, 199, 6
+1, 3.0, 198, 7
+...
+2, 1.0, 199, 5
+2, 2.0, 199, 5
+2, 3.0, 198, 7
+
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
+
+where "run" is the batch run number. A parameter mapping file will also be produced that describes what parameters were used for each run. For example,
+
+\noindent\begin{minipage}[h]{\textwidth}
+\vspace{.2in}
+\lstset{language=java,caption=Batch Parameter Map Output}
+\begin{lstlisting}
+"run","randomSeed","human_count","zombie_count"
+1, 1, 200, 5
+2, 1, 200, 6
+...
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
+
+Here, run 1 was run with a random seed of 1, a human count of 200 and zombie count of 5. Run 2 was run with a random seed of 1, a human count of 200 and zombie count of 6. This mapping file will have the same name as the output file with "batch\_param\_map" inserted. So, ModelOutput.2012.Jan.27.14\_23\_34.txt will have a mapping file of ModelOutput.2012.Jan.27.14\_23\_34.batch\_param\_Map.txt.
 
 \section{Charting Data}
 RS allows you to create two different kinds of charts: time series and histograms. 
