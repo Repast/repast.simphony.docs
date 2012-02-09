@@ -98,8 +98,7 @@ The first thing we must do is create a new Repast Simphony project. Assuming you
 \label{fig:filter2}
 \end{center}
 \end{figure}
-
-Lastly, if eclipse has defaulted to the ReLogo perspective switch it to the Java one. The perspective selections can be found in the upper right hand corner (Fig.~\ref{fig:javap}). Click the Java perspective.
+In addition, by default autobuilding is disabled. However, this is not appropriate for projects written in Java. To enable auto building go to the Project menu and select Build Automatically. Lastly, if eclipse has defaulted to the ReLogo perspective switch it to the Java one. The perspective selections can be found in the upper right hand corner (Fig.~\ref{fig:javap}). Click the Java perspective.
 
 \begin{figure}[h]
 \begin{center}
@@ -567,7 +566,7 @@ Before we run this model, we need to update the metadata that the Repast Simphon
 \end{center}
 \end{figure}
 
-That should bring up the xml editor for editing the \texttt{context.xml} file. The \texttt{context.xml} file describes the context hierarchy for your model. The context hierarchy is composed of the contexts your model uses and the projections associated with them. Recall that in our context builder \texttt{JZombiesBuilder} we have a single context and created two projections. We need to update the context.xml to reflect this. The XML editor has two views associated with it, a Design view and a Source view (fig.~\ref{fig:cedit}). Click on the Source view. By default, the context.xml and editor should have a context already in it with an id of ``jzombies''. (Recall that we set the id of our context to "jzombies".) You should see some xml that looks like the following listing.
+That should bring up the XML editor for editing the \texttt{context.xml} file. The \texttt{context.xml} file describes the context hierarchy for your model. The context hierarchy is composed of the contexts your model uses and the projections associated with them. Recall that in our context builder \texttt{JZombiesBuilder} we have a single context and created two projections. We need to update the context.xml to reflect this. The XML editor has two views associated with it, a Design view and a Source view (fig.~\ref{fig:cedit}). Click on the Source view. By default, the context.xml editor should have a context already in it with an id of ``jzombies''. (Recall that we set the id of our context to "jzombies".) You should see some xml that looks like the following listing.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -596,7 +595,7 @@ That should bring up the xml editor for editing the \texttt{context.xml} file. T
 
 XML works in terms of elements and attributes. Elements are enclosed in angle brackets and attributes consist of a name followed by an equals sign followed by a quoted string. The quoted string is the value of the attribute. In the example above we have a context element which has an id attribute whose value is jzombies. 
 
-We need to add additional elements that describe the projections that our context contains.  A projection element has two required attributes, an id and a type. The id is the name of the projection, e.g. the "grid" and "space" names we used in the projections in our ContextBuilder code. The type attribute is the type of the projection: a continuous space or grid in this case. Add the following to the context.xml by typing it into the context.xml source editor.
+We need to add additional elements that describe the projections that our context contains.  A projection element has two required attributes, an id and a type. The id is the name of the projection, e.g. the "grid" and "space" names we used in the projections in our ContextBuilder code. The type attribute is the type of the projection: a continuous space or grid in this case. Add the following to the context.xml by typing it into the context.xml source editor just above the \texttt{</context>}.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}

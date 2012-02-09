@@ -72,7 +72,7 @@ The first thing we must do is create a new Repast Simphony project. Assuming you
 \end{center}
 \end{figure}
 
-By default Repast Simphony will hide many of the details of the project. This is appropriate for ReLogo projects but not for those written in Java. If the ReLogo filters have not been previously disabled then we need to do that now. If you click on the ``+'' (Windows) or triangle (OSX) next to ``FlowZombies'' and you see a variety of folders (batch, docs, etc), then the filter has been disabled. If you only see the src directory then the filter needs to be disabled. To disable the filter, click the downward pointing arrow in the ``Package Explorer'' pane. If you see ``ReLogo Resource Filter''  then click on it to disable the filter (Fig.~\ref{fig:filter}).  Otherwise, click on the ``Filters'' item. This brings up the Java Element Filters windows. Scroll through the elements and click off the checkbox for ReLogo Resource Filter (Fig.~\ref{fig:filter2}). 
+By default Repast Simphony will hide many of the details of the project. This is appropriate for ReLogo projects but not for those written with Flowcharts or in Java. If the ReLogo filters have not been previously disabled then we need to do that now. If you click on the ``+'' (Windows) or triangle (OSX) next to ``FlowZombies'' and you see a variety of folders (batch, docs, etc), then the filter has been disabled. If you only see the src directory then the filter needs to be disabled. To disable the filter, click the downward pointing arrow in the ``Package Explorer'' pane. If you see ``ReLogo Resource Filter''  then click on it to disable the filter (Fig.~\ref{fig:filter}).  Otherwise, click on the ``Filters'' item. This brings up the Java Element Filters windows. Scroll through the elements and click off the checkbox for ReLogo Resource Filter (Fig.~\ref{fig:filter2}). 
 
 \begin{figure}[h]
 \begin{center}
@@ -96,6 +96,8 @@ By default Repast Simphony will hide many of the details of the project. This is
 \label{fig:filter2}
 \end{center}
 \end{figure}
+
+In addition, by default autobuilding is disabled. However, this is not appropriate for projects written with Flowcharts and in Java. To enable auto building go to the Project menu and select Build Automatically.
 
 Lastly, if Eclipse has defaulted to the ReLogo perspective switch it to the Java one. The perspective selections can be found in the upper right hand corner (Fig.~\ref{fig:javap}). Click the Java perspective.
 
