@@ -567,54 +567,65 @@ Before we run this model, we need to update the metadata that the Repast Simphon
 \end{center}
 \end{figure}
 
-That should bring up the xml editor for editing the \texttt{context.xml} file. The \texttt{context.xml} file describes the context hierarchy for your model. The context hierarchy is composed of the contexts your model uses and the projections associated with them. Recall that in our context builder \texttt{JZombiesBuilder} we have a single context and created two projections. We need to update the context.xml to reflect this. By default, the context.xml and editor should have a context already in it with an id of ``jzombies'' (fig.~\ref{fig:cedit1}).
+That should bring up the xml editor for editing the \texttt{context.xml} file. The \texttt{context.xml} file describes the context hierarchy for your model. The context hierarchy is composed of the contexts your model uses and the projections associated with them. Recall that in our context builder \texttt{JZombiesBuilder} we have a single context and created two projections. We need to update the context.xml to reflect this. The XML editor has two views associated with it, a Design view and a Source view (fig.~\ref{fig:cedit}). Click on the Source view. By default, the context.xml and editor should have a context already in it with an id of ``jzombies''. (Recall that we set the id of our context to "jzombies".) You should see some xml that looks like the following listing.
+
+\noindent\begin{minipage}[h]{\textwidth}
+\vspace{.2in}
+\lstset{language=java,caption=JZombiesBuilder.build Complete }
+\begin{lstlisting}
+<context id="jzombies"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
+	
+</context>
+
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
 
 \begin{figure}[h]
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=3in]{GettingStartedImages/cedit1.png}
+\includegraphics[width=3in]{GettingStartedImages/cedit.png}
 }
 \caption{Context.xml editor}
-\label{fig:cedit1}
+\label{fig:cedit}
 \end{center}
 \end{figure}
 
-Note that ``jzombies'' was what we set the context id to in our context builder. We need to add two projections to the xml using the editor, one for the ``grid'' and one for the ``space''. To do that, 
-\vspace{.2in}
-\begin{enumerate}
-\item Right click on the context element and select ``Add Child'' and then ``projection''.
-\item Expand the new projection by clicking on the triangle (or plus sign) to the left of it. You should see two attributes
-for this projection: type and id.
-\item Click in the "content" column for the type attribute and select ``continuous space'' from the drop down box. This sets the value for the type attribute.
-\item Next, click in the ``content'' column for the id attribute and type ``space'' (no quotes).
-\end{enumerate}
+XML works in terms of elements and attributes. Elements are enclosed in angle brackets and attributes consist of a name followed by an equals sign followed by a quoted string. The quoted string is the value of the attribute. In the example above we have a context element which has an id attribute whose value is jzombies. 
 
-\vspace{.2in}
-That adds the metadata for our \texttt{ContinuousSpace} projection. Next let's do the grid.
+We need to add additional elements that describe the projections that our context contains.  A projection element has two required attributes, an id and a type. The id is the name of the projection, e.g. the "grid" and "space" names we used in the projections in our ContextBuilder code. The type attribute is the type of the projection: a continuous space or grid in this case. Add the following to the context.xml by typing it into the context.xml source editor.
 
+\noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\begin{enumerate}
-\item Right click on the context element and select ``Add Child'' and then ``projection''.
-\item Expand the new projection by clicking on the triangle (or plus sign) to the left of it. You should see two attributes
-for this projection: type and id.
-\item Click in the "content" column for the type attribute and select ``grid'' from the drop down box. This sets the value for the type attribute.
-\item Next, click in the “content” column for the id attribute and type “grid” (no quotes).
-\end{enumerate}
-\vspace{.2in}
+\lstset{language=java,caption=JZombiesBuilder.build Complete }
+\begin{lstlisting}
+<projection type="continuous space" id="space"/>
+<projection type="grid" id="grid"/>
 
-The context.xml editor should now look like Fig.~\ref{fig:cedit2}).
-
-\begin{figure}[h]
-\begin{center}
+\end{lstlisting}
 \vspace{.2in}
-\centerline {
-\includegraphics[width=3in]{GettingStartedImages/cedit2.png}
-}
-\caption{Context.xml Editor Complete}
-\label{fig:cedit2}
-\end{center}
-\end{figure}
+\end{minipage}
+Note that as you type eclipse will attempt to autocomplete for you. So, as you type an opening bracket '$<$' you may see a popup menu suggesting  possible elements, one of which is a projection. Feel free to select that. Eclipse will also autocomplete the attributes for you with a default type of "network" and an empty id. You can position the cursor inside the attribute value (i.e between the quotes) and hit the command + space (on OSX) or control + space (on windows) keys to trigger the autocomplete menu. You can then choose from a menu of attribute values. Regardless of how you enter the XML, you should end up with the following:
+
+\noindent\begin{minipage}[h]{\textwidth}
+\vspace{.2in}
+\lstset{language=java,caption=JZombiesBuilder.build Complete }
+\begin{lstlisting}
+<context id="jzombies"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
+	
+	<projection type="continuous space" id="space"/>
+	<projection type="grid" id="grid"/>
+</context>
+
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
+The order of the projection elements doesn't matter and the order of the attributes within the elements also doesn't matter. If you used the autocomplete, you   may see your projection elements ending with something like \texttt{id="space"></projection>}. That is fine as well. Save the context.xml file.
 
 Now its time to launch the model. When we created our project using the Repast Simphony Project Wizard, it automatically created Eclipse launchers for us, and we can use those to launch the model. If you click on the small downward facing triangle next to the Eclipse launcher button (fig.~\ref{fig:launch}), you'll see the various available launchers. Click on ``jzombies Model''.
 
@@ -789,18 +800,24 @@ netBuilder.buildNetwork();
 
 We use a \texttt{NetworkBuilder} to create the network. This takes a name (``infection network''), the context to associate the network with, and whether or not the network is directed. In our case, we want a directed network with links coming from the infecting zombie to the zombie it created, and so the value is \texttt{true}.\footnote{A \texttt{NetworkBuilder} can build networks from a variety of sources and configurations. See the Java API docs and user manual for details.} In order to actually build the network we then call \texttt{buildNetwork}. This will create the network projection and automatically associate it with the context. Any agents added to the context will then become nodes in this network.
 
-Recall that we had to add ``space'' and ``grid'' to the context.xml file. We now need to do the same for our network. The procedure is the same. Open the \texttt{context.xml} file in Eclipse. Add a new projection element to the context and set its id to ``infection network'' and its type to ``network''. The result should look like fig.~\ref{fig:cxml2}.
+Recall that we had to add ``space'' and ``grid'' to the context.xml file. We now need to do the same for our network. The procedure is the same. Open the \texttt{context.xml} file in Eclipse. Add a new projection element to the context and set its id to ``infection network'' and its type to ``network''. The result should look like the following;
 
-\begin{figure}[h]
-\begin{center}
+\noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\centerline {
-\includegraphics[width=3in]{GettingStartedImages/cxml.png}
-}
-\caption{context.xml with Network}
-\label{fig:cxml2}
-\end{center}
-\end{figure}
+\lstset{language=java,caption=}
+\begin{lstlisting}
+<context id="jzombies"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
+	
+	<projection type="continuous space" id="space"/>
+	<projection type="grid" id="grid"/>
+	<projection type="network" id="infection network"/>
+</context>
+
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
 
 Now let's run our simulation. Start the jzombies Model using the Eclipse launcher as you did before (fig.~\ref{fig:launch}). Once the Repast Simphony runtime has come up, initialize and run the simulation. You should now see humans becoming zombies. If you don't, then check your code for mistakes. Notice that the network is not displayed though. We need to update the display to show the network and in doing so we will also update the styles for the Humans and Zombies. Let's remove the old display first. Right click on the ``Space Display'' in the Scenario Tree under Displays and then ``Delete'''. Now we will make the new display.
 
