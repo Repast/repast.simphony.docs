@@ -1,0 +1,65 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{booktabs,footmisc}
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+
+\usepackage{topcapt}
+
+
+ 
+% include the lines below to use a nicer fixed-width font than the default one
+ 
+\lstset{fancyvrb=true}
+\lstset{
+	basicstyle=\small\tt,
+	identifierstyle=,
+	commentstyle=\color{Bittersweet},
+	stringstyle=\color{red},
+	showstringspaces=false,
+	tabsize=3,
+	numbers=left,
+	captionpos=b,
+	xleftmargin=2em
+%	numberstyle=\tiny
+	%stepnumber=4
+	}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Repast Model Testing Guide}
+\author{Jonathan Ozik - Repast Development Team}
+\date{\today}                                           % Activate to display a given date or no date
+
+\begin{document} 
+\maketitle
+\setcounter{section}{-1}
+
+\section{Before we Get Started}
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.
+
+\section{Getting Started with ReLogo}
+
+%Steps for creating harness: 
+%create test source folder 
+%output folder testbin 
+%new package newproject.relogo in test source folder 
+%new JUnit 4 test with all options checked (i.e., @BeforeClass, etc.) 
+%
+%Two examples to the right, one Java one Groovy. 
+%Both can accept an "rsFolder" system property, e.g.: 
+%
+%-DrsFolder=${workspace_loc:NewProject}/NewProject.rs 
+%
+%Tried Spock but the dependencies weren’t convenient.
+
+
+\end{document}  
