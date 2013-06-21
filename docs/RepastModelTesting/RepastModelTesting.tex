@@ -48,7 +48,7 @@ Before we can do anything with Repast Simphony, we need to make sure that we hav
 
 \section{Getting Started with Repast Simphony Model Testing}
 
-This guide will walk you through a few model testing use cases using Repast Simphony. To learn more about model testing, including the benefits of test driven development (TDD) when developing agent models, see Collier and Ozik (2013)\footnote{Collier, N, and J Ozik. ÒTest-Driven Agent-Based Simulation Development.Ó To appear in WSC 2013 Proceedings. Washington, D.C., 2013.}.
+This guide will walk you through a few model testing use cases using Repast Simphony. To learn more about model testing, including the benefits of test driven development (TDD) when developing agent models, see Collier and Ozik (2013)\footnote{Collier, N, and J Ozik. ÒTest-Driven Agent-Based Simulation Development.Ó To appear in WSC 2013 Proceedings. Washington, D.C., 2013.}. For more information on the JUnit testing framework that we will be using, see \href{http://junit.org}{http://junit.org}.
 
 To add tests into an existing Repast Simphony project, we recommend the following setup steps:
 \begin{enumerate}
@@ -132,7 +132,7 @@ Add a JUnit Test Case by right clicking on the project in the Package Explorer v
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=3in]{RepastModelTestingImages/JUnitTestCase.png}
+\includegraphics[width=4in]{RepastModelTestingImages/JUnitTestCase.png}
 }
 \caption{The JUnit Test Case option within Java $\rightarrow$ JUnit.}
 \label{fig:JUnitTestCase}
@@ -170,29 +170,48 @@ Once the setup is complete, there are a number of different types of model tests
 If the elements being tested are relatively decoupled, there is nothing special that needs to be done in terms of test case setup. In this scenario, the @BeforeClass, @AfterClass, @Before, and @After annotated methods do not need any Repast Simphony specific elements and tests can be written in the usual way JUnit tests are written.
 
 \subsection{Use Case 2: Schedule Based Model Testing with Repast Simphony Models}
-
+Some model behaviors that you might want to test involve scheduled behaviors. For example, you might want to know that at a certain tick, specific model actions had occurred. This is especially relevant to any Statecharts related behaviors. In this situation, the RunEnvironment will nee to be set up with a Schedule object. Listing~\ref{lst:scheduleSetup} shows an example where the setup is executed before each of the tests that will be run. 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
 \lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:scheduleSetup}
 \begin{lstlisting}
-@Beforepublic void setUp() throws Exception {	Schedule schedule = new Schedule();
+@Before
+public void setUp() throws Exception {
+	Schedule schedule = new Schedule();
 	RunEnvironment.init(schedule, null, null, true);
 	Context context = new DefaultContext();
 	RunState.init().setMasterContext(context);
 	
-	// Any additional setup}
+	// Any additional setup
+}
 
 \end{lstlisting}
 \vspace{.2in}
 \end{minipage}
+Line 3 shows the creation of the Schedule object. It is then sent as the first parameter to the RunEnvironment static \texttt{init} method. The second and third parameters can be \texttt{null} for this case and the fourth parameter indicates whether this is a batch (i.e., headless) run, which it is so we specify \texttt{true}. Line 5 creates a new DefaultContext that is set as the master context of the \texttt{init}-ed RunState in line 6. Lines 5 and 6 are only strictly necessary for testing behaviors that rely on a master context being set, which is the case for Statecharts.
 
-
-\subsection{Use Case 3: Context Builder Based Model Testing with Repast Simphony Models}
-For cases
+At this point, tests can be written such as in Listing~\ref{lst:scheduleSetupTest}:
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:scheduleSetup}
+\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:scheduleSetupTest}
+\begin{lstlisting}
+@Testpublic void testColonizedToInfected() {
+	ISchedule schedule = RunEnvironment.getInstance().
+			getCurrentSchedule();	Person p = new Person();	assertEquals(UNINFECTED, p.getStatus());
+	for (int i = 0; i < 5; ++i) {		schedule.execute();	}
+	assertEquals(INFECTED, p.getStatus());}
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
+In this hypothetical example, a Person object is created, it is verified that the person's status is \texttt{UNINFECTED}, the schedule is advanced 5 times, at which point the person's status is checked to see that it is \texttt{INFECTED}. An important item to note here is that the scheduler in Repast Simphony doesn't just allow for discrete time steps so the fact that the schedule is executed 5 times doesn't necessarily mean that we will find ourselves at tick 5 after the \texttt{for} loop, unless there were actions scheduled only to occur on every tick.
+
+\subsection{Use Case 3: Context Builder Based Model Testing with Repast Simphony Models}
+For cases where the specific setup defined in a ContextBuilder is required, 
+
+\noindent\begin{minipage}[h]{\textwidth}
+\vspace{.2in}
+\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:contextBuilderSetup}
 \begin{lstlisting}
 . . .
 public Context context;
@@ -219,15 +238,24 @@ For cases
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:scheduleSetup}
+\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:relogoSetup}
 \begin{lstlisting}
 . . .
 static UserObserver observer;
 
-@BeforeClasspublic static void setUpBeforeClass() throws Exception {	String scenarioDirString = "ModelName.rs"
-	File paramsFile = new File(new File(scenarioDirString),	          "parameters.xml");	ParametersParser pp = new ParametersParser(paramsFile);
+@BeforeClass
+public static void setUpBeforeClass() throws Exception {
+	String scenarioDirString = "ModelName.rs"
+	ScenarioUtils.setScenarioDir(new File(scenarioDirString))
+	File paramsFile = new File(ScenarioUtils.getScenarioDir(), "parameters.xml");
+
+	ParametersParser pp = new ParametersParser(paramsFile);
 	Parameters params = pp.getParameters();
-	RunEnvironment.init(new Schedule(), null, params, true);	Context context = new DefaultContext();	SimBuilder builder = new SimBuilder();	context = builder.build(context);	observer = (UserObserver) context.iterator().next();
+	RunEnvironment.init(new Schedule(), null, params, true);
+	Context context = new DefaultContext();
+	SimBuilder builder = new SimBuilder();
+	context = builder.build(context);
+	observer = (UserObserver)context.iterator().next();
 	
 	// Any additional before class setup
 }
