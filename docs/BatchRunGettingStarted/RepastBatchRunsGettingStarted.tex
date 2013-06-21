@@ -680,16 +680,44 @@ To launch the batch GUI as a stand alone application navigate to where Repast Si
  
 \section{Running on a Cluster or HPC Machine}
 
-It is also possible to perform batch runs on a cluster or a high performance computing (HPC) type machine. Such machine are composed of many processors each of which can run one or more batch run instances. Cluster / HPC runs will use the payload archive produced by the GUI  but are not themselves run via the GUI. These batch runs will use the job submission paradigm that is standard on these types of machines.
+It is also possible to perform batch runs on a cluster or a high performance computing (HPC) type machine. Such machine are composed of many processors each of which can run one or more batch run instances and all of which have access to a shared file system. Cluster / HPC runs will use the payload archive produced by the GUI  but are not themselves run via the GUI. These batch runs will use the job submission paradigm that is standard on these types of machines.
+
+The first step for running a model on an HPC machine is to copy the payload complete\_model.jar to the remote machine. The payload is located in the model's output directory. The transfer is often done via scp or similar secure copy methods. After copying the payload to the desired location, the next step is to unzip the payload:
 
 \begin{verbatim}
-unzip complete_model.zip
-sed -i -e 's/<Job_Name>/Zombies_Test/' -e 's/<Queue_Name>/shared/' 
-  -e 's/<nodes>/2/' -e 's/<ppn>/8/' repast.pbs
+unzip complete_model.jar
+\end{verbatim}
+
+We will be using the Portable Batch System (PBS) job scheduler for this example. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. The top section of the file looks like:
+\begin{verbatim}
+#!/bin/bash
+#PBS -N <Job_Name>
+#PBS -q <Queue_Name>
+#PBS -l nodes=<nodes>:ppn=<ppn>
+#PBS -m e
+\end{verbatim}
+
+\noindent where the elements in the angled brackets are meant to be edited for each individual use case. So, for example, if we wanted to name the job ``Zombies\_Test", submit the job to the ``shared" queue,  use 2 nodes and 8 processors per node we might issue the following \texttt{sed} command, all one line:
+\begin{verbatim}
+sed -i -e 's/<Job_Name>/Zombies_Test/' -e 's/<Queue_Name>/shared/'
+-e 's/<nodes>/2/' -e 's/<ppn>/8/' repast.pbs
+\end{verbatim}
+Alternatively the repast.pbs file can be edited by hand. The particulars for each system may be slightly different so you may need to consult with the reference manual or online help of the system you will be using.
+
+The next step is to make sure that all the scripts are executable by issuing the command:
+\begin{verbatim}
 chmod +x *.sh
+\end{verbatim}
+At this point the job is ready for submission and can be submitted via the command:
+\begin{verbatim}
 qsub repast.pbs
+\end{verbatim}
+
+The job is submitted to the specified queue and will run when the scheduler decides to run the job. Depending on the particular setup of the scheduler, you may receive an email alert when the job has finished running. Whichever method you use to figure out when the job has completed executing, you can run an output combiner to combine the data output from the individual simulations that were run with the command:
+\begin{verbatim}
 ./outputcombiner.sh
 \end{verbatim}
+The combines data will be placed in a combined\_data directory in the current directory.
 
 
 
