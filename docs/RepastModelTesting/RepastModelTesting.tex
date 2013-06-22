@@ -175,7 +175,7 @@ Some model behaviors that you might want to test involve scheduled behaviors. Fo
  
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:scheduleSetup}
+\lstset{language=java,caption=@Before setup method in a schedule dependent test case.,label=lst:scheduleSetup}
 \begin{lstlisting}
 @Before
 public void setUp() throws Exception {
@@ -220,7 +220,7 @@ For cases where the specific setup defined in a ContextBuilder is required for t
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
-\lstset{language=java,caption=@Setup method in a schedule dependent test case.,label=lst:contextBuilderSetup}
+\lstset{language=java,caption=@Before setup method in a context builder dependent test case.,label=lst:contextBuilderSetup}
 \begin{lstlisting}
 . . .
 public Context context;
@@ -255,7 +255,7 @@ public void testAddingPersonToContext() {
 
 
 \subsection{Use Case 4: Model Testing with ReLogo Models}
-ReLogo models come with the infrastucture and associated assumptions of the ReLogo world which is built by the SimBuilder context builder included with each model. To test a ReLogo model there are a few additional steps needed for the test setup beyond  Section~\ref{sec:use3}. Listing~\ref{lst:relogoSetup} shows the setup optionally separated into @BeforeClass and @Before components. The idea here is that the ReLogo world is built once before all the tests are run but before each individual test is executed, the observer clears the ReLogo world state, removing existing turtles and links and resetting patches.
+ReLogo models come with the infrastucture and associated assumptions of the ReLogo world which is built by the SimBuilder context builder included with each model. To test a ReLogo model there are a few additional steps needed for the test setup beyond what was done in Section~\ref{sec:use3}. Listing~\ref{lst:relogoSetup} shows the setup (optionally) separated into @BeforeClass and @Before components. The idea here is that the ReLogo world is built once before all the tests are run but before each individual test is executed, the observer clears the ReLogo world state, removing existing turtles and links and resetting patches.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -266,8 +266,8 @@ static UserObserver observer;
 
 @BeforeClass
 public static void setUpBeforeClass() throws Exception {
-	String scenarioDirString = "ModelName.rs"
-	ScenarioUtils.setScenarioDir(new File(scenarioDirString))
+	String scenarioDirString = "ModelName.rs";
+	ScenarioUtils.setScenarioDir(new File(scenarioDirString));
 	File paramsFile = new File(ScenarioUtils.getScenarioDir(),
 		"parameters.xml");
 	ParametersParser pp = new ParametersParser(paramsFile);
@@ -295,7 +295,15 @@ public void setUp() throws Exception {
 \end{lstlisting}
 \vspace{.2in}
 \end{minipage}
-
+Some of the contents of Listing~\ref{lst:relogoSetup} will already look familiar from the previous sections but there are additions that we expand on here:
+\begin{enumerate}
+\item
+The scenario directory (the .rs folder) is specified in Line 6. Replace ``ModelName.rs" with the name of the scenario directory in your project.
+\item
+The parameters.xml file within the scenario directory is parsed and passed to the RunEnvironment \texttt{init} method. This can be done in non-ReLogo models as well.
+\item
+If statecharts are used in the ReLogo model, Line 18 should be included as well.
+\end{enumerate}
 %Steps for creating harness: 
 %create test source folder 
 %output folder testbin 
