@@ -682,13 +682,13 @@ To launch the batch GUI as a stand alone application navigate to where Repast Si
 
 It is also possible to perform batch runs on a cluster or a high performance computing (HPC) type machine. Such machine are composed of many processors each of which can run one or more batch run instances and all of which have access to a shared file system. Cluster / HPC runs will use the payload archive produced by the GUI  but are not themselves run via the GUI. These batch runs will use the job submission paradigm that is standard on these types of machines.
 
-The first step for running a model on an HPC machine is to copy the payload complete\_model.jar to the remote machine. The payload is located in the model's output directory. The transfer is often done via scp or similar secure copy methods. After copying the payload to the desired location, the next step is to unzip the payload:
+The first step for running a model on an HPC machine is to copy the payload complete\_model.jar to the remote machine. The payload is located in the model's output directory and can be created using the Batch Configuration GUI with the create archive button (\includegraphics[height=.2in]{images/create_archive_button.png}). The transfer is often done via scp or similar secure copy methods. After copying the payload to the desired location, the next step is to unzip the payload:
 
 \begin{verbatim}
 unzip complete_model.jar
 \end{verbatim}
 
-We will be using the Portable Batch System (PBS) job scheduler for this example. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. The top section of the file looks like:
+We will be using the Portable Batch System (PBS) job scheduler for this example. This is common job scheduler. If your system uses a different scheduler, it should be possible to adapt the instructions below. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. The top section of the file looks like:
 \begin{verbatim}
 #!/bin/bash
 #PBS -N <Job_Name>
