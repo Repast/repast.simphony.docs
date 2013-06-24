@@ -48,18 +48,130 @@ Before we can do anything with Repast Simphony, we need to make sure that we hav
 
 \section{Getting Started with Statecharts}
 
-%Steps for creating harness: 
-%create test source folder 
-%output folder testbin 
-%new package newproject.relogo in test source folder 
-%new JUnit 4 test with all options checked (i.e., @BeforeClass, etc.) 
-%
-%Two examples to the right, one Java one Groovy. 
-%Both can accept an "rsFolder" system property, e.g.: 
-%
-%-DrsFolder=${workspace_loc:NewProject}/NewProject.rs 
-%
-%Tried Spock but the dependencies weren’t convenient.
+\section{States}
+One of the fundamental building blocks of statecharts are states. Here we introduce the different types of states that existing within the Repast Simphony statecharts framework.
+
+\subsection{Entry State Marker}
+\includegraphics[height=.2in]{StatechartsImages/First-State-32.png}
+
+Every statechart must have an entry state marker. This defines the path through which the statechart begins when it is activated.
+
+\subsection{Simple State}
+\label{sec:simpleState}
+\includegraphics[height=.2in]{StatechartsImages/State-32.png}
+
+A simple state looks like Figure~\ref{fig:simpleState}. At any one point in time within an active statechart, one and only one of the simple states will be active. In addition to their \emph{ID}, simple states can have \emph{On Enter} and \emph{On Exit} actions defined, as seen in the simple state properties panel in Figure~\ref{fig:simpleStateProperties}. These actions are triggered when entering or exiting the simple state, respectively. The keywords available within the action blocks are:
+\begin{description}
+\item[agent] This is the agent that contains the statechart. Any method (e.g., \texttt{customMethod}) defined on the agent can be invoked through this reference (e.g., \texttt{agent.customMethod()}).
+\item[state] This is the state itself. The state's \emph{ID} can be accessed via: \texttt{state.getId()}.
+\item[params] This is the model's \texttt{Parameters} object. As an example, a double valued parameter ``dParam" can be retrieved with: \texttt{params.getDouble("dParam")}\footnote{See the source or JavaDocs for  \texttt{repast.simphony.parameter.Parameters} for all of the available methods.}.
+\end{description}
+
+As is the case with all types of action blocks, the code within them can be defined using Java, Groovy or ReLogo. Any Java, Groovy or ReLogo code can be used to specify the type of behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=1in]{StatechartsImages/SimpleState.png}
+}
+\caption{Simple state.}
+\label{fig:simpleState}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/SimpleStateProperties.png}
+}
+\caption{Simple state properties.}
+\label{fig:simpleStateProperties}
+\end{center}
+\end{figure}
+
+\clearpage
+
+\subsection{Composite State}
+\label{sec:compositeState}
+\includegraphics[height=.2in]{StatechartsImages/Composite-State-32.png}
+
+Composite states are used to nest elements within a statechart. Figure~\ref{fig:compositeState} shows an empty composite state. Composite states can include the following elements:
+\begin{itemize}
+\item Simple state (Section~\ref{sec:simpleState})
+\item Composite state (Section~\ref{sec:compositeState})
+\item Initial state marker (Section~\ref{sec:initialStateMarker})
+\item History state (Section~\ref{sec:historyState})
+\item Final state (Section~\ref{sec:finalState})
+\item Branching state (Section~\ref{sec:branchingState})
+
+\end{itemize}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=2in]{StatechartsImages/CompositeState.png}
+}
+\caption{Composite state.}
+\label{fig:compositeState}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/CompositeStateProperties.png}
+}
+\caption{Composite state properties.}
+\label{fig:compositeStateProperties}
+\end{center}
+\end{figure}
+
+\clearpage
+
+\subsection{Initial State Marker}
+\label{sec:initialStateMarker}
+\includegraphics[height=.2in]{StatechartsImages/Initial-State-32.png}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=1.5in]{StatechartsImages/InitialStateMarker.png}
+}
+\caption{Initial state marker (within a composite state).}
+\label{fig:initialStateMarker}
+\end{center}
+\end{figure}
+
+
+\subsection{History State}
+\label{sec:historyState}
+\includegraphics[height=.2in]{StatechartsImages/Shallow-History-32.png} \includegraphics[height=.2in]{StatechartsImages/Deep-History-32.png}
+
+\subsection{Final State}
+\label{sec:finalState}
+\includegraphics[height=.2in]{StatechartsImages/Final-State-32.png}
+
+\subsection{Branching State}
+\label{sec:branchingState}
+\includegraphics[height=.2in]{StatechartsImages/Choice-32.png}
+
+\section{Transitions}
+\subsection{Always Transition}
+\subsection{Timed Transition}
+\subsection{Probability Transition}
+\subsection{Condition Transition}
+\subsection{Exponential Decay Rate Transition}
+\subsection{Message Transition}
+\subsubsection{When Message Meets Condition}
+\subsubsection{When Message Equals}
+\subsubsection{When Message is of Class}
+\subsubsection{Always}
+
 
 
 \end{document}  
