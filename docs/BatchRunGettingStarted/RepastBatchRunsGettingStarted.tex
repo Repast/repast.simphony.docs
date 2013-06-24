@@ -688,7 +688,7 @@ The first step for running a model on an HPC machine is to copy the payload comp
 unzip complete_model.jar
 \end{verbatim}
 
-We will be using the Portable Batch System (PBS) job scheduler for this example. This is common job scheduler. If your system uses a different scheduler, it should be possible to adapt the instructions below. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. The top section of the file looks like:
+We will be using the Portable Batch System (PBS) job scheduler for this example. This is a common job scheduler. If your system uses a different scheduler, it should be possible to adapt the instructions below. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. The top section of the file looks like:
 \begin{verbatim}
 #!/bin/bash
 #PBS -N <Job_Name>
