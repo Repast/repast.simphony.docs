@@ -36,7 +36,7 @@
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 \title{Repast Statecharts Guide}
-\author{Jonathan Ozik - Repast Development Team}
+\author{Jonathan Ozik, Nick Collier - Repast Development Team}
 \date{\today}                                           % Activate to display a given date or no date
 
 \begin{document} 
@@ -47,6 +47,22 @@
 Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.
 
 \section{Getting Started with Statecharts}
+
+\subsection{Adding Statecharts}
+A statechart can be added to any Java, Groovy or ReLogo class. Right click the class and select New $\rightarrow$ Statechart Diagram (Figure~\ref{fig:newStatechart}.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/NewStatechart.png}
+}
+\caption{Creating a new statechart.}
+\label{fig:newStatechart}
+\end{center}
+\end{figure}
+
+\subsection{Statecharts Workspace}
 
 \section{States}
 One of the fundamental building blocks of statecharts are states. Here we introduce the different types of states that existing within the Repast Simphony statecharts framework.
@@ -60,14 +76,14 @@ Every statechart must have an entry state marker. This defines the path through 
 \label{sec:simpleState}
 \includegraphics[height=.2in]{StatechartsImages/State-32.png}
 
-A simple state looks like Figure~\ref{fig:simpleState}. At any one point in time within an active statechart, one and only one of the simple states will be active. In addition to their \emph{ID}, simple states can have \emph{On Enter} and \emph{On Exit} actions defined, as seen in the simple state properties panel in Figure~\ref{fig:simpleStateProperties}. These actions are triggered when entering or exiting the simple state, respectively. The keywords available within the action blocks are:
+A simple state looks like Figure~\ref{fig:simpleState}. At any one point in time within an active statechart, one and only one of the simple states will be active. In addition to their \emph{ID}, simple states can have \emph{On Enter} and \emph{On Exit} actions defined, as seen in the simple state properties panel in Figure~\ref{fig:simpleStateProperties}. These actions are triggered when entering or exiting the simple state, respectively. The keywords available within the two action blocks are:
 \begin{description}
 \item[agent] This is the agent that contains the statechart. Any method (e.g., \texttt{customMethod}) defined on the agent can be invoked through this reference (e.g., \texttt{agent.customMethod()}).
-\item[state] This is the state itself. The state's \emph{ID} can be accessed via: \texttt{state.getId()}.
-\item[params] This is the model's \texttt{Parameters} object. As an example, a double valued parameter ``dParam" can be retrieved with: \texttt{params.getDouble("dParam")}\footnote{See the source or JavaDocs for  \texttt{repast.simphony.parameter.Parameters} for all of the available methods.}.
+\item[state] This is the state itself. For example, the state's \emph{ID} can be accessed via: \texttt{state.getId()}.
+\item[params] This is the model's \texttt{Parameters} object. As an example, a double valued parameter ``dParam" can be retrieved with: \texttt{params.getDouble("dParam")}\footnote{See the source or JavaDoc for  \texttt{repast.simphony.parameter.Parameters} for all of the available methods.}.
 \end{description}
 
-As is the case with all types of action blocks, the code within them can be defined using Java, Groovy or ReLogo. Any Java, Groovy or ReLogo code can be used to specify the type of behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
+As is the case with all types of action blocks, their logic can be specified using Java, Groovy or ReLogo. Specifically, any Java, Groovy or ReLogo code can be used to express the type of behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so writing \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
 
 \begin{figure}
 \begin{center}
@@ -161,6 +177,71 @@ Composite states are used to nest elements within a statechart. Figure~\ref{fig:
 \includegraphics[height=.2in]{StatechartsImages/Choice-32.png}
 
 \section{Transitions}
+
+Transitions between states make up the other type of fundamental building block of statecharts. In this section we introduce the different types of transitions that can be used within the Repast Simphony statecharts framework.
+
+There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{One also has the ability to define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered.}. For any type of transition an \emph{On Transition} action can be defined. This action will be executed whenever the transition is traversed. The keywords available within the \emph{On Transition} action block are:
+\begin{description}
+\item[agent] This is the agent that contains the statechart.
+\item[transition] This is the transition itself. For example, the transition's source state can be accessed via: \texttt{transition.getSource()}\footnote{See the source or JavaDoc for repast.simphony.statecharts.Transition for all of the available methods.}.
+\item[params] This is the model's \texttt{Parameters} object.
+\end{description}
+
+For almost all types of transitions\footnote{All transitions except default transitions out of branching states.} a \emph{Guard} condition can be defined. A \emph{Guard} condition is an additional boolean condition that has to be satisfied for a transition that is valid to be actually considered as a candidate for traversal. This condition is specified by a block of code that returns a boolean and the keywords available in a \emph{Guard} condition are the same as those in an \emph{On Transition} action block.
+
+
+
+\begin{figure}
+
+\begin{minipage}{.5\textwidth}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=1in]{StatechartsImages/RegularTransition.png}
+}
+\caption{Regular transition between State 1 and State 2.}
+\label{fig:regularTransition}
+\end{center}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=1in]{StatechartsImages/SelfTransition.png}
+}
+\caption{Self transition internal to State 3.}
+\label{fig:selfTransition}
+\end{center}
+\end{minipage}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}{.5\textwidth}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesOnTransition.png}
+}
+\caption{Properties for a transition showing the \emph{On Transition} action block.}
+\label{fig:transitionPropertiesOnTransition}
+\end{center}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesGuard.png}
+}
+\caption{Properties for a transition showing the \emph{Guard} condition block.}
+\label{fig:transitionPropertiesGuard}
+\end{center}
+\end{minipage}
+
+\end{figure}
+
+
 \subsection{Always Transition}
 \subsection{Timed Transition}
 \subsection{Probability Transition}
