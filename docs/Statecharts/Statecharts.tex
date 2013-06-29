@@ -48,8 +48,31 @@ Before we can do anything with Repast Simphony, we need to make sure that we hav
 
 \section{Getting Started with Statecharts}
 
+Agent states and transitions between states are an important abstraction in agent-based modeling. While it is possible for Repast Simphony users to create their own implementation of state-based agent behaviors (e.g., by adapting the State pattern in Gamma et al. 1994\footnote{Gamma, E., R. Helm, R. Johnson, and J. M. Vlissides. Design Patterns: Elements of Reusable Object-Oriented Software. illustrated ed. Addison-Wesley Professional, 1994.}) and even agent state visualizations, the effort involved in doing so is usually prohibitive. By integrating an agent statecharts framework into Repast Simphony, we made it easy for users of all levels to take advantage of this important modeling paradigm. Statecharts are visual representations of states and the transitions between those states\footnote{Statecharts were first proposed by Harel in Harel, D., 1987. Statecharts: A visual formalism for complex systems. Sci. Comput. Program., 8(3), pp.231Ð274.}. Statecharts can be very effective in visually capturing the logic within agents and quickly conveying the underlying dynamics of complex models.
+
+Figure~\ref{fig:statechartExample} shows a simple example of a statechart created with the Repast Simphony statecharts framework. The logic embedded in the diagram is mapped directly to the execution logic of an agent-based model. The benefits of the Repast Simphony statecharts framework include: improved clarity of a model's logic for model design, improved turnaround times for developing complex state based agent models, and the ability to convey in a compelling manner the internal state of agents as a simulation evolves to both experienced agent-modelers and to non-modelers alike. In the rest of this guide we will present the Repast Simphony statecharts framework.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/StatechartExample.png}
+}
+\caption{An example statechart created with the Repast Simphony visual statecharts editor.}
+\label{fig:statechartExample}
+\end{center}
+\end{figure}
+
 \subsection{Adding Statecharts}
-A statechart can be added to any Java, Groovy or ReLogo class. Right click the class and select New $\rightarrow$ Statechart Diagram (Figure~\ref{fig:newStatechart}.
+A statechart can be added to any Java, Groovy or ReLogo class. Right-clicking the class of interest and selecting New $\rightarrow$ Statechart Diagram (Figure~\ref{fig:newStatechart}) will bring up the new statechart wizard (Figure~\ref{fig:newStatechartWizard}). The editable new statechart wizard elements are:
+\begin{description}
+\item[File Name] This is the .rsc statechart file name that will be edited with the visual statecharts editor.
+\item[Name] The display name of the statechart.
+\item[Class Name] The name of the statechart class which will be generated.
+\item[Package] The package name within the \texttt{src-gen} source folder where the statechart class source code will be generated.
+\item[Agent Class] This is the agent class that will be associated with the statechart.
+\end{description}
+After accepting or modifying the defaults, clicking the \emph{Finish} button will bring up the newly created blank statechart editor.
 
 \begin{figure}
 \begin{center}
@@ -62,10 +85,88 @@ A statechart can be added to any Java, Groovy or ReLogo class. Right click the c
 \end{center}
 \end{figure}
 
-\subsection{Statecharts Workspace}
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/NewStatechartWizard.png}
+}
+\caption{New statechart wizard.}
+\label{fig:newStatechartWizard}
+\end{center}
+\end{figure}
+
+
+
+\clearpage
+
+\subsection{Statecharts Editor}
+
+The statecharts editor is divided into three main panels (Figure~\ref{fig:statechartEditorBoxes}). The first (Figure~\ref{fig:statechartEditorBoxes}a) is the statecharts workspace area. This is where the visual elements of a statechart are created and arranged. The palette panel (Figure~\ref{fig:statechartEditorBoxes}b) shows the available statechart elements that can be used in the statecharts workspace\footnote{The detailed explanations for these elements will be covered in Sections~\ref{sec:states} and \ref{sec:transitions}.}. Clicking on an element in the palette panel and then clicking on the statecharts workspace will create an instance of that element in the workspace. The properties panel (Figure~\ref{fig:statechartEditorBoxes}c) shows the properties of the element selected in the statecharts workspace. If, as in Figure~\ref{fig:statechartEditorBoxes}, no element is selected, the properties of the statechart itself are shown. In addition to displaying element properties, the panel is also where the properties of elements can be edited. A statechart has a priority which indicates the order in which it will be resolved with respect to other statecharts (see red box in Figure~\ref{fig:statechartProperties}). So, for example, if an agent has two statecharts (A and B) and it is always desired that statechart A should be resolved before statechart B, giving statechart A a higher priority will ensure this.
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/StatechartEditorBoxes.png}
+}
+\caption{The components of the statecharts visual editor. a)~The workspace area where the statechart elements are created and arranged. b)~The palette panel of available elements, including selection, zoom and note tools. c)~The properties panel of the selected statechart element in the workspace (a). If no element is selected, the properties of the statechart itself are displayed.}
+\label{fig:statechartEditorBoxes}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/StatechartProperties.png}
+}
+\caption{The statechart properties panel with the priority element indicated by a red box.}
+\label{fig:statechartProperties}
+\end{center}
+\end{figure}
+
+There is a contextual menu approach for adding elements to the workspace as well. Simply hovering over an area in the workspace will reveal a contextual menu of the available elements appropriate for the region pointed to. If the mouse pointer is on an empty space in the workspace background, you will see the contextual menu in Figure~\ref{fig:defaultContextualMenu}. If the pointer is on a state, you will see transitions shortcuts like in Figure~\ref{fig:stateConnectorsHover}, the left symbol indicating a connection from this state and the right symbol a connection to this state. Finally, if the pointer is inside a composite state, you will see the contextual menu in Figure~\ref{fig:compositeContextualMenu}.
+
+
+\begin{figure}
+
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=1in]{StatechartsImages/DefaultContextualMenu.png}
+}
+\caption{The default contextual menu when the pointer is on a blank area of the workspace.}
+\label{fig:defaultContextualMenu}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=1in]{StatechartsImages/StateConnectorsHover.png}
+}
+\caption{The transitions shortcuts, circled in red, for making connections from (left) and to (right) the state.}
+\label{fig:stateConnectorsHover}
+\end{center}
+\end{figure}
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=2in]{StatechartsImages/CompositeContextualMenu.png}
+}
+\caption{The contextual menu when the pointer is inside a composite state.}
+\label{fig:compositeContextualMenu}
+\end{center}
+
+\end{figure}
+
+\clearpage
 
 \section{States}
-One of the fundamental building blocks of statecharts are states. Here we introduce the different types of states that existing within the Repast Simphony statecharts framework.
+\label{sec:states}
+One of the fundamental building blocks of statecharts are states. Here we introduce the different types of states that exist within the Repast Simphony statecharts framework.
 
 \subsection{Entry State Marker}
 \includegraphics[height=.2in]{StatechartsImages/First-State-32.png}
@@ -79,11 +180,11 @@ Every statechart must have an entry state marker. This defines the path through 
 A simple state looks like Figure~\ref{fig:simpleState}. At any one point in time within an active statechart, one and only one of the simple states will be active. In addition to their \emph{ID}, simple states can have \emph{On Enter} and \emph{On Exit} actions defined, as seen in the simple state properties panel in Figure~\ref{fig:simpleStateProperties}. These actions are triggered when entering or exiting the simple state, respectively. The keywords available within the two action blocks are:
 \begin{description}
 \item[agent] This is the agent that contains the statechart. Any method (e.g., \texttt{customMethod}) defined on the agent can be invoked through this reference (e.g., \texttt{agent.customMethod()}).
-\item[state] This is the state itself. For example, the state's \emph{ID} can be accessed via: \texttt{state.getId()}.
-\item[params] This is the model's \texttt{Parameters} object. As an example, a double valued parameter ``dParam" can be retrieved with: \texttt{params.getDouble("dParam")}\footnote{See the source or JavaDoc for  \texttt{repast.simphony.parameter.Parameters} for all of the available methods.}.
+\item[state] This is the state itself. For example, the state's \emph{ID} can be accessed via \texttt{state.getId()}.
+\item[params] This is the model's \texttt{Parameters} object. As an example, a double valued parameter \texttt{dParam} can be retrieved with: \texttt{params.getDouble("dParam")}\footnote{See the source or JavaDoc for  \texttt{repast.simphony.parameter.Parameters} for all of the available methods.}.
 \end{description}
 
-As is the case with all types of action blocks, their logic can be specified using Java, Groovy or ReLogo. Specifically, any Java, Groovy or ReLogo code can be used to express the type of behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so writing \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
+As is the case with all types of action blocks, their logic can be specified using Java, Groovy or ReLogo. Specifically, any Java, Groovy or ReLogo code can be used to express the behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so writing \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
 
 \begin{figure}
 \begin{center}
@@ -177,19 +278,40 @@ Composite states are used to nest elements within a statechart. Figure~\ref{fig:
 \includegraphics[height=.2in]{StatechartsImages/Choice-32.png}
 
 \section{Transitions}
+\label{sec:transitions}
 
 Transitions between states make up the other type of fundamental building block of statecharts. In this section we introduce the different types of transitions that can be used within the Repast Simphony statecharts framework.
 
-There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{One also has the ability to define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered.}. For any type of transition an \emph{On Transition} action can be defined. This action will be executed whenever the transition is traversed. The keywords available within the \emph{On Transition} action block are:
+There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{One also has the ability to define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered.}. There are a number of different transition trigger types, demonstrated in the transition properties panel in Figure~\ref{fig:transitionProperties} (these will be discussed below in further detail).
+
+For any transition an \emph{On Transition} action can be defined. This action will be executed whenever the transition is traversed. The keywords available within the \emph{On Transition} action block are:
 \begin{description}
 \item[agent] This is the agent that contains the statechart.
-\item[transition] This is the transition itself. For example, the transition's source state can be accessed via: \texttt{transition.getSource()}\footnote{See the source or JavaDoc for repast.simphony.statecharts.Transition for all of the available methods.}.
+\item[transition] This is the transition itself. For example, the transition's source state can be accessed via: \texttt{transition.getSource()}\footnote{See the source or JavaDoc for \texttt{repast.simphony.statecharts.Transition} for all of the available methods.}.
 \item[params] This is the model's \texttt{Parameters} object.
 \end{description}
 
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{StatechartsImages/TransitionProperties.png}
+}
+\caption{The properties panel showing the different types of transitions that are available.}
+\label{fig:transitionProperties}
+\end{center}
+\end{figure}
+
+
 For almost all types of transitions\footnote{All transitions except default transitions out of branching states.} a \emph{Guard} condition can be defined. A \emph{Guard} condition is an additional boolean condition that has to be satisfied for a transition that is valid to be actually considered as a candidate for traversal. This condition is specified by a block of code that returns a boolean and the keywords available in a \emph{Guard} condition are the same as those in an \emph{On Transition} action block.
 
+When there is more than one valid transition ties are broken using the priority of the transition. If the priorities of valid transitions are equal then one of the transitions will be chosen with a uniform random probability. The priority of a transition can be specified in the transition's properties panel.
 
+\emph{Regular transitions} can be divided into zero time transitions and non-zero time transitions\footnote{All \emph{self transitions} are non-zero time transitions.}. For zero time transitions when a new state is entered, if there is a valid zero time transition out of it, that transition is followed immediately. Always (Section~\ref{sec:alwaysTransition}), Condition (Section~\ref{sec:conditionTransition}) and Message (Section~\ref{sec:messageTransition}) transition triggers are zero-time transitions.
+
+Every transition has a \emph{polling time} associated with it. This indicates the frequency (in simulation \emph{tick} units) with which the transition is considered for validity.
+
+Next we present the different transition trigger types in more detail.
 
 \begin{figure}
 
@@ -199,7 +321,7 @@ For almost all types of transitions\footnote{All transitions except default tran
 \centerline {
 \includegraphics[height=1in]{StatechartsImages/RegularTransition.png}
 }
-\caption{Regular transition between State 1 and State 2.}
+\caption{Regular transition between states 1 and 2.}
 \label{fig:regularTransition}
 \end{center}
 \end{minipage}%
@@ -224,7 +346,7 @@ For almost all types of transitions\footnote{All transitions except default tran
 \centerline {
 \includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesOnTransition.png}
 }
-\caption{Properties for a transition showing the \emph{On Transition} action block.}
+\caption{Properties panel for a transition showing the \emph{On Transition} action block.}
 \label{fig:transitionPropertiesOnTransition}
 \end{center}
 \end{minipage}%
@@ -234,7 +356,7 @@ For almost all types of transitions\footnote{All transitions except default tran
 \centerline {
 \includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesGuard.png}
 }
-\caption{Properties for a transition showing the \emph{Guard} condition block.}
+\caption{Properties panel for a transition showing the \emph{Guard} condition block.}
 \label{fig:transitionPropertiesGuard}
 \end{center}
 \end{minipage}
@@ -242,12 +364,94 @@ For almost all types of transitions\footnote{All transitions except default tran
 \end{figure}
 
 
-\subsection{Always Transition}
-\subsection{Timed Transition}
-\subsection{Probability Transition}
-\subsection{Condition Transition}
-\subsection{Exponential Decay Rate Transition}
+\subsection{Always Trigger}
+\label{sec:alwaysTransition}
+\emph{Always} triggers are always valid. The transition can, however, be made invalid by defining a \emph{Guard} condition. Because this trigger type results in zero time transitions, it is important to make sure that there are no \emph{always} trigger transitions contributing to zero time loops in any statechart you create, since this has the potential to create never-ending loops. The properties panel for an \emph{always} trigger transition is in Figure~\ref{fig:alwaysTransitionProperties}. One use for \emph{always} trigger transitions is as self transitions to execute some action at a set polling time.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{StatechartsImages/AlwaysTransitionProperties.png}
+}
+\caption{The properties panel for an \emph{always} transition.}
+\label{fig:alwaysTransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
+\subsection{Timed Trigger}
+\label{sec:timedTransition}
+\emph{Timed} triggers become valid after some time, measured in simulation \emph{ticks}. The properties panel for a \emph{timed} trigger transition is shown in Figure~\ref{fig:timedTransitionProperties}. The \emph{Time} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{2} or \texttt{agent.getDelay()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). If at the time a \emph{timed} trigger is valid a \emph{Guard} condition keeps the transition from being valid, the transition does not get reinitialized and will simply remain invalid.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/TimedTransitionProperties.png}
+}
+\caption{The properties panel for a \emph{timed} transition.}
+\label{fig:timedTransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
+
+\subsection{Probability Trigger}
+\emph{Probability} triggers are evaluated as valid with a specified probability. The properties panel for a \emph{probability} trigger transition is shown in Figure~\ref{fig:probabilityTransitionProperties}. The \emph{Probability} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{2} or \texttt{agent.getProbability()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated each time the transition is polled for validity.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/ProbabilityTransitionProperties.png}
+}
+\caption{The properties panel for a \emph{probability} transition.}
+\label{fig:probabilityTransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
+\subsection{Condition Trigger}
+\label{sec:conditionTransition}
+\emph{Condition} triggers are evaluated as valid based on a specified condition. The properties panel for a \emph{condition} trigger transition is shown in Figure~\ref{fig:conditionTransitionProperties}. The \emph{Condition} element in the properties panel accepts general Java, Groovy or ReLogo code returning a boolean value, including simple boolean entries (e.g., \texttt{true} or \texttt{agent.getCondition()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated each time the transition is polled for validity.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/ConditionTransitionProperties.png}
+}
+\caption{The properties panel for a \emph{condition} transition.}
+\label{fig:conditionTransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
+
+\subsection{Exponential Decay Rate Trigger}
+\emph{Exponential decay rate} triggers become valid after a random time following the exponential distribution. The properties panel for a \emph{exponential decay rate} trigger transition is shown in Figure~\ref{fig:exponentialTransitionProperties}. The \emph{Exponential Decay Rate} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{2} or \texttt{agent.getDecayRate()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated when the transition is initialized (i.e., when a state is entered that has a possible \emph{exponential decay rate} transition leading out of it). The code block supplies the $\lambda$ parameter to the exponential distribution specified by the probability density function:
+\begin{equation}
+f(t) = \lambda e^{-\lambda t}
+\end{equation}
+The expected value of an exponentially distributed random variable with parameter $\lambda$ is $1/\lambda$ so given, for example, a $\lambda$ of 2, the expected value for the time it would take for an \emph{exponential decay rate} transition to trigger would be 0.5 in units of \emph{ticks}.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/ExponentialTransitionProperties.png}
+}
+\caption{The properties panel for a \emph{exponential decay rate} transition.}
+\label{fig:exponentialTransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
+
+
 \subsection{Message Transition}
+\label{sec:messageTransition}
 \subsubsection{When Message Meets Condition}
 \subsubsection{When Message Equals}
 \subsubsection{When Message is of Class}
