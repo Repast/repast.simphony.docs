@@ -214,7 +214,7 @@ As is the case with all types of action blocks, their logic can be specified usi
 \label{sec:compositeState}
 \includegraphics[height=.2in]{StatechartsImages/Composite-State-32.png}
 
-Composite states are used to nest elements within a statechart. Figure~\ref{fig:compositeState} shows an empty composite state. Composite states can include the following elements:
+Composite states are used to nest elements within a statechart. Figure~\ref{fig:compositeState} shows an empty composite state and Figure~\ref{fig:compositeStateProperties} shows the properties panel for composite states, which is identical to that of the simple states in that \emph{On Enter} and \emph{On Exit} actions can be defined. The difference between composite and simple states lies in the fact that composite states can include the following elements as sub-elements:
 \begin{itemize}
 \item Simple state (Section~\ref{sec:simpleState})
 \item Composite state (Section~\ref{sec:compositeState})
@@ -222,8 +222,8 @@ Composite states are used to nest elements within a statechart. Figure~\ref{fig:
 \item History state (Section~\ref{sec:historyState})
 \item Final state (Section~\ref{sec:finalState})
 \item Branching state (Section~\ref{sec:branchingState})
-
 \end{itemize}
+Whenever a sub-element is active, the composite state containing that sub-element will be active as well. If a transition is made from outside of a composite state directly to a sub-element, the composite state will be entered prior to its sub-elements. In a similar manner, if a transition is followed from a sub-element out of the composite state, the composite state will be exited after the sub-elements are exited.
 
 \begin{figure}
 \begin{center}
@@ -253,6 +253,8 @@ Composite states are used to nest elements within a statechart. Figure~\ref{fig:
 \label{sec:initialStateMarker}
 \includegraphics[height=.2in]{StatechartsImages/Initial-State-32.png}
 
+Any composite state that has a transition ending at it or contains history states must define an initial state marker. The initial state marker points to the element within the composite state that should be entered upon entering the composite state.
+
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -269,13 +271,80 @@ Composite states are used to nest elements within a statechart. Figure~\ref{fig:
 \label{sec:historyState}
 \includegraphics[height=.2in]{StatechartsImages/Shallow-History-32.png} \includegraphics[height=.2in]{StatechartsImages/Deep-History-32.png}
 
+There are two types of history states, shallow and deep (Figure~\ref{fig:history}). When a shallow history state is entered, the last active element within the enclosing composite state at the same hierarchical level of the history state is re-entered. For a deep history state, the last active \emph{simple state} within the enclosing composite state, no matter at what level of the nesting hierarchy, is entered. In both cases if there was no previously active state, the state pointed to by the initial state marker is entered. Figure~\ref{fig:historyProperties} shows the properties panel for a (shallow) history state. Only an \emph{On Enter} element can be defined since history states are never directly exited.
+
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=2in]{StatechartsImages/History.png}
+}
+\caption{Shallow (left) and deep (right) history states (within a composite state).}
+\label{fig:history}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/HistoryProperties.png}
+}
+\caption{The properties panel for a shallow history state. A deep history state would have the same properties panel except that the \emph{Shallow} element would be unchecked.}
+\label{fig:historyProperties}
+\end{center}
+\end{figure}
+
+\clearpage
+
 \subsection{Final State}
 \label{sec:finalState}
 \includegraphics[height=.2in]{StatechartsImages/Final-State-32.png}
+A final state marks the end of all activities for a statechart. When a final state is entered, no further states will be visited and no transitions will be triggered. Figure~\ref{fig:finalProperties} shows the properties panel for a final state. Only an \emph{On Enter} element can be defined since final states are never exited.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/FinalProperties.png}
+}
+\caption{The properties panel for a final state.}
+\label{fig:finalProperties}
+\end{center}
+\end{figure}
+
+\clearpage
 
 \subsection{Branching State}
 \label{sec:branchingState}
 \includegraphics[height=.2in]{StatechartsImages/Choice-32.png}
+
+Branching states represent logical branching within statecharts (Figure~\ref{fig:branching}). Every branching state must define one outgoing \emph{Default} transtion, where the rest of the outgoing transitions are \emph{Condition} transitions (Section~\ref{sec:conditionTransition}). The \emph{Condition} transitions are checked for validity and, if valid conditions are found, the transitions' priorities dictate the transition that is followed. If no valid transitions are found, the \emph{Default} transition is followed. Figure~\ref{fig:branchingProperties} shows the properties panel for a branching state. Since a branching state is entered and immediately exited, nothing other than the state's \emph{ID} can be specified.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=1in]{StatechartsImages/Branching.png}
+}
+\caption{A branching state with one incoming and two outgoing transitions.}
+\label{fig:branching}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{StatechartsImages/BranchingProperties.png}
+}
+\caption{The properties panel for a branching state.}
+\label{fig:branchingProperties}
+\end{center}
+\end{figure}
+
+\clearpage
 
 \section{Transitions}
 \label{sec:transitions}
@@ -284,7 +353,7 @@ Transitions between states make up the other type of fundamental building block 
 
 There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{One also has the ability to define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered.}. There are a number of different transition trigger types, demonstrated in the transition properties panel in Figure~\ref{fig:transitionProperties} (these will be discussed below in further detail).
 
-For any transition an \emph{On Transition} action can be defined. This action will be executed whenever the transition is traversed. The keywords available within the \emph{On Transition} action block are:
+For any transition an \emph{On Transition} action can be defined (see Figure~\ref{fig:transitionPropertiesOnTransition}). This action will be executed whenever the transition is traversed. The keywords available within the \emph{On Transition} action block are:
 \begin{description}
 \item[agent] This is the agent that contains the statechart.
 \item[transition] This is the transition itself. For example, the transition's source state can be accessed via: \texttt{transition.getSource()}\footnote{See the source or JavaDoc for \texttt{repast.simphony.statecharts.Transition} for all of the available methods.}.
@@ -303,13 +372,13 @@ For any transition an \emph{On Transition} action can be defined. This action wi
 \end{figure}
 
 
-For almost all types of transitions\footnote{All transitions except default transitions out of branching states.} a \emph{Guard} condition can be defined. A \emph{Guard} condition is an additional boolean condition that has to be satisfied for a transition that is valid to be actually considered as a candidate for traversal. This condition is specified by a block of code that returns a boolean and the keywords available in a \emph{Guard} condition are the same as those in an \emph{On Transition} action block.
+For almost all types of transitions\footnote{All transitions except default transitions out of branching states.} a \emph{Guard} condition can be defined (see Figure~\ref{fig:transitionPropertiesGuard}). A \emph{Guard} condition is an additional boolean condition that has to be satisfied for a transition that is valid to be actually considered as a candidate for traversal. This condition is specified by a block of code that returns a boolean and the keywords available in a \emph{Guard} condition are the same as those in an \emph{On Transition} action block.
 
 When there is more than one valid transition ties are broken using the priority of the transition. If the priorities of valid transitions are equal then one of the transitions will be chosen with a uniform random probability. The priority of a transition can be specified in the transition's properties panel.
 
 \emph{Regular transitions} can be divided into zero time transitions and non-zero time transitions\footnote{All \emph{self transitions} are non-zero time transitions.}. For zero time transitions when a new state is entered, if there is a valid zero time transition out of it, that transition is followed immediately. Always (Section~\ref{sec:alwaysTransition}), Condition (Section~\ref{sec:conditionTransition}) and Message (Section~\ref{sec:messageTransition}) transition triggers are zero-time transitions.
 
-Every transition has a \emph{polling time} associated with it. This indicates the frequency (in simulation \emph{tick} units) with which the transition is considered for validity.
+Every transition has a \emph{polling time} associated with it. This indicates the frequency (in units of simulation \emph{ticks}) with which the transition is polled for validity.
 
 Next we present the different transition trigger types in more detail.
 
@@ -362,7 +431,7 @@ Next we present the different transition trigger types in more detail.
 \end{minipage}
 
 \end{figure}
-
+\clearpage
 
 \subsection{Always Trigger}
 \label{sec:alwaysTransition}
@@ -430,11 +499,11 @@ Next we present the different transition trigger types in more detail.
 
 
 \subsection{Exponential Decay Rate Trigger}
-\emph{Exponential decay rate} triggers become valid after a random time following the exponential distribution. The properties panel for a \emph{exponential decay rate} trigger transition is shown in Figure~\ref{fig:exponentialTransitionProperties}. The \emph{Exponential Decay Rate} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{2} or \texttt{agent.getDecayRate()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated when the transition is initialized (i.e., when a state is entered that has a possible \emph{exponential decay rate} transition leading out of it). The code block supplies the $\lambda$ parameter to the exponential distribution specified by the probability density function:
+\emph{Exponential decay rate} triggers become valid after a random time following the exponential distribution. The properties panel for an \emph{exponential decay rate} trigger transition is shown in Figure~\ref{fig:exponentialTransitionProperties}. The \emph{Exponential Decay Rate} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{2} or \texttt{agent.getDecayRate()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated when the transition is initialized (i.e., when a state is entered that has a possible \emph{exponential decay rate} transition leading out of it). The code block supplies the $\lambda$ parameter to the exponential distribution specified by the probability density function:
 \begin{equation}
 f(t) = \lambda e^{-\lambda t}
 \end{equation}
-The expected value of an exponentially distributed random variable with parameter $\lambda$ is $1/\lambda$ so given, for example, a $\lambda$ of 2, the expected value for the time it would take for an \emph{exponential decay rate} transition to trigger would be 0.5 in units of \emph{ticks}.
+The expected value of an exponentially distributed random variable with parameter $\lambda$ is $1/\lambda$. So given, for example, a $\lambda$ of 2, the expected value for the time it would take for an \emph{exponential decay rate} transition to trigger would be 0.5 in units of simulation \emph{ticks}.
 
 \begin{figure}
 \begin{center}
@@ -450,13 +519,101 @@ The expected value of an exponentially distributed random variable with paramete
 
 
 
-\subsection{Message Transition}
+\subsection{Message Trigger}
 \label{sec:messageTransition}
+\emph{Message} triggers become valid when a message meeting specific criteria is received by the statechart. A statechart is sent a message when the statechart's \texttt{receiveMessage(Object)} method is called. From an agent-based modeling perspective, this would likely occur when an agent is sent a message and then the agent forwards the message to all or a subset of its statecharts\footnote{There is nothing to prevent one agent from directly accessing another agent's statechart if the statechart is visible, but it could be considered not very good practice in an object oriented programming sense.}. There are four different types of \emph{message} triggers, shown in the drop down menu of the \emph{Trigger} element in the \emph{message} trigger properties pane in Figure~\ref{fig:messageTransitionProperties}, and we present them next.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/MessageTransitionProperties.png}
+}
+\caption{The properties panel for a \emph{message} message, with the available trigger types shown under the \emph{Trigger} element.}
+\label{fig:messageTransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
 \subsubsection{When Message Meets Condition}
+The \emph{When Message Meets a Condition} message trigger has the properties panel shown in Figure~\ref{fig:message1TransitionProperties}. The \emph{Message Class} element is where to specify the type of the message, which can be any of the basic types in Figure~\ref{fig:messageClassType} or the fully qualified name of any another type (\textbf{This is where the default is java.lang.Object would go.}). The \emph{Condition} element in the properties panel accepts general Java, Groovy or ReLogo code returning a boolean value, including simple boolean entries (e.g., \texttt{true} or \texttt{agent.getCondition()}). The keywords available within the \emph{Condition} action block are:
+\begin{description}
+\item[agent] This is the agent that contains the statechart.
+\item[transition] This is the transition itself.
+\item[message] This is the message received by the statechart.
+\item[params] This is the model's \texttt{Parameters} object.
+\end{description}
+The code block is evaluated each time the transition is polled for validity.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/Message1TransitionProperties.png}
+}
+\caption{The properties panel for a \emph{When Message Meets a Condition} message trigger.}
+\label{fig:message1TransitionProperties}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=2.7in]{StatechartsImages/MessageClassType.png}
+}
+\caption{The basic types available for the \emph{Message Class} element in the properties panel for the \emph{When Message Meets a Condition}, \emph{When Message Equals}, and \emph{When Message is of the Specified Class} message triggers. Additional types can be specified with their fully qualified names.}
+\label{fig:messageClassType}
+\end{center}
+\end{figure}
+\clearpage
+
+
 \subsubsection{When Message Equals}
+The \emph{When Message Equals} message trigger has the properties panel shown in Figure~\ref{fig:message2TransitionProperties}. The only difference between this and the \emph{When Message Meets a Condition} message trigger is that instead of a \emph{Condition} element there is an \emph{Equals} element that needs to be defined. The \emph{Equals} element accepts general Java, Groovy or ReLogo code returning any value that will be checked against the received message using the message's \texttt{equals(Object)} method. The keywords within the \emph{Equals} block are the same as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}).
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/Message2TransitionProperties.png}
+}
+\caption{The properties panel for a \emph{When Message Equals} message trigger.}
+\label{fig:message2TransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
+
+
 \subsubsection{When Message is of Class}
+The \emph{When Message is of Class} message trigger has the properties panel shown in Figure~\ref{fig:message3TransitionProperties}. Any message that is received that is of the specified class type will result in the transition being triggered.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/Message3TransitionProperties.png}
+}
+\caption{The properties panel for a \emph{When Message is of Class} message trigger.}
+\label{fig:message3TransitionProperties}
+\end{center}
+\end{figure}
+
 \subsubsection{Always}
 
+The \emph{Always} message trigger has the properties panel shown in Figure~\ref{fig:message4TransitionProperties}. Any message that is received will result in the transition being triggered.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/Message4TransitionProperties.png}
+}
+\caption{The properties panel for an \emph{Always} message trigger.}
+\label{fig:message4TransitionProperties}
+\end{center}
+\end{figure}
+\clearpage
 
 
 \end{document}  
