@@ -44,11 +44,11 @@
 \setcounter{section}{-1}
 
 \section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}\footnote{http://repast.sourceforge.net/download.html}. Repast Simphony 2.1 requires Java 7. Java 7 can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads page}\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}.
 
 \section{Getting Started with Statecharts}
 
-Agent states and transitions between states are an important abstraction in agent-based modeling. While it is possible for Repast Simphony users to create their own implementation of state-based agent behaviors (e.g., by adapting the State pattern in Gamma et al. 1994\footnote{Gamma, E., R. Helm, R. Johnson, and J. M. Vlissides. Design Patterns: Elements of Reusable Object-Oriented Software. illustrated ed. Addison-Wesley Professional, 1994.}) and even agent state visualizations, the effort involved in doing so is usually prohibitive. By integrating an agent statecharts framework into Repast Simphony, we made it easy for users of all levels to take advantage of this important modeling paradigm. Statecharts are visual representations of states and the transitions between those states\footnote{Statecharts were first proposed by Harel in Harel, D., 1987. Statecharts: A visual formalism for complex systems. Sci. Comput. Program., 8(3), pp.231Ð274.}. Statecharts can be very effective in visually capturing the logic within agents and quickly conveying the underlying dynamics of complex models.
+Agent states and transitions between states are an important abstraction in agent-based modeling. While it is possible for Repast Simphony users to create their own implementation of state-based agent behaviors (e.g., by adapting the State pattern in Gamma et al. 1994\footnote{Gamma, E., R. Helm, R. Johnson, and J. M. Vlissides. Design Patterns: Elements of Reusable Object-Oriented Software. illustrated ed. Addison-Wesley Professional, 1994.}) and even agent state visualizations, the effort involved in doing so is usually prohibitive. By integrating an agent statecharts framework into Repast Simphony, we made it easy for users of all levels to take advantage of this important modeling paradigm. Statecharts are visual representations of states and the transitions between those states\footnote{Statecharts were first proposed by Harel in Harel, D., 1987. Statecharts: A visual formalism for complex systems. Sci. Comput. Program., 8(3), pp.231-274.}. Statecharts can be very effective in visually capturing the logic within agents and quickly conveying the underlying dynamics of complex models.
 
 Figure~\ref{fig:statechartExample} shows a simple example of a statechart created with the Repast Simphony statecharts framework. The logic embedded in the diagram is mapped directly to the execution logic of an agent-based model. The benefits of the Repast Simphony statecharts framework include: improved clarity of a model's logic for model design, improved turnaround times for developing complex state based agent models, and the ability to convey in a compelling manner the internal state of agents as a simulation evolves to both experienced agent-modelers and to non-modelers alike. In the rest of this guide we will present the Repast Simphony statecharts framework.
 
@@ -72,8 +72,6 @@ A statechart can be added to any Java, Groovy or ReLogo class. Right-clicking th
 \item[Package] The package name within the \texttt{src-gen} source folder where the statechart class source code will be generated.
 \item[Agent Class] This is the agent class that will be associated with the statechart.
 \end{description}
-After accepting or modifying the defaults, clicking the \emph{Finish} button will bring up the newly created blank statechart editor.
-
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -95,6 +93,37 @@ After accepting or modifying the defaults, clicking the \emph{Finish} button wil
 \label{fig:newStatechartWizard}
 \end{center}
 \end{figure}
+
+After accepting or modifying the defaults, click the \emph{Finish} button. This injects a new statechart field into the selected agent class (see Listing~\ref{lst:injectedStatechart}). The \texttt{@ProbedProperty} annotation connects the \emph{Name} element of the statechart to the display name that will be shown in the probe panel in the simulation runtime GUI (Section~\ref{sec:runtime}). Line~9 in Listing~\ref{lst:injectedStatechart} calls the \texttt{Statechart.createStateChart(Agent,double)} method with \texttt{0} as the second argument. This will schedule an \texttt{Agent} class's statechart to begin as soon as the \texttt{Agent} instance  is created. Alternatively, one can specify a numerical value greater than 0 (in units of simulation \emph{ticks}) to delay when the statechart should begin. If there is a need for a statechart to begin not at a predetermined time but, for example, based on some model logic, Line~9 would be modified to read:
+\begin{verbatim}Statechart statechart = Statechart.createStateChart(this);\end{verbatim}
+which just instantiates the statechart but doesn't schedule it to begin at any time. Then, when the conditions for the statechart to begin are met, the statechart can be scheduled to begin with:
+\begin{verbatim}StateChartScheduler.beginNow(statechart);\end{verbatim}
+for immediate scheduling or:
+\begin{verbatim}StateChartScheduler.beginLater(later, statechart);\end{verbatim}
+for delayed scheduling at a time \texttt{later}\footnote{The statechart field does not have to be instantiated upon agent class creation. So if there is a  situation when not all of a simulation's agents will be needing their statecharts and there is a desire for conserving the simulation's memory footprint, the statechart instantiation (i.e., \texttt{Statechart.createStateChart}) can be delayed until needed.}.
+
+\noindent\begin{minipage}[h]{\textwidth}
+\vspace{.2in}
+\lstset{language=java,caption=Agent class with the default injected statechart field.,label=lst:injectedStatechart}
+\begin{lstlisting}
+package statechartsModel;
+
+import statechartsModel.chart.Statechart;
+import repast.simphony.ui.probe.ProbedProperty;
+
+public class Agent {
+
+	@ProbedProperty(displayName="Statechart")
+	Statechart statechart = Statechart.createStateChart(this, 0);
+
+}
+\end{lstlisting}
+\vspace{.2in}
+\end{minipage}
+
+Creating a new statechart will also bring up the newly created blank statechart editor, which we describe next.
+
+
 
 
 
@@ -536,7 +565,7 @@ The expected value of an exponentially distributed random variable with paramete
 \clearpage
 
 \subsubsection{When Message Meets Condition}
-The \emph{When Message Meets a Condition} message trigger has the properties panel shown in Figure~\ref{fig:message1TransitionProperties}. The \emph{Message Class} element is specifies the type of the message, which can be any of the basic types in Figure~\ref{fig:messageClassType} or the fully qualified name of any another type. To specify a type not in the list, enter the fully qualified name of the type in the combo box. The \emph{Condition} element in the properties panel accepts general Java, Groovy or ReLogo code returning a boolean value, including simple boolean entries (e.g., \texttt{true} or \texttt{agent.getCondition()}). The keywords available within the \emph{Condition} action block are:
+The \emph{When Message Meets a Condition} message trigger has the properties panel shown in Figure~\ref{fig:message1TransitionProperties}. The \emph{Message Class} element is specifies the type of the message, which can be any of the basic types in Figure~\ref{fig:messageClassType} or the fully qualified name of any another type\footnote{The default \emph{Message Class} is \texttt{java.lang.Object} which will accept any type of message.}. To specify a type not in the list, enter the fully qualified name of the type in the combo box. The \emph{Condition} element in the properties panel accepts general Java, Groovy or ReLogo code returning a boolean value, including simple boolean entries (e.g., \texttt{true} or \texttt{agent.getCondition()}). The keywords available within the \emph{Condition} action block are:
 \begin{description}
 \item[agent] This is the agent that contains the statechart.
 \item[transition] This is the transition itself.
@@ -616,7 +645,7 @@ The \emph{Always} message trigger has the properties panel shown in Figure~\ref{
 \clearpage
 
 \section{Debugging Statecharts}
-When a state chart is saved the code for that state chart will be generated in the src-gen directory in the state chart's project. At that time the state chart will also be validated and any structural warnings or errors will be displayed in the state chart workspace.  Figure \ref{fig:transitionerror} is an example of this. The transition between State 0 and State 1 has an error. Moving the mouse pointer over the error marker will display a tooltip with the error message. In this case, the transition has a \emph{Condition} trigger type but no condition has been specified in the transition's properties. The error message will also be displayed in Eclipse's Problems view. 
+When a statechart is saved the code for that statechart will be generated in the \texttt{src-gen} directory in the statechart's project. At that time the statechart will also be validated and any structural warnings or errors will be displayed in the statechart workspace.  Figure \ref{fig:transitionerror} is an example of this. The transition between State 0 and State 2 has an error. Moving the mouse pointer over the error marker will display a tooltip with the error message. In this case, the transition has a \emph{Condition} trigger type but no condition has been specified in the transition's properties. The error message will also be displayed in Eclipse's \emph{Problems} view. 
 
 \begin{figure}
 \begin{center}
@@ -630,7 +659,7 @@ When a state chart is saved the code for that state chart will be generated in t
 \end{figure}
 
 
-If there is an error in the code generated by the state chart, you will see the error marker on the src-gen folder in the state chart's project. This kind of error will occur when any code specified in the state chart's state or transition properties (such as the \emph{On Exit}, \emph{Condition} and so forth code blocks) is erroneous. To fix these kind of errors, expand the src-gen folder to find the offending file as in figure \ref{fig:srcgen}. Open the file. The comments in the file describe the state chart element that produced the bad code and eclipse will flag errors in the code itself. Figure \ref{fig:codeerror} shows such an error. The error is itself is that the \texttt{getHealt} method is not defined on the agent. The comments in the code state that this is the code for the ``Condition trigger condition for Transition 3, from = State 0, to = State 2.'' To fix this then, we need to edit the trigger condition code in Transition 3.  To find it, we  can use the \emph{to} and \emph{from} states mentioned in the comments and select the transition that connects them.  Note that editing the code directly in the .java file will remove the error, but will \textbf{NOT} fix the problem. The next time state chart is saved, the code will be regenerated. The code must be fixed in the state chart element that produced the problem.
+If there is an error in the code generated by the statechart, you will see the error marker on the src-gen folder in the statechart's project. This kind of error will occur when any code specified in the statechart's state or transition properties (such as the \emph{On Exit}, \emph{Condition} and so forth code blocks) is erroneous. To fix these kind of errors, expand the src-gen folder to find the offending file as in Figure~\ref{fig:srcgen}. Open the file. The comments in the file describe the statechart element that produced the bad code and eclipse will flag errors in the code itself. Figure \ref{fig:codeerror} shows such an error. The error itself is that the \texttt{getHealt} method is not defined on the agent. The comments in the code state that this is the code for the ``Condition trigger condition for Transition 3, from = State 0, to = State 2.'' To fix this then, we need to edit the trigger condition code in Transition 3.  To find it, we  can use the \emph{to} and \emph{from} states mentioned in the comments and select the transition that connects them.  Note that editing the code directly in the .java file will remove the error, but will \textbf{NOT} fix the problem. The next time the statechart is saved, the code will be regenerated. The code must be fixed in the statechart element that produced the problem.
 
 
 \begin{figure}
@@ -639,7 +668,7 @@ If there is an error in the code generated by the state chart, you will see the 
 \centerline {
 \includegraphics[width=5in]{StatechartsImages/srcgen_error.png}
 }
-\caption{An example of an error in the code generated from the state chart}
+\caption{An example of an error in the code generated from the statechart.}
 \label{fig:srcgen}
 \end{center}
 \end{figure}
@@ -650,13 +679,36 @@ If there is an error in the code generated by the state chart, you will see the 
 \centerline {
 \includegraphics[width=5.5in]{StatechartsImages/code_error.png}
 }
-\caption{An error in the code produced by the state chart. Note that the comments refer to the element that produced the code.}
+\caption{An error in the code produced by the statechart. Note that the comments refer to the element that produced the code.}
 \label{fig:codeerror}
 \end{center}
 \end{figure}
 
 
+\section{Statecharts at Runtime}
+\label{sec:runtime}
+When a simulation is running an agent's statechart can be visually accessed via the agent's probe panel. An agent's probe panel is launched by double clicking an agent in a display within the Repast Simphony runtime GUI. Figure~\ref{fig:probe} shows the Repast Simphony runtime GUI with a gridded display on the right and a probe panel on the bottom left (larger red rectangle). The probe panel was launched by double-clicking the visible agent on the right (blue filled circle). Within the probe panel, the button to display the \emph{Statechart} statechart is indicated with the smaller red rectangle (and the red arrow). When this button is pressed, a statechart display is launched (Figure~\ref{fig:runtimeStatechart}). The statechart display highlights active states with a green color\footnote{As seen in Figure~\ref{fig:runtimeStatechart}, a composite state is active if a sub-element is active (unless the sub-element is a final state).}. Under the statechart display \emph{Options} menu item there is a menu item (\emph{Always On Top}) to always keep the statecharts display on top of other displays. This is enabled by default but can be disabled.
 
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/Probe.png}
+}
+\caption{Repast Simphony runtime GUI with a probe panel showing (large red rectangle) and with a statechart display button (smaller red rectangle with arrow pointing to it).}
+\label{fig:probe}
+\end{center}
+\end{figure}
 
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/RuntimeStatechart.png}
+}
+\caption{The runtime statechart display with State 2 and the Composite State that contains it highlighted as active.}
+\label{fig:runtimeStatechart}
+\end{center}
+\end{figure}
 
 \end{document}  
