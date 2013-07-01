@@ -102,7 +102,7 @@ After accepting or modifying the defaults, clicking the \emph{Finish} button wil
 
 \subsection{Statecharts Editor}
 
-The statecharts editor is divided into three main panels (Figure~\ref{fig:statechartEditorBoxes}). The first (Figure~\ref{fig:statechartEditorBoxes}a) is the statecharts workspace area. This is where the visual elements of a statechart are created and arranged. The palette panel (Figure~\ref{fig:statechartEditorBoxes}b) shows the available statechart elements that can be used in the statecharts workspace\footnote{The detailed explanations for these elements will be covered in Sections~\ref{sec:states} and \ref{sec:transitions}.}. Clicking on an element in the palette panel and then clicking on the statecharts workspace will create an instance of that element in the workspace. The properties panel (Figure~\ref{fig:statechartEditorBoxes}c) shows the properties of the element selected in the statecharts workspace. If, as in Figure~\ref{fig:statechartEditorBoxes}, no element is selected, the properties of the statechart itself are shown. In addition to displaying element properties, the panel is also where the properties of elements can be edited. A statechart has a priority which indicates the order in which it will be resolved with respect to other statecharts (see red box in Figure~\ref{fig:statechartProperties}). So, for example, if an agent has two statecharts (A and B) and it is always desired that statechart A should be resolved before statechart B, giving statechart A a higher priority will ensure this.
+The statecharts editor is divided into three main panels (Figure~\ref{fig:statechartEditorBoxes}). The first (Figure~\ref{fig:statechartEditorBoxes}a) is the statecharts workspace area. This is where the visual elements of a statechart are created and arranged. The palette panel (Figure~\ref{fig:statechartEditorBoxes}b) shows the available statechart elements that can be used in the statecharts workspace\footnote{Sections~\ref{sec:states} and \ref{sec:transitions} will cover these elements in detail.} Clicking on an element in the palette panel and then clicking on the statecharts workspace will create an instance of that element in the workspace. The properties panel (Figure~\ref{fig:statechartEditorBoxes}c) shows the properties of the element selected in the statecharts workspace. If, as in Figure~\ref{fig:statechartEditorBoxes}, no element is selected, the properties of the statechart itself are shown. In addition to displaying element properties, the panel is also where the properties of elements can be edited. A statechart has a priority which indicates the order in which it will be resolved with respect to other statecharts (see red box in Figure~\ref{fig:statechartProperties}). So, for example, if an agent has two statecharts (A and B) and statechart A should be resolved before statechart B, giving statechart A a higher priority will ensure that this occurs.
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -171,7 +171,7 @@ One of the fundamental building blocks of statecharts are states. Here we introd
 \subsection{Entry State Marker}
 \includegraphics[height=.2in]{StatechartsImages/First-State-32.png}
 
-Every statechart must have an entry state marker. This defines the path through which the statechart begins when it is activated.
+Every statechart must have an entry state marker. This defines point of entry into a statechart takes when the statechart is activated.
 
 \subsection{Simple State}
 \label{sec:simpleState}
@@ -349,7 +349,7 @@ Branching states represent logical branching within statecharts (Figure~\ref{fig
 \section{Transitions}
 \label{sec:transitions}
 
-Transitions between states make up the other type of fundamental building block of statecharts. In this section we introduce the different types of transitions that can be used within the Repast Simphony statecharts framework.
+Transitions between states make up the other fundamental building block of statecharts. In this section we introduce the different types of transitions that can be used within the Repast Simphony statecharts framework.
 
 There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{One also has the ability to define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered.}. There are a number of different transition trigger types, demonstrated in the transition properties panel in Figure~\ref{fig:transitionProperties} (these will be discussed below in further detail).
 
@@ -435,7 +435,7 @@ Next we present the different transition trigger types in more detail.
 
 \subsection{Always Trigger}
 \label{sec:alwaysTransition}
-\emph{Always} triggers are always valid. The transition can, however, be made invalid by defining a \emph{Guard} condition. Because this trigger type results in zero time transitions, it is important to make sure that there are no \emph{always} trigger transitions contributing to zero time loops in any statechart you create, since this has the potential to create never-ending loops. The properties panel for an \emph{always} trigger transition is in Figure~\ref{fig:alwaysTransitionProperties}. One use for \emph{always} trigger transitions is as self transitions to execute some action at a set polling time.
+\emph{Always} triggers are always valid. The transition can, however, contain a \emph{Guard} condition which if false, would prevent the transition from triggering. Because this trigger type results in zero time transitions, it is important to make sure that there are no \emph{always} trigger transitions contributing to zero time loops in any statechart you create, since this has the potential to create never-ending loops. The properties panel for an \emph{always} trigger transition is in Figure~\ref{fig:alwaysTransitionProperties}. One use for \emph{always} trigger transitions is as self transitions to execute some action at a set polling time.
 
 \begin{figure}
 \begin{center}
@@ -467,7 +467,7 @@ Next we present the different transition trigger types in more detail.
 
 
 \subsection{Probability Trigger}
-\emph{Probability} triggers are evaluated as valid with a specified probability. The properties panel for a \emph{probability} trigger transition is shown in Figure~\ref{fig:probabilityTransitionProperties}. The \emph{Probability} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{2} or \texttt{agent.getProbability()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated each time the transition is polled for validity.
+\emph{Probability} triggers are evaluated as valid with a specified probability. The properties panel for a \emph{probability} trigger transition is shown in Figure~\ref{fig:probabilityTransitionProperties}. The \emph{Probability} element in the properties panel accepts general Java, Groovy or ReLogo code returning a numerical value, including simple numerical entries (e.g., \texttt{0.2} or \texttt{agent.getProbability()}), with the same keywords as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}). The code block is evaluated each time the transition is polled for validity.
 
 \begin{figure}
 \begin{center}
@@ -536,7 +536,7 @@ The expected value of an exponentially distributed random variable with paramete
 \clearpage
 
 \subsubsection{When Message Meets Condition}
-The \emph{When Message Meets a Condition} message trigger has the properties panel shown in Figure~\ref{fig:message1TransitionProperties}. The \emph{Message Class} element is where to specify the type of the message, which can be any of the basic types in Figure~\ref{fig:messageClassType} or the fully qualified name of any another type (\textbf{This is where the default is java.lang.Object would go.}). The \emph{Condition} element in the properties panel accepts general Java, Groovy or ReLogo code returning a boolean value, including simple boolean entries (e.g., \texttt{true} or \texttt{agent.getCondition()}). The keywords available within the \emph{Condition} action block are:
+The \emph{When Message Meets a Condition} message trigger has the properties panel shown in Figure~\ref{fig:message1TransitionProperties}. The \emph{Message Class} element is specifies the type of the message, which can be any of the basic types in Figure~\ref{fig:messageClassType} or the fully qualified name of any another type. To specify a type not in the list, enter the fully qualified name of the type in the combo box. The \emph{Condition} element in the properties panel accepts general Java, Groovy or ReLogo code returning a boolean value, including simple boolean entries (e.g., \texttt{true} or \texttt{agent.getCondition()}). The keywords available within the \emph{Condition} action block are:
 \begin{description}
 \item[agent] This is the agent that contains the statechart.
 \item[transition] This is the transition itself.
@@ -560,7 +560,7 @@ The code block is evaluated each time the transition is polled for validity.
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=2.7in]{StatechartsImages/MessageClassType.png}
+\includegraphics[width=3.0in]{StatechartsImages/MessageClassType.png}
 }
 \caption{The basic types available for the \emph{Message Class} element in the properties panel for the \emph{When Message Meets a Condition}, \emph{When Message Equals}, and \emph{When Message is of the Specified Class} message triggers. Additional types can be specified with their fully qualified names.}
 \label{fig:messageClassType}
@@ -614,6 +614,49 @@ The \emph{Always} message trigger has the properties panel shown in Figure~\ref{
 \end{center}
 \end{figure}
 \clearpage
+
+\section{Debugging Statecharts}
+When a state chart is saved the code for that state chart will be generated in the src-gen directory in the state chart's project. At that time the state chart will also be validated and any structural warnings or errors will be displayed in the state chart workspace.  Figure \ref{fig:transitionerror} is an example of this. The transition between State 0 and State 1 has an error. Moving the mouse pointer over the error marker will display a tooltip with the error message. In this case, the transition has a \emph{Condition} trigger type but no condition has been specified in the transition's properties. The error message will also be displayed in Eclipse's Problems view. 
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/transition_error.png}
+}
+\caption{An error marker on a transition}
+\label{fig:transitionerror}
+\end{center}
+\end{figure}
+
+
+If there is an error in the code generated by the state chart, you will see the error marker on the src-gen folder in the state chart's project. This kind of error will occur when any code specified in the state chart's state or transition properties (such as the \emph{On Exit}, \emph{Condition} and so forth code blocks) is erroneous. To fix these kind of errors, expand the src-gen folder to find the offending file as in figure \ref{fig:srcgen}. Open the file. The comments in the file describe the state chart element that produced the bad code and eclipse will flag errors in the code itself. Figure \ref{fig:codeerror} shows such an error. The error is itself is that the \texttt{getHealt} method is not defined on the agent. The comments in the code state that this is the code for the ``Condition trigger condition for Transition 3, from = State 0, to = State 2.'' To fix this then, we need to edit the trigger condition code in Transition 3.  To find it, we  can use the \emph{to} and \emph{from} states mentioned in the comments and select the transition that connects them.  Note that editing the code directly in the .java file will remove the error, but will \textbf{NOT} fix the problem. The next time state chart is saved, the code will be regenerated. The code must be fixed in the state chart element that produced the problem.
+
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/srcgen_error.png}
+}
+\caption{An example of an error in the code generated from the state chart}
+\label{fig:srcgen}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5.5in]{StatechartsImages/code_error.png}
+}
+\caption{An error in the code produced by the state chart. Note that the comments refer to the element that produced the code.}
+\label{fig:codeerror}
+\end{center}
+\end{figure}
+
+
+
 
 
 \end{document}  
