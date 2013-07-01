@@ -44,7 +44,7 @@
 \setcounter{section}{-1}
 
 \section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.0. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony 2.1 requires Java 7. Java 7 can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
 
 \section{Getting Started with Repast Simphony for Java}
 We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies. When we are finished, the running model should look like fig.~\ref{fig:final}.
@@ -59,21 +59,33 @@ We will be building a simple agent-based model involving  zombies chasing humans
 \label{fig:final}
 \end{center}
 \end{figure}
-
-The first thing we must do is create a new Repast Simphony project. Assuming you've started Repast Simphony, right click in the Package Explorer pane and choose ``New'' then ``Other''. A dialog box comes up that allows you to select a wizard. Select ``Repast Simphony Project'' under the ``Repast Simphony'' folder (Fig.~\ref{fig:newprojecticon}) and click ``Next''. This brings up the New Repast Simphony Project Wizard  which gives us the ability to name our project (and a few more options which we'll ignore for now). Type jzombies in the ``Project name" field, and press the ``Finish" button.
+The first thing we need to do is to turn on the Repast Simphony Perspective in the Eclipse IDE that comes with Repast Simphony. A perpsective adds various menus, toolbar buttons and so forth to Eclipse to make it easier to develop certain kinds of projects. The Repast Simphony perspective does this for Repast Java development. To turn on the Repast Simphony perspective, click on the Window menu, then Open Perspective, Other. Choose the Repast Simphony perspective from the dialog that pops up (Fig. \ref{fig:perspective}) and click OK. You should see the Repast Simphony perspective (Fig. \ref{fig:rsperspective}) selected in the upper right hand corner of Eclipse. You should only have to select the perspective from the dialog once. When Repast Simphony is restarted the last perspective will be used and the last few will be available in the upper right hand corner. 
 
 \begin{figure}[h]
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=3in]{GettingStartedImages/new_wizard.png}
+\includegraphics[width=3in]{GettingStartedImages/perspective.png}
 }
-\caption{Repast Simphony Project Wizard.}
-\label{fig:newprojecticon}
+\caption{Perspective Dialog}
+\label{fig:perspective}
 \end{center}
 \end{figure}
 
- By default Repast Simphony will hide many of the details of the project. This is appropriate for ReLogo projects but not for those written in Java. If the ReLogo filters have not been previously disabled then we need to do that now. If you click on the triangle next to ``jzombies'' and you see a variety of folders (batch, docs, etc), then the filter has been disabled. If you only see the src directory then the filter needs to be disabled. To disable the filter, click the downward pointing arrow in the ``Package Explorer'' pane. If you see ``ReLogo Resource Filter''  then click on it to disable the filter (Fig.~\ref{fig:filter}).  Otherwise, click on the ``Filters'' item. This brings up the Java Element Filters windows. Scroll through the elements and click off the checkbox for ReLogo Resource Filter (Fig.~\ref{fig:filter2}). 
+\begin{figure}[h]
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{GettingStartedImages/rs_perspective.png}
+}
+\caption{Repast Simphony Perspective Icon.}
+\label{fig:rsperspective}
+\end{center}
+\end{figure}
+
+With the perspective now enabled, we now need to create a new Repast Simphony project. Assuming you've started Repast Simphony, right click in the Package Explorer pane and choose ``New'' and then ``Repast Simphony Project''. This brings up the New Repast Simphony Project Wizard  which gives us the ability to name our project (and a few more options which we'll ignore for now). Type jzombies in the ``Project name" field, and press the ``Finish" button. You should now see a zombies project in the Package Explorer.
+
+ By default Repast Simphony will hide many of the details of the project. This is appropriate for ReLogo projects but not for those written in Java. If the ReLogo filters have not been previously disabled then we need to do that now. If you click on the triangle next to ``jzombies'' and you see a variety of folders (batch, docs, etc), then the filter has been disabled. If you only see the src directory then the filter needs to be disabled. To disable the filter, click the downward pointing arrow in the ``Package Explorer'' pane. If you see ``ReLogo Resource Filter''  then click on it to disable the filter (Fig.~\ref{fig:filter}).  Otherwise, click on the ``Filters'' item. This brings up the Java Element Filters window. Scroll through the elements and click off the checkbox for ReLogo Resource Filter (Fig.~\ref{fig:filter2}). 
 
 
 \begin{figure}[h]
@@ -98,18 +110,6 @@ The first thing we must do is create a new Repast Simphony project. Assuming you
 \label{fig:filter2}
 \end{center}
 \end{figure}
-In addition, by default autobuilding is disabled. However, this is not appropriate for projects written in Java. To enable auto building go to the Project menu and select Build Automatically. Lastly, if eclipse has defaulted to the ReLogo perspective switch it to the Java one. The perspective selections can be found in the upper right hand corner (Fig.~\ref{fig:javap}). Click the Java perspective.
-
-\begin{figure}[h]
-\begin{center}
-\vspace{.2in}
-\centerline {
-\includegraphics[width=3in]{GettingStartedImages/perspectives.png}
-}
-\caption{Selecting the Java Perspective.}
-\label{fig:javap}
-\end{center}
-\end{figure}
 
 \subsection{Building the Model}
 In a Repast Simphony Java simulation, agents do not need to extend any base class or interface. They can be created simply by using Eclipse's ''New Class Wizard''. The Repast Simphony project wizard creates a source directory and default package into which we can create these agent classes. In our case, the package is ``jzombies'', which can be seen immediately under the src directory.\footnote{Package names typically use an internet domain name as the basis for a package name, but for the purposes of this tutorial ``jzombies'' is perfectly fine. See  \href{http://download.oracle.com/javase/tutorial/java/package/namingpkgs.html}{Java Tutorial: packages} for more info.} The wizard has also created two additional files under the jzombies package: \texttt{ModelInitializer.groovy} and \texttt{ModelInitializer.agent}. These are not necessary for this tutorial and so can be deleted.
@@ -125,7 +125,7 @@ In a Repast Simphony Java simulation, agents do not need to extend any base clas
 We will now create our \texttt{Zombie} and \texttt{Human} classes.
 \begin{enumerate}
 \item Right click on the jzombies folder under src
-\item Click the new class wizard button (Fig.~\ref{fig:class_wizard}).
+\item  Select New then Class from the Menu (Fig.~\ref{fig:class_wizard})
 \item Type Zombie for the name
 \item Optionally, click the generate comments box. This won't comment the code for you, of course, but it does
 leave a placeholder.
@@ -136,9 +136,9 @@ leave a placeholder.
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=3in]{GettingStartedImages/class_wizard.png}
+\includegraphics[width=5in]{GettingStartedImages/class_wizard.png}
 }
-\caption{New Class Wizard Button.}
+\caption{New Class Wizard Entry.}
 \label{fig:class_wizard}
 \end{center}
 \end{figure}
@@ -180,7 +180,7 @@ import repast.simphony.space.grid.Grid;
 You can add these automatically in Eclipse by right clicking on the type (e.g  \texttt{Grid}) that needs an import and choosing Source - Add Import from the menu. \textbf{As new code is added during the tutorial, you will need to add the appropriate imports. Whenever you see the red squiggle, use Eclipse to add the necessary imports.}\\
 
 
-Now lets add a method to Zombie that will be called every iteration of the simulation\footnote{Repast Simphony also provides a wizard for adding typical snippets of code. This wizard can be activated using the top hat icon in the Eclipse toolbar. The wizard produces groovy compatible code so some additional work may need to be done to make it Java compatible}.  We will call this method \texttt{step}.
+Now lets add a method to Zombie that will be called every iteration of the simulation. We will call this method \texttt{step}.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -210,7 +210,7 @@ public void step() {
 \vspace{.2in}
 \end{minipage}
 
-Line 3 gets the location of this Zombie (\texttt{this} refers to the object whose method is calling the code) in the grid. We then use a \texttt{GridCellNgh} to create a \texttt{List} of \texttt{GridCell}s containing Humans. A  \texttt{GridCellNgh} is used to retreive a list of \texttt{GridCells} that represent the contents and location of the 8 neighboring cells around a \texttt{GridPoint}. The constructor to \texttt{GridCellNgh} takes the grid whose cells we want to get, the point whose neighboring grid cells we want, the Class of the items we want in the cells, and the extent along the appropriate dimensions. Lines 7 and 8 specify the grid and the location of this Zombie as the point whose neighboring cells we want. By specifying the Human class in the constructor and as a template parameter we filter out any non-Humans. Consequently, our GridCells will on contain Humans. We then call \texttt{getNeighborhood} passing \texttt{true} to it. By passing \texttt{true} the returned list of GridCells will contain the center cell where the Zombie is currently located. Using \texttt{SimUtilities.shuffle}, we shuffle the list of \texttt{GridCells}. Without the shuffle, the Zombies will always move in the same direction when all cells are equal. We use the \texttt{RandomHelper} class to provide us with a random generator for the shuffle. The remaining code iterates through the list of \texttt{GridCell}s and determines which one of them has the largest size. A \texttt{GridCell}'s size is a measure of the number of objects it contains and thus the cell with the greatest size contains the most Humans.
+Line 3 gets the location of this Zombie (\texttt{this} refers to the object whose method is calling the code) in the grid. We then use a \texttt{GridCellNgh} to create a \texttt{List} of \texttt{GridCell}s containing Humans. A  \texttt{GridCellNgh} is used to retreive a list of \texttt{GridCells} that represent the contents and location of the 8 neighboring cells around a \texttt{GridPoint}. The constructor to \texttt{GridCellNgh} takes the grid whose cells we want to get, the point whose neighboring grid cells we want, the Class of the items we want in the cells, and the extent along the appropriate dimensions. Lines 7 and 8 specify the grid and the location of this Zombie as the point whose neighboring cells we want. By specifying the Human class in the constructor and as a template parameter we filter out any non-Humans. Consequently, our GridCells will contain only Humans. We then call \texttt{getNeighborhood} passing \texttt{true} to it. By passing \texttt{true} the returned list of GridCells will contain the center cell where the Zombie is currently located. Using \texttt{SimUtilities.shuffle}, we shuffle the list of \texttt{GridCells}. Without the shuffle, the Zombies will always move in the same direction when all cells are equal. We use the \texttt{RandomHelper} class to provide us with a random generator for the shuffle. The remaining code iterates through the list of \texttt{GridCell}s and determines which one of them has the largest size. A \texttt{GridCell}'s size is a measure of the number of objects it contains and thus the cell with the greatest size contains the most Humans.
 
 Now that we have discovered the location with the most Humans (i.e. \texttt{pointWithMostHumans}), we want to move the Zombie towards that location. We will first write this method then add the code to call it in the \texttt{step()} method.
 
@@ -398,10 +398,10 @@ That completes this part of the code for Zombies and Humans. Now we need to turn
 
 \begin{enumerate}
 \item In the Package Explorer pane, click on the "jzombies" package underneath the src directory. 
-\item Click on the "New Java Class" wizard button (Fig.~\ref{fig:class_wizard}).
+\item Select New then Class from the Menu (Fig.~\ref{fig:class_wizard})
 \item In the Name field, type JZombiesBuilder
-\item Click the "Add" button next to the interfaces field
-\item Under "Choose interfaces" type ContextBuilder and click OK
+\item Click the Add button next to the interfaces field
+\item Under Choose interfaces type ContextBuilder and click OK
 \item Click Finish
 \end{enumerate}
 
@@ -481,7 +481,7 @@ We begin in line 1 by setting the id of the passed in \texttt{Context} to "jzomb
 \end{itemize}
 
 \vspace{.2in}
-The \texttt{GridFactory} differs slightly in that it bundles the borders, adder, dimensions etc. into a GridBuilderParameters object. The \texttt{GridBuilderParameters} also takes a boolean value that determines whether more than object is allowed to occupy a grid point location at a time. With this in mind then, the above code creates a \texttt{ContinuousSpace} named ``space'' and associates it with the passed in \texttt{Context}. Any object added to this space will be added at a random location via the \texttt{RandomCartesianAdder}. The borders of the space will wrap around forming a torus, set via the  \texttt{repast.simphony.space.continuous.WrapAroundBorders()} . Lastly, the dimensions of the space will be 50 x 50. This code also creates a \texttt{Grid} called ``grid" and associates it with the \texttt{Context}. The grid will also wrap and form a torus. Objects added to this grid will be added with the \texttt{SimpleGridAdder} which means that they are not given a location when added, but rather held in a kind of ``parking lot" waiting to be manually added via one of the \texttt{Grid}'s methods. The \texttt{true} value specifies that multiple occupancy of a grid location is allowed. The grid's dimensions will be 50 x 50. Note the we are using the  \texttt{SimpleGridAdder} here so that we can manually set an agent's \texttt{Grid} location to correspond to its \texttt{ContinuousSpace} location. We will do this later in the \texttt{build} method.
+The \texttt{GridFactory} differs slightly in that it bundles the borders, adder, dimensions etc. into a GridBuilderParameters object. The \texttt{GridBuilderParameters} also takes a boolean value that determines whether more than one object is allowed to occupy a grid point location at a time. With this in mind then, the above code creates a \texttt{ContinuousSpace} named ``space'' and associates it with the passed in \texttt{Context}. Any object added to this space will be added at a random location via the \texttt{RandomCartesianAdder}. The borders of the space will wrap around forming a torus, set via the \\\texttt{repast.simphony.space.continuous.WrapAroundBorders()}. Lastly, the dimensions of the space will be 50 x 50. This code also creates a \texttt{Grid} called ``grid" and associates it with the \texttt{Context}. The grid will also wrap and form a torus. Objects added to this grid will be added with the \texttt{SimpleGridAdder} which means that they are not given a location when added, but rather held in a kind of ``parking lot" waiting to be manually added via one of the \texttt{Grid}'s methods. The \texttt{true} value specifies that multiple occupancy of a grid location is allowed. The grid's dimensions will be 50 x 50. Note the we are using the  \texttt{SimpleGridAdder} here so that we can manually set an agent's \texttt{Grid} location to correspond to its \texttt{ContinuousSpace} location. We will do this later in the \texttt{build} method.
 
 Now let's create the agents. Add the following code prior to the return statement.
 
@@ -780,7 +780,7 @@ public void infect() {
 \vspace{.2in}
 \end{minipage}
 
-In summary, the \texttt{infect()} method gets all the Humans at the Zombie's grid location. A Human is chosen at random from these Humans. The chosen Human is removed from the simulation and replaced with a Zombie. More particularly, the \texttt{infect} method begins by getting the grid location of \texttt{this}, the Zombie calling this code. It then creates a \texttt{List} into which all the Humans at the grid location are put. The loop starting in line 4 iterates through all the \texttt{Object}s at that location, and if they are instances of the Human class it adds them to the list. If the size (the number of elements in the list) of the list is greater than 0 then there are Humans at this location, and we choose one at random. To choose one at random we draw a random number, using RandomHelper, to use as the index into the list. We then get the Object at that index in the list. We get the location in ``space'' of this random human and remove it from the Context. Using the \texttt{ContextUtils} class we get the \texttt{Context} that contains the random human. We then remove it from the context. Removing an object from the context automatically removes it from any projections associated with that context. So, in our case, the random human is removed from the ``space'' and ``grid'' projections. Lastly, we create a new \texttt{Zombie} and add it to the context. Then in line 17, we move it to the random human's location in space using the ``spacePt'' that we retrieved in line 12. We set its grid location to the grid coordinates of this Zombie, using the ``pt'' that we retrieved in line 2. Lastly, we close by getting our infection network by name from the context. (We haven't created this network yet, but will do so shortly.) An edge between \texttt{this}, the Zombie that infected the Human, and \texttt{zombie} is then created.\footnote{See the Java API docs and the user manual for details on working with Network projections}. 
+In summary, the \texttt{infect()} method gets all the Humans at the Zombie's grid location. A Human is chosen at random from these Humans. The chosen Human is removed from the simulation and replaced with a Zombie. More particularly, the \texttt{infect} method begins by getting the grid location of \texttt{this}, the Zombie calling this code. It then creates a \texttt{List} into which all the Humans at the grid location are put. The loop starting in line 4 iterates through all the \texttt{Object}s at that location, and if they are instances of the Human class it adds them to the list. If the size (the number of elements in the list) of the list is greater than 0 then there are Humans at this location, and we choose one at random. To choose one at random we draw a random number, using RandomHelper, to use as the index into the list. We then get the Object at that index in the list. We get the location in ``space'' of this random human and remove it from the Context. Using the \texttt{ContextUtils} class we get the \texttt{Context} that contains the random human. We then remove it from the context. Removing an object from the context automatically removes it from any projections associated with that context. So, in our case, the random human is removed from the ``space'' and ``grid'' projections. Lastly, we create a new \texttt{Zombie} and add it to the context. Then in line 17, we move it to the random human's location in space using the ``spacePt'' that we retrieved in line 12. We set its grid location to the grid coordinates of this Zombie, using the ``pt'' that we retrieved in line 2. Lastly, we close by getting our infection network by name from the context. (We haven't created this network yet, but will do so shortly.) An edge between \texttt{this}, the Zombie that infected the Human, and \texttt{zombie} is then created.\footnote{See the Java API docs and the user manual for details on working with Network projections}
 
 We also need to add a call to \texttt{infect} to the Zombie's \texttt{step} method. Add \texttt{infect()} immediately after \texttt{moveTowards(pointWithMostHumans)} in the \texttt{step} method.
 
@@ -818,7 +818,7 @@ Recall that we had to add ``space'' and ``grid'' to the context.xml file. We now
 \vspace{.2in}
 \end{minipage}
 
-Now let's run our simulation. Start the jzombies Model using the Eclipse launcher as you did before (fig.~\ref{fig:launch}). Once the Repast Simphony runtime has come up, initialize and run the simulation. You should now see humans becoming zombies. If you don't, then check your code for mistakes. Notice that the network is not displayed though. We need to update the display to show the network and in doing so we will also update the styles for the Humans and Zombies. Let's remove the old display first. Right click on the ``Space Display'' in the Scenario Tree under Displays and then ``Delete'''. Now we will make the new display.
+Now let's run our simulation. Start the jzombies Model using the Eclipse launcher as you did before (fig.~\ref{fig:launch}). Once the Repast Simphony runtime has come up, initialize and run the simulation. You should now see humans becoming zombies. If you don't, then check your code for mistakes. Notice that the network is not displayed though. We need to update the display to show the network and in doing so we will also update the styles for the Humans and Zombies. Let's remove the old display first. Right click on the ``Space Display'' in the Scenario Tree under Displays and then ``Delete''. Now we will make the new display.
 
 \vspace{.2in}
 \begin{enumerate}
@@ -853,7 +853,7 @@ Data collection is setup up in Repast Simphony by defining the data sources desc
 \vspace{.2in}
 \begin{enumerate}
 \item Launch the jzombies Model (exit it and relaunch it if it is already running) via the Eclipse launch button.
-\item Right click on `Data Sets'' in the Scenario Tree, and click ``Add Data Set''
+\item Right click on ``Data Sets'' in the Scenario Tree, and click ``Add Data Set''
 \item In the Data Set Editor, type Agent Counts as the Data Set ID, and Aggregate as the Data Set type. Recall that we want to 
 record the number of Zombies and Humans at each time step. Such counts are considered aggregate operations in that they operate on collections of agents.
 \item Click Next
@@ -908,7 +908,7 @@ If we run the model now, data will be recorded but we have not set up anywhere f
 \end{enumerate}
 \vspace{.2in}
 
-Click the ``Scenario Save''  button (fig.~\ref{fig:save_button}) to save your new scenario configuration. We can now run the simulation and see the output. Initialize and run the simulation for a 100 or so ticks. By default the output will be written to your project directory. In Eclipse, right click on the root jzombies folder in the Package Explorer and choose ``Refresh''. You should now see a file with a name like \texttt{ModelOutput.2010.Nov.19.14\_38\_26\_EST.2.1.txt} in your project directory. If you double click on it you can see the recorded data. (Note that I've justified the text for readability in the listing below.)
+Click the ``Scenario Save''  button (fig.~\ref{fig:save_button}) to save your new scenario configuration. We can now run the simulation and see the output. Initialize and run the simulation for a 100 or so ticks. By default the output will be written to your project directory. In Eclipse, right click on the root jzombies folder in the Package Explorer and choose ``Refresh''. You should now see a file with a name like \texttt{ModelOutput.2013.Apr.19.14\_38\_26\_EST.2.1.txt} in your project directory. If you double click on it you can see the recorded data. (Note that I've justified the text for readability in the listing below.)
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -953,13 +953,13 @@ A new Agent Counts Chart should now appear as entry under the Charts tree node. 
 
 
 \subsection{Model Parameters}
-Recall that we hard coded the initial number of zombies and humans in our JZombiesBuilder. We shall now convert these to \textit{model parameters}. A model parameter is parameter used by the model that a user can set via the GUI. We can create these in the Repast Simhony Runtime. Launch the JZombies model from eclipse. Use that tabs in panel on the left side of the GUI (where the Scenario Tree is) to select Parameters panel. Click the ``Add Parameter''  button (fig.~\ref{fig:params1}) at the button of the parameters panel. This will bring up the ``Add Parameter'' dialog.
+Recall that we hard coded the initial number of zombies and humans in our JZombiesBuilder. We shall now convert these to \textit{model parameters}. A model parameter is parameter used by the model that a user can set via the GUI. We can create these in the Repast Simhony Runtime. Launch the JZombies model from eclipse. Use the tabs on the bottom left side of the GUI (where the Scenario Tree is) to select Parameters panel. Click the ``Add Parameter''  button (fig.~\ref{fig:params1}) at the top of the parameters panel. This will bring up the ``Add Parameter'' dialog.
 
 \begin{figure}[h]
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=3in]{GettingStartedImages/params1.png}
+\includegraphics[width=2in]{GettingStartedImages/params1.png}
 }
 \caption{Parameters Panel}
 \label{fig:params1}
@@ -996,7 +996,8 @@ To add our model parameters,
 \end{enumerate}
 \vspace{.2in}
 
-The  parameters panel should now look like fig.~\ref{fig:params2}.
+\noindent
+The  parameters panel should now look like fig.~\ref{fig:params2}.\\
 
 \begin{figure}[h]
 \begin{center}
@@ -1036,7 +1037,7 @@ Lauch the jzombies Model, set the parameters and run. Note that the parameters w
 
 \subsubsection{Stochastic Execution and Parameter Sweeps}
 
-Most Repast models use random draws and are therefore stochastic simulations. Stochastic simulations will produce different outcomes for different random number streams, which are generally driven by choosing different random seeds. Such simulations should be executed repeatedly to explore the space of possible outcomes. Even without randomness, model sensitivity analysis parameter sweeps usually should be run to determine the response of the model to changes in input values. Repast provides both local and distributed tools for automatically completing stochastic execution runs and parameter sweeps. Please see the Repast Parameter Sweep Guide for more information.
+Most Repast models use random draws and are therefore stochastic simulations. Stochastic simulations will produce different outcomes for different random number streams, which are generally driven by choosing different random seeds. Such simulations should be executed repeatedly to explore the space of possible outcomes. Even without randomness, model sensitivity analysis parameter sweeps usually should be run to determine the response of the model to changes in input values. Repast provides both local and distributed tools for automatically completing stochastic execution runs and parameter sweeps. Please see the Repast Simphony Batch Runs Getting Started Document for more info.
 
 \subsection{External Tools}
 
@@ -1086,7 +1087,7 @@ We will now experiment with integrating with Excel. Launch the jzombies model ag
 
 \subsection{Model Distribution}
 
-Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive ("JAR") file that can be given to model users. The resulting installer can be executed on any system with Java version 1.6 or later; JOGL; and Java3D installed\footnote{Users can obtain free JOGL and Java3D files from the Repast website downloads page \href{http://repast.sourceforge.net/downloads.html}{here}.}. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
+Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive ("JAR") file that can be given to model users. The resulting installer can be executed on any system with Java version 1.7 or later. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
 
 Building an installer for a model is straightforward. Simply choose the ``Build Installer for $\langle$Your Model Name Here$\rangle$ Model'' and provide a location and name for the installer file. The installer file's default name is ``setup.jar,'' which is suitable for most purposes. The install builder will then package and compress your model and the supporting Repast software. The resulting installer files are about 70 MB plus the size of the model code and data. 75 MB to 80 MB is a common total size.
 
