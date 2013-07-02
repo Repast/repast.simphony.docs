@@ -710,5 +710,46 @@ When a simulation is running an agent's statechart can be visually accessed via 
 \label{fig:runtimeStatechart}
 \end{center}
 \end{figure}
+\clearpage
+
+\section{Putting it All Together}
+In this section we provide a few simple examples for using statecharts in an agent model.
+
+\subsection{Scheduling Agent Behavior}
+Statecharts can make scheduling agent behaviors very easy to do. Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration. The \emph{Go} state has a self transition with an \emph{Always} trigger with a polling time of 1 as specified in Figure~\ref{fig:goTrigger} and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{StatechartsImages/ScheduleBehaviors.png}
+}
+\caption{State configuration for simple behavior scheduling.}
+\label{fig:scheduleBehaviors}
+\end{center}
+\end{figure}
+
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/GoTrigger.png}
+}
+\caption{The trigger tab of the properties panel for the Go state's self transition (see Figure~\ref{fig:scheduleBehaviors}).}
+\label{fig:goTrigger}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/GoOnTransition.png}
+}
+\caption{The \emph{On Transition} action block for the Go state's self transition (see Figure~\ref{fig:scheduleBehaviors}).}
+\label{fig:goOnTransition}
+\end{center}
+\end{figure}
 
 \end{document}  
