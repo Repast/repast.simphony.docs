@@ -94,7 +94,7 @@ A statechart can be added to any Java, Groovy or ReLogo class. Right-clicking th
 \end{center}
 \end{figure}
 
-After accepting or modifying the defaults, click the \emph{Finish} button. This injects a new statechart field into the selected agent class (see Listing~\ref{lst:injectedStatechart}). The \texttt{@ProbedProperty} annotation (line~8 in Listing~\ref{lst:injectedStatechart}) connects the \emph{Name} element of the statechart to the display name that will be shown in the probe panel in the simulation runtime GUI (Section~\ref{sec:runtime}). Line~9 in Listing~\ref{lst:injectedStatechart} calls the \texttt{Statechart.createStateChart(Agent,double)} method with \texttt{0} as the second argument. This will schedule an \texttt{Agent} class's statechart to begin as soon as the \texttt{Agent} instance  is created. Alternatively, you can specify a numerical value greater than 0 (in units of simulation \emph{ticks}) to delay the statechart activation for that number of ticks. If there is a need for a statechart to begin not at a predetermined time but, for example, based on some model logic, Line~9 would be modified to read:
+After accepting or modifying the defaults, click the \emph{Finish} button. This injects a new statechart field into the selected agent class (see Listing~\ref{lst:injectedStatechart}). The \texttt{@ProbedProperty} annotation (Line~8 in Listing~\ref{lst:injectedStatechart}) connects the \emph{Name} element of the statechart to the display name that will be shown in the probe panel in the simulation runtime GUI (Section~\ref{sec:runtime}). Line~9 in Listing~\ref{lst:injectedStatechart} calls the \texttt{Statechart.createStateChart(Agent,double)} method with \texttt{0} as the second argument. This will schedule an \texttt{Agent} class's statechart to begin as soon as the \texttt{Agent} instance  is created. Alternatively, you can specify a numerical value greater than 0 (in units of simulation \emph{ticks}) to delay the statechart activation for that number of ticks. If there is a need for a statechart to begin not at a predetermined time but, for example, based on some model logic, Line~9 would be modified to read:
 \begin{verbatim}Statechart statechart = Statechart.createStateChart(this);\end{verbatim}
 which just instantiates the statechart but doesn't schedule it to begin at any time. Then, when the conditions for the statechart to begin are met, the statechart can be scheduled to begin with:
 \begin{verbatim}StateChartScheduler.beginNow(statechart);\end{verbatim}
@@ -405,7 +405,9 @@ For almost all types of transitions\footnote{All transitions except default tran
 
 When there is more than one valid transition ties are broken using the priority of the transition. If the priorities of valid transitions are equal then one of the transitions will be chosen with a uniform random probability. The priority of a transition can be specified in the transition's properties panel.
 
-\emph{Regular transitions} can be divided into zero time transitions and non-zero time transitions\footnote{All \emph{self transitions} are non-zero time transitions.}. For zero time transitions when a new state is entered, if there is a valid zero time transition out of it, that transition is followed immediately. Always (Section~\ref{sec:alwaysTransition}), Condition (Section~\ref{sec:conditionTransition}) and Message (Section~\ref{sec:messageTransition}) transition triggers are zero-time transitions.
+\emph{Regular transitions} can be divided into zero time transitions and non-zero time transitions\footnote{All \emph{self transitions} are non-zero time transitions.}. For zero time transitions when a new state is entered, if there is a valid zero time transition out of it, that transition is followed immediately (with ties broken via priorities as usual). Always (Section~\ref{sec:alwaysTransition}), Condition (Section~\ref{sec:conditionTransition}) and Message (Section~\ref{sec:messageTransition}) transition triggers are zero-time transitions.
+
+Within a state, transitions are resolved starting with \emph{self transitions} and proceeded by \emph{regular transitions}.
 
 Every transition has a \emph{polling time} associated with it. This indicates the frequency (in units of simulation \emph{ticks}) with which the transition is polled for validity.
 
@@ -437,29 +439,53 @@ Next we present the different transition trigger types in more detail.
 \end{figure}
 
 \begin{figure}
-
-\begin{minipage}{.5\textwidth}
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesOnTransition.png}
+\includegraphics[height=1.6in]{StatechartsImages/TransitionPropertiesOnTransition.png}
 }
 \caption{Properties panel for a transition showing the \emph{On Transition} action block.}
 \label{fig:transitionPropertiesOnTransition}
 \end{center}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
+\end{figure}
+
+\begin{figure}
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesGuard.png}
+\includegraphics[height=1.6in]{StatechartsImages/TransitionPropertiesGuard.png}
 }
 \caption{Properties panel for a transition showing the \emph{Guard} condition block.}
 \label{fig:transitionPropertiesGuard}
 \end{center}
-\end{minipage}
 
 \end{figure}
+
+
+%\begin{figure}
+%
+%\begin{minipage}{.5\textwidth}
+%\begin{center}
+%\vspace{.2in}
+%\centerline {
+%\includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesOnTransition.png}
+%}
+%\caption{Properties panel for a transition showing the \emph{On Transition} action block.}
+%\label{fig:transitionPropertiesOnTransition}
+%\end{center}
+%\end{minipage}%
+%\begin{minipage}{.5\textwidth}
+%\begin{center}
+%\vspace{.2in}
+%\centerline {
+%\includegraphics[height=0.8in]{StatechartsImages/TransitionPropertiesGuard.png}
+%}
+%\caption{Properties panel for a transition showing the \emph{Guard} condition block.}
+%\label{fig:transitionPropertiesGuard}
+%\end{center}
+%\end{minipage}
+%
+%\end{figure}
 \clearpage
 
 \subsection{Always Trigger}
@@ -550,7 +576,9 @@ The expected value of an exponentially distributed random variable with paramete
 
 \subsection{Message Trigger}
 \label{sec:messageTransition}
-\emph{Message} triggers become valid when a message meeting specific criteria is received by the statechart. A statechart is sent a message when the statechart's \texttt{receiveMessage(Object)} method is called. From an agent-based modeling perspective, this would likely occur when an agent is sent a message and then the agent forwards the message to all or a subset of its statecharts\footnote{There is nothing to prevent one agent from directly accessing another agent's statechart if the statechart is visible, but it could be considered not very good practice in an object oriented programming sense.}. There are four different types of \emph{message} triggers, shown in the drop down menu of the \emph{Trigger} element in the \emph{message} trigger properties pane in Figure~\ref{fig:messageTransitionProperties}, and we present them next.
+\emph{Message} triggers become valid when a message meeting specific criteria is received by the statechart. A statechart is sent a message when the statechart's \texttt{receiveMessage(Object)} method is called. From an agent-based modeling perspective, this would likely occur when an agent is sent a message and then the agent forwards the message to all or a subset of its statecharts\footnote{There is nothing to prevent one agent from directly accessing another agent's statechart if the statechart is visible, but it could be considered not very good practice in an object oriented programming sense.}. Messages from the queue are consumed by message transitions in the order they were received. If there are message transitions to check, the queue will be checked until a valid message is found.
+
+There are four different types of \emph{message} triggers, shown in the drop down menu of the \emph{Trigger} element in the \emph{message} trigger properties pane in Figure~\ref{fig:messageTransitionProperties}, and we present them next.
 
 \begin{figure}
 \begin{center}
@@ -716,7 +744,7 @@ When a simulation is running, an agent's statechart can be visually accessed via
 In this section we provide a few simple examples for using statecharts in an agent model.
 
 \subsection{Scheduling Agent Behavior}
-Statecharts can make scheduling agent behaviors very easy to do. Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration. The \emph{Go} state has a self transition with an \emph{Always} trigger with a polling time of 1 as specified in Figure~\ref{fig:goTrigger} and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions.
+Statecharts can make scheduling agent behaviors very easy to do. Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration. The \emph{Go} state has a self transition with an \emph{Always} trigger and a polling time of 1 (see Figure~\ref{fig:goTrigger}) and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions. This process can be repeated if the transitions leading back to the \emph{Go} state are followed.
 
 \begin{figure}
 \begin{center}
