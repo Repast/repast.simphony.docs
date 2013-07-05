@@ -100,7 +100,13 @@ which just instantiates the statechart but doesn't schedule it to begin at any t
 \begin{verbatim}StateChartScheduler.beginNow(statechart);\end{verbatim}
 for immediate scheduling or:
 \begin{verbatim}StateChartScheduler.beginLater(later, statechart);\end{verbatim}
-for delayed scheduling at a time \texttt{later}\footnote{The statechart field does not have to be instantiated upon agent class creation. So if there is a  situation when not all of a simulation's agents will be needing their statecharts and there is a desire for conserving the simulation's memory footprint, the statechart instantiation (i.e., \texttt{Statechart.createStateChart}) can be delayed until needed.}.
+for delayed scheduling at a time \texttt{later}. The statechart field does not have to be instantiated upon agent class creation. So if there is a  situation when not all of a simulation's agents will be needing their statecharts and there is a desire for conserving the simulation's memory footprint, the statechart instantiation (i.e., \texttt{Statechart.createStateChart}) can be delayed until needed.
+
+When a statechart is no longer needed, it can be stopped via:
+\begin{verbatim}statechart.stop();\end{verbatim}
+This will deactivate all scheduled transition resolution activities. If there is a need for memory conservation, simply doing:
+\begin{verbatim}statechart = null;\end{verbatim}
+after stopping the statechart, will remove the reference to the statechart, freeing it up for garbage collection.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -154,7 +160,7 @@ The statecharts editor is divided into three main panels (Figure~\ref{fig:statec
 \end{center}
 \end{figure}
 
-There is a contextual menu approach for adding elements to the workspace as well. Simply hovering over an area in the workspace will reveal a contextual menu of the available elements appropriate for the region pointed to. If the mouse pointer is on an empty space in the workspace background, you will see the contextual menu in Figure~\ref{fig:defaultContextualMenu}. If the pointer is on a state, you will see transitions shortcuts like in Figure~\ref{fig:stateConnectorsHover}, the left symbol indicating a connection from this state and the right symbol a connection to this state. Finally, if the pointer is inside a composite state, you will see the contextual menu in Figure~\ref{fig:compositeContextualMenu}.
+There is a contextual menu approach for adding elements to the workspace as well. Simply hovering over an area in the workspace will reveal a contextual menu of the available elements appropriate for the region pointed to. If the mouse pointer is on an empty space in the workspace background, you will see the contextual menu in Figure~\ref{fig:defaultContextualMenu}. If the pointer is on a state, you will see transitions shortcuts like in Figure~\ref{fig:stateConnectorsHover}, the left symbol indicating a connection to this state and the right symbol a connection from this state. Finally, if the pointer is inside a composite state, you will see the contextual menu in Figure~\ref{fig:compositeContextualMenu}.
 
 
 \begin{figure}
@@ -175,7 +181,7 @@ There is a contextual menu approach for adding elements to the workspace as well
 \centerline {
 \includegraphics[height=1in]{StatechartsImages/StateConnectorsHover.png}
 }
-\caption{The transitions shortcuts, circled in red, for making connections from (left) and to (right) the state.}
+\caption{The transitions shortcuts, circled in red, for making connections to (left) and from (right) the state.}
 \label{fig:stateConnectorsHover}
 \end{center}
 \end{figure}
@@ -322,6 +328,19 @@ There are two types of history states, shallow and deep (Figure~\ref{fig:history
 }
 \caption{The properties panel for a shallow history state. A deep history state would have the same properties panel except that the \emph{Shallow} element would be unchecked.}
 \label{fig:historyProperties}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:historyExample} shows an example statechart with shallow and deep history states defined. If the transition going from State 2 to External State 1 is followed, the Base Composite State will be re-entered via the shallow history state. Since shallow histories only track the last active state at the same hierarchical level within the enclosing composite state (Base Composite State), the shallow history state will indicate that the Internal Composite State was the last active element and so State 1 will be entered. On the other hand, if the State 2 to External State 2 transition is followed and the Base Composite State is re-entered via the deep history state, State 2 will be entered, since this was the last active simple state within the Base Composite State.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/HistoryExample.png}
+}
+\caption{An example statechart demonstrating the differences between shallow (top) and deep (bottom) history states. The dashed red arrows indicate the paths taken from each of the history states.}
+\label{fig:historyExample}
 \end{center}
 \end{figure}
 
@@ -629,6 +648,9 @@ The code block is evaluated each time the transition is polled for validity.
 \subsubsection{When Message Equals}
 The \emph{When Message Equals} message trigger has the properties panel shown in Figure~\ref{fig:message2TransitionProperties}. The only difference between this and the \emph{When Message Meets a Condition} message trigger is that instead of a \emph{Condition} element there is an \emph{Equals} element that needs to be defined. The \emph{Equals} element accepts general Java, Groovy or ReLogo code returning any value that will be checked against the received message using the message's \texttt{equals(Object)} method. The keywords within the \emph{Equals} block are the same as the \emph{On Transition} action block (i.e., \texttt{agent}, \texttt{transition}, \texttt{params}).
 
+The \emph{When Message Equals} trigger can be considered as a special case of the \emph{When Message Meets a Condition} trigger where, if the contents of an \emph{Equals} element in a \emph{When Message Equals} trigger are denoted by  \texttt{<Equals Contents>}, then the equivalent \emph{Condition} element in a \emph{When Message Meets a Condition} trigger would be:
+\begin{verbatim}message.equals(<Equals Contents>);\end{verbatim}
+
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -744,7 +766,7 @@ When a simulation is running, an agent's statechart can be visually accessed via
 In this section we provide a few simple examples for using statecharts in an agent model.
 
 \subsection{Scheduling Agent Behavior}
-Statecharts can make scheduling agent behaviors very easy to do. Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration. The \emph{Go} state has a self transition with an \emph{Always} trigger and a polling time of 1 (see Figure~\ref{fig:goTrigger}) and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions. This process can be repeated if the transitions leading back to the \emph{Go} state are followed.
+Statecharts can make scheduling agent behaviors very easy to do. There is often a need to have an agent repeat certain activities for a while and then execute some other action based on a condition, after which, the original activities are resumed. Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration that can be used to achieve this. The \emph{Go} state has a self transition with an \emph{Always} trigger and a polling time of 1 (see Figure~\ref{fig:goTrigger}) and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions. This process can be repeated if the transitions leading back to the \emph{Go} state are followed.
 
 \begin{figure}
 \begin{center}
@@ -779,5 +801,47 @@ Statecharts can make scheduling agent behaviors very easy to do. Figure~\ref{fig
 \label{fig:goOnTransition}
 \end{center}
 \end{figure}
+\clearpage
+
+Another agent behavior scheduling scenario is nested scheduling of activities. This corresponds to, for example, weekly vs monthly activities. Figure~\ref{fig:weekMonthExample} shows a simple example of how you might define a statechart that does this.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/WeekMonthExample.png}
+}
+\caption{A statechart showing an example of how to schedule weekly and monthly activities.}
+\label{fig:weekMonthExample}
+\end{center}
+\end{figure}
+\clearpage
+
+\subsection{Message Based Agent Behaviors}
+Agents often need to be able to react to changing conditions within a simulation. Figure~\ref{fig:alertExample} shows a simple example where agents change from a ``Low Alert" to a ``High Alert" state and vice versa. Each of the transitions are \emph{When Message Equals} transitions (see Figure~\ref{fig:alertProperties}). The messages can be broadcast to agents within a certain region of a simulation or based on other criteria, but the important aspect of this example is the dynamic and loose coupling that can be achieved by using message based transitions.
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{StatechartsImages/AlertExample.png}
+}
+\caption{A statechart showing an example with ``Low Alert" and ``High Alert" states. The example uses message based transitions to loosely couple agent behaviors and the triggers for those behaviors.}
+\label{fig:alertExample}
+\end{center}
+\end{figure}
+
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=5in]{StatechartsImages/AlertProperties.png}
+}
+\caption{The properties panel for the transition from the ``Low Alert" state to the ``High Alert" state in the statechart from Figure~\ref{fig:alertExample}. The transition has a \emph{When Message Equals} trigger that looks for messages of type \texttt{String} with contents ``High Alert".}
+\label{fig:alertProperties}
+\end{center}
+\end{figure}
+\clearpage
 
 \end{document}  
