@@ -763,10 +763,14 @@ When a simulation is running, an agent's statechart can be visually accessed via
 \clearpage
 
 \section{Putting it All Together}
-In this section we provide a few simple examples for using statecharts in an agent model.
+In this section we provide a few simple use cases for using statecharts in an agent model.
 
 \subsection{Scheduling Agent Behavior}
-Statecharts can make scheduling agent behaviors very easy to do. There is often a need to have an agent repeat certain activities for a while and then execute some other action based on a condition, after which, the original activities are resumed. Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration that can be used to achieve this. The \emph{Go} state has a self transition with an \emph{Always} trigger and a polling time of 1 (see Figure~\ref{fig:goTrigger}) and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions. This process can be repeated if the transitions leading back to the \emph{Go} state are followed.
+Statecharts can make scheduling agent behaviors very easy to do.
+
+\textbf{Use Case:} An agent repeats certain activities for a while and then execute some other action based on a condition, after which, the original activities are resumed.
+
+Figure~\ref{fig:scheduleBehaviors} shows a simple state configuration that can be used to achieve this. The \emph{Go} state has a self transition with an \emph{Always} trigger and a polling time of 1 (see Figure~\ref{fig:goTrigger}) and with the \emph{On Transition} action block as shown in Figure~\ref{fig:goOnTransition}. Thus the agent will execute its \texttt{doSomething()} method at each simulation \emph{tick} until told otherwise. We can define the transition going out of the \emph{Go} state to the branching state as a \emph{Timed} transition, which will allow the agent to repeat its behavior until a certain amount of time has passed, at which point the statechart will proceed to \emph{Case 1} or \emph{Case 2} based on the condition checked by the branching state's outgoing transitions. This process can be repeated if the transitions leading back to the \emph{Go} state are followed.
 
 \begin{figure}
 \begin{center}
@@ -803,7 +807,9 @@ Statecharts can make scheduling agent behaviors very easy to do. There is often 
 \end{figure}
 \clearpage
 
-Another agent behavior scheduling scenario is nested scheduling of activities. This corresponds to, for example, weekly vs monthly activities. Figure~\ref{fig:weekMonthExample} shows a simple example of how you might define a statechart that does this.
+\textbf{Use Case:} Agent behaviors need to be scheduled in a nested temporal structure.
+
+This corresponds to, for example, weekly vs monthly activities. Figure~\ref{fig:weekMonthExample} shows a simple example of how you might define a statechart that does this. The general idea here is that at the beginning of each month there are certain activities that need to be taken care of, after which the weekly cycle begins. This can continue until the end of month is reached, at which point any end of month activities can be executed. In this example, the month composite state is then re-entered, resulting in the start of another month.
 
 \begin{figure}
 \begin{center}
@@ -818,7 +824,11 @@ Another agent behavior scheduling scenario is nested scheduling of activities. T
 \clearpage
 
 \subsection{Message Based Agent Behaviors}
-Agents often need to be able to react to changing conditions within a simulation. Figure~\ref{fig:alertExample} shows a simple example where agents change from a ``Low Alert" to a ``High Alert" state and vice versa. Each of the transitions are \emph{When Message Equals} transitions (see Figure~\ref{fig:alertProperties}). The messages can be broadcast to agents within a certain region of a simulation or based on other criteria, but the important aspect of this example is the dynamic and loose coupling that can be achieved by using message based transitions.
+Message based triggers can make distributed, context dependent behavior easy to implement.
+
+\textbf{Use Case:} Agents need to react to changing conditions within a simulation.
+
+Figure~\ref{fig:alertExample} shows a simple example where agents change from a ``Low Alert" to a ``High Alert" state and vice versa. Each of the transitions are \emph{When Message Equals} transitions (see Figure~\ref{fig:alertProperties}). The messages can be broadcast to agents within a certain region of a simulation or based on other criteria, but the important aspect of this example is the dynamic and loose coupling that can be achieved by using message based transitions.
 
 \begin{figure}
 \begin{center}
