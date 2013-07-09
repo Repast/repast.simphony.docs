@@ -399,7 +399,44 @@ Branching states represent logical branching within statecharts (Figure~\ref{fig
 
 Transitions between states make up the other fundamental building block of statecharts. In this section we introduce the different types of transitions that can be used within the Repast Simphony statecharts framework.
 
-There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{One also has the ability to define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered.}. There are a number of different transition trigger types, demonstrated in the transition properties panel in Figure~\ref{fig:transitionProperties} (these will be discussed below in further detail).
+There are two overall types of transitions, \emph{regular transitions} (Figure~\ref{fig:regularTransition}) which connect different states and \emph{self transitions} (Figure~\ref{fig:selfTransition}) which are internal to a state\footnote{You can also define a \emph{regular transition} that begins and ends at the same state. Unlike the \emph{self transition} case, each time the \emph{regular transition} is taken, the state will be exited and subsequently re-entered. You can toggle between a \emph{self} and \emph{regular} transition by toggling the Self Transition check box in the transitions properties panel (see Figure~\ref{fig:selfTransitionBox}).}. There are a number of different transition trigger types, demonstrated in the transition properties panel in Figure~\ref{fig:transitionProperties} (these will be discussed below in further detail).
+
+\begin{figure}
+
+\begin{minipage}{.5\textwidth}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=1in]{StatechartsImages/RegularTransition.png}
+}
+\caption{Regular transition between states 1 and 2.}
+\label{fig:regularTransition}
+\end{center}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[height=1in]{StatechartsImages/SelfTransition.png}
+}
+\caption{Self transition internal to State 3.}
+\label{fig:selfTransition}
+\end{center}
+\end{minipage}
+
+\end{figure}
+
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{StatechartsImages/SelfTransitionBox.png}
+}
+\caption{The transition properties panel Self Transition check box, marked with a red rectangle.}
+\label{fig:selfTransitionBox}
+\end{center}
+\end{figure}
 
 For any transition an \emph{On Transition} action can be defined (see Figure~\ref{fig:transitionPropertiesOnTransition}). This action will be executed whenever the transition is traversed. The keywords available within the \emph{On Transition} action block are:
 \begin{description}
@@ -432,30 +469,6 @@ Every transition has a \emph{polling time} associated with it. This indicates th
 
 Next we present the different transition trigger types in more detail.
 
-\begin{figure}
-
-\begin{minipage}{.5\textwidth}
-\begin{center}
-\vspace{.2in}
-\centerline {
-\includegraphics[height=1in]{StatechartsImages/RegularTransition.png}
-}
-\caption{Regular transition between states 1 and 2.}
-\label{fig:regularTransition}
-\end{center}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
-\begin{center}
-\vspace{.2in}
-\centerline {
-\includegraphics[height=1in]{StatechartsImages/SelfTransition.png}
-}
-\caption{Self transition internal to State 3.}
-\label{fig:selfTransition}
-\end{center}
-\end{minipage}
-
-\end{figure}
 
 \begin{figure}
 \begin{center}
