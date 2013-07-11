@@ -270,8 +270,7 @@ static UserObserver observer;
 @BeforeClass
 public static void setUpBeforeClass() throws Exception {
 	String scenarioDirString = "ModelName.rs";
-	ScenarioUtils.setScenarioDir(
-		new File(scenarioDirString).getAbsoluteFile());
+	ScenarioUtils.setScenarioDir(new File(scenarioDirString));
 	File paramsFile = new File(ScenarioUtils.getScenarioDir(),
 		"parameters.xml");
 	ParametersParser pp = new ParametersParser(paramsFile);
