@@ -44,12 +44,12 @@
 \setcounter{section}{-1}
 
 \section{Before we Get Started}
-Before we can do anything with ReLogo, we need to make sure that we have a proper installation of Repast Simphony 2.0. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}\footnote{http://repast.sourceforge.net/download.html}. Repast Simphony 2.1 requires Java 7. Java 7 can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads page}\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}.
 
 \section{Getting Started with ReLogo}
-Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo.
+Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo\footnote{For further reading see Ozik, J., N. Collier, J. Murphy, and M.J. North. ``The ReLogo Agent-based Modeling Language." In WSC 2013 Proceedings. Washington, D.C., December 2013.}.
 
-The first thing we must do is create a new ReLogo project. This is done by clicking on the New ReLogo Project icon in the toolbar (Fig.~\ref{fig:newprojecticon}) at the top of our ReLogo workspace\footnote{The default workspace that came with your Repast Simphony installation should be set up correctly. However, if you have modified the settings or are using a custom workspace see Section~\ref{sec:defworkspace} for the preferred ReLogo workspace settings.}.
+The first thing we must do is create a new ReLogo project. This is done by clicking on the New ReLogo Project icon in the toolbar (Fig.~\ref{fig:newprojecticon}) at the top of our ReLogo workspace.
 
 \begin{figure}[h]
 \begin{center}
@@ -90,7 +90,7 @@ What we see is the Zombies project folder, the ``src" subfolder, the ``zombies.r
 
 \subsection{Creating the Human and Zombie turtle types}
 
-Now that we have all our model infrastructure in place, we can start specifying the details of our Zombie model. First, since zombies love to chase humans, we create the Human turtle\footnote{In Logo dialects a ``turtle" is a mobile agent.} type\footnote{Many of the ReLogo entities we'll encounter, including turtle types,  are what are known in Object Oriented programming languages as \emph{classes}.}. We do this by selecting the ``zombies.relogo" package, if it isn't selected, and then clicking on the New Turtle icon (Fig.~\ref{fig:newturtleicon}) in the toolbar\footnote{Selecting the ``zombies.relogo" package simplifies the next step.}. This brings up the New Turtle Wizard (Fig.~\ref{fig:humanwizard}) which allows us to specify the name of our turtle type (Human). If we initially selected the ``zombies.relogo" package, we simply fill in the Name field with ``Human" and hit the Finish button\footnote{If the ``zombies.relogo" package hadn't been selected, we need to fill in the Package field with ``zombies.relogo" before hitting the Finish button.}. At this point we should be greeted by our newly created Human turtle type as seen in Fig.~\ref{fig:humantype}\footnote{For those curious about the .groovy file ending, ReLogo is an agent-based modeling domain specific language (ABM DSL), written in the  \href{http://groovy.codehaus.org/}{Groovy} programming language. While it isn't necessary to be able to follow this getting started guide, we recommend getting to know the language through the Groovy website and the many Groovy books which are available. There is also a very convenient \href{http://groovyconsole.appspot.com/}{web based console} where you can experiment with Groovy.}
+Now that we have all our model infrastructure in place, we can start specifying the details of our Zombie model. First, since zombies love to chase humans, we create the Human turtle\footnote{In Logo dialects a ``turtle" is a mobile agent.} type\footnote{Many of the ReLogo entities we'll encounter, including turtle types,  are what are known in Object Oriented programming languages as \emph{classes}.}. We do this by selecting the ``zombies.relogo" package, if it isn't selected, and then clicking on the New Turtle icon (Fig.~\ref{fig:newturtleicon}) in the toolbar\footnote{Selecting the ``zombies.relogo" package simplifies the next step.}. This brings up the New Turtle Wizard (Fig.~\ref{fig:humanwizard}) which allows us to specify the name of our turtle type (Human). If we initially selected the ``zombies.relogo" package, we simply fill in the Name field with ``Human" and hit the Finish button\footnote{If the ``zombies.relogo" package hadn't been selected, we need to fill in the Package field with ``zombies.relogo" before hitting the Finish button.}. At this point we should be greeted by our newly created Human turtle type as seen in Fig.~\ref{fig:humantype}\footnote{For those curious about the .groovy file ending, ReLogo is an agent-based modeling domain specific language (ABM DSL), written in the  \href{http://groovy.codehaus.org/}{Groovy} programming language. While it isn't necessary to be able to follow this getting started guide, we recommend getting to know the language through the \href{http://groovy.codehaus.org}{Groovy website (http://groovy.codehaus.org)} and the many Groovy books which are available. There is also a very convenient \href{http://groovyconsole.appspot.com/}{web based console (http://groovyconsole.appspot.com/)} where you can experiment with the Groovy language.}
 
 \begin{figure}
 \begin{center}
@@ -118,7 +118,7 @@ Now that we have all our model infrastructure in place, we can start specifying 
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=4in]{GettingStartedImages/Human2.png}
+\includegraphics[width=4.2in]{GettingStartedImages/Human2.png}
 }
 \caption{The view after creation of the Human turtle type.}
 \label{fig:humantype}
@@ -170,7 +170,18 @@ def step(){
 
 The thinking here is that at every time advancement of our simulation, or ``tick,'' each Human will execute this method. The Human first chooses a \emph{winner} which is, in plain English, one of the neighboring patches\footnote{Patches were introduced by \href{http://education.mit.edu/starlogo/}{StarLogo} and are square shaped immobile agents which make up an underlying grid structure in a ReLogo world.} with the fewest number of Zombies on it. When the winner is chosen, the Human \emph{face}s it and moves \emph{forward} 1.5 steps, thereby running away from potential high Zombie areas. If the Human is \emph{infected}, and 5 or more time ticks have passed since the initial infection, the Human \emph{die}s and \emph{hatch}es a Zombie.
 
-Let's briefly review the code. A ReLogo turtle has a number of ReLogo primitives\footnote{The set of available primitives can be found in the ReLogoPrimitives.html file that came with the Repast Simphony distribution. The primitives are separated broadly by the type of ReLogo entity that uses them and further by the type of primitive category (e.g, motion, rotation, etc.). Clicking on a primitive will give you more details. This will likely be your primary reference as you explore ReLogo so it will help to get familiar with it. }, or capabilities, it can use, without having to create its own. Among these are \emph{minOneOf} and \emph{neighbors}. \emph{minOneOf} takes as an argument a set of ``things" and a block defining what quantity will be used to determine the minimum of.
+Let's briefly review the code. A ReLogo turtle has a number of ReLogo primitives\footnote{The set of available primitives can be found in the ReLogoPrimitives.html file that came with the Repast Simphony distribution. The primitives are separated broadly by the type of ReLogo entity that uses them and further by the type of primitive category (e.g, motion, rotation, etc.). Clicking on a primitive will give you more details. In addition to the information available within the ReLogo editor itself (see Fig.~\ref{fig:minOneOfInfo}), this will be an additional reference as you explore ReLogo so it will help to get familiar with it.}, or capabilities, it can use, without having to create its own. Among these are \emph{minOneOf} and \emph{neighbors}. \emph{minOneOf} takes as an argument a set of ``things" and a block defining what quantity will be used to determine the minimum of. Hovering over the \emph{minOneOf} primitive reveals an information pane describing it (Fig.~\ref{fig:minOneOfInfo}).
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{GettingStartedImages/MinOneOfInfo.png}
+}
+\caption{Hovering over any element in the editor will reveal an informational pane. In this case the information related to the \emph{minOneOf} primitive is shown.}
+\label{fig:minOneOfInfo}
+\end{center}
+\end{figure}
 
 The ``things'' (in line 2 of Listing~\ref{lst:humanstep}) are the set of patches returned by the \emph{neighbors} primitive, which are the 8 neighbors\footnote{This is referred to as the Moore neighborhood in a grid.} of the patch that the Human is on. You'll notice that \emph{neighbors} is followed by a set of empty parentheses. This is because the primitives are what are referred to in some programming circles as \emph{methods} and the parentheses hold the arguments to those \emph{methods}. If the method doesn't take any arguments, as is the case with the \emph{neighbors} primitive, we still need to call the method but without any arguments. As mentioned above, \emph{minOneOf} takes two arguments, the second being a block of code, specified between curly braces. Groovy allows, for clarity, to omit the parentheses around a block of code if it's the last argument to a method. So instead of writing:
 
@@ -193,8 +204,9 @@ maxOneOf(neighbors()){
 \end{lstlisting}
 \vspace{.2in}
 \end{minipage}
+The block of code is executed in the context of the first argument to \emph{minOneOf}, in this case the 8 neighboring patches.
 
-When you define a turtle type in ReLogo, there are primitives that are automatically made available to various ReLogo entities\footnote{For a complete list, see Table~\ref{tab:zombiemethods} in Appendix~\ref{app:genprims}.}. \emph{zombiesOn} is such a primitive that was made available to turtles when we defined the Zombie turtle type. It takes as an argument a patch\footnote{\emph{zombiesOn} can also take a turtle as an argument, which has the same semantics as the version that takes a patch as an argument, but in the former case the patch is the patch under the turtle.} and returns the Zombie turtles on that patch. The \emph{it} is another feature of Groovy. It is an implicit argument to the block of code\footnote{Arguments passed to a block of code are a comma separated sequence of variable names followed by \texttt{->}. For any block of code without input arguments explicitly specified, the assumption is that it takes one implicit parameter named \emph{it}.} which allows us to simplify:
+When you define a turtle type in ReLogo, there are primitives that are automatically made available to various ReLogo entities\footnote{For a complete list, see Table~\ref{tab:zombiemethods} in Appendix~\ref{app:genprims}.}. \emph{zombiesOn} is such a primitive that was made available to patches when we defined the Zombie turtle type. It takes as an argument a patch\footnote{\emph{zombiesOn} can also take a turtle as an argument, which has the same semantics as the version that takes a patch as an argument, but in the former case the patch is the patch under the turtle.} and returns the Zombie turtles on that patch. The \emph{it} is another feature of Groovy. It is an implicit argument to the block of code\footnote{Arguments passed to a block of code are a comma separated sequence of variable names followed by \texttt{->}. For any block of code without input arguments explicitly specified, the assumption is that it takes one implicit parameter named \emph{it}.} which allows us to simplify:
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -298,7 +310,7 @@ class Zombie extends BaseTurtle {
 What should be noticed here is that, in addition to the method \emph{step}, we've defined another auxiliary method \emph{infect} which takes one argument. Let us take a moment to explore how it's used. Looking at lines 13-15 in Listing~\ref{lst:zombietype}, we see that we check using the primitives \emph{count} and \emph{humansHere}\footnote{As you probably guessed, this is one of the generated primitives when we defined the Human turtle type.} if there are any Human turtle types ``here." If there are, we define the default turtle type property \emph{label} to be ``Brains!" and proceed to \emph{infect} \emph{oneOf} the \emph{humansHere}\footnote{As you likely notice, the purpose of Logo constructs in general and ReLogo code in particular can often easily be understood and can lead to more manageable code.}. To infect the human, we access the human's property \emph{infected} by \emph{referencing} it with a period\footnote{In Object Oriented languages, accessing an object's properties and methods is a common idiom.}.
 
 \subsection{Coordinating behaviors with the UserObserver.}
-At this point we have both the Human and Zombie turtle types specified. What we need next is to define the overall flow of our model. Logo uses the notion of an ``observer" to accomplish this role. The UserObserver is the default observer type that was made for us when we created the Zombies project. Double clicking the UserObserver.groovy file in the Package Explorer view (Fig.~\ref{fig:UserObserver}) will bring up the file.
+At this point we have both the Human and Zombie turtle types specified. What we need next is to define the overall flow of our model. Logo uses the notion of an ``observer" to accomplish this role. The UserObserver is the default observer type that was made for us when we created the Zombies project. Double clicking the UserObserver.groovy file in the Package Explorer view (Fig.~\ref{fig:UserObserver}) will bring up the file\footnote{When the UserObserver.groovy file is revealed in the editor it will include \emph{commented} sections of code. Comments in ReLogo and Groovy (and Java) are specified by \texttt{//} for single line comments and \texttt{/*comment content*/} for multiline comments. All the contents of comments are ignored in terms of program logic but they are helpful (and many say indispensable) for creating readable and manageable code. You may leave the comments in or delete them.}.
 
 \begin{figure}
 \begin{center}
@@ -317,6 +329,7 @@ A common idiom is to define a method that sets up our simulation. We do so by de
 \vspace{.2in}
 \lstset{language=java,caption=The UserObserver setup method.,label=lst:observersetup}
 \begin{lstlisting}
+@Setup
 def setup(){
 	clearAll()
 	setDefaultShape(Human, "person")
@@ -335,7 +348,7 @@ def setup(){
 
 We'll first describe, in plain English, what this piece of code does. It is a good idea in any initialization code to reset the simulation, so we first \emph{clearAll} existing entities from the world. Then we define the default shapes of both the Humans and Zombies and create a different number of each (with primitives generated by defining the Human and Zombie turtle types). We also scatter the created turtles randomly across our world and set the size of the Zombies to 2, to make them more prominent.
 
-Now that we know the gist of Listing~\ref{lst:observersetup}, let's delve a little deeper. The \emph{clearAll} primitive removes all existing entities from the ReLogo world and resets the patches to their default state. The \emph{setDefaultShape} primitive takes two arguments. The first argument is a turtle type and the second is a \emph{string}\footnote{A string is a set of characters enclosed in quotes.} specifying a turtle shape. To understand what shapes are available we can open the ``shapes'' folder in the Package Explorer view (Fig.~\ref{fig:shapes}) and see the default shapes that come with any newly created ReLogo project\footnote{In Appendix~\ref{app:drawing} we'll see that you can import a variety of shape types and even create your own.}. Simply specifying the name of one of these shapes (without the .svg suffix) in the \emph{setDefaultShape} primitive's second argument will set the chosen turtle types default shape to it\footnote{This just sets the default shape of the turtle type. Shapes can be subsequently changed during the simulation as well with the shape = ``shapeName'' construct.}.
+Now that we know the gist of Listing~\ref{lst:observersetup}, let's delve a little deeper. Our method is \emph{annotated} with the \texttt{@Setup} annotation. This indicates to the system that this method should be run when the system schedule starts up\footnote{More specifically, this schedules the \emph{setup} method to run at simulation \emph{tick} 0. Naming our method \emph{setup} was done for clarity but it could have been named anything. The important point is that \texttt{@Setup} annotates the method we'd like to use for our model setup.}. The \emph{clearAll} primitive removes all existing entities from the ReLogo world and resets the patches to their default state. The \emph{setDefaultShape} primitive takes two arguments. The first argument is a turtle type and the second is a \emph{string}\footnote{A string is a set of characters enclosed in quotes.} specifying a turtle shape. To understand what shapes are available we can open the ``shapes'' folder in the Package Explorer view (Fig.~\ref{fig:shapes}) and see the default shapes that come with any newly created ReLogo project\footnote{In Appendix~\ref{app:drawing} we'll see that you can import a variety of shape types and even create your own.}. Simply specifying the name of one of these shapes (without the .svg suffix) in the \emph{setDefaultShape} primitive's second argument will set the chosen turtle type's default shape to it\footnote{This just sets the default shape of the turtle type. Shapes can be subsequently changed during the simulation as well with the shape = ``shapeName'' construct.}.
 
 \begin{figure}
 \begin{center}
@@ -349,7 +362,29 @@ Now that we know the gist of Listing~\ref{lst:observersetup}, let's delve a litt
 \end{figure}
 
 
-Another thing that the astute reader might notice is that there are references to \emph{numHumans} and \emph{numZombies}. While it's possible for these to be properties of the UserObserver class, we will opt to make these ``tweakable'' as the simulation progresses via slider graphical elements. More on this in a bit. In the meantime we note that the \emph{createTurtleTypes} methods take an optional block of code as a second argument where the created turtles can be initialized immediately after being created.
+Another thing that the astute reader might notice is that there are references to \emph{numHumans} and \emph{numZombies}. While it's possible for these to be properties of the UserObserver class, we will opt to make these ``tweakable'' as the simulation progresses via slider graphical elements. More on this in a bit. The ReLogo editor has autocompletion capabilities. Starting to type \texttt{createHu} (on Line 5 in Listing~\ref{lst:observersetup}) and pressing Control Space will reveal suggested completions (Fig.~\ref{fig:createHu}). The information in the revealed pane indicates that the \emph{createHumans} method (and the \emph{createZombies} method) takes an optional block of code as a second argument where the created turtles can be initialized immediately after being created. The contents of the code block are understood to be in the context of the relevant entities (Human or Zombie turtles) so it is unnecessary to specify that it's the turtle \texttt{setxy} method that we are calling. Invoking the code completion within the code blocks illustrates this (Fig.~\ref{fig:setX}).
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{GettingStartedImages/CreateHu.png}
+}
+\caption{Autocompletion in the ReLogo editor. Pressing Control Space will reveal suggestions for completions.}
+\label{fig:createHu}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=4in]{GettingStartedImages/SetX.png}
+}
+\caption{Autocompletion within the \emph{createHumans} optional code block. The editor understands that the contents of the code block are in the context of turtles (as opposed to just the observer context) by the suggestions \texttt{setXcor} and \texttt{setxy}.}
+\label{fig:setX}
+\end{center}
+\end{figure}
 
 The next thing for us to do is to define the simulation step. That is, to coordinate what happens with the Zombie and Human turtles as time advances. We do this in our \emph{go} method.
 
@@ -357,6 +392,7 @@ The next thing for us to do is to define the simulation step. That is, to coordi
 \vspace{.2in}
 \lstset{language=java,caption=The UserObserver go method.,label=lst:observergo}
 \begin{lstlisting}
+@Go
 def go(){
 	ask (zombies()){
 		step()
@@ -368,9 +404,9 @@ def go(){
 \end{lstlisting}
 \vspace{.2in}
 \end{minipage}
-As we see, we've already done most of the hard work of specifying the agents' behaviors. What the observer does is \emph{ask} the Zombie and Human turtle types to execute their \emph{step}. This is achieved with the Logo idiom \emph{ask}. A ReLogo entity (observer, turtle, patch, etc.) can \emph{ask} another entity or set of entities to do things by specifying the request in a block of code after the \emph{ask} primitive\footnote{The block of code is the second argument to the \emph{ask} primitive.}. In this case, the \emph{zombies} and \emph{humans} primitives\footnote{Some more examples of automatically generated primitives.} return the set of all Zombie and Human turtle types respectively. What we notice in the code block passed to \emph{ask} is that we don't need to specify whose \emph{step} method should be run. It's automatically understood to be in the context of the \emph{ask}ed entities.
+As we see, we've already done most of the hard work of specifying the agents' behaviors. The \texttt{@Go} annotation tells the system to run the \emph{go} method starting at time 1 (in units of simulation \emph{ticks}), repeating every subsequent \emph{tick}\footnote{Here, once again, we could have named the method something other than \emph{go}.}. What the observer does is \emph{ask} the Zombie and Human turtle types to execute their \emph{step}. This is achieved with the Logo idiom \emph{ask}. A ReLogo entity (observer, turtle, patch, etc.) can \emph{ask} another entity or set of entities to do things by specifying the request in a block of code after the \emph{ask} primitive\footnote{The block of code is the second argument to the \emph{ask} primitive.}. In this case, the \emph{zombies} and \emph{humans} primitives\footnote{Some more examples of automatically generated primitives.} return the set of all Zombie and Human turtle types respectively. The context of the code block passed to \emph{ask} is that of the \emph{ask}ed entities.
 
-Collecting what we've covered so far in the observer code, the UserObserver class should look like this\footnote{A clarifying note on comments in program code. Comments in ReLogo and Groovy (and Java) are specified by \texttt{//} for single line comments and \texttt{/*comment content*/} for multiline comments. All the contents of comments are ignored in terms of program logic but they are helpful (and many say indispensable) for creating readable and manageable code.}:
+Collecting what we've covered so far in the observer code, the UserObserver class should look like this:
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -383,7 +419,7 @@ class UserObserver extends BaseObserver{
 	/**
 	 * Some comments here.
 	 */
-	
+	@Setup
 	def setup(){
 		clearAll()
 		setDefaultShape(Human, "person")
@@ -398,6 +434,7 @@ class UserObserver extends BaseObserver{
 		
 	}
 	
+	@Go
 	def go(){
 		ask (zombies()){
 			step()
@@ -426,20 +463,7 @@ We've specified the agent (turtle) behaviors and the overall flow of our Zombies
 \end{center}
 \end{figure}
 
-Opening this file we immediately notice some, hopefully helpful, comments on what types of elements are available. For a complete list, see Appendix~\ref{app:graphical}. We'll choose a regular button with a label\footnote{A trailing \texttt{WL}, i.e. ``with label", is added to the graphical element methods to signify that the method takes a label as an argument. Otherwise the name of the relevant object (in the case of a button, the method referred to by the button) will be displayed.} for our \emph{setup} and \emph{go} methods. Regular buttons immediately pop back up when pressed.  We'll choose a toggle button with a label for our \emph{go} method. Toggle buttons remain pressed down when pressed until they're unpressed. They are used to execute methods repeatedly. 
-
-\noindent\begin{minipage}[h]{\textwidth}
-\vspace{.2in}
-\lstset{language=java, numbers=none}
-\begin{lstlisting}
-addButtonWL("setup","Setup")
-addButtonWL("go","Go Once")
-addToggleButtonWL("go","Go")
-\end{lstlisting}
-\vspace{.2in}
-\end{minipage}
-
-We also want to create slider elements, with labels, for the \emph{numHumans} and \emph{numZombies} variables referenced in UserObserver (Listing~\ref{lst:observer}). Sliders allow one to vary the value of a variable by dragging.
+Opening this file we immediately notice some, hopefully helpful, comments on what types of elements are available. For a complete list, see Appendix~\ref{app:graphical}. We create slider elements, with labels, for the \emph{numHumans} and \emph{numZombies} variables referenced in UserObserver (Listing~\ref{lst:observer})\footnote{A trailing \texttt{WL}, i.e. ``with label", is added to the graphical element methods to signify that the method takes a label as an argument. Otherwise the name of the relevant object (in the case of a slider, the variable referred to by the slider) will be displayed.}. Sliders allow one to vary the value of a variable by dragging.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -464,7 +488,7 @@ addMonitorWL("remainingHumans", "Remaining Humans", 5)
 
 A monitor takes as its first argument the name (as a string) of a method in our UserObserver, which we'll have to create below. The second argument is the label of the monitor and the third argument specifies how often we'll be updating the monitor, in this case every 5 time ticks.
 
-Our UserGlobalsAndPanelFactory should look like\footnote{Note that all the graphical elements are specified \emph{within} the curly braces after \emph{addGlobalsAndPanelComponents()}, in this case on lines 7 - 17.}:
+Our UserGlobalsAndPanelFactory should look like\footnote{Note that all the graphical elements are specified \emph{within} the curly braces after \emph{addGlobalsAndPanelComponents()}, in this case on lines 7 - 14.}:
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -481,9 +505,6 @@ extends AbstractReLogoGlobalsAndPanelFactory{
 		 * Example comments
 		 */
 		
-		addButtonWL("setup","Setup")
-		addButtonWL("go","Go Once")
-		addToggleButtonWL("go","Go")
 		addSliderWL("numHumans", "Number of Humans", 1, 1, 100, 50)
 		addSliderWL("numZombies", "Number of Zombies", 1, 1, 10, 5)
 		addMonitorWL("remainingHumans", "Remaining Humans", 5)
@@ -522,7 +543,7 @@ class UserObserver extends BaseObserver{
 	/**
 	 * Some comments here.
 	 */
-	
+	@Setup
 	def setup(){
 		clearAll()
 		setDefaultShape(Human, "person")
@@ -537,6 +558,7 @@ class UserObserver extends BaseObserver{
 		
 	}
 	
+	@Go
 	def go(){
 		ask (zombies()){
 			step()
@@ -581,9 +603,7 @@ Our next step is to see what happens when we actually run the Zombies model that
 \end{center}
 \end{figure}
 
-This launches the Repast Simphony runtime (Fig.~\ref{fig:repastruntime}). The next step is to press the ``Initialize" button to initialize the runtime (Fig.~\ref{fig:initruntime}) which loads our Zombie model (Fig.~\ref{fig:loadedzombies}).
-
-
+This launches the Repast Simphony runtime (Fig.~\ref{fig:repastruntime}). The next step is to press the \emph{Initialize} button to initialize the runtime (Fig.~\ref{fig:initruntime}) which loads our Zombie model (Fig.~\ref{fig:loadedzombies}).
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -594,8 +614,6 @@ This launches the Repast Simphony runtime (Fig.~\ref{fig:repastruntime}). The ne
 \label{fig:repastruntime}
 \end{center}
 \end{figure}
-
-
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -606,7 +624,6 @@ This launches the Repast Simphony runtime (Fig.~\ref{fig:repastruntime}). The ne
 \label{fig:initruntime}
 \end{center}
 \end{figure}
-
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -617,8 +634,7 @@ This launches the Repast Simphony runtime (Fig.~\ref{fig:repastruntime}). The ne
 \label{fig:loadedzombies}
 \end{center}
 \end{figure}
-
-The User Panel on the left reveals the graphical elements that we created (Fig.~\ref{fig:graphelem}). Pressing the Setup button should run the \emph{setup} method we defined earlier in the UserObserver (Listing~\ref{lst:observer2}) which results in Figure~\ref{fig:setupzombies}.
+The User Panel on the left reveals the graphical elements that we created (Fig.~\ref{fig:graphelem}). Pressing the \emph{Step} button at the top of the runtime (Fig.~\ref{fig:stepRuntime}) will advance the simulation schedule to time tick 0 and will, therefore, run the \emph{setup} method we scheduled with the \texttt{@Setup} annotation in the UserObserver (Listing~\ref{lst:observer2}). This should result in Figure~\ref{fig:setupzombies}.
 
 \begin{figure}
 \begin{center}
@@ -635,6 +651,17 @@ The User Panel on the left reveals the graphical elements that we created (Fig.~
 \begin{center}
 \vspace{.2in}
 \centerline {
+\includegraphics[width=3in]{GettingStartedImages/StepRuntime.png}
+}
+\caption{The \emph{Step} button in the Repast Simphony runtime..}
+\label{fig:stepRuntime}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
 \includegraphics[width=5in]{GettingStartedImages/SetupZombies.png}
 }
 \caption{The Zombies model after pressing the Setup button.}
@@ -642,7 +669,7 @@ The User Panel on the left reveals the graphical elements that we created (Fig.~
 \end{center}
 \end{figure}
 
-At this point we can choose to repeatedly press the Go Once button and observe how the model evolves (Fig.~\ref{fig:brains}) or, alternatively, we can press the Go button which will automatically advance the simulation until we un-press it. Whenever we want to reset the model, we simply press the Setup button again.
+At this point we can choose to repeatedly press the \emph{Step} button and observe how the model evolves (Fig.~\ref{fig:brains}) or, alternatively, we can press the \emph{Play} button (Fig.~\ref{fig:playRuntime}) which will run the simulation until we \emph{Pause} (Fig.~\ref{fig:pauseRuntime}) or \emph{Stop} (Fig.~\ref{fig:stopRuntime}) it. Whenever we want to reset the model, we simply press the \emph{Reset} (Fig.~\ref{fig:resetRuntime}) button.
 
 \begin{figure}
 \begin{center}
@@ -652,6 +679,50 @@ At this point we can choose to repeatedly press the Go Once button and observe h
 }
 \caption{A closeup of the Zombies model.}
 \label{fig:brains}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{GettingStartedImages/PlayRuntime.png}
+}
+\caption{The \emph{Play} button in the Repast Simphony runtime.}
+\label{fig:playRuntime}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{GettingStartedImages/PauseRuntime.png}
+}
+\caption{The \emph{Pause} button in the Repast Simphony runtime.}
+\label{fig:pauseRuntime}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{GettingStartedImages/StopRuntime.png}
+}
+\caption{The \emph{Stop} button in the Repast Simphony runtime.}
+\label{fig:stopRuntime}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[width=3in]{GettingStartedImages/ResetRuntime.png}
+}
+\caption{The \emph{Reset} button in the Repast Simphony runtime.}
+\label{fig:resetRuntime}
 \end{center}
 \end{figure}
 
@@ -697,7 +768,7 @@ def step(){
 \end{minipage}
 We've made it so that if the Zombie finds a Human, they not only infect the Human but also create an Infection link to it (lines 9~-~11 in Listing~\ref{lst:newzombiestep}). When the infectee dies any links it has are automatically removed so the newly hatched Zombie won't retain those\footnote{It is left to the interested reader to figure out how to make these Infection links persist. There are many possible ways to accomplish this but one is to use the primitives \emph{inInfectionNeighbors} and \emph{createInfectionsFrom}.}. In an analogous manner to how turtle type specific methods were generated when we defined new turtle types, when we create new link types we gain access to a number of new link specific methods. \emph{createInfectionTo} is such a method. To see a full list of the methods generated see Table~\ref{tab:connectionmethods} in Appendix~\ref{app:genprims}.
 
-We'd also like to be able to play with the length of the gestation period, i.e., the period it takes for a Human to die and become a Zombie, to be able to see a network of infections forming before the infected Human dies. We add a gestationPeriod variable as a slider (Listing~\ref{lst:ugpf2}) and modify the Human turtle type (line 17 in Listing~\ref{lst:humantype2}) to accomplish this.
+We'd also like to be able to play with the length of the gestation period, i.e., the period it takes for a Human to die and become a Zombie, to be able to see a network of infections forming before the infected Human dies. We add a gestationPeriod variable as a slider (Listing~\ref{lst:ugpf2}) and modify the Human turtle type (Line 17 in Listing~\ref{lst:humantype2}) to accomplish this.
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -714,9 +785,6 @@ extends AbstractReLogoGlobalsAndPanelFactory{
 		 * Example comments
 		 */
 		
-		addButtonWL("setup","Setup")
-		addButtonWL("go","Go Once")
-		addToggleButtonWL("go","Go")
 		addSliderWL("numHumans", "Number of Humans", 1, 1, 100, 50)
 		addSliderWL("numZombies", "Number of Zombies", 1, 1, 10, 5)
 		addSliderWL("gestationPeriod", "Gestation", 5, 1, 30, 5)
@@ -779,126 +847,19 @@ Now when we run our model, we can see larger networks of Infection links forming
 \clearpage
 
 \subsection{Data sets, outputters and external plugins.}
-Now that we have the model running with turtles, patches and links, we'll explore the creation of simple data sets to create file outputters and even to take advantage of the many plugins available which connect to external tools. We return to our UserObserver class and add the following property and methods:
-
-\noindent\begin{minipage}[h]{\textwidth}
-\vspace{.2in}
-\lstset{language=java,caption=Additional property and methods in the UserObserver class.,numbers=none}
-\begin{lstlisting}
-def relogoRun = 0
-
-def remainingZombies(){
-	count(zombies())
-}
-
-def timestamp(){
-	ticks()
-}
-\end{lstlisting}
-\vspace{.2in}
-\end{minipage}
-The \emph{relogoRun} property will be used to differentiate between runs each time we press the setup button. The \emph{remainingZombies} method is self explanatory. The \emph{timestamp} method returns the current value of the ReLogo counter. This counter is useful for tracking time evolution and a call to \emph{clearAll} re-initializes it. We'll see how to increment this timer below.
-
-In addition, we modify the UserObserver's \emph{setup} and \emph{go} methods in the following ways:
-
-\noindent\begin{minipage}[h]{\textwidth}
-\vspace{.2in}
-\lstset{language=java,caption=Modified setup and go methods in the UserObserver class.}
-\begin{lstlisting}
-def setup(){
-	relogoRun++
-	clearAll()
-	setDefaultShape(Human,"person")
-	createHumans(numHumans){
-		setxy(randomXcor(),randomYcor())
-	}
-	setDefaultShape(Zombie,"zombie")
-	createZombies(numZombies){
-		setxy(randomXcor(),randomYcor())
-		size = 2
-	}
-}
-
-def go(){
-	ask (zombies()){
-		step()
-	}
-	ask (humans()){
-		step()
-	}
-	tick()
-}
-\end{lstlisting}
-\vspace{.2in}
-\end{minipage}
-We're incrementing the \emph{relogoRun} property so that we'll be able to differentiate between runs each time \emph{setup} is executed. The \emph{tick} primitive at the end of the \emph{go} method increments the ReLogo counter every time \emph{go} is executed.
-
-The resulting full UserObserver class should now look like:
-
-\noindent\begin{minipage}[h]{\textwidth}
-\vspace{.2in}
-\lstset{language=java,caption=The full UserObserver class after data set related modifications.}
-\begin{lstlisting}
-class UserObserver extends BaseObserver{
-	def relogoRun = 0
-	
-	def setup(){
-		relogoRun++
-		clearAll()
-		setDefaultShape(Human,"person")
-		createHumans(numHumans){
-			setxy(randomXcor(),randomYcor())
-		}
-		setDefaultShape(Zombie,"zombie")
-		createZombies(numZombies){
-			setxy(randomXcor(),randomYcor())
-			size = 2
-		}
-	}
-	
-	def go(){
-		ask (zombies()){
-			step()
-		}
-		ask (humans()){
-			step()
-		}
-		tick()
-	}
-	
-	def remainingHumans(){
-		count(humans())
-	}
-	
-	def remainingZombies(){
-		count(zombies())
-	}
-	
-	def timestamp(){
-		ticks()
-	}
-
-}
-\end{lstlisting}
-\vspace{.2in}
-\end{minipage}
-
-The next step is to launch the Zombies model. Once it is launched, we go to the Scenario Tree panel underneath the User Panel and carry out the following steps:
+Now that we have the model running with turtles, patches and links, we'll explore the creation of simple data sets to create file outputters and even to take advantage of the many plugins available which connect to external tools.
+We launch the Zombies model, if it's not already launched. Once it is up, we go to the Scenario Tree panel underneath the User Panel and carry out the following steps:
 \begin{enumerate}
 \item
 Right click on the Data Sets label (Fig.~\ref{fig:datasetscenario}) and choose Add DataSet.
 \item
-In the Data Set Editor, type Agent Counts as the Data Set ID, and Non-Aggregate\footnote{The current example is for defining non-aggregate data sources. For an example showing how to create aggregate data sources see the Data Collection section of the \href{http://repast.sourceforge.net/docs/RepastJavaGettingStarted.pdf}{Repast Java Getting Started document}.} as the Data Set type. Click Next.
+In the Data Set Editor, type Agent Counts as the Data Set ID, and Aggregate as the Data Set type. Click Next.
 \item
-In the next few steps, we specify the data sources that make up our data set. The Standard Sources tab allows us to add some standard data sources to our data set. For this tutorial we uncheck all of the boxes.
+In the next few steps, we specify the data sources that make up our data set. The Standard Sources tab allows us to add some standard data sources to our data set. For this tutorial we keep the default settings (only the \emph{Tick Count} box checked).
 \item
-Next, select the Method Data Sources tab. The Method Data Sources tab allows us to create data sources that will call methods on agents in our model. For the Source Class select UserObserver. Click Add to add an entry . Double click in the Method column of the added entry and choose \emph{timestamp} from the drop down list.
+Next, select the Method Data Sources tab. The Method Data Sources tab allows us to create data sources that will call methods on agents in our model. Click on the \emph{Add} button to add a row. Type in ``Remaining Humans" for the \emph{Source Name}, select Human for the \emph{Agent Type} and \emph{Count} for the \emph{Aggregate Operation}.
 \item\label{it:toRepeat}
-Click Add again. This time choose \emph{getRelogoRun}\footnote{Groovy automatically generates ``getters" and ``setters" for properties you define. If the property is ``relogoRun" like in this example, the methods \emph{getRelogoRun} and \emph{setRelogoRun} are generated. This capitalization scheme, where the beginning of multiple contiguous words are capitalized, is a standard in many programming languages, including Groovy, and is referred to as ``camel-casing". } from the drop down list.
-\item
-Repeat Step \ref{it:toRepeat}, but choose \emph{remainingHumans} from the list.
-\item
-Repeat Step \ref{it:toRepeat}, but choose \emph{remainingZombies} from the drop down list.
+Click Add again. This time type in ``Remaining Zombies" for the \emph{Source Name}, select Zombie for the \emph{Agent Type} and once again \emph{Count} for the \emph{Aggregate Operation}.
 \end{enumerate}
 \begin{figure}
 \begin{center}
@@ -943,7 +904,7 @@ Right click on Text Sinks in the Scenario Tree (you may have to scroll down a bi
 \item
 Choose Agent Counts for the Data Set ID.
 \item
-Click on \emph{timestamp} in the first column and click the green right arrow.
+Click on \emph{tick} in the first column and click the green right arrow.
 \item
 Repeat for the remaining items in the column.
 \item
@@ -951,7 +912,7 @@ Click Next, then Finish (the default location for the text sink is good for the 
 \end{enumerate}
 We've chosen the data items from our data set that we wish to output, in this case in comma-delimited form. As we did for the data set, don't forget to save this setting (Fig.~\ref{fig:save}).
 
-Now we initialize the runtime (Fig.~\ref{fig:initruntime}) and run the model via the setup and go buttons. At this point if we quit out of the runtime and return to our workspace we may notice that nothing has changed. However if we select our Zombies project and ``Refresh" it\footnote{The Refresh is necessary when outside processes, in this case our running model, change files from outside the workspace.}, either by right clicking on the project and choosing Refresh from the drop down menu or by pressing the F5 button, we should see the newly generated data file (Fig.~\ref{fig:dataout}). Double-clicking on this file will reveal a comma-delimited four column data set.
+Now we initialize the runtime (Fig.~\ref{fig:initruntime}) and run the model via the \emph{Step} or \emph{Play} buttons. At this point if we quit out of the runtime and return to our workspace we may notice that nothing has changed. However if we select our Zombies project and ``Refresh" it\footnote{The Refresh is necessary when outside processes, in this case our running model, change files from outside the workspace.}, either by right clicking on the project and choosing Refresh from the drop down menu or by pressing the F5 button, we should see the newly generated data file (Fig.~\ref{fig:dataout}). Double-clicking on this file will reveal a comma-delimited four column data set.
 
 \begin{figure}
 \begin{center}
@@ -1056,7 +1017,7 @@ class Infection extends BaseLink {
 
 \subsection{ReLogo Resource Filter}
 \label{sec:RRF}
-The default ReLogo workspace's Package Explorer has a ReLogo Resource Filter selected. This hides many of the non-immediately-essential elements in a user project. At some point, however, it will be necessary to deselect this filter to access some of the hidden resources. To do this, select the Package Explorer's view options down arrow (Fig.~\ref{fig:downarrow}) and deselect the ReLogo Resource Filter (Fig.~\ref{fig:resourcefilter})\footnote{If the ReLogo Resource Filter is not visible in the drop down menu, go to the Filters... menu option and there will be an option to deselect it there.}. This will reveal the previously hidden resources. The same procedure applies for reselecting the filter as well.
+By default the Package Explorer has a ReLogo Resource Filter selected. When in the ReLogo Perspective this hides many of the non-immediately-essential elements in a user project. At some point, however, it will be necessary to deselect this filter to access some of the hidden resources. To do this, select the Package Explorer's view options down arrow (Fig.~\ref{fig:downarrow}) and navigate to the \emph{Filters...} element (Fig.~\ref{fig:resourcefilter2}). This will reveal a listing of the available Package Explorer filters. Find and deselect the ReLogo Resource Filter here. This will reveal the previously hidden resources. Once you've gone through this process, the ReLogo Resource Filter will be visible in the view options menu (Fig.~\ref{fig:resourcefilter}). At this point reenabling (or disabling) the filter can be done directly through the menu.
 
 \begin{figure}
 \begin{center}
@@ -1073,9 +1034,20 @@ The default ReLogo workspace's Package Explorer has a ReLogo Resource Filter sel
 \begin{center}
 \vspace{.2in}
 \centerline {
+\includegraphics[width=4in]{GettingStartedImages/PackageExplorerFIlter2.png}
+}
+\caption{The drop down menu for the Package Explorer view options.}
+\label{fig:resourcefilter2}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\vspace{.2in}
+\centerline {
 \includegraphics[width=4in]{GettingStartedImages/PackageExplorerFIlter.png}
 }
-\caption{The drop down menu for the Package Explorer.}
+\caption{The drop down menu for the Package Explorer view options after the ReLogo Resource Filter has been modified.}
 \label{fig:resourcefilter}
 \end{center}
 \end{figure}
@@ -1095,41 +1067,6 @@ After disabling the ReLogo Resource Filter (Section~\ref{sec:RRF}), one of the e
 \end{figure}
 
 \clearpage
-\subsection{Autobuilding}
-\label{sec:auto}
-A ReLogo model is built when it is launched so by default autobuilding is disabled when a new ReLogo project is created. However, in the case that your workspace has autobuilding enabled and a ReLogo project is imported into the workspace, we recommend that you disable autobuilding yourself, as it won't be disabled automatically. To do this, go to the Project menu and deselect Build Automatically.
-
-\subsection{Default/Recommended Workspace Settings for ReLogo}
-\label{sec:defworkspace}
-Repast Simphony is distributed with a default workspace. If you have modified your workspace or need to use a custom workspace, the following steps will generate the optimal default workspace settings for ReLogo. 
-\begin{itemize}
-\item Go to the Preferences menu option (e.g., under the Eclipse menu on Mac OS X, under the Window menu on Windows)
-\begin{itemize}
-\item Under General $\rightarrow$ Editors $\rightarrow$ Text Editors:
-	\begin{itemize}
-	\item	Check: Show line numbers
-	\end{itemize}
-\item Under Groovy:
-	\begin{itemize}
-	\item Check: Use monospace font for JUnit
-	\item Uncheck: Do not use parens around methods with arguments
-	\item Uncheck: Use brackets for closure arguments
-	\end{itemize}
-\item Under Groovy $\rightarrow$ Editor:
-	\begin{itemize}
-	\item Uncheck: Enable semantic highlighting ...
-	\end{itemize}
-\item Under Run/Debug $\rightarrow$ Launching:
-	\begin{itemize}
-	\item Check:  Always launch the previously launched application
-	\end{itemize}
-\end{itemize}
-
-\item Select the ReLogo Resource Filter (see~\ref{sec:RRF}):
-	
-\item Disable Auto Building (see~\ref{sec:auto})
-
-\end{itemize}
 
 
 
@@ -1150,7 +1087,7 @@ Most Repast models use random draws and are therefore stochastic simulations. St
 
 \subsection{Model Distribution}
 
-Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive ("JAR") file that can be given to model users. The resulting installer can be executed on any system with Java version 1.6 or later; JOGL; and Java3D installed\footnote{Users can obtain free JOGL and Java3D files from the Repast website downloads page \href{http://repast.sourceforge.net/downloads.html}{here}.}. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
+Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive (``JAR") file that can be given to model users. The resulting installer can be executed on any system with Java version 7 or later installed. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
 
 Building an installer for a model is straightforward. Simply choose the ``Build Installer for $\langle$Your Model Name Here$\rangle$ Model" and provide a location and name for the installer file. The installer file's default name is ``setup.jar," which is suitable for most purposes. The install builder will then package and compress your model and the supporting Repast software. The resulting installer files are about 70 MB plus the size of the model code and data. 75 MB to 80 MB is a common total size. 
 
