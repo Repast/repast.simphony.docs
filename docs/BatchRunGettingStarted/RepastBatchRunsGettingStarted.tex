@@ -254,7 +254,7 @@ RunEnvironment.getInstance().endAt(30);
 \noindent
 This schedules the simulation to end at tick 30. It can be placed in the ContextBuilder for your model.
 
-The second requirement concerns the model's file output. The batch mechanism assumes that the output is captured using Repast Simphony's File Sinks and that the files will be written somewhere within ``instance'' directory where the model runs. The best way to insure that this occurs to specify a file with a relative rather than absolute path in the File Sink Editor. In order to specify a relative path make sure that the file name does not begin with a ``/'' (under OSX, Linux) or ``X:\textbackslash'' or ``\textbackslash'' (under windows where X is any drive letter). The name can be anything and include subdirectories but the path must be relative. Figure ~\ref{fig:file_name} is an example of a relative path.
+The second requirement concerns the model's file output. The batch mechanism assumes that the output is captured using Repast Simphony's File Sinks and that the files will be written somewhere in the ``instance'' directory where the model runs. The best way to insure that this occurs to specify the file with only the file name without any path information. Make sure that the file name does not begin with a ``/'' (under OSX, Linux) or ``X:\textbackslash'' or ``\textbackslash'' (under windows where X is any drive letter). The name itself can be anything. Figure ~\ref{fig:file_name} is an example of an acceptable file.
 
 \begin{figure}[h]
 \begin{center}
