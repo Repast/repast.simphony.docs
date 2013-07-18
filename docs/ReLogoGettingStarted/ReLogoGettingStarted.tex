@@ -634,7 +634,7 @@ This launches the Repast Simphony runtime (Fig.~\ref{fig:repastruntime}). The ne
 \label{fig:loadedzombies}
 \end{center}
 \end{figure}
-The User Panel on the left reveals the graphical elements that we created (Fig.~\ref{fig:graphelem}). Pressing the \emph{Step} button at the top of the runtime (Fig.~\ref{fig:stepRuntime}) will advance the simulation schedule to time tick 0 and will, therefore, run the \emph{setup} method we scheduled with the \texttt{@Setup} annotation in the UserObserver (Listing~\ref{lst:observer2}). This should result in Figure~\ref{fig:setupzombies}.
+The User Panel on the left reveals the graphical elements that we created (Fig.~\ref{fig:graphelem}). Pressing the \emph{Step} button at the top of the runtime (Fig.~\ref{fig:stepRuntime}) will advance the simulation schedule to time tick 0 and will, therefore, run the \emph{setup} method we scheduled with the \texttt{@Setup} annotation in the UserObserver (Listing~\ref{lst:observer2}). This should result in Figure~\ref{fig:stepzombies}.
 
 \begin{figure}
 \begin{center}
@@ -653,7 +653,7 @@ The User Panel on the left reveals the graphical elements that we created (Fig.~
 \centerline {
 \includegraphics[width=3in]{GettingStartedImages/StepRuntime.png}
 }
-\caption{The \emph{Step} button in the Repast Simphony runtime..}
+\caption{The \emph{Step} button in the Repast Simphony runtime.}
 \label{fig:stepRuntime}
 \end{center}
 \end{figure}
@@ -662,10 +662,10 @@ The User Panel on the left reveals the graphical elements that we created (Fig.~
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=5in]{GettingStartedImages/SetupZombies.png}
+\includegraphics[width=5in]{GettingStartedImages/StepZombies.png}
 }
-\caption{The Zombies model after pressing the Setup button.}
-\label{fig:setupzombies}
+\caption{The Zombies model after pressing the \emph{Step} button.}
+\label{fig:stepzombies}
 \end{center}
 \end{figure}
 
@@ -1098,7 +1098,7 @@ The Repast install builder uses the IzPack system (http://izpack.org/). More inf
 
 \section{Generated ReLogo Primitives}
 \label{app:genprims}
-When a new turtle type is defined a number of methods become available to turtles, patches, links and observers. The specific methods generated when a Zombie turtle type is defined are listed in Table \ref{tab:zombiemethods}. These are similar in functionality to existing ReLogo primitives with similar names but specialized for the particular turtle type.
+When a new turtle type is defined a number of methods become available to turtles, patches, links and observers. These methods are added to the ReLogoTurtle, ReLogoPatch, ReLogoLink, and ReLogoObserver classes in the project's \texttt{src-gen} directory\footnote{The \texttt{src-gen} source directory can be made visible by disabling the ReLogo Resource Filter (Section~\ref{sec:RRF}).}. All user defined turtle, patch, link and observer classes extend these classes and therefore inherit their methods. The specific methods generated when a Zombie turtle type is defined are summarized in Table \ref{tab:zombiemethods}. These are similar in functionality to existing ReLogo primitives with similar names but specialized for the particular turtle type. For more information on the generated methods you can make use of the informational pane available in the ReLogo editor when hovering over any of them or you can navigate to the \texttt{src-gen} source folder directly.
 
 \begin{table}[htbp]
    \centering
@@ -1183,14 +1183,12 @@ Table \ref{tab:graphical} lists the various elements available for use in the Us
       \toprule
            Element Types    & Commands\footnote{The (WL) refers to variants \emph{with labels}.} \\
       \midrule
-      Button      & addButton(WL)\footnote{Include variants with observer specified by id.\label{fn:obs}}\\
-      State Change Button\footnote{State change buttons do not advance the simulation schedule.} & addStateChangeButton(WL)\footref{fn:obs} \\
-     ToggleButton & addToggleButton(WL)\footref{fn:obs} \\
      Slider & addSlider(WL) \\
      Chooser & addChooser(WL) \\
      Switch & addSwitch(WL) \\
+     State Change Button\footnote{State change buttons do not advance the simulation schedule.} & addStateChangeButton(WL)\footnote{Include variants with observer specified by id.\label{fn:obs}} \\
      Input & addInput \\
-     Monitor & addMonitor \\
+     Monitor & addMonitor \footref{fn:obs}\\
      Global & addGlobal \\
      
       \bottomrule
@@ -1212,13 +1210,12 @@ Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also 
            Element Types    & Commands\footnote{The (WL) refers to variants \emph{with labels}.} \\
       \midrule
       Panel  & addPanel \\
-      Button      & button(WL)\footnote{Include variants with observer specified by id.\label{fn:obs2}}\\
-     ToggleButton & toggleButton(WL)\footref{fn:obs2} \\
      Slider & slider(WL) \\
      Chooser & chooser(WL) \\
      Switch & rSwitch(WL) \\
+     State Change Button\footnote{State change buttons do not advance the simulation schedule.} & stateChangeButton(WL)\footnote{Include variants with observer specified by id. \label{fn:obs2}} \\
      Input & input \\
-     Monitor & monitor \\
+     Monitor & monitor \footref{fn:obs2}\\
      
       \bottomrule
    \end{tabular}
@@ -1230,12 +1227,12 @@ Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also 
 \vspace{.2in}
 \lstset{language=java,caption=Using Groovy's SwingBuilder for building GUIs.,label=lst:swingbuilder}
 \begin{lstlisting}
-def setupB = buttonWL("setup","Set up the Sim")
-def goTB = toggleButtonWL("go","Continuous Go")
+def slider = sliderWL("sliderVar", "My Variable", 1, 1, 100, 50)
+def monitor = monitorWL("monitorMethod", "My Monitor", 5)
 addPanel{
 	gridLayout(columns:1, rows:0)
-	widget(setupB)
-	widget(goTB)
+	widget(slider)
+	widget(monitor)
 }
 \end{lstlisting}
 \vspace{.2in}
