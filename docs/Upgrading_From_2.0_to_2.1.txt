@@ -1,5 +1,16 @@
 Upgrading Repast Simphony from 2.0 to 2.1
 
+To upgrade your models from 2.0 to 2.1, open the workspace in 2.1 or
+create a new workspace and import your existing models into that workspace. If
+you do the former, you will most likely run into the
+UnsupportedClassVersionError issue mentioned below. See that for the resolution.
+
+Repast Simphony 2.1 requires Java 1.7. Java 1.7 is included with the
+windows distribution. For OSX and Linux, Java 1.7 can be downloaded from:
+
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+
+
 Potential Problems
 
 -- UnsupportedClassVersionError
