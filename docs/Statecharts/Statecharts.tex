@@ -219,7 +219,7 @@ A simple state looks like Figure~\ref{fig:simpleState}. At any one point in time
 \item[params] This is the model's \texttt{Parameters} object. As an example, a double valued parameter \texttt{dParam} can be retrieved with: \texttt{params.getDouble("dParam")}\footnote{See the source or JavaDoc for  \texttt{repast.simphony.parameter.Parameters} for all of the available methods.}.
 \end{description}
 
-As is the case with all types of action blocks, their logic can be specified using Java, Groovy or ReLogo. Specifically, any Java, Groovy or ReLogo code can be used to express the behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so writing \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
+As is the case with all types of action blocks, their logic can be specified using Java, Groovy or ReLogo\footnote{All action blocks also statically import \texttt{repast.simphony.essentials.RepastEssentials} and \texttt{repast.simphony.random.RandomHelper}, making the many convenience methods directly callable (i.e., \texttt{nextDouble()} instead of \texttt{RandomHelper.nextDouble()}). If additional imports are required, specifying them as the first lines in an action block will make them available.}. Specifically, any Java, Groovy or ReLogo code can be used to express the behavior that should be executed upon entry to or exit from the state\footnote{When using the ReLogo option, the \texttt{agent} parameter is implicit so writing \texttt{customMethod()} is equivalent to \texttt{agent.customMethod()}.}.
 
 \begin{figure}
 \begin{center}
@@ -465,7 +465,7 @@ When there is more than one valid transition ties are broken using the priority 
 
 Within a state, transitions are resolved starting with \emph{self transitions} and proceeded by \emph{regular transitions}.
 
-Every transition has a \emph{polling time} associated with it. This indicates the frequency (in units of simulation \emph{ticks}) with which the transition is polled for validity.
+Every transition has a \emph{polling time} associated with it. This indicates the frequency (in units of simulation \emph{ticks}) with which the transition is polled for validity. After the initial polling, the polling time can be modified within any action block with the call to \texttt{transition.setNextPollingTime(double)}. This way, a transition can be first polled at one polling time and at different polling time(s) subsequently\footnote{This only impacts Always, Condition, Probability and Message triggers.}.
 
 Next we present the different transition trigger types in more detail.
 
