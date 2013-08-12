@@ -11,17 +11,17 @@ Unsupported major.minor version 51.0
 
 A. Repast Simphony 2.1 requires Java 1.7 (aka Java 7). Workspaces that
 previously worked with Simphony will be setup to use Java 1.6. The workspace
-preferences must be updated to use Java 1.7. To do that go to the Perferences
+preferences must be updated to use Java 1.7. To do that go to the Preferences
 menu then Java / Installed JREs and choose a Java 7 jre.
 
--- Junit Issues
+-- JUnit Issues
 
-Q. My 2.0 basedproject includes junit unit tests but the tests won't compile
+Q. My 2.0 based project includes JUnit unit tests but the tests won't compile
 (e.g. the imported packages won't import etc.).
 
 A. The new Eclipse (named Kepler) included with Repast Simphony changed the
-name of its junit library plugin. The project build path needs to be updated
-to this new junit library. To do this, right click on the project name
+name of its JUnit library plugin. The project build path needs to be updated
+to this new JUnit library. To do this, right click on the project name
 in the package explorer then Build Path -> Add Libraries. Choose JUnit
 from the list, then Next, then Finish. That will add Eclipse's current JUnit
 to the project.
@@ -42,7 +42,7 @@ Java3D. These may be located in a variety of locations.
 
 or
 
-X/Library/Java/Extensions
+<User Home>/Library/Java/Extensions
 
 Remove all the vecmath, java3d and jogl related jars and vecmath, java3d,
 jogl jnilib files from those directories.
