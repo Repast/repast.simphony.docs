@@ -69,3 +69,42 @@ To do that, right click on the project name, then choose Repast Simphony
 from the menu and then Update Repast Simphony Nature. Now when you save the
 statechart you should see a src-gen directory in into which the statechart
 code is generated.
+
+-- NullPointer exception when using the new Batch Run GUI
+
+Q. I clicked on the batch run gui button or ran the stand alone batch runner, and 
+I get:
+
+Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+at repast.simphony.batch.gui.BatchConfigMediator.<init>(BatchConfigMediator.java:80)
+at repast.simphony.batch.gui.BatchConfigMediator.<init>(BatchConfigMediator.java:72)
+at repast.simphony.batch.gui.MainPanel.<init>(MainPanel.java:27)
+...
+
+A. The MessageCenter.log4j.properties file is out of date and needs to be updated. 
+Replace the current contents of that file with:
+
+log4j.rootLogger = error
+
+log4j.logger.org.java.plugin = warn, stdout
+log4j.logger.org.apache.commons= warn, stdout
+log4j.logger.repast.simphony.plugin = warn, stdout
+
+log4j.logger.MessageCenter.INTERNAL.repast = info, stdout, R
+log4j.logger.MessageCenter.INTERNAL.saf = info, stdout, R
+
+log4j.logger.repast.simphony.batch = info, stdout, R
+log4j.logger.repast.simphony.batch.ssh.SSHSessionFactory = warn, stdout, R
+
+log4j.appender.stdout = org.apache.log4j.ConsoleAppender 
+log4j.appender.stdout.layout = simphony.util.messages.MessageCenterLayout 
+log4j.appender.stdout.layout.conversionPattern =%-5p [%t] %d{HH:mm:ss,SSS} %c - %m%n
+#log4j.appender.stdout.Threshold=debug 
+
+log4j.appender.R=org.apache.log4j.RollingFileAppender 
+log4j.appender.R.File=debug.log 
+log4j.appender.R.MaxFileSize=100KB 
+log4j.appender.R.MaxBackupIndex=1 
+#log4j.appender.R.Threshold=info 
+log4j.appender.R.layout=simphony.util.messages.MessageCenterLayout
+log4j.appender.R.layout.ConversionPattern=%-5p [%t] %d{ISO8601} %c - %m%n
