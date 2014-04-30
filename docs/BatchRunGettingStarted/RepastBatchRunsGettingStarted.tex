@@ -86,7 +86,7 @@ The GUI is used to configure a batch run. This configuration can be saved and th
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=6in]{images/config_gui.png}
+\includegraphics[width=6.5in]{images/config_gui.png}
 }
 \caption{Batch Run Configuration GUI}
 \label{fig:config_gui}
@@ -106,6 +106,19 @@ When the batch configuration GUI is started and you have a model loaded in the R
 \end{description}
 
 The browse button next to each of these items can be used to select the directory for each property. The reload button\includegraphics[height=.2in]{images/reload_button.png}  will load best guess defaults for these properties when the GUI is launched with an associated project.
+
+By default the batch run mechanism will collect and concatenate any output files specified in the simphony model as File Sinks. If you do your own custom output that is not defined in a File Sink, you can use the ``Optional Output File Patterns'' table to define how to deal with such custom output. You provide a file pattern that can be used to identify the different instances of the custom output and how to treat that output once it is found. If the output is to be aggregated it will be concatenated and copied to the master machine. If its not aggregated, the output will still be copied to the master machine so you do not need to grab the files individually. 
+
+The fields in the table are defined as follows:
+
+\begin{description}
+\item[Pattern] The pattern specifies where the custom output is located. Unix ``glob'' style wildcards can be used, such as the *. For example, a pattern of ``output/MyCustomOutput*.csv'' means any files that begin with ``MyCustomOutput'' and end with ``.csv'' in an ``output'' directory will be collected as output and transferred back to the master machine.
+\item[Local Path] A directory into which the custom model output will be copied. This directory will be created beneath the Output Directory mentioned above.
+\item[Aggregate] If this is checked then the files that match the pattern specified in the Pattern field will be aggregated together into a single file.
+\item[Has Header] If this is checked then the first line in any files that match the pattern specified in the Pattern field will be treated as a Header and will not be aggregated as part of the data.
+\end{description}
+
+Specifying output patterns is optional, and only necessary if you do not generate file output using the default File Sink mechanism.
 
 The Run Properties sections defines properties that are used during the actual model run. 
 
@@ -254,7 +267,7 @@ RunEnvironment.getInstance().endAt(30);
 \noindent
 This schedules the simulation to end at tick 30. It can be placed in the ContextBuilder for your model.
 
-The second requirement concerns the model's file output. The batch mechanism assumes that the output is captured using Repast Simphony's File Sinks and that the files will be written somewhere in the ``instance'' directory where the model runs. The best way to insure that this occurs to specify the file with only the file name without any path information. Make sure that the file name does not begin with a ``/'' (under OSX, Linux) or ``X:\textbackslash'' or ``\textbackslash'' (under windows where X is any drive letter). The name itself can be anything. Figure ~\ref{fig:file_name} is an example of an acceptable file.
+The second requirement concerns the model's file output. The batch mechanism assumes that the output will be written somewhere in the ``instance'' directory where the model runs. The best way to insure that this occurs is to specify the file with only the file name or a relative directory path followed by the file name. Make sure that the path or file name does not begin with a ``/'' (under OSX, Linux) or ``X:\textbackslash'' or ``\textbackslash'' (under windows where X is any drive letter). The name itself can be anything. Figure ~\ref{fig:file_name} is an example of an acceptable file. Output created via the Simphony's File Sinks will be automatically collected and aggregated. If you have created custom output, then you need to use the Output File Patterns GUI in the Batch Run Configuration GUI's model tab to specify where to find and how to treat that output.
 
 \begin{figure}[h]
 \begin{center}
