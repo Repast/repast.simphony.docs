@@ -47,7 +47,7 @@
 Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.1. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}\footnote{http://repast.sourceforge.net/download.html}. Repast Simphony 2.1 requires Java 7. Java 7 can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads page}\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}.
 
 \section{Getting Started with ReLogo}
-Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo\footnote{For further reading see Ozik, J., N. Collier, J. Murphy, and M.J. North. ``The ReLogo Agent-based Modeling Language." In WSC 2013 Proceedings. Washington, D.C., December 2013.}.
+Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies\footnote{A completed version, Zombies\_Demo model, is available as part of the demonstration models that come with the Repast Simphony distribution. Import any of the demonstration models via the File menu and selecting ``Import Repast Examples".}. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo\footnote{For further reading see Ozik, J., N. Collier, J. Murphy, and M.J. North. ``The ReLogo Agent-based Modeling Language." In WSC 2013 Proceedings. Washington, D.C., December 2013.}.
 
 The first thing we must do is create a new ReLogo project. This is done by clicking on the New ReLogo Project icon in the toolbar (Fig.~\ref{fig:newprojecticon}) at the top of our ReLogo workspace.
 
@@ -242,7 +242,7 @@ Now let's see what our full Human turtle type looks like, with the \emph{step} m
 \begin{lstlisting}
 // package declaration and imports, which we can ignore for now
 
-class Human extends BaseTurtle {
+class Human extends ReLogoTurtle {
 	
 	def infected = false
 	def infectionTime = 0
@@ -280,7 +280,7 @@ Now let's move on to the Zombie turtle type. It looks like this:
 \begin{lstlisting}
 // package declaration and imports, which we can ignore for now
 
-class Zombie extends BaseTurtle {
+class Zombie extends ReLogoTurtle {
 
 	def step(){
 		def winner = maxOneOf(neighbors()){
@@ -414,7 +414,7 @@ Collecting what we've covered so far in the observer code, the UserObserver clas
 \begin{lstlisting}
 // package declaration and imports, which we can ignore for now
 
-class UserObserver extends BaseObserver{
+class UserObserver extends ReLogoObserver{
 
 	/**
 	 * Some comments here.
@@ -538,7 +538,7 @@ The UserObserver with the additional \emph{remainingHumans} method should now lo
 \begin{lstlisting}
 // package declaration and imports, which we can ignore for now
 
-class UserObserver extends BaseObserver{
+class UserObserver extends ReLogoObserver{
 
 	/**
 	 * Some comments here.
@@ -802,7 +802,7 @@ extends AbstractReLogoGlobalsAndPanelFactory{
 \begin{lstlisting}
 // package declaration and imports, which we can ignore for now
 
-class Human extends BaseTurtle {
+class Human extends ReLogoTurtle {
 	
 	def infected = false
 	def infectionTime = 0
@@ -991,7 +991,7 @@ The default plural form for turtle and link types is an `s' appended to the clas
 \lstset{language=java, numbers=none}
 \begin{lstlisting}
 @Plural("Mice")
-class Mouse extends BaseTurtle {
+class Mouse extends ReLogoTurtle {
 ...
 }
 \end{lstlisting}
@@ -1008,7 +1008,7 @@ By default link types are directed. To specify that a link type is undirected, o
 \lstset{language=java, numbers=none}
 \begin{lstlisting}
 @Undirected
-class Infection extends BaseLink {
+class Infection extends ReLogoLink {
 ...
 }
 \end{lstlisting}
