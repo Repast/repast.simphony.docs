@@ -1,6 +1,9 @@
-Upgrading Repast Simphony from 2.0 to 2.1
+Upgrading Repast Simphony
 
-To upgrade your models from 2.0 to 2.1, open the workspace in 2.1 or
+This document contains FAQ entries and instructions for upgrading Repast Simphony
+from previous versions. 
+
+Upgrading models from 2.0 to 2.2, open the workspace in 2.2 or
 create a new workspace and import your existing models into that workspace. If
 you do the former, you will most likely run into the
 UnsupportedClassVersionError issue mentioned below. See that for the resolution.
@@ -15,7 +18,7 @@ Potential Problems
 
 -- UnsupportedClassVersionError
 
-Q. I imported a 2.0 workspace into 2.1 and now I get:
+Q. I imported a 2.0 workspace into 2.1 / 2.2 and now I get:
 
 java.lang.UnsupportedClassVersionError: repast/simphony/runtime/RepastMain :
 Unsupported major.minor version 51.0
@@ -24,6 +27,30 @@ A. Repast Simphony 2.1 requires Java 1.7 (aka Java 7). Workspaces that
 previously worked with Simphony will be setup to use Java 1.6. The workspace
 preferences must be updated to use Java 1.7. To do that go to the Preferences
 menu then Java / Installed JREs and choose a Java 7 jre.
+
+-- Build Installer Issues
+
+Q. I have a 2.0 / 2.1 project and I try to build an installer for it using 2.2. I get
+an error like:
+
+ [java]    ./.temp/JZombies_Demo/installation_components_temp.xml:127: 
+ /Applications/Repast Simphony 2.2/eclipse/plugins/repast.simphony.grass_2.2.0
+     [java] com.izforge.izpack.compiler.CompilerException: .
+     /.temp/JZombies_Demo/installation_components_temp.xml:127: 
+     /Applications/Repast Simphony 2.2/eclipse/plugins/repast.simphony.grass_2.2.0
+
+Note that the error may also refer to the repast.simphony.[ireport | matlab | 
+terracotta | visad] plugins.
+
+A. These plugins do not exist in 2.2 and thus a 2.0 / 2.1 installer fails. To fix
+it, delete the relevant line(s) in your projects installer/installation_components.xml
+file. The line number will be specified in the error. For example, line 127 refers 
+to the non-existent grass plugin:
+
+<file src="$EclipsePluginsDirectory/repast.simphony.grass_$REPAST_VERSION" 
+	targetdir="$INSTALL_PATH/repast.simphony"/>
+	
+So, it should be deleted.
 
 -- JUnit Issues
 
@@ -60,7 +87,7 @@ jogl jnilib files from those directories.
 
 -- Statechart code is not found
 
-Q. I imported an existing 2.0 project into 2.1 and created a statechart. The
+Q. I imported an existing 2.0 project into 2.1 / 2.2 and created a statechart. The
 statechart code in my agent won't compile.
 
 A. By default a 2.0 project is not set up to generate and compile code from
