@@ -44,7 +44,7 @@
 \setcounter{section}{-1}
 
 \section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.2. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony 2.2 requires Java 7. Java 7 can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
 
 \section{Getting Started with ReLogo}
 Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies\footnote{A completed version, Zombies\_Demo model, is available as part of the demonstration models that come with the Repast Simphony distribution. Import any of the demonstration models via the File menu and selecting ``Import Repast Examples".}. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo\footnote{For further reading see Ozik, J., N. Collier, J. Murphy, and M.J. North. ``The ReLogo Agent-based Modeling Language." In WSC 2013 Proceedings. Washington, D.C., December 2013.}.
@@ -68,7 +68,7 @@ This brings up the New ReLogo Project Wizard (Fig.~\ref{fig:newprojectwiz}) whic
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[width=3in]{GettingStartedImages/NewProject2.png}
+\includegraphics[width=4in]{GettingStartedImages/NewProject2.png}
 }
 \caption{The New ReLogo Project Wizard.}
 \label{fig:newprojectwiz}
@@ -189,7 +189,7 @@ The ``things'' (in line 2 of Listing~\ref{lst:humanstep}) are the set of patches
 \vspace{.2in}
 \lstset{language=java, numbers=none}
 \begin{lstlisting}
-maxOneOf(neighbors() , {
+minOneOf(neighbors() , {
 	count(zombiesOn(it))
 } )
 \end{lstlisting}
@@ -198,7 +198,7 @@ we can write:
 \vspace{.2in}
 \lstset{language=java}
 \begin{lstlisting}
-maxOneOf(neighbors()){
+minOneOf(neighbors()){
 	count(zombiesOn(it))
 } 
 \end{lstlisting}
@@ -212,7 +212,7 @@ When you define a turtle type in ReLogo, there are primitives that are automatic
 \vspace{.2in}
 \lstset{language=java, numbers=none}
 \begin{lstlisting}
-maxOneOf(neighbors()){ p ->
+minOneOf(neighbors()){ p ->
 	count(zombiesOn(p))
 } 
 \end{lstlisting}
@@ -221,7 +221,7 @@ to:
 \vspace{.2in}
 \lstset{language=java}
 \begin{lstlisting}
-maxOneOf(neighbors()){
+minOneOf(neighbors()){
 	count(zombiesOn(it))
 } 
 \end{lstlisting}
@@ -299,7 +299,7 @@ class Zombie extends ReLogoTurtle {
 		}
 	}
 	
-	def infect(human){
+	def infect(Human human){
 		human.infected = true
 	}
 }
@@ -307,7 +307,7 @@ class Zombie extends ReLogoTurtle {
 \vspace{.2in}
 \end{minipage}
 
-What should be noticed here is that, in addition to the method \emph{step}, we've defined another auxiliary method \emph{infect} which takes one argument. Let us take a moment to explore how it's used. Looking at lines 13-15 in Listing~\ref{lst:zombietype}, we see that we check using the primitives \emph{count} and \emph{humansHere}\footnote{As you probably guessed, this is one of the generated primitives when we defined the Human turtle type.} if there are any Human turtle types ``here." If there are, we define the default turtle type property \emph{label} to be ``Brains!" and proceed to \emph{infect} \emph{oneOf} the \emph{humansHere}\footnote{As you likely notice, the purpose of Logo constructs in general and ReLogo code in particular can often easily be understood and can lead to more manageable code.}. To infect the human, we access the human's property \emph{infected} by \emph{referencing} it with a period\footnote{In Object Oriented languages, accessing an object's properties and methods is a common idiom.}.
+What should be noticed here is that, in addition to the method \emph{step}, we've defined another auxiliary method \emph{infect} which takes one argument of type Human, named \emph{human}\footnote{We did not have to specify the type of the argument. That is, we could have written \emph{def infect(human)} instead of \emph{def infect(Human human)}, but in specifying the variable type we are allowing the system to know that the \emph{human} variable is of type Human and therefore has an \emph{infected} property. Had we opted not to specify the type, the system would have underlined the \emph{infected} property to warn us that it may or may not exist.}. Let us take a moment to explore how it's used. Looking at lines 13-15 in Listing~\ref{lst:zombietype}, we see that we check using the primitives \emph{count} and \emph{humansHere}\footnote{As you probably guessed, this is one of the generated primitives when we defined the Human turtle type.} if there are any Human turtle types ``here." If there are, we define the default turtle type property \emph{label} to be ``Brains!" and proceed to \emph{infect} \emph{oneOf} the \emph{humansHere}\footnote{As you likely notice, the purpose of Logo constructs in general and ReLogo code in particular can often easily be understood and can lead to more manageable code.}. To infect the human, we access the human's property \emph{infected} by \emph{referencing} it with a period\footnote{In Object Oriented languages, accessing an object's properties and methods is a common idiom.}.
 
 \subsection{Coordinating behaviors with the UserObserver.}
 At this point we have both the Human and Zombie turtle types specified. What we need next is to define the overall flow of our model. Logo uses the notion of an ``observer" to accomplish this role. The UserObserver is the default observer type that was made for us when we created the Zombies project. Double clicking the UserObserver.groovy file in the Package Explorer view (Fig.~\ref{fig:UserObserver}) will bring up the file\footnote{When the UserObserver.groovy file is revealed in the editor it will include \emph{commented} sections of code. Comments in ReLogo and Groovy (and Java) are specified by \texttt{//} for single line comments and \texttt{/*comment content*/} for multiline comments. All the contents of comments are ignored in terms of program logic but they are helpful (and many say indispensable) for creating readable and manageable code. You may leave the comments in or delete them.}.
@@ -362,7 +362,7 @@ Now that we know the gist of Listing~\ref{lst:observersetup}, let's delve a litt
 \end{figure}
 
 
-Another thing that the astute reader might notice is that there are references to \emph{numHumans} and \emph{numZombies}. While it's possible for these to be properties of the UserObserver class, we will opt to make these ``tweakable'' as the simulation progresses via slider graphical elements. More on this in a bit. The ReLogo editor has autocompletion capabilities. Starting to type \texttt{createHu} (on Line 5 in Listing~\ref{lst:observersetup}) and pressing Control Space will reveal suggested completions (Fig.~\ref{fig:createHu}). The information in the revealed pane indicates that the \emph{createHumans} method (and the \emph{createZombies} method) takes an optional block of code as a second argument where the created turtles can be initialized immediately after being created. The contents of the code block are understood to be in the context of the relevant entities (Human or Zombie turtles) so it is unnecessary to specify that it's the turtle \texttt{setxy} method that we are calling. Invoking the code completion within the code blocks illustrates this (Fig.~\ref{fig:setX}).
+Another thing that the astute reader might notice is that there are references to \emph{numHumans} and \emph{numZombies}. While it's possible for these to be properties of the UserObserver class, we will opt to make these ``tweakable'' as the simulation progresses via slider graphical elements\footnote{Since these variables are not yet defined, you'll see them underlined in the editor.}. More on this in a bit. The ReLogo editor has autocompletion capabilities. Starting to type \texttt{createHu} (on Line 5 in Listing~\ref{lst:observersetup}) and pressing Control Space will reveal suggested completions (Fig.~\ref{fig:createHu}). The information in the revealed pane indicates that the \emph{createHumans} method (and the \emph{createZombies} method) takes an optional block of code as a second argument where the created turtles can be initialized immediately after being created. The contents of the code block are understood to be in the context of the relevant entities (Human or Zombie turtles) so it is unnecessary to specify that it's the turtle \texttt{setxy} method that we are calling. Invoking the code completion within the code blocks illustrates this (Fig.~\ref{fig:setX}).
 
 \begin{figure}
 \begin{center}
@@ -669,7 +669,7 @@ The User Panel on the left reveals the graphical elements that we created (Fig.~
 \end{center}
 \end{figure}
 
-At this point we can choose to repeatedly press the \emph{Step} button and observe how the model evolves (Fig.~\ref{fig:brains}) or, alternatively, we can press the \emph{Play} button (Fig.~\ref{fig:playRuntime}) which will run the simulation until we \emph{Pause} (Fig.~\ref{fig:pauseRuntime}) or \emph{Stop} (Fig.~\ref{fig:stopRuntime}) it. Whenever we want to reset the model, we simply press the \emph{Reset} (Fig.~\ref{fig:resetRuntime}) button.
+At this point we can choose to repeatedly press the \emph{Step} button and observe how the model evolves (Fig.~\ref{fig:brains}) or, alternatively, we can press the \emph{Play} button (Fig.~\ref{fig:playRuntime}) which will run the simulation until we \emph{Pause} (Fig.~\ref{fig:pauseRuntime}) or \emph{Stop} (Fig.~\ref{fig:stopRuntime}) it. Whenever we want to reset the model, we simply press the \emph{Reset} (Fig.~\ref{fig:resetRuntime}) button. If, as we do next, we want to modify or add to the model's code, we must close the Repast Simphony runtime and, after the modifications to the model are complete, relaunch it.
 
 \begin{figure}
 \begin{center}
@@ -902,7 +902,7 @@ Now that we've created a data set we want to be able to output this data set. We
 \item
 Right click on Text Sinks in the Scenario Tree (you may have to scroll down a bit), and click Add File Sink.
 \item
-Choose Agent Counts for the Data Set ID.
+Choose Agent Counts for the Data Set ID. (Any name is fine for the File Sink name.)
 \item
 Click on \emph{tick} in the first column and click the green right arrow.
 \item
@@ -925,7 +925,7 @@ Now we initialize the runtime (Fig.~\ref{fig:initruntime}) and run the model via
 \end{center}
 \end{figure}
 
-We can also directly connect to some external tools. To demonstrate this, we launch the Zombies model again. After initializing the runtime, and running the model, we turn our attention to the External Tools buttons at the top of the runtime window (Fig.~\ref{fig:externaltools}). For now we'll demonstrate how we can easily export our data into Microsoft Excel. To do this we choose the Spreadsheets plugin, the button with the calculator icon. If you have Excel on your machine, chances are the default location is correct. Otherwise select the appropriate location via the Browse button. Click Next and you should see that the file sink we defined is selected (Fig.~\ref{fig:spreadsheet}). Click Finish and Excel should launch with the data displayed in a spreadsheet. We recommend experimenting with the various other external tool plugins on your own.
+We can also directly connect to some external tools. To demonstrate this, we launch the Zombies model again. After initializing the runtime, and running the model, we turn our attention to the External Tools buttons at the top of the runtime window (Fig.~\ref{fig:externaltools}). For now we'll demonstrate how we can easily export our data into Microsoft Excel. To do this we choose the Spreadsheets plugin, the button with the calculator icon. If you see a license panel, click on Next. On the Spreadsheet home panel, if you have Excel on your machine, chances are the default location is correct. Otherwise select the appropriate location via the Browse button. Click Next and you should see that the file sink we defined is selected (Fig.~\ref{fig:spreadsheet}). Click Finish and Excel should launch with the data displayed in a spreadsheet. We recommend experimenting with the various other external tool plugins on your own.
 
 \begin{figure}
 \begin{center}
@@ -982,6 +982,7 @@ Patch variables annotated this way can be manipulated over all the patches simul
 \item diffusibleMultiply(String, Number)
 \item diffusibleSubtract(String, Number)
 \end{itemize}
+These primitives make it both easy and efficient to execute collective operations on patch variables. These include operations such as diffusing values of patch variables and simultaneous scalar and functional operations.
 
 \subsection{@Plural annotation for turtles and links}
 The default plural form for turtle and link types is an `s' appended to the class name. Turtle and link types with unusual plural forms can have @Plural annotations specifying custom pluralizations.
@@ -1053,7 +1054,7 @@ By default the Package Explorer has a ReLogo Resource Filter selected. When in t
 \end{figure}
 
 \subsection{ReLogo world dimensions}
-After disabling the ReLogo Resource Filter (Section~\ref{sec:RRF}), one of the elements that can be accessed is the parameters.xml file within the Zombies.rs folder. This is where the world dimensions are stored\footnote{Other parameters can be defined here as well. See the Repast Simphony documentation for details on creating and using custom parameters in your model.}. Double-clicking the file will display the contents in an XML editor (Fig.~\ref{fig:worlddims}) where they can be modified. Note that the dimensions are integers and  ``minPxcor" and  ``minPycor" should be less than or equal to~0.
+After disabling the ReLogo Resource Filter (Section~\ref{sec:RRF}), one of the elements that can be accessed is the parameters.xml file within the Zombies.rs folder. This is where the world dimensions are stored\footnote{Other parameters can be defined here as well. See the Repast Simphony documentation for details on creating and using custom parameters in your model.}. Double-clicking the file will display the contents in an XML editor (Fig.~\ref{fig:worlddims}) where they can be modified. Note that the dimensions are integers and  ``minPxcor" and  ``minPycor" should be less than or equal to~0\footnote{These dimensions can also be accessed through the Repast Simphony Runtime GUI Parameter panel. Make sure to click the ``Set current parameter values as default parameter values" button if you wish to retain the modified dimension values across runs.}.
 
 \begin{figure}
 \begin{center}
@@ -1083,13 +1084,13 @@ After disabling the ReLogo Resource Filter (Section~\ref{sec:RRF}), one of the e
 
 \subsection{Stochastic Execution and Parameter Sweeps}
 
-Most Repast models use random draws and are therefore stochastic simulations. Stochastic simulations will produce different outcomes for different random number streams, which are generally driven by choosing different random seeds. Such simulations should be executed repeatedly to explore the space of possible outcomes. Even without randomness, model sensitivity analysis parameter sweeps should be run to determine the response of the model to changes in input values. Repast provides both local and distributed tools for automatically completing stochastic execution runs and parameter sweeps. Please see the Repast Parameter Sweep Guide for more information.
+Most Repast models use random draws and are therefore stochastic simulations. Stochastic simulations will produce different outcomes for different random number streams, which are generally driven by choosing different random seeds. Such simulations should be executed repeatedly to explore the space of possible outcomes. Even without randomness, model sensitivity analysis parameter sweeps should be run to determine the response of the model to changes in input values. Repast provides both local and distributed tools for automatically completing stochastic execution runs and parameter sweeps. Please see the Repast Batch Getting Started Guide for more information.
 
 \subsection{Model Distribution}
 
-Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive (``JAR") file that can be given to model users. The resulting installer can be executed on any system with Java version 7 or later installed. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
+Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive (``JAR") file that can be given to model users. The resulting installer can be executed on any system with Java version 7 or 8 installed, depending on which version was used to compile the model. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
 
-Building an installer for a model is straightforward. Simply choose the ``Build Installer for $\langle$Your Model Name Here$\rangle$ Model" and provide a location and name for the installer file. The installer file's default name is ``setup.jar," which is suitable for most purposes. The install builder will then package and compress your model and the supporting Repast software. The resulting installer files are about 70 MB plus the size of the model code and data. 75 MB to 80 MB is a common total size. 
+Building an installer for a model is straightforward. In Eclipse, simply choose the ``Build Installer for $\langle$Your Model Name Here$\rangle$ Model" from the launchers drop-down menu and provide a location and name for the installer file. The installer file's default name is ``setup.jar," which is suitable for most purposes. The install builder will then package and compress your model and the supporting Repast software. The resulting installer files are about 70 MB plus the size of the model code and data. 75 MB to 80 MB is a common total size. 
 
 The Repast install builder uses the IzPack system (http://izpack.org/). More information on installer customization and use, including command line activation, can be found on the \href{http://izpack.org/}{IzPack web site}.
 
@@ -1196,9 +1197,9 @@ Table \ref{tab:graphical} lists the various elements available for use in the Us
    \label{tab:graphical}
       \end{minipage}
 \end{table}
-Additionally, \emph{Observer}s are provided with a \emph{registerModelParameterListener(String,Closure)} method which allows for registering a closure to execute when a specified model parameter (such as those defined by the Global, Slider, Chooser, Switch and Input elements) are modified. This method would typically be called from within a \emph{setup}-like \emph{Observer} method.
+Additionally, \emph{Observer}s are provided with a \emph{registerModelParameterListener(String,Closure)} method which allows for registering a closure, or code block, to execute when a specified model parameter (such as those defined by the Global, Slider, Chooser, Switch and Input elements) are modified. This method would typically be called from within a \emph{setup}-like \emph{Observer} method.
 
-Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also be used to create more advanced GUIs. The elements available are listed in Table \ref{tab:graphical2}. Listing \ref{lst:swingbuilder} shows a code snippet example. Note that the usage pattern of the elements in Table~\ref{tab:graphical2} is to assign the elements to a variable and use SwingBuilder's \emph{widget} method to incorporate them into panels you create with \emph{addPanel}\footnote{The \emph{addPanel} method passes its closure argument to a SwingBuilder \emph{panel} element.}.
+Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also be used to create more advanced GUIs. The elements available are listed in Table \ref{tab:graphical2}. Listing \ref{lst:swingbuilder} shows a code snippet example\footnote{Similar to the regular graphical control elements, this snippet is placed within the UserGlobalsAndPanelFactory's \emph{addGlobalsAndPanelComponents} method.}. Note that the usage pattern of the elements in Table~\ref{tab:graphical2} is to assign the elements to a variable and use SwingBuilder's \emph{widget} method to incorporate them into panels you create with \emph{addPanel}\footnote{The \emph{addPanel} method passes its closure argument to a SwingBuilder \emph{panel} element.}.
 
 % Requires the booktabs if the memoir class is not being used
 \begin{table}[htbp]
