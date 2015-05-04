@@ -44,9 +44,12 @@
 \maketitle
 
 \section{System Dynamics in Repast Simphony}
-Repast Simphony supports developing System Dynamics models from scratch and also importing existing System Dynamics models into your projects and converting them to a format that can be displayed and manipulated by the System Dynamics Graphical User Interface (GUI). Given the set of equations of the System Dynamics model, Java source code is generated that implements the model. The standard generated code implements the Euler method directly. An alternate form generated for System Dynamics models that meet certain criteria (specified in a later section), is compatible with the Apache ODE Solver library.
-This tutorial presents the steps required to create a System Dynamics model in Repast Simphony.
-Figure 1 shows the layout of the System Dynamics GUI screen in the Eclipse IDE. The layout is similar to all other Repast Simphony models that are specified via Eclipse. The left-side panel contains all the Repast Simphony projects that have been defined. Displayed in area are all files related to the projects such as source code, generated code, output files, etc. The top-center panel is a tabbed panel in which source code and diagrams can be viewed and edited. Finally, the lower-right panel is a tabbed panel in which console output, search output, System Dynamics model variable properties, etc. will be displayed. The Eclipse IDE is highly configurable and the more experienced users will know that location of these areas can easily be moved into other configurations to suit the needs of the user.\\
+Repast Simphony supports developing System Dynamics (SD) models from scratch and also importing existing System Dynamics models into your projects and converting them to a format that can be displayed and manipulated by the System Dynamics Graphical User Interface (GUI). Given the set of equations of the System Dynamics model, Java source code is generated that implements the model. The standard generated code implements the Euler method directly.
+
+New to this release is the support for creating either standalone System Dynamics models or System Dynamics components that will be part of a hybrid ABM/SD model. In a standalone SD model, all scenario configuration data would be created to support running model on its own. All scenario specific details would be part of the standard RS scenario directory. The generated code would be responsible for initializing and executing the model. When the system dynamics model is used as a component in a hybrid ABM/SD model, the ABM component is assumed to take on the role for configuring the model, creating objects, running the model and saving results. The SD model, in fact, becomes one of the agent objects and provides access to its attributes to the "outside world" through getters and setters.
+
+This tutorial presents the steps required to create a System Dynamics model in Repast Simphony. The model used in this tutorial exists as a  completed System Dynamics model named \textit{RSDemo} in the demonstration models distributed with Repast Simphony.
+Figure 1 shows the layout of the System Dynamics GUI screen in the Eclipse IDE. The layout is similar to all other Repast Simphony models that are specified via Eclipse. The left-side panel contains all the Repast Simphony projects that have been defined. Displayed in this area are all files related to the projects such as source code, generated code, output files, etc. The top-center panel is a tabbed panel in which source code and diagrams can be viewed and edited. Finally, the lower-right panel is a tabbed panel in which console output, search output, System Dynamics model variable properties, etc. will be displayed. The Eclipse IDE is highly configurable and the more experienced users will know that location of these areas can easily be moved into other configurations to suit the needs of the user.\\
 
 
 
@@ -273,13 +276,13 @@ Comments are optional, though recommended.  Functions and Influencing variables 
 \clearpage
 
 \section{Completing the Diagram}
-At this point, create additional model structure Click on object in pallete and then click on diagram to insert it. To create an arrow or rate, click on pallete object, click on the arrow source and hold the mouse button down while moving the cursor to the destination variable and release the mouse button. Rates require a name. Influence arrows do not.
+At this point, you will create additional model structure. Click on object in pallete and then click on diagram to insert it. To create an arrow or rate, click on pallete object, click on the arrow source and hold the mouse button down while moving the cursor to the destination variable and release the mouse button. Rates require a name. Influence arrows do not.Specifically:
 
 \begin{enumerate}
-\item Create a constant named “initial susceptible”
-\item Create another stock named “Infected”
-\item Create an influence arrow from “initial susceptible” to “Health”
-\item Create a rate arrow between “Healthy” and “Infected”
+\item Create a constant named \textit{initial susceptible}
+\item Create another stock named \textit{Infected}
+\item Create an influence arrow from \textit{initial susceptible} to \textit{Healthy}
+\item Create a rate arrow between \textit{Healthy} and \textit{Infected} and name it \textit{getting sick}
 \end{enumerate}
 \vspace{.2in}
 
@@ -298,8 +301,29 @@ You should see something like Figure 14.
 \end{center}
 \end{figure}
 
+Now let's complete the entire diagram.
 
+\begin{enumerate}
+\item Create a constant named \textit{fraction infected from contact} above  \textit{getting sick}
+\item Create a constant named \textit{rate that people contact other people} to the left of \textit{Healthy}
+\item Create a constant named \textit{initial infected} above and to the right of \textit{Infected}
+\item Create an auxiliary named \textit{rate of potential infectious contects} below \textit{Healthy}
+\item Create an auxiliary named \textit{Contacts between infected and unaffected} below \textit{getting sick}
+\item Create an auxiliary named \textit{Fraction of population infected} below \textit{Infected}
+\item Create an auxiliary named \textit{total population} below \textit{Contacts between infected and unaffected}
+\item Create an influence arrow from \textit{fraction infected from contact} to \textit{getting sick}
+\item Create an influence arrow from \textit{rate that people contact other people} to \textit{rate of potential infectious contects}
+\item Create an influence arrow from \textit{initial infected} to \textit{Infected}
+\item Create an influence arrow from \textit{rate of potential infectious contects} to \textit{Contacts between infected and unaffected}
+\item Create an influence arrow from \textit{Fraction of population infected} to \textit{Contacts between infected and unaffected}
+\item Create an influence arrow from \textit{Contacts between infected} and unaffected to \textit{getting sick}
+\item Create an influence arrow from \textit{Healthy} to \textit{total population}
+\item Create an influence arrow from \textit{Infected} to \textit{total population}
+\item Create an influence arrow from \textit{total population} to \textit{Fraction of population infected}
+\end{enumerate}
+\vspace{.2in}
 
+Your diagram should look like:
 
 \begin{figure}[ht]
 \begin{center}
@@ -500,33 +524,47 @@ Check for model consistency once again. The model is found to be consistent. (Fi
 \end{figure}
 
 \section{Generate the Java Code}
-Now generate the code (See Figure 21, icon to the left of check consistency). Files other than source code will be generated in the scenario directory by Repast Simphony. Among these are:
-
-\begin{enumerate}
-\item context.xml
-\item parameters.xml
-\item repast.simphony.action.data\_set\_0.xml
-\item repast.simphony.dataLoader.engine.ClassNameDataLoaderAction\_1.xml
-\item scenario.xml
-\item usath.xm
-\end{enumerate}
-\vspace{.2in}
-
-Other files can be created in this directory when you create objects such as graphs and output files through the Repast Simphony GUI when you run the model. The user is prompted whether ir not the scenario directory will be reinitialized to its default contents. (Figure 25).
-
+Now generate the code (See Figure 21, icon to the left of check consistency). This is the decision point where code will be generated to be standalone or compatible in a ABM/SD hybrid environment. See Figure 25 for the dialog screen.
 
 \begin{figure}[ht]
 \begin{center}
 \vspace{.2in}
 \centerline {
-\includegraphics[totalheight=0.1\textheight]{images/025.jpg}
+\includegraphics[totalheight=0.3\textheight]{images/decision.jpg}
 }
 \caption{}
 \label{fig:025}
 \end{center}
 \end{figure}
 
-The Java source code and scenario files have been successfully been generated (Figure 26). Figure 27 shows the generated Java source code and scenario files.
+ Selecting \textit{No} will cause the source code to be generated in the fashion of previous releases. All source code is generated to operate totally standalone. Files other than source code will be generated in the scenario directory by Repast Simphony. Here is a depiction of the structure of the source code and scenario directories for a standalone SD model. The files generated would appear as in Figure 26.
+
+\begin{figure}[ht]
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[totalheight=0.3\textheight]{images/standalone.jpg}
+}
+\caption{}
+\label{fig:026}
+\end{center}
+\end{figure}
+
+ Selecting \textit{Yes} will cause the source code to be configured to be used in a ABM/SD hybrid environement. Within the generated  Java code, no system-wide initialization or object creation if performed. Convenience getters and getters are generated in the main object created (normally these would be in the "Memory" object associated with the model but are made available to code outside the object itself). See figure 27 for the files generated for a hybrid environment.
+
+\begin{figure}[ht]
+\begin{center}
+\vspace{.2in}
+\centerline {
+\includegraphics[totalheight=0.3\textheight]{images/hybrid.jpg}
+}
+\caption{}
+\label{fig:02c}
+\end{center}
+\end{figure}
+
+
+The Java source code and scenario files have been successfully been generated (Figure 28). Figure 29 shows the generated Java source code and scenario files.
 
 \begin{figure}[ht]
 \begin{center}
@@ -553,8 +591,11 @@ The Java source code and scenario files have been successfully been generated (F
 \end{center}
 \end{figure}
 
+In a hybrid model, the user is responsible for instantiating, initializing, and calling the SD object step() method to operate as a regular agent object.
 
-Figure 28 contains the declaration of the model variables and sample getters. Note that the variable names you specified in the equations have been altered to be legal Java variable names.
+\textbf{The rest of this section and document is specific to a standalone model.}
+
+Figure 30 contains the declaration of the model variables and sample getters. Note that the variable names you specified in the equations have been altered to be legal Java variable names.
 
 
 \begin{figure}[ht]
@@ -569,7 +610,7 @@ Figure 28 contains the declaration of the model variables and sample getters. No
 \end{figure}
 
 
-Any variable that has a numeric constant as its value will be placed into the parameters.xml file so that these values can be set via the RS GUI rather than having to edit the diagram and regenerate the code. Figure 29 contains a code sample for extracting this data from the parameters.xml file.
+Any variable that has a numeric constant as its value will be placed into the parameters.xml file so that these values can be set via the RS GUI rather than having to edit the diagram and regenerate the code. Figure 31 contains a code sample for extracting this data from the parameters.xml file.
 
 \begin{figure}[ht]
 \begin{center}
@@ -583,7 +624,7 @@ Any variable that has a numeric constant as its value will be placed into the pa
 \end{figure}
 
 
-Figure 30 shows a code sample for the implementation of a stock variable.
+Figure 32 shows a code sample for the implementation of a stock variable.
 
 \begin{figure}[ht]
 \begin{center}
@@ -596,7 +637,7 @@ Figure 30 shows a code sample for the implementation of a stock variable.
 \end{center}
 \end{figure}
 
-Figure 31 contains the source code for the ContextBuilder.
+Figure 33 contains the source code for the ContextBuilder.
 
 \begin{figure}[ht]
 \begin{center}
@@ -609,7 +650,7 @@ Figure 31 contains the source code for the ContextBuilder.
 \end{center}
 \end{figure}
 
-Figure 32 shows the parameters.xnl file that was generated. Note that the values specified in the SD model diagram have been incorporated in to the parameters file.
+Figure 34 shows the parameters.xnl file that was generated. Note that the values specified in the SD model diagram have been incorporated in to the parameters file.
 
 
 \begin{figure}[ht]
@@ -623,7 +664,7 @@ Figure 32 shows the parameters.xnl file that was generated. Note that the values
 \end{center}
 \end{figure}
 
-Figure 33 contains a portion of the automatically generated data set for the variables that are used in the model. This is for the convenience of the user in creating reports and graphs. 
+Figure 35 contains a portion of the automatically generated data set for the variables that are used in the model. This is for the convenience of the user in creating reports and graphs. 
 
 \clearpage
 
@@ -641,7 +682,7 @@ Figure 33 contains a portion of the automatically generated data set for the var
 \newpage
 
 \section{Execute the Model}
-At this point, the model is ready to be executed. Figure 34 shows the procedure for executing the model using the automatically generated launcher (available through the run>configurations menu item or via the run configurations shortcut).
+At this point, the model is ready to be executed. Figure 36 shows the procedure for executing the model using the automatically generated launcher (available through the run/configurations menu item or via the run configurations shortcut).
 
 
 \begin{figure}[ht]
@@ -656,7 +697,7 @@ At this point, the model is ready to be executed. Figure 34 shows the procedure 
 \end{figure}
 
 
-Figure 35 shows the Repast Simphony GUI at startup time. In the scenario tree panel, you can see the generated ContextBuilder and the predefined data set. 
+Figure 37 shows the Repast Simphony GUI at startup time. In the scenario tree panel, you can see the generated ContextBuilder and the predefined data set. 
 
 \begin{figure}[ht]
 \begin{center}
@@ -669,7 +710,7 @@ Figure 35 shows the Repast Simphony GUI at startup time. In the scenario tree pa
 \end{center}
 \end{figure}
 
-Let’s first create a time series graph so that we can view the results of the model. Figures 36-39 illustrate the process of defining the graph.
+Let’s first create a time series graph so that we can view the results of the model. Figures 38-41 illustrate the process of defining the graph.
 
 
 \begin{figure}[ht]
@@ -726,7 +767,7 @@ Specify the Title and Y Axis label. Click finish to complete the graph definitio
 \end{center}
 \end{figure}
 
-Figure 40 shows the process for initializing the model. This consists of access the scenario files and initializing all the variables that can be initialized at this time. In addition, the graph we defined will be displayed (Figure 41). Note that you can start the model without initializing it. The initialization process will take place, but this can happen so quickly that the GUI will not be able to display a graph before the model reaches its end time. It is recommended that you always initialize the model before starting it.
+Figure 42 shows the process for initializing the model. This consists of access the scenario files and initializing all the variables that can be initialized at this time. In addition, the graph we defined will be displayed (Figure 42). Note that you can start the model without initializing it. The initialization process will take place, but this can happen so quickly that the GUI will not be able to display a graph before the model reaches its end time. It is recommended that you always initialize the model before starting it.
 
 
 \begin{figure}[ht]
@@ -740,7 +781,7 @@ Figure 40 shows the process for initializing the model. This consists of access 
 \end{center}
 \end{figure}
 
-Figure 41 shows the GUI after the model has been initialized.
+Figure 43 shows the GUI after the model has been initialized.
 
 
 \begin{figure}[ht]
@@ -754,7 +795,7 @@ Figure 41 shows the GUI after the model has been initialized.
 \end{center}
 \end{figure}
 
-Figure 42 shows the icon to click to start the model execution.
+Figure 44 shows the icon to click to start the model execution.
 
 
 \begin{figure}[ht]
@@ -768,7 +809,7 @@ Figure 42 shows the icon to click to start the model execution.
 \end{center}
 \end{figure}
 
-Figure 43 shows the graph being displayed at the end of the model time frame. Note that the graph is updated as the model executes rather than just displaying at the end.
+Figure 45 shows the graph being displayed at the end of the model time frame. Note that the graph is updated as the model executes rather than just displaying at the end.
 
 
 \begin{figure}[ht]
@@ -782,7 +823,7 @@ Figure 43 shows the graph being displayed at the end of the model time frame. No
 \end{center}
 \end{figure}
 
-Figure 44 shows the icon that can be used to reset the model for another execution without having to restart the Repast Simphony GUI.
+Figure 46 shows the icon that can be used to reset the model for another execution without having to restart the Repast Simphony GUI.
 
 
 \begin{figure}[ht]
@@ -828,7 +869,7 @@ The Repast Simphony System Dynamics subsystem can read the equations and associa
 \end{center}
 \end{figure}
 
-Once imported, the model diagram is displayed as in Figure 47. Note that positional data in the existing SD model is not transferred to Repast Simphony. Rather, the Eclipse diagramming software computes the initial positioning. Components can be rearranged by dragging them to the desired locations. Occasionally, influence arrows will not properly display (i.e. are not visible in the diagram). Minor shifting of the variable’s position normally causes the arrow to be displayed properly on the redraw.
+Once imported, the model diagram is displayed as in Figure 49. Note that positional data in the existing SD model is not transferred to Repast Simphony. Rather, the Eclipse diagramming software computes the initial positioning. Components can be rearranged by dragging them to the desired locations. Occasionally, influence arrows will not properly display (i.e. are not visible in the diagram). Minor shifting of the variable’s position normally causes the arrow to be displayed properly on the redraw.
 
 
 \begin{figure}[ht]
@@ -857,13 +898,13 @@ Once imported, the model diagram is displayed as in Figure 47. Note that positio
 \end{figure}
 
 \section{Support for Arrays}
-Repast Simphony System Dynamics supports the use of arrays in models. Figures 49-55 show the process for adding arrays to an existing model. First, we need to start the process by creating a subscript (Figure 49).
+Repast Simphony System Dynamics supports the use of arrays in models. Figures 49-55 show the process for adding arrays to an existing model. First, we need to start the process by creating a subscript (Figure519).
 
 
-You must click on the Add button to bring up an empty, unnamed subscript (Figure 50).
+You must click on the Add button to bring up an empty, unnamed subscript (Figure 52).
 
 
-Then we can add the name and specify the subscript values as a comma separated list (Figures 51 and 52). Note that subscripts take alphanumeric values. During the code generation phase, these are changed to numeric subscripts. It is intended that this be hidden from the user as the use of mapped subscripts (an advanced SD model technique) can cause the numeric mapping to be less that obvious in some cases.
+Then we can add the name and specify the subscript values as a comma separated list (Figures 53 and 54). Note that subscripts take alphanumeric values. During the code generation phase, these are changed to numeric subscripts. It is intended that this be hidden from the user as the use of mapped subscripts (an advanced SD model technique) can cause the numeric mapping to be less than obvious in some cases.
 
 
 \begin{figure}[ht]
@@ -877,7 +918,7 @@ Then we can add the name and specify the subscript values as a comma separated l
 \end{center}
 \end{figure}
 
-The user needs to specify exactly where each instance of a subscript must appear. Not all variables in an equation that contains arrays need to be subscripted. But once a variable is referenced as an array, it must be referenced as an array in all instances with consistent use of subscripts. Figures 53 and 54 show the process of adding a subscript to an equation. In this case, we want to add the Country subscript to the Healthy stock variable to create an array. Place the cursor in the proper position within the LHS text box and then click on the subscript you wish to insert. The subscript notation is added to the Healthy stock variable.
+The user needs to specify exactly where each instance of a subscript must appear. Not all variables in an equation that contains arrays need to be subscripted. But once a variable is referenced as an array, it must be referenced as an array in all instances with consistent use of subscripts. Figures 55 and 56 show the process of adding a subscript to an equation. In this case, we want to add the Country subscript to the Healthy stock variable to create an array. Place the cursor in the proper position within the LHS text box and then click on the subscript you wish to insert. The subscript notation is added to the Healthy stock variable.
 
 
 \begin{figure}[ht]
@@ -903,7 +944,7 @@ The user needs to specify exactly where each instance of a subscript must appear
 \end{center}
 \end{figure}
 
-As indicated in Figure 55, the subscript notation will be inserting only at the cursor location. If there are multiple variables requiring the subscript notation, each must be added individually.
+As indicated in Figure 57, the subscript notation will be inserting only at the cursor location. If there are multiple variables requiring the subscript notation, each must be added individually.
 
 
 \begin{figure}[ht]
@@ -918,7 +959,7 @@ As indicated in Figure 55, the subscript notation will be inserting only at the 
 \end{figure}
 
 
-Figure 56 shows on of the possible errors resulting from inconsistent array and non-array references to a variable. The instance of the Healthy stock variable in the rate of potential infectious contacts equation is that of a scalar reference. The consistency checker attempted to find the variable named Healthy in the scalar variable table. But since it had been defined as an array in its LHS definition, the lookup failed and the error is reported. This also occurs for the Infected and total population variables in this example.
+Figure 58 shows on of the possible errors resulting from inconsistent array and non-array references to a variable. The instance of the Healthy stock variable in the rate of potential infectious contacts equation is that of a scalar reference. The consistency checker attempted to find the variable named Healthy in the scalar variable table. But since it had been defined as an array in its LHS definition, the lookup failed and the error is reported. This also occurs for the Infected and total population variables in this example.
 
 \begin{figure}[ht]
 \begin{center}
@@ -931,7 +972,7 @@ Figure 56 shows on of the possible errors resulting from inconsistent array and 
 \end{center}
 \end{figure}
 
-Note that the existence of arrays in an SD model is not detectable from simply looking at the model diagram as shown in Figure 57. You would need to examine the properties for the variables to determine which are subscripted.
+Note that the existence of arrays in an SD model is not detectable from simply looking at the model diagram as shown in Figure 59. You would need to examine the properties for the variables to determine which are subscripted.
 
 \begin{figure}[ht]
 \begin{center}
