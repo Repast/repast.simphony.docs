@@ -44,8 +44,7 @@
 \setcounter{section}{-1}
 
 \section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of Repast Simphony 2.2. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony 2.2 requires Java 7. Java 7 can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
-
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
 
 \section{Getting Started with Statecharts}
 
@@ -65,7 +64,7 @@ Figure~\ref{fig:statechartExample} shows a simple example of a statechart create
 \end{figure}
 
 \subsection{Adding Statecharts}
-A statechart can be added to any Java, Groovy or ReLogo class. Right-clicking the class of interest and selecting New $\rightarrow$ Statechart Diagram (Figure~\ref{fig:newStatechart}) will bring up the new statechart wizard (Figure~\ref{fig:newStatechartWizard}). The editable new statechart wizard elements are:
+A statechart can be added to any Java, Groovy or ReLogo class\footnote{For example, any of the agent classes that are created in the other Repast Simphony Getting Started guides can have statecharts added to them.}. Right-clicking the class of interest and selecting New $\rightarrow$ Statechart Diagram (Figure~\ref{fig:newStatechart}) will bring up the new statechart wizard (Figure~\ref{fig:newStatechartWizard}). The editable new statechart wizard elements are:
 \begin{description}
 \item[File Name] This is the .rsc statechart file name that will be edited with the visual statecharts editor.
 \item[Name] The display name of the statechart.
@@ -128,7 +127,13 @@ public class Agent {
 \vspace{.2in}
 \end{minipage}
 
-Creating a new statechart will also bring up the newly created blank statechart editor, which we describe next.
+\subsubsection{A note on statechart scheduling}
+Statecharts have two associated scheduling behaviors. The first is the one described above which deals with when a statechart should begin being active. If a time tick is specified, a statechart is scheduled to be active at the time tick with \emph{highest} model action priority. That is, the statechart is activated before any other scheduled model behaviors are run. In this way all scheduled actions that occur during a time tick occur after the statechart is active. 
+
+The second, and more prevalent scheduling activity, is that which governs the resolving of statechart triggers. This dictates when a statechart will check for transition conditions and, consequently, when associated state changes can occur. This resolve scheduling occurs with the \emph{lowest} model action priority, meaning that all other scheduled activities for a particular time tick will run before any statechart resolutions occur. This allows any state based activities to depend on the model state after all other possible model changes have already occurred.
+
+
+
 
 
 
@@ -138,7 +143,7 @@ Creating a new statechart will also bring up the newly created blank statechart 
 
 \subsection{Statecharts Editor}
 
-The statecharts editor is divided into three main panels (Figure~\ref{fig:statechartEditorBoxes}). The first (Figure~\ref{fig:statechartEditorBoxes}a) is the statecharts workspace area. This is where the visual elements of a statechart are created and arranged. The palette panel (Figure~\ref{fig:statechartEditorBoxes}b) shows the available statechart elements that can be used in the statecharts workspace\footnote{Sections~\ref{sec:states} and \ref{sec:transitions} will cover these elements in detail.} Clicking on an element in the palette panel and then clicking on the statecharts workspace will create an instance of that element in the workspace. The properties panel (Figure~\ref{fig:statechartEditorBoxes}c) shows the properties of the element selected in the statecharts workspace. If, as in Figure~\ref{fig:statechartEditorBoxes}, no element is selected, the properties of the statechart itself are shown. In addition to displaying element properties, the panel is also where the properties of elements can be edited. A statechart has a priority which indicates the order in which it will be resolved with respect to other statecharts (see red box in Figure~\ref{fig:statechartProperties}). So, for example, if an agent has two statecharts (A and B) and statechart A should be resolved before statechart B, giving statechart A a higher priority will ensure that this occurs.
+Creating a new statechart will bring up the newly created blank statechart editor, which we describe next. The statecharts editor is divided into three main panels (Figure~\ref{fig:statechartEditorBoxes}). The first (Figure~\ref{fig:statechartEditorBoxes}a) is the statecharts workspace area. This is where the visual elements of a statechart are created and arranged. The palette panel (Figure~\ref{fig:statechartEditorBoxes}b) shows the available statechart elements that can be used in the statecharts workspace\footnote{Sections~\ref{sec:states} and \ref{sec:transitions} will cover these elements in detail.}. Clicking on an element in the palette panel and then clicking on the statecharts workspace will create an instance of that element in the workspace. To create transitions between elements, you can click on the Transition arrow in the palette and then click and drag from a source element to a target element. The properties panel (Figure~\ref{fig:statechartEditorBoxes}c) shows the properties of the element selected in the statecharts workspace\footnote{If the properties panel is not showing, right-click on the canvas and choose ``Show Properties view" or double-click on any statechart element.}. If, as in Figure~\ref{fig:statechartEditorBoxes}, no element is selected, the properties of the statechart itself are shown. In addition to displaying element properties, the panel is also where the properties of elements can be edited. A statechart has a priority which indicates the order in which it will be resolved with respect to other statecharts (see red box in Figure~\ref{fig:statechartProperties}). So, for example, if an agent has two statecharts (A and B) and statechart A should be resolved before statechart B, giving statechart A a higher priority will ensure that this occurs.
 \begin{figure}
 \begin{center}
 \vspace{.2in}
@@ -161,7 +166,7 @@ The statecharts editor is divided into three main panels (Figure~\ref{fig:statec
 \end{center}
 \end{figure}
 
-There is a contextual menu approach for adding elements to the workspace as well. Simply hovering over an area in the workspace will reveal a contextual menu of the available elements appropriate for the region pointed to. If the mouse pointer is on an empty space in the workspace background, you will see the contextual menu in Figure~\ref{fig:defaultContextualMenu}. If the pointer is on a state, you will see transitions shortcuts like in Figure~\ref{fig:stateConnectorsHover}, the left symbol indicating a connection to this state and the right symbol a connection from this state. Finally, if the pointer is inside a composite state, you will see the contextual menu in Figure~\ref{fig:compositeContextualMenu}.
+There is a contextual menu approach for adding elements to the workspace as well. Simply hovering over an area in the workspace will reveal a contextual menu of the available elements appropriate for the region pointed to. If the mouse pointer is on an empty space in the workspace background, you will see the contextual menu in Figure~\ref{fig:defaultContextualMenu}. If the pointer is on a state, you will see transitions shortcuts like in Figure~\ref{fig:stateConnectorsHover}, the left symbol indicating a connection to this state and the right symbol a connection from this state. Finally, if the pointer is inside a composite state\footnote{A composite state is a state that contains other states.}, you will see the contextual menu in Figure~\ref{fig:compositeContextualMenu}.
 
 
 \begin{figure}
@@ -371,7 +376,7 @@ A final state marks the end of all activities for a statechart. When a final sta
 \label{sec:branchingState}
 \includegraphics[height=.2in]{StatechartsImages/Choice-32.png}
 
-Branching states represent logical branching within statecharts (Figure~\ref{fig:branching}). Every branching state must define one outgoing \emph{Default} transtion, where the rest of the outgoing transitions are \emph{Condition} transitions (Section~\ref{sec:conditionTransition}). The \emph{Condition} transitions are checked for validity and, if valid conditions are found, the transitions' priorities dictate the transition that is followed. If no valid transitions are found, the \emph{Default} transition is followed. Figure~\ref{fig:branchingProperties} shows the properties panel for a branching state. Since a branching state is entered and immediately exited, nothing other than the state's \emph{ID} can be specified.
+Branching states represent choices, or logical branching, within statecharts (Figure~\ref{fig:branching}). Every branching state must define one outgoing \emph{Default} transtion, where the rest of the outgoing transitions are \emph{Condition} transitions (Section~\ref{sec:conditionTransition}). The \emph{Condition} transitions are checked for validity and, if valid conditions are found, the transitions' priorities dictate the transition that is followed. If no valid transitions are found, the \emph{Default} transition is followed. Figure~\ref{fig:branchingProperties} shows the properties panel for a branching state. Since a branching state is entered and immediately exited, nothing other than the state's \emph{ID} can be specified.
 
 \begin{figure}
 \begin{center}
@@ -763,7 +768,7 @@ In the rare case, the error is not flagged in the action block editor itself, th
 \end{center}
 \end{figure}
 
-
+\clearpage
 \section{Statecharts at Runtime}
 \label{sec:runtime}
 When a simulation is running, an agent's statechart can be visually accessed via the agent's probe panel. An agent's probe panel is launched by double clicking an agent in a display within the Repast Simphony runtime GUI. Figure~\ref{fig:probe} shows the Repast Simphony runtime GUI with a gridded display on the right and a probe panel on the bottom left (larger red rectangle). The probe panel was launched by double-clicking the visible agent on the right (blue filled circle). Within the probe panel, the button to display the \emph{Statechart} statechart is indicated with the smaller red rectangle (and the red arrow). When this button is pressed, a statechart display is launched (Figure~\ref{fig:runtimeStatechart}). The statechart display highlights active states with a green color\footnote{As seen in Figure~\ref{fig:runtimeStatechart}, a composite state is active if a sub-element is active (unless the sub-element is a final state).}. Under the statechart display \emph{Options} menu item there is a menu item (\emph{Always On Top}) to always keep the statecharts display on top of other displays. This is enabled by default but can be disabled.
