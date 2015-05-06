@@ -46,9 +46,12 @@
 \section{System Dynamics in Repast Simphony}
 Repast Simphony supports developing System Dynamics (SD) models from scratch and also importing existing System Dynamics models into your projects and converting them to a format that can be displayed and manipulated by the System Dynamics Graphical User Interface (GUI). Given the set of equations of the System Dynamics model, Java source code is generated that implements the model. The standard generated code implements the Euler method directly.
 
+This guide is not intended to be an introduction to system dynamics modelling but an introduction to the model building software. If you are unfamiliar with System Dynamics modelling, an excellent introduction is available on the System Dynamics Society website at http://www.systemdynamics.org/what-is-s/. It is strongly recommended that you have at least a cursory understanding of system dynamics before working through this guide.
+
 New to this release is the support for creating either standalone System Dynamics models or System Dynamics components that will be part of a hybrid ABM/SD model. In a standalone SD model, all scenario configuration data would be created to support running model on its own. All scenario specific details would be part of the standard RS scenario directory. The generated code would be responsible for initializing and executing the model. When the system dynamics model is used as a component in a hybrid ABM/SD model, the ABM component is assumed to take on the role for configuring the model, creating objects, running the model and saving results. The SD model, in fact, becomes one of the agent objects and provides access to its attributes to the "outside world" through getters and setters.
 
-This tutorial presents the steps required to create a System Dynamics model in Repast Simphony. The model used in this tutorial exists as a  completed System Dynamics model named \textit{RSDemo} in the demonstration models distributed with Repast Simphony.
+This tutorial presents the steps required to create a System Dynamics model in Repast Simphony. The model used in this tutorial exists as a  completed System Dynamics model named \textit{RSDemo} in the demonstration models distributed with Repast Simphony. The system dynamics model is contained in a single file within the project. A file extension of \textit{.rsd} is used for this file and is stored under the \textit{src} directory. Though the contents are somewhat readable, you may want to copy this file (\textit{RSDemo/src/demo/epidemic.rsd}) into the corresponding directory in your project or just work directly in the RSDemo project to avoid having to type in the entire contents of the model.
+
 Figure 1 shows the layout of the System Dynamics GUI screen in the Eclipse IDE. The layout is similar to all other Repast Simphony models that are specified via Eclipse. The left-side panel contains all the Repast Simphony projects that have been defined. Displayed in this area are all files related to the projects such as source code, generated code, output files, etc. The top-center panel is a tabbed panel in which source code and diagrams can be viewed and edited. Finally, the lower-right panel is a tabbed panel in which console output, search output, System Dynamics model variable properties, etc. will be displayed. The Eclipse IDE is highly configurable and the more experienced users will know that location of these areas can easily be moved into other configurations to suit the needs of the user.\\
 
 
@@ -61,7 +64,7 @@ Figure 1 shows the layout of the System Dynamics GUI screen in the Eclipse IDE. 
 \centerline {
 \includegraphics[totalheight=0.5\textheight]{images/001.jpg}
 }
-\caption{}
+\caption{Eclipse window layout.}
 \label{fig:001}
 \end{center}
 \end{figure}
@@ -77,7 +80,7 @@ The first step in creating a System Dynamics (SD) model is to create a Repast Si
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/002.jpg}
 }
-\caption{}
+\caption{Creating a new Repast Simphony Project}
 \label{fig:002}
 \end{center}
 \end{figure}
@@ -91,7 +94,7 @@ The first step in creating a System Dynamics (SD) model is to create a Repast Si
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/003.jpg}
 }
-\caption{}
+\caption{Creating a new Repast Simphony Project, continued}
 \label{fig:003}
 \end{center}
 \end{figure}
@@ -105,7 +108,7 @@ The first step in creating a System Dynamics (SD) model is to create a Repast Si
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/004.jpg}
 }
-\caption{}
+\caption{Creating a new Repast Simphony Project, continued}
 \label{fig:004}
 \end{center}
 \end{figure}
@@ -119,7 +122,7 @@ When the create Repast Simphony wizard completes, you will see the scenario dire
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/005.jpg}
 }
-\caption{}
+\caption{Newly created project contents}
 \label{fig:005}
 \end{center}
 \end{figure}
@@ -135,7 +138,7 @@ Now that we have the project created, we need to create an empty System Dynamics
 \centerline {
 \includegraphics[totalheight=0.4\textheight]{images/006.jpg}
 }
-\caption{}
+\caption{Creating a new system dynamics model}
 \label{fig:006}
 \end{center}
 \end{figure}
@@ -149,7 +152,7 @@ Now that we have the project created, we need to create an empty System Dynamics
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/007.jpg}
 }
-\caption{}
+\caption{Creating a new system dynamics mode, continued}
 \label{fig:007}
 \end{center}
 \end{figure}
@@ -174,7 +177,7 @@ Click on Finish to complete the process of creating a new SD model.
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/008.jpg}
 }
-\caption{}
+\caption{Creating a new system dynamics mode, continued}
 \label{fig:008}
 \end{center}
 \end{figure}
@@ -191,7 +194,7 @@ When the wizard completes the process of creating an empty SD model, the diagram
 \centerline {
 \includegraphics[totalheight=0.5\textheight]{images/009.jpg}
 }
-\caption{}
+\caption{Blank canvas}
 \label{fig:009}
 \end{center}
 \end{figure}
@@ -207,7 +210,7 @@ Begin the process of building the SD model by clicking on the Stock object in th
 \centerline {
 \includegraphics{images/010.jpg}
 }
-\caption{}
+\caption{Add a stock}
 \label{fig:010}
 \end{center}
 \end{figure}
@@ -221,7 +224,7 @@ Begin the process of building the SD model by clicking on the Stock object in th
 \centerline {
 \includegraphics[totalheight=0.15\textheight]{images/011.jpg}
 }
-\caption{}
+\caption{Add a stock, continued}
 \label{fig:011}
 \end{center}
 \end{figure}
@@ -235,7 +238,7 @@ Begin the process of building the SD model by clicking on the Stock object in th
 \centerline {
 \includegraphics[totalheight=0.15\textheight]{images/012.jpg}
 }
-\caption{}
+\caption{Add a stock, continued}
 \label{fig:012}
 \end{center}
 \end{figure}
@@ -251,7 +254,7 @@ Select the Properties tab in the bottom panel of the Eclipse IDE (See Figure 13)
 \item Units for the Left Hand Side (LHS) of equation.
 \item LHS of equation (Initially set to Name – you might change this depending on the structure of your model – e.g. using arrays)
 \item The single argument for the INTEG function. Note that any legal expression that results in one double value is allowable.
-\item An Initial Value
+\item An Initial Value. \textbf{Note: during code generation, the initial value is used as the second argument to the INTEG function. Only one argument should be specified in the properties tab.}
 \end{enumerate}
 \vspace{.2in}
 
@@ -268,7 +271,7 @@ Comments are optional, though recommended.  Functions and Influencing variables 
 \centerline {
 \includegraphics[totalheight=0.4\textheight]{images/013.jpg}
 }
-\caption{}
+\caption{Properties for a stock variable}
 \label{fig:013}
 \end{center}
 \end{figure}
@@ -296,7 +299,7 @@ You should see something like Figure 14.
 \centerline {
 \includegraphics[totalheight=0.15\textheight]{images/014.jpg}
 }
-\caption{}
+\caption{Two connected stock variables}
 \label{fig:014}
 \end{center}
 \end{figure}
@@ -331,7 +334,7 @@ Your diagram should look like:
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/015.jpg}
 }
-\caption{}
+\caption{The complete epidemic model diagram}
 \label{fig:015}
 \end{center}
 \end{figure}
@@ -351,7 +354,7 @@ Each SD model has a set of required parameters. They are the model start and end
 \centerline {
 \includegraphics[totalheight=0.4\textheight]{images/016.jpg}
 }
-\caption{}
+\caption{Required model parameters}
 \label{fig:016}
 \end{center}
 \end{figure}
@@ -370,7 +373,7 @@ Now that the model structure is complete, it is time to specify the data for all
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/017.jpg}
 }
-\caption{}
+\caption{Required stock properties for Healthy}
 \label{fig:017}
 \end{center}
 \end{figure}
@@ -384,7 +387,7 @@ Then getting sick (Figure 18).
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/018.jpg}
 }
-\caption{}
+\caption{Required rate properties for getting sick}
 \label{fig:018}
 \end{center}
 \end{figure}
@@ -400,7 +403,7 @@ Then fraction infected from contact (Figure 19).
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/019.jpg}
 }
-\caption{}
+\caption{Required constant properties for fraction infected from contact}
 \label{fig:019}
 \end{center}
 \end{figure}
@@ -414,7 +417,7 @@ Then contacts between infected and unaffected (Figure 20). To illustrate the con
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/020.jpg}
 }
-\caption{}
+\caption{Required auiliary properties for contacts between infected and unaffected}
 \label{fig:020}
 \end{center}
 \end{figure}
@@ -473,7 +476,7 @@ Check the consistency of the SD model (Figure 21).
 \centerline {
 \includegraphics[totalheight=0.4\textheight]{images/021.jpg}
 }
-\caption{}
+\caption{Eclipse Window View}
 \label{fig:021}
 \end{center}
 \end{figure}
@@ -490,7 +493,7 @@ There are inconsistencies in the model. Specifically, Contacts between infected 
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/022.jpg}
 }
-\caption{}
+\caption{Results of Syntax/Units Check}
 \label{fig:022}
 \end{center}
 \end{figure}
@@ -504,7 +507,7 @@ There are inconsistencies in the model. Specifically, Contacts between infected 
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/023.jpg}
 }
-\caption{}
+\caption{Contacts between infected and unaffected properties}
 \label{fig:023}
 \end{center}
 \end{figure}
@@ -518,7 +521,7 @@ Check for model consistency once again. The model is found to be consistent. (Fi
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/024.jpg}
 }
-\caption{}
+\caption{Successful Syntax/Units check}
 \label{fig:024}
 \end{center}
 \end{figure}
@@ -532,7 +535,7 @@ Now generate the code (See Figure 21, icon to the left of check consistency). Th
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/decision.jpg}
 }
-\caption{}
+\caption{Hybrid or Standalone?}
 \label{fig:025}
 \end{center}
 \end{figure}
@@ -545,7 +548,7 @@ Now generate the code (See Figure 21, icon to the left of check consistency). Th
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/standalone.jpg}
 }
-\caption{}
+\caption{Standalone files created}
 \label{fig:026}
 \end{center}
 \end{figure}
@@ -558,7 +561,7 @@ Now generate the code (See Figure 21, icon to the left of check consistency). Th
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/hybrid.jpg}
 }
-\caption{}
+\caption{Hybrid files created}
 \label{fig:02c}
 \end{center}
 \end{figure}
@@ -572,7 +575,7 @@ The Java source code and scenario files have been successfully been generated (F
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/026.jpg}
 }
-\caption{}
+\caption{Successful code generation}
 \label{fig:026}
 \end{center}
 \end{figure}
@@ -586,7 +589,7 @@ The Java source code and scenario files have been successfully been generated (F
 \centerline {
 \includegraphics[totalheight=0.45\textheight]{images/027.jpg}
 }
-\caption{}
+\caption{Complete directory tree of standalone SD model}
 \label{fig:027}
 \end{center}
 \end{figure}
@@ -604,7 +607,7 @@ Figure 30 contains the declaration of the model variables and sample getters. No
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/028.jpg}
 }
-\caption{}
+\caption{Partial view of MemoryEpidemic.java}
 \label{fig:028}
 \end{center}
 \end{figure}
@@ -618,7 +621,7 @@ Any variable that has a numeric constant as its value will be placed into the pa
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/029.jpg}
 }
-\caption{}
+\caption{Sample Epidemic.java code - value from parameter file}
 \label{fig:029}
 \end{center}
 \end{figure}
@@ -632,7 +635,7 @@ Figure 32 shows a code sample for the implementation of a stock variable.
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/030.jpg}
 }
-\caption{}
+\caption{Sample Epidemic.java code - stock implementation}
 \label{fig:030}
 \end{center}
 \end{figure}
@@ -645,7 +648,7 @@ Figure 33 contains the source code for the ContextBuilder.
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/031.jpg}
 }
-\caption{}
+\caption{Sample ContextBuilderEpidemic.java code}
 \label{fig:031}
 \end{center}
 \end{figure}
@@ -659,7 +662,7 @@ Figure 34 shows the parameters.xnl file that was generated. Note that the values
 \centerline {
 \includegraphics[totalheight=0.4\textheight]{images/032.jpg}
 }
-\caption{}
+\caption{Autogenerated parameters.xml}
 \label{fig:032}
 \end{center}
 \end{figure}
@@ -674,7 +677,7 @@ Figure 35 contains a portion of the automatically generated data set for the var
 \centerline {
 \includegraphics[totalheight=0.5\textheight]{images/033.jpg}
 }
-\caption{}
+\caption{Autogenerated datasets for reports and graphs}
 \label{fig:033}
 \end{center}
 \end{figure}
@@ -691,7 +694,7 @@ At this point, the model is ready to be executed. Figure 36 shows the procedure 
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/034.jpg}
 }
-\caption{}
+\caption{Execute the model}
 \label{fig:034}
 \end{center}
 \end{figure}
@@ -705,7 +708,7 @@ Figure 37 shows the Repast Simphony GUI at startup time. In the scenario tree pa
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/035.jpg}
 }
-\caption{}
+\caption{Repast Simphony User Interface}
 \label{fig:035}
 \end{center}
 \end{figure}
@@ -719,7 +722,7 @@ Let’s first create a time series graph so that we can view the results of the 
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/036.jpg}
 }
-\caption{}
+\caption{Add a time series chart}
 \label{fig:036}
 \end{center}
 \end{figure}
@@ -733,7 +736,7 @@ Specify any name that you would like and use the predefined data set.
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/037.jpg}
 }
-\caption{}
+\caption{Add a time series chart, continued}
 \label{fig:037}
 \end{center}
 \end{figure}
@@ -748,7 +751,7 @@ Select Healthy, Infected, and getting sick from the left hand side of the shuttl
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/038.jpg}
 }
-\caption{}
+\caption{Add a time series chart, continued}
 \label{fig:038}
 \end{center}
 \end{figure}
@@ -762,7 +765,7 @@ Specify the Title and Y Axis label. Click finish to complete the graph definitio
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/039.jpg}
 }
-\caption{}
+\caption{Add a time series chart, continued}
 \label{fig:039}
 \end{center}
 \end{figure}
@@ -776,7 +779,7 @@ Figure 42 shows the process for initializing the model. This consists of access 
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/040.jpg}
 }
-\caption{}
+\caption{Initialize run}
 \label{fig:040}
 \end{center}
 \end{figure}
@@ -790,7 +793,7 @@ Figure 43 shows the GUI after the model has been initialized.
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/041.jpg}
 }
-\caption{}
+\caption{Repast Simphony UI - initialized}
 \label{fig:041}
 \end{center}
 \end{figure}
@@ -804,7 +807,7 @@ Figure 44 shows the icon to click to start the model execution.
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/042.jpg}
 }
-\caption{}
+\caption{Start execution}
 \label{fig:042}
 \end{center}
 \end{figure}
@@ -818,7 +821,7 @@ Figure 45 shows the graph being displayed at the end of the model time frame. No
 \centerline {
 \includegraphics[totalheight=0.5\textheight]{images/043.jpg}
 }
-\caption{}
+\caption{Model results}
 \label{fig:043}
 \end{center}
 \end{figure}
@@ -832,7 +835,7 @@ Figure 46 shows the icon that can be used to reset the model for another executi
 \centerline {
 \includegraphics[totalheight=0.2\textheight]{images/044.jpg}
 }
-\caption{}
+\caption{Reset model}
 \label{fig:044}
 \end{center}
 \end{figure}
@@ -850,7 +853,7 @@ The Repast Simphony System Dynamics subsystem can read the equations and associa
 \centerline {
 \includegraphics[totalheight=0.6\textheight]{images/045.jpg}
 }
-\caption{}
+\caption{Import a Vensim MDL file}
 \label{fig:045}
 \end{center}
 \end{figure}
@@ -864,7 +867,7 @@ The Repast Simphony System Dynamics subsystem can read the equations and associa
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/046.jpg}
 }
-\caption{}
+\caption{Import a Vensim MDL file, continued}
 \label{fig:046}
 \end{center}
 \end{figure}
@@ -878,7 +881,7 @@ Once imported, the model diagram is displayed as in Figure 49. Note that positio
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/047.jpg}
 }
-\caption{}
+\caption{Autogenerated model diagram}
 \label{fig:047}
 \end{center}
 \end{figure}
@@ -892,7 +895,7 @@ Once imported, the model diagram is displayed as in Figure 49. Note that positio
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/048.jpg}
 }
-\caption{}
+\caption{Reposition model components}
 \label{fig:048}
 \end{center}
 \end{figure}
@@ -913,7 +916,7 @@ Then we can add the name and specify the subscript values as a comma separated l
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/052.jpg}
 }
-\caption{}
+\caption{Subscripts}
 \label{fig:052}
 \end{center}
 \end{figure}
@@ -927,7 +930,7 @@ The user needs to specify exactly where each instance of a subscript must appear
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/053.jpg}
 }
-\caption{}
+\caption{Subscripts, continued}
 \label{fig:053}
 \end{center}
 \end{figure}
@@ -939,7 +942,7 @@ The user needs to specify exactly where each instance of a subscript must appear
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/054.jpg}
 }
-\caption{}
+\caption{Subscripts, continued}
 \label{fig:054}
 \end{center}
 \end{figure}
@@ -953,7 +956,7 @@ As indicated in Figure 57, the subscript notation will be inserting only at the 
 \centerline {
 \includegraphics[totalheight=0.3\textheight]{images/055.jpg}
 }
-\caption{}
+\caption{Subscripts, continued}
 \label{fig:055}
 \end{center}
 \end{figure}
@@ -967,7 +970,7 @@ Figure 58 shows on of the possible errors resulting from inconsistent array and 
 \centerline {
 \includegraphics[totalheight=0.15\textheight]{images/056.jpg}
 }
-\caption{}
+\caption{Subscripts, continued}
 \label{fig:056}
 \end{center}
 \end{figure}
@@ -980,7 +983,7 @@ Note that the existence of arrays in an SD model is not detectable from simply l
 \centerline {
 \includegraphics[totalheight=0.15\textheight]{images/057.jpg}
 }
-\caption{}
+\caption{Subscripts, continued}
 \label{fig:057}
 \end{center}
 \end{figure}
@@ -994,7 +997,7 @@ Note that the existence of arrays in an SD model is not detectable from simply l
 \centerline {
 \includegraphics[totalheight=0.15\textheight]{images/058.jpg}
 }
-\caption{}
+\caption{Subscripts, continued}
 \label{fig:058}
 \end{center}
 \end{figure}
@@ -1008,7 +1011,7 @@ Note that the existence of arrays in an SD model is not detectable from simply l
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/059.jpg}
 }
-\caption{}
+\caption{Unsuccessful syntax check}
 \label{fig:059}
 \end{center}
 \end{figure}
@@ -1022,7 +1025,7 @@ Note that the existence of arrays in an SD model is not detectable from simply l
 \centerline {
 \includegraphics[totalheight=0.35\textheight]{images/060.jpg}
 }
-\caption{}
+\caption{Model diagram with arrays}
 \label{fig:060}
 \end{center}
 \end{figure}
