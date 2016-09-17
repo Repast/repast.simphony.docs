@@ -44,7 +44,7 @@
 \setcounter{section}{-1}
 
 \section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{ http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{ http://www.oracle.com/technetwork/java/javase/downloads/index.html}
 
 \section{Overview}
 A batch run in Repast Simphony consists of multiple individual model runs each using their own combination of parameters. The user defines a parameter space and uses the batch run capability to iterate through all the parameter combinations in that space. The number of individual runs is equal to the number of parameter combinations. Repast Simphony's batch run functionality iterates through the parameter space combinations and performs a run using each combination.  These runs can be performed in parallel on the local machine, on remote machines, in the cloud or on a combination of the three. In addition runs can be done on a dedicated cluster. We will explore all of these options in the following sections.
@@ -319,6 +319,8 @@ The format here is ``hostname.username.instance number = status".  In this case,
 
 
 \section{An Example}
+\label{sec:example}
+
 This section will walk you through an example batch run using a combination of local and remote machines. We will run 1 instance locally, 2 instances on a remote OSX machine and 1 instance on an Amazon EC2 cloud instance. We have set up the remote OSX machine and the Amazon cloud host using the instructions in section \ref{sec:remote_machines}. The JZombies demo will be our example model.
 
 We've set up the Model, Batch Parameters and Hosts Panel as in fig. ~\ref{fig:model_panel_run}, fig. ~\ref{fig:batch_panel_run} and fig. ~\ref{fig:hosts_panel_run} respectively. Note that the IP address of the OSX machine as been obscured. If you want to follow along with the example, fill the Run Properties part of the Model panel as in the figure and set the batch parameters in the Batch Parameters panel to match the batch panel figure. For the hosts, create only a local host with two instances. To do that, go to the hosts panel, if there is an existing localhost entry, click on it and make sure the instances entry is 2. If there is no localhost entry, click the ``Add Host'' \includegraphics[height=.2in]{images/add_host.png} button and set its type to LOCAL and instances to 2. 
@@ -692,6 +694,7 @@ To launch the batch GUI from the eclipse launcher, open the launchers folder in 
 To launch the batch GUI as a stand alone application navigate to where Repast Simphony is installed. Double click the batch\_runner.jar. 
  
 \section{Running on a Cluster or HPC Machine}
+\label{sec:hpc}
 
 It is also possible to perform batch runs on a cluster or a high performance computing (HPC) type machine. Such machine are composed of many processors each of which can run one or more batch run instances and all of which have access to a shared file system. Cluster / HPC runs will use the payload archive produced by the GUI  but are not themselves run via the GUI. These batch runs will use the job submission paradigm that is standard on these types of machines.
 
@@ -732,6 +735,90 @@ The job is submitted to the specified queue and will run when the scheduler deci
 \end{verbatim}
 The combines data will be placed in a combined\_data directory in the current directory.
 
+\section{Command Line Batch Run Capabilities}
+The {\tt batch\_runner.jar} that comes with Repast Simphony provides a command line interface for launching the Batch Configuration GUI, for launching batch runs directly and for creating {\tt complete\_model.jar} payloads.
 
+\subsection{Launching the Batch Configuration GUI}
+The regular Batch Configuration GUI can be launched from the command line with the command:
+\begin{verbatim}
+java -jar batch_runner.jar
+\end{verbatim}
+
+
+\subsection{Headless Options}
+When supplying the {\tt-hl} or {\tt--headless} options, the command line utility will not launch the Batch Configuration GUI. Rather, it provides a command line interface to either directly execute batch runs or to create  {\tt complete\_model.jar} payloads.
+\subsubsection{Command Line Launching of Batch Runs}
+The {\tt-r} or {\tt--run} options allow for direct launching of Batch runs from the command line. The easiest way to provide the necessary configuration information to the Batch system is to additionally specify, using the {\tt-c} or {\tt--batch\_config} options, a configuration file. The following is an example of a configuration file:
+\begin{verbatim}
+# sample_batch_configuration.properties
+model.directory=/path/to/my_model
+scenario.directory=/path/to/my_model/my_model.rs
+param.file=/path/to/my_model/my_model.rs/parameters.xml
+batch.param.file=/path/to/my_model/batch/batch_params.xml
+output.directory=model_outputs
+
+output.pattern.1.pattern=hello_*.txt
+output.pattern.1.path=hello_folder
+output.pattern.1.concatenate=false
+output.pattern.1.header=false
+
+output.pattern.2.pattern=custom_output.csv
+output.pattern.2.path=combined_custom_output.csv
+output.pattern.2.header=true
+output.pattern.2.concatenate=true
+
+vm.arguments=-Xmx512M
+key.directory=/user/home/.ssh
+poll.frequency=0.1
+host.0.type=LOCAL
+host.0.instances=3
+\end{verbatim}
+
+\noindent The options specified are the same as those defined within the Batch Configuration GUI\footnote{ When the ``save" button is clicked within the Batch Configuration GUI, a properties file with this content is saved.}. With a batch configuration file in place, a headless batch run can be launched via:
+\begin{verbatim}
+java -jar batch_runner.jar -hl -r -c sample_batch_configuration.properties
+\end{verbatim}
+Properties within the configuration file can be overridden by specifying {\tt-model\_dir} for the model directory, {\tt-o} or {\tt--output\_dir} for the output directory, {\tt-s} or {\tt--scenario\_dir} for the scenario directory, {\tt-p} or {\tt--params} for the parameters file and {\tt-b} or {\tt--batch\_params} for the batch parameters file.
+
+\subsubsection{Create Batch Payloads}
+When in headless mode, if the {\tt-r} or {\tt--run} options are not specified, only a {\tt complete\_model.jar} payload is created in a specified output directory and the model is not run. This is helpful for automated generation of payloads that are later run on remote resources (e.g., as seen in Sec. \ref{sec:hpc}, or when using workflow software such as the Swift/K or Swift/T parallel scripting languages\footnote{ http://swift-lang.org}).
+
+In addition, as an alternative to a parameter sweep specified by a batch parameter file, it is sometimes helpful to provide a custom unrolled parameter file to the payload. The unrolled parameter file, discussed in Sec. \ref{sec:example}, is a text file that contains each individual parameter combination as a separate line. The format for each line is the following:
+\begin{verbatim}
+run_number<tab>param1<tab>val1,param2<tab>val2,...,paramN<tab>valN
+\end{verbatim}
+where {\tt param1,...,paramN} correspond to the full set of parameters specified in the model's {\tt parameters.xml} file\footnote{ An {\tt unrolledParamFile.txt}, which is the result of ``unrolling" a batch\_parameters.xml file, is produced within a {\tt complete\_model.jar} payload during the regular payload creation process and can be used as reference.}. Once an unrolled parameter file is created, it can be specified on the command line using the {\tt-u} or {\tt--upf} options. When the {\tt-u,--upf} option is used only the creation of the payload will take place and the {\tt-r,--run} option cannot be combined with it.
+
+\subsection{Command Line Help}
+
+For convenience, the command line utility help menu can be accessed via:
+\begin{verbatim}
+java -jar batch_runner.jar -h
+\end{verbatim}
+\noindent This generates the usage message:
+\begin{verbatim}
+usage: batch_runner
+ -b,--batch_params <arg>   location of the batch parameters file
+                           (only with -hl option)
+ -c,--batch_config <arg>   location of the batch configuration file
+                           (only with -hl option)
+ -h,--help                 show help
+ -hl,--headless            headless batch
+ -model_dir <arg>          location of the model project directory
+                           (needs to be specified if model
+                           defined parameter types are used)
+ -o,--output_dir <arg>     location of the output directory
+                           (only with -hl option)
+ -p,--params <arg>         location of the parameters file
+                           (only with -hl option)
+ -plugin_dir <arg>         location of the eclipse plugin directory
+ -r,--run                  run distributed batch
+                           (archive if not specified,
+                           only with -hl option)
+ -s,--scenario_dir <arg>   location of the scenario directory
+                           (only with -hl option)
+ -u,--upf <arg>            location of a custom unrolled parameter file
+                           (only with -hl and without -r option)
+\end{verbatim}
 
 \end{document}  
