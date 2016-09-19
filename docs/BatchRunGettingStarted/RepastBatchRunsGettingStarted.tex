@@ -10,10 +10,15 @@
 \usepackage{fancyvrb}
 \usepackage{listings}
 \usepackage{booktabs,footmisc}
-\usepackage{hyperref}
+\usepackage[colorlinks = true,
+            linkcolor = black,
+            urlcolor  = blue,
+            citecolor = black,
+            anchorcolor = blue]{hyperref}
 \usepackage[all]{hypcap}
 
 \usepackage{topcapt}
+
 
 
  
@@ -43,8 +48,7 @@
 \maketitle
 \setcounter{section}{-1}
 
-\section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{ http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{ http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+\input{../common/beforeWeGetStarted}
 
 \section{Overview}
 A batch run in Repast Simphony consists of multiple individual model runs each using their own combination of parameters. The user defines a parameter space and uses the batch run capability to iterate through all the parameter combinations in that space. The number of individual runs is equal to the number of parameter combinations. Repast Simphony's batch run functionality iterates through the parameter space combinations and performs a run using each combination.  These runs can be performed in parallel on the local machine, on remote machines, in the cloud or on a combination of the three. In addition runs can be done on a dedicated cluster. We will explore all of these options in the following sections.
@@ -781,7 +785,7 @@ java -jar batch_runner.jar -hl -r -c sample_batch_configuration.properties
 Properties within the configuration file can be overridden by specifying {\tt-model\_dir} for the model directory, {\tt-o} or {\tt--output\_dir} for the output directory, {\tt-s} or {\tt--scenario\_dir} for the scenario directory, {\tt-p} or {\tt--params} for the parameters file and {\tt-b} or {\tt--batch\_params} for the batch parameters file.
 
 \subsubsection{Create Batch Payloads}
-When in headless mode, if the {\tt-r} or {\tt--run} options are not specified, only a {\tt complete\_model.jar} payload is created in a specified output directory and the model is not run. This is helpful for automated generation of payloads that are later run on remote resources (e.g., as seen in Sec. \ref{sec:hpc}, or when using workflow software such as the Swift/K or Swift/T parallel scripting languages\footnote{ http://swift-lang.org}).
+When in headless mode, if the {\tt-r} or {\tt--run} options are not specified, only a {\tt complete\_model.jar} payload is created in a specified output directory and the model is not run. This is helpful for automated generation of payloads that are later run on remote resources (e.g., as seen in Sec. \ref{sec:hpc}, or when using workflow software such as the Swift/K or Swift/T parallel scripting languages\footnote{ \href{http://swift-lang.org}{http://swift-lang.org}}).
 
 In addition, as an alternative to a parameter sweep specified by a batch parameter file, it is sometimes helpful to provide a custom unrolled parameter file to the payload. The unrolled parameter file, discussed in Sec. \ref{sec:example}, is a text file that contains each individual parameter combination as a separate line. The format for each line is the following:
 \begin{verbatim}

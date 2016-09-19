@@ -10,7 +10,11 @@
 \usepackage{fancyvrb}
 \usepackage{listings}
 \usepackage{booktabs,footmisc}
-\usepackage{hyperref}
+\usepackage[colorlinks = true,
+            linkcolor = black,
+            urlcolor  = blue,
+            citecolor = black,
+            anchorcolor = blue]{hyperref}
 \usepackage[all]{hypcap}
 
 \usepackage{topcapt}
@@ -43,11 +47,10 @@
 \maketitle
 \setcounter{section}{-1}
 
-\section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+\input{../common/beforeWeGetStarted}
 
 \section{Getting Started with ReLogo}
-Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies\footnote{A completed version, Zombies\_Demo model, is available as part of the demonstration models that come with the Repast Simphony distribution. Import any of the demonstration models via the File menu and selecting ``Import Repast Examples".}. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo\footnote{For further reading see Ozik, J., N. Collier, J. Murphy, and M.J. North. ``The ReLogo Agent-based Modeling Language." In WSC 2013 Proceedings. Washington, D.C., December 2013.}.
+Now let us begin our exploration of ReLogo. We will be building a simple agent-based model involving  zombies chasing humans and humans running away from zombies\footnote{ A completed version, Zombies\_Demo model, is available as part of the demonstration models that come with the Repast Simphony distribution. Import any of the demonstration models via the File menu and selecting ``Import Repast Examples".}. Our approach will be to not overwhelm you but to explain only as much as is needed at each step. By the end of this chapter, we'll have covered a lot of ground and you'll be able to continue with your own explorations of ReLogo\footnote{ For further reading see Ozik, J., N. Collier, J. Murphy, and M.J. North. ``The ReLogo Agent-based Modeling Language." In WSC 2013 Proceedings. Washington, D.C., December 2013.}.
 
 The first thing we must do is create a new ReLogo project. This is done by clicking on the New ReLogo Project icon in the toolbar (Fig.~\ref{fig:newprojecticon}) at the top of our ReLogo workspace.
 
@@ -90,7 +93,7 @@ What we see is the Zombies project folder, the ``src" subfolder, the ``zombies.r
 
 \subsection{Creating the Human and Zombie turtle types}
 
-Now that we have all our model infrastructure in place, we can start specifying the details of our Zombie model. First, since zombies love to chase humans, we create the Human turtle\footnote{In Logo dialects a ``turtle" is a mobile agent.} type\footnote{Many of the ReLogo entities we'll encounter, including turtle types,  are what are known in Object Oriented programming languages as \emph{classes}.}. We do this by selecting the ``zombies.relogo" package, if it isn't selected, and then clicking on the New Turtle icon (Fig.~\ref{fig:newturtleicon}) in the toolbar\footnote{Selecting the ``zombies.relogo" package simplifies the next step.}. This brings up the New Turtle Wizard (Fig.~\ref{fig:humanwizard}) which allows us to specify the name of our turtle type (Human). If we initially selected the ``zombies.relogo" package, we simply fill in the Name field with ``Human" and hit the Finish button\footnote{If the ``zombies.relogo" package hadn't been selected, we need to fill in the Package field with ``zombies.relogo" before hitting the Finish button.}. At this point we should be greeted by our newly created Human turtle type as seen in Fig.~\ref{fig:humantype}\footnote{For those curious about the .groovy file ending, ReLogo is an agent-based modeling domain specific language (ABM DSL), written in the  \href{http://groovy.codehaus.org/}{Groovy} programming language. While it isn't necessary to be able to follow this getting started guide, we recommend getting to know the language through the \href{http://groovy.codehaus.org}{Groovy website (http://groovy.codehaus.org)} and the many Groovy books which are available. There is also a very convenient \href{http://groovyconsole.appspot.com/}{web based console (http://groovyconsole.appspot.com/)} where you can experiment with the Groovy language.}
+Now that we have all our model infrastructure in place, we can start specifying the details of our Zombie model. First, since zombies love to chase humans, we create the Human turtle\footnote{In Logo dialects a ``turtle" is a mobile agent.} type\footnote{Many of the ReLogo entities we'll encounter, including turtle types,  are what are known in Object Oriented programming languages as \emph{classes}.}. We do this by selecting the ``zombies.relogo" package, if it isn't selected, and then clicking on the New Turtle icon (Fig.~\ref{fig:newturtleicon}) in the toolbar\footnote{Selecting the ``zombies.relogo" package simplifies the next step.}. This brings up the New Turtle Wizard (Fig.~\ref{fig:humanwizard}) which allows us to specify the name of our turtle type (Human). If we initially selected the ``zombies.relogo" package, we simply fill in the Name field with ``Human" and hit the Finish button\footnote{If the ``zombies.relogo" package hadn't been selected, we need to fill in the Package field with ``zombies.relogo" before hitting the Finish button.}. At this point we should be greeted by our newly created Human turtle type as seen in Fig.~\ref{fig:humantype}\footnote{For those curious about the .groovy file ending, ReLogo is an agent-based modeling domain specific language (ABM DSL), written in the  \href{http://www.groovy-lang.org}{Groovy} programming language. While it isn't necessary to be able to follow this getting started guide, we recommend getting to know the language through the \href{http://www.groovy-lang.org}{Groovy website (http://www.groovy-lang.org)} and the many Groovy books which are available. There is also a very convenient \href{http://groovyconsole.appspot.com/}{web based console (http://groovyconsole.appspot.com/)} where you can experiment with the Groovy language.}
 
 \begin{figure}
 \begin{center}
@@ -1199,7 +1202,7 @@ Table \ref{tab:graphical} lists the various elements available for use in the Us
 \end{table}
 Additionally, \emph{Observer}s are provided with a \emph{registerModelParameterListener(String,Closure)} method which allows for registering a closure, or code block, to execute when a specified model parameter (such as those defined by the Global, Slider, Chooser, Switch and Input elements) are modified. This method would typically be called from within a \emph{setup}-like \emph{Observer} method.
 
-Groovy's \href{http://groovy.codehaus.org/Swing+Builder}{SwingBuilder} can also be used to create more advanced GUIs. The elements available are listed in Table \ref{tab:graphical2}. Listing \ref{lst:swingbuilder} shows a code snippet example\footnote{Similar to the regular graphical control elements, this snippet is placed within the UserGlobalsAndPanelFactory's \emph{addGlobalsAndPanelComponents} method.}. Note that the usage pattern of the elements in Table~\ref{tab:graphical2} is to assign the elements to a variable and use SwingBuilder's \emph{widget} method to incorporate them into panels you create with \emph{addPanel}\footnote{The \emph{addPanel} method passes its closure argument to a SwingBuilder \emph{panel} element.}.
+Groovy's \href{http://groovy-lang.org/swing.html}{SwingBuilder} can also be used to create more advanced GUIs. The elements available are listed in Table \ref{tab:graphical2}. Listing \ref{lst:swingbuilder} shows a code snippet example\footnote{Similar to the regular graphical control elements, this snippet is placed within the UserGlobalsAndPanelFactory's \emph{addGlobalsAndPanelComponents} method.}. Note that the usage pattern of the elements in Table~\ref{tab:graphical2} is to assign the elements to a variable and use SwingBuilder's \emph{widget} method to incorporate them into panels you create with \emph{addPanel}\footnote{The \emph{addPanel} method passes its closure argument to a SwingBuilder \emph{panel} element.}.
 
 % Requires the booktabs if the memoir class is not being used
 \begin{table}[htbp]

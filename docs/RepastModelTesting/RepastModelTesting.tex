@@ -10,7 +10,11 @@
 \usepackage{fancyvrb}
 \usepackage{listings}
 \usepackage{booktabs,footmisc}
-\usepackage{hyperref}
+\usepackage[colorlinks = true,
+            linkcolor = black,
+            urlcolor  = blue,
+            citecolor = black,
+            anchorcolor = blue]{hyperref}
 \usepackage[all]{hypcap}
 
 \usepackage{topcapt}
@@ -43,10 +47,7 @@
 \maketitle
 \setcounter{section}{-1}
 
-\section{Before we Get Started}
-Before we can do anything with Repast Simphony, we need to make sure that we have a proper installation of the latest version. Instructions on downloading and installing Repast Simphony on various platforms can be found on the \href{http://repast.sourceforge.net/download.html}{Repast website}.\footnote{http://repast.sourceforge.net/download.html} Repast Simphony requires Java 7 or 8 to be installed. Java can be found at the \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java Standard Edition Downloads Page}.\footnote{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
-
-
+\input{../common/beforeWeGetStarted}
 
 \section{Getting Started with Repast Simphony Model Testing}
 
