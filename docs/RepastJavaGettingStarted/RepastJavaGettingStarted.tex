@@ -88,32 +88,6 @@ The first thing we need to do is to turn on the Repast Simphony Perspective in t
 
 With the perspective now enabled, we now need to create a new Repast Simphony project. Assuming you've started Repast Simphony, right click in the Package Explorer pane and choose ``New'' and then ``Repast Simphony Project''. This brings up the New Repast Simphony Project Wizard  which gives us the ability to name our project (and a few more options which we'll ignore for now). Type jzombies in the ``Project name" field, and press the ``Finish" button. You should now see a jzombies project in the Package Explorer.
 
- By default Repast Simphony will hide many of the details of the project. This is appropriate for ReLogo projects but not for those written in Java. If the ReLogo filters have not been previously disabled then we need to do that now. If you click on the triangle next to ``jzombies'' and you see a variety of folders (batch, docs, etc), then the filter has been disabled. If you only see the src directory then the filter needs to be disabled. To disable the filter, click the downward pointing arrow in the ``Package Explorer'' pane. If you see ``ReLogo Resource Filter''  then click on it to disable the filter (Fig.~\ref{fig:filter}).  Otherwise, click on the ``Filters'' item. This brings up the Java Element Filters window. Scroll through the elements and click off the checkbox for ReLogo Resource Filter (Fig.~\ref{fig:filter2}). 
-
-
-\begin{figure}[h]
-\begin{center}
-\vspace{.2in}
-\centerline {
-\includegraphics[width=3in]{GettingStartedImages/filter.png}
-}
-\caption{Disabling the ReLogo Filter.}
-\label{fig:filter}
-\end{center}
-\end{figure}
-
-
-\begin{figure}[h]
-\begin{center}
-\vspace{.2in}
-\centerline {
-\includegraphics[width=3in]{GettingStartedImages/filter_window.png}
-}
-\caption{Filter Window.}
-\label{fig:filter2}
-\end{center}
-\end{figure}
-
 \subsection{Building the Model}
 In a Repast Simphony Java simulation, agents do not need to extend any base class or interface. They can be created simply by using Eclipse's ``New Class Wizard''. The Repast Simphony project wizard creates a source directory and default package into which we can create these agent classes. In our case, the package is ``jzombies'', which can be seen immediately under the src directory.\footnote{Package names typically use an internet domain name as the basis for a package name, but for the purposes of this tutorial ``jzombies'' is perfectly fine. See  \href{http://download.oracle.com/javase/tutorial/java/package/namingpkgs.html}{Java Tutorial: packages} for more info.} 
 
@@ -285,6 +259,8 @@ public class Human {
 		this.grid = grid;
 		this.energy = startingEnergy = energy;
 	}
+...
+}
 \end{lstlisting}
 \vspace{.2in}
 \end{minipage}
@@ -394,7 +370,7 @@ public void moveTowards(GridPoint pt) {
 That completes this part of the code for Zombies and Humans. Now we need to turn to initializing the simulation. In a Java Repast Simphony model, initialization takes place in a class that extends the Repast Simphony class \texttt{ContextBuilder}. So, let's create one of these now.\\
 
 \begin{enumerate}
-\item In the Package Explorer pane, click on the "jzombies" package underneath the src directory. 
+\item In the Package Explorer pane, click on the ``jzombies" package underneath the src directory. 
 \item Select New then Class from the Menu (Fig.~\ref{fig:class_wizard})
 \item In the Name field, type JZombiesBuilder
 \item Click the Add button next to the interfaces field
@@ -637,7 +613,7 @@ Now its time to launch the model. When we created our project using the Repast S
 \end{center}
 \end{figure}
 
-This will start the Repast Simphony Runtime. Note that you may see some initial errors along the lines of \texttt{SpaceProjectionBuilder - Unable to build continuous space 'space' ...}. These can be ignored for now and in our next steps we are going to correct them. We need to do some runtime configuration before we run the model itself. We are going to setup the runtime to use our context builder to initialize the model and also create an initial display. We setup the runtime to use our context builder by specifying the data loader.
+This will start the Repast Simphony Runtime. We need to do some runtime configuration before we run the model itself. We are going to setup the runtime to use our context builder to initialize the model and also create an initial display. We setup the runtime to use our context builder by specifying the data loader.
 
 \vspace{.2in}
 \begin{enumerate}
@@ -742,7 +718,7 @@ We can now run our model. Click the Initialize button (fig.~\ref{fig:buttons}) t
 \end{center}
 \end{figure}
 
-The display should show 5 red zombie squares and 100 blue human circles. If you repeatedly click the step button  (fig.~\ref{fig:buttons}), you should see the zombies move around. When they do get near a human, the human will move away. Note that a zombie may become stuck in a crowd of humans. This location will be the most desirable place for a zombie and thus the zombie won't move. You can also click the play button to run the model without stepping. If this model runs too fast, you can change the "tick delay" in the Run Options Panel tab.
+The display should show 5 red zombie squares and 100 blue human circles. If you repeatedly click the step button  (fig.~\ref{fig:buttons}), you should see the zombies move around. When they do get near a human, the human will move away. Note that a zombie may become stuck in a crowd of humans. This location will be the most desirable place for a zombie and thus the zombie won't move. You can also click the play button to run the model without stepping. If this model runs too fast, you can change the ``tick delay" in the Run Options Panel tab.
 
 Now let's turn back to the code and add some additional behavior. We will now make the Zombies ``infect'' the Humans and turn them into Zombies. We will also add a network projection to model the Zombie infection network. In Eclipse, open the \texttt{Zombie.java} file, if its not already open. If it is open, select it in the editor pane. Let's add a new method to the Zombie class called \texttt{infect}. 
 
@@ -827,9 +803,10 @@ Now let's run our simulation. Start the jzombies Model using the Eclipse launche
 \item As before, select the Human and Zombie agents as the types we want to display. Do this by selecting each in the left and then clicking the right pointing arrow to move them to the right. If Zombie is not at the top of the list on the left, use the up and down arrows to move it to the top. The dialog should now look like fig.~\ref{fig:disp2}
 \item Click Next.
 \item In this panel, we can configure what we want the Zombies and Humans to look like. This can be done programmatically by specifying a class that implements \texttt{repast.simphony.visualizationOGL2D.StyleOGL2D} or via a wizard. We will use the wizard to select an icon for our agents. With Zombies selected in the list of Agents, click the button to right of the style class combo box (fig.~\ref{fig:disp3}).
-\item In the 2D Shape editor, click on the ``Select Icon File'' button. We want to use the zombie.png icon that comes with the jzombies demo model. Navigate to where the demo models are installed and click on zombies.png in the \texttt{jzombies/icon} directory. (If you can't find zombies.png, feel free to style the Zombie as a circle or whatever, using the 2D Shape editor).
+\item (Optional) Copy the zombies.png and person.png files from within the \texttt{icons} directory of the JZombies\_Demo model into the \texttt{icons} directory of your current model.
+\item If you've done the optional step above, you'll be able to specify the shape of the Zombie agent with the use of an icon. In the 2D Shape editor, click on the ``Select Icon File'' button. Select the zombie.png icon within the \texttt{icons} directory. If you haven't copied the icon files over, feel free to style the Zombie as a circle or any other shape, using the 2D Shape editor as before.
 \item Click OK when you have finished.
-\item Repeat the previous step for the Human. Click on Human in the list of Agents. Then click the icon editor button as before. Click the``Select Icon File'' button and navigate to the \texttt{jzombies/icon} directory in the demo model. Choose the person.png icon.
+\item Repeat the previous step for the Human. Click on Human in the list of Agents. Then click the icon editor button as before. Click the``Select Icon File'' button and navigate to the \texttt{icons} directory and choose the person.png icon. (Alternatively, style the Human as a regular shape with the 2D Shape editor as before.)
 \item Click OK when you have finished with the 2D Shape editor.
 \item Click Next
 \item Click Next
@@ -899,7 +876,7 @@ If we run the model now, data will be recorded but we have not set up anywhere f
 \vspace{.2in}
 \begin{enumerate}
 \item Right click on ``Text Sinks'' in the Scenario Tree, and click ``Add File Sink''. 
-\item The File Data properties pane allows us to choose what data we want the file sink to write. Enter Count Output as the File Sink name. If we had created more than one data set we might have to choose it from the Data Set Id combo box, but as we didn't the default "Agent Counts" data set is fine. Beneath the Data Set ID box, you will see two columns. The first column lists the data sources associated with the currently selected data set. The second column displays the data sources that will be written to the file. Click on the tick entry in the source list and then click the right arrow button to move it over to the "to-be-written" list. Repeat for the other data sources. You can use the up and down arrows to change the order of the data sources.
+\item The File Data properties pane allows us to choose what data we want the file sink to write. Enter Count Output as the File Sink name. If we had created more than one data set we might have to choose it from the Data Set Id combo box, but as we didn't the default "Agent Counts" data set is fine. Beneath the Data Set ID box, you will see two columns. The first column lists the data sources associated with the currently selected data set. The second column displays the data sources that will be written to the file. Click on the tick entry in the source list and then click the right arrow button to move it over to the ``to-be-written" list. Repeat for the other data sources. You can use the up and down arrows to change the order of the data sources.
 \item Click Next
 \item The File Properties panel allows us to set some additional file properties: the file name and what meta data to put in the file name. We can leave the defaults as they are. The delimiter specifies what string to use to separate the data values. The format type can be tabular or line. Tabular is the typical CSV spreadsheet table format, while line will precede each data value with the data source name followed by a colon. In our case, this would look something like: tick: 1, Human Count: 20, Zombie Count: 5
 \item Cick Finish
@@ -1008,7 +985,7 @@ The  parameters panel should now look like fig.~\ref{fig:params2}.\\
 \end{center}
 \end{figure}
 
-To use our parameters in our model we need to retrieve them. We can use the \texttt{RunEnvironment} singleton\footnote{See RunEnvironment in the Java API doc for more info.} to get access to the \texttt{Parameters} object. We can then get the parameter's value using \texttt{getValue(String paramName)}. Note that the parameter's value is returned as an Object so we need to cast it appropriately. Make the following changes to JZombiesBuilder.  Replace the hard coded \texttt{zombieCount} value with:
+To use our parameters in our model we need to retrieve them. We can use the \texttt{RunEnvironment} singleton\footnote{See RunEnvironment in the Java API doc for more info.} to get access to the \texttt{Parameters} object. We can then get the parameter's (integer) value using \texttt{getInteger(String paramName)}. Make the following changes to JZombiesBuilder.  Replace the hard coded \texttt{zombieCount} value with:
 
 \noindent\begin{minipage}[h]{\textwidth}
 \vspace{.2in}
@@ -1016,7 +993,7 @@ To use our parameters in our model we need to retrieve them. We can use the \tex
 \begin{lstlisting}
 // correct import: repast.simphony.parameters.Parameters
 Parameters params = RunEnvironment.getInstance().getParameters();
-int zombieCount = (Integer)params.getValue("zombie_count");
+int zombieCount = params.getInteger("zombie_count");
 \end{lstlisting}
 \vspace{.2in}
 \end{minipage}
@@ -1027,7 +1004,7 @@ and the \texttt{humanCount} with:
 \vspace{.2in}
 \lstset{language=java,caption=}
 \begin{lstlisting}
-int humanCount = (Integer)params.getValue("human_count");
+int humanCount = params.getInteger("human_count");
 \end{lstlisting}
 
 \end{minipage}
@@ -1055,7 +1032,7 @@ We can also directly connect to some external analysis tools (fig.~\ref{fig:exte
 \end{itemize}
 \vspace{.2in}
 
-We will now experiment with integrating with Excel. Launch the jzombies model again Initialize and run the model for a few hundred ticks.  Click on the Spreadsheets tool plugin button, (the button with the calculator icon) and then Next. If you have Excel on your machine, chances are the default location is correct. Otherwise select the appropriate location via the Browse button. Click Next and you should see that the File Sink 'Count Output' is selected (Fig.~\ref{fig:spreadsheet}). Click Finish and Excel should launch with the data displayed in a spreadsheet. We recommend experimenting with the various other external tool plugins on your own.
+We will now experiment with integrating with Excel. Launch the jzombies model again Initialize and run the model for a few hundred ticks.  Click on the Spreadsheets tool plugin button, (the button with the calculator icon) and then Next. If you have Excel on your machine, chances are the default location is correct. Otherwise select the appropriate location via the Browse button. Click Next and you should see that the File Sink `Count Output' is selected (Fig.~\ref{fig:spreadsheet}). Click Finish and Excel should launch with the data displayed in a spreadsheet. We recommend experimenting with the various other external tool plugins on your own.
 
 \begin{figure}
 \begin{center}
@@ -1081,7 +1058,7 @@ We will now experiment with integrating with Excel. Launch the jzombies model ag
 
 \subsection{Model Distribution}
 
-Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive ("JAR") file that can be given to model users. The resulting installer can be executed on any system with a Java version equal to or greater than the version you used to compile the model.  For example, if you used Java 1.8 to compile the model, then Java version 1.8 or greater must be used to run the installed model. If you used 1.7, then 1.7 or 1.8 can be used. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
+Repast models can be distributed to model users via the installation builder. This feature packs up your model and all of the software you need to run it, except for a properly configured Java Runtime Environment, into a single Java archive (``JAR") file that can be given to model users. The resulting installer can be executed on any system with a Java version equal to or greater than the version you used to compile the model.  For example, if you used Java 1.8 to compile the model, then Java version 1.8 or greater must be used to run the installed model. Users simply copy the installer file onto their Windows, Mac OS, or Linux computers and the start the installer by double clicking on the file. Once the installer is started it will show an installation wizard that will prompt the user for the information needed to install the model. If desired, the installer can also be run in a command line mode.
 
 Building an installer for a model is straightforward. In Eclipse, simply choose the ``Build Installer for $\langle$Your Model Name Here$\rangle$ Model'' and provide a location and name for the installer file. The installer file's default name is ``setup.jar,'' which is suitable for most purposes. The install builder will then package and compress your model and the supporting Repast software. The resulting installer files are about 70 MB plus the size of the model code and data. 75 MB to 80 MB is a common total size.
 
