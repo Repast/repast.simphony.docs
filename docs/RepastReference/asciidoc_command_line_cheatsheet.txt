@@ -1,0 +1,11 @@
+ASCIIDoc command cheatsheet
+
+The basic command is: python <path to asciidoc.py> --options sourceFile.txt
+
+Generate site with inline TOC:
+
+	python c:\asciidoc-8.6.9\asciidoc.py RepastReference.txt
+
+Generate site with sidebar navigation and no inline TOC:
+
+	python c:\asciidoc-8.6.9\asciidoc.py --conf-file=layout2.conf RepastReference.txt
