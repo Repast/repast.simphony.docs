@@ -1,0 +1,1504 @@
+Repast Model Design Fundamental Concepts
+----------------------------------------
+
+.TODO
+****
+This was probably copied from one of our papers, but maybe there is a nicer version.
+****
+
+Contexts
+~~~~~~~~
+
+.TODO
+****
+add ValueLayer and GIS information
+****
+
+The Context is the core concept and object in Repast Simphony. It provides a 
+data structure to organize your agents from both a modelling perspective as well 
+as a software perspective. Fundamentally, a context is just a bucket full of 
+agents, but they provide more richness.
+
+Contexts are hierarchically nested named containers that hold model components. 
+The model components can be any type of POJO, including other contexts, but are 
+often expected to be agent objects. Each model component can be present in as 
+many contexts as the modeler desires. The hierarchical nesting means that a 
+model component that is present in a context is also present in all of that 
+context's parent contexts. Of course, the converse is not true in the general 
+case. The hierarchical nesting structure itself can be declaratively or 
+imperatively specified by the modeler. Context membership and structure is 
+completely dynamic and agents can be in any number or combination of contexts at 
+any time. Furthermore, agents can themselves contain any number of contexts and 
+even be contexts. In addition, the contents of components within contexts (e.g. 
+agent properties) can be declaratively logged at runtime.
+
+In addition to supporting hierarchical nesting, contexts support projections. 
+Repast projections are named sets of relationships defined over the members of a 
+context. For example, a Repast S network projection stores a network or graph 
+relationship between the members of its context. The members of this context can 
+then ask who they are linked to and who is linked to them. Similarly, the Repast 
+S grid projection stores a set of Cartesian coordinates for each member of the 
+context. The members of this context can ask where they are. For more details on 
+projections, see Details on Projections. Each context can support any mixture of 
+projections. Also, projections can be declaratively visualized at runtime. 
+Contexts also support data layers. Data layers represent numerical data that can 
+be accessed using a set of coordinates. Data layers allow model designers to 
+provide numerical values with which their agents can interact. The data layers 
+for a given context are separate from the layers for other contexts, allowing 
+the agents to orient themselves with respect to a set of data depending on which 
+context they are using. Within a context, data layers can be connected to:
+
+* a particular projection (e.g., each cell in a two-dimensional grid may have 
+some data associated with it),
+
+* multiple projections (e.g., a value at a particular set of coordinates might 
+depend on both a grid and a set of network relations), or
+
+* no projections (e.g., the data is stored in an abstract matrix).
+
+Projections
+~~~~~~~~~~~
+While Contexts create a bucket to hold your agents, Projections impose a 
+structure upon those agents. Simply using Contexts, you could never write a 
+model that provided more than a simple "soup" for the agents. The only way to 
+grab other agents would be randomly. Projections allow you to create a structure 
+that defines relationships, whether they be spatial, network, or something else. 
+A projection os attached to a particular Context and applies to all of the 
+agents in that Context. This raises an important point. An object must exist in 
+a Context before it can be used in a projection. So, if you try to work with an 
+agent in a projection before you have added it to the Context, it will fail. 
+For example, if you have a network, and you try to create a link between agents 
+where at least one of the agents does not yet exist in the context, then the 
+operation will fail. This is to maintain the integrity of the context which is 
+used in many place throughout the repast system.
+
+You can apply as many projections to a context as you want, so you could have a 
+context that contains, a grid, a gis space and 4 networks if you felt so 
+inclined. This provides a great deal of flexibility to design your model.
+
+Your agents can get a reference to various projections through their enclosing 
+context. An agent could do the following where "this" refers to the agent:
+
+----
+Context context = ContextUtils.getContext (this)
+Projection projection = context.getProjection("friendshipNetwork");
+----
+
+That projection wouldn't be that useful unless you cast the projection to 
+something more specific. You could also do it like this:
+
+----
+Context context = ContextUtils.getContext(this);
+Network network = context.getProjection(Network.class, "friendshipNetwork");
+----
+
+Context Loading
+~~~~~~~~~~~~~~~
+
+.TODO
+****
+needs updating
+****
+Context creation and loading is where your model is built. In some cases, 
+simphony will automatically create and load a context for you. Is this is 
+typically the case if you use the visual editor to create your agents etc., or 
+you load your model from a freezedryed instance. However, in many other cases, 
+you'd like to control the model creation process and for this you need to 
+implement a ContextBuilder.
+
+----
+/**
+* Interface for classes that build a Context by adding projections,
+* agents and so forth.
+*
+*/
+	public interface ContextBuilder<T> {
+	/**
+	* Builds and returns a context. Building a context consists of filling it with
+	* agents, adding projects and so forth. The returned context does not necessarily
+	* have to be the passed in context.
+	*
+	* @param context
+	* @return the built context.
+	*/
+	Context build(Context<T> context);
+}
+----
+
+Once you've implemented such, you can then use the data loader wizard to specify your custom
+ContextBuilder as the "Specific Java Class" to use to load your model. If you are creating the master
+context this way, you can just use the Context that simphony passees in to the build method.
+
+NOTE: If your ContextBuilder implements Context (i.e extends DefaultContext) then Simphony will in
+fact pass your ContextBuilder to an instance of itself in the build method. Having your ContextBuilder
+extend DefaultContext is useful in that you can then use @ScheduledMethod on methods in your
+ContextBuilder to schedule model behaviors at something other than the individual agent level.
+
+Whenever possible, the runtime will try to create the Context and pass it to the ContextBuilder. This will
+occur under the following situations:
+. model.score file SContext implementation class implements ContextBuilder (but not Context). In
+this case, the runtime will create a DefaultContext and pass that to the ContextBuilder specified in
+the .score file.
+
+. model.score file SContext implementation class implements ContextBuilder and Context. In this
+case, the runtime will pass this class to itself as it is both a Context and a ContextBuilder.
+
+. model.score file SContext implementation class implements Context (but not ContextBuilder). In
+this case, the runtime will create that Context and pass it to whatever ContextBuilder has been
+specifed externally (e.g. added through the gui).
+
+The context returned from the ContextBuilder doesn't necessarily have to be the one passed in. In the
+case of a subcontext, if the passed in context is different from the returned one, the runtime removes the
+old context and adds this new one as a subcontext to the appropriate parent.
+
+.Context and SubContexts
+SubContexts can be created, added to parent contexts, and built in the following ways:
+
+* Do everything in the parent ContextBuilder. So, when the parent context is built, subcontexts are
+created, added to the parent and loaded with projections, agents, etc. In this case, an SContext
+Implementation entry for the subcontext in the model.score file is not required.
+
+* Subcontexts have their own SContext Implementation class that implements ContextBuilder or
+Context (see above). In this the subcontexts are passed to their own ContextBuilder for building.
+The actual creation of the subcontext (e.g new DefaultContext("svabhava")) can happen either in
+the parent context's ContextBuilder or the runtime will create the subcontexts and add them to their
+parent. In this latter case, for example, if after a context has been created and built, it has no
+subcontexts but the .score file defines subcontexts for that context then those subcontexts will be
+created and added to that context. This assumes of course that the subcontexts have their own
+ContextBuilder defined so that they too can be built.
+
+All this provides flexibility, but it can be confusing. Unless there is a compelling reason not to, its
+probably easiest to just do everything in the master context ContextBuilder -- creating subcontexts,
+building them and so forth. This applies to creating ContextBuilders by hand. The situation using
+codegen will probably be different.
+
+Creating Projections
+~~~~~~~~~~~~~~~~~~~~
+In general, projections are created using a factory mechanism in the following 
+way.
+
+. Find the factory
+
+. Use the factory to create the projection
+
+.TODO
+****
+Use complete examples or merge with the following sections
+****
+
+----
+Context<SimpleHappyAgent> context = Contexts.createContext(SimpleHappyAgent.class, "my context");
+GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
+Grid grid = factory.createGrid("Simple Grid", context, ...);
+Context<SimpleHappyAgent> context = Contexts.createContext(SimpleHappyAgent.class, "mycontext");
+----
+
+----
+ContinuousSpaceFactory factory = ContinuousSpaceFactoryFinder.createContinuousSpaceFactory(new HashMap());
+ContinuousSpace space = factory.createContinuousSpace("Simple Space", context, ...);
+----
+
+Each factory creates a projection of a specific type and requires the context 
+that the projection is associated with and the projections name as well as 
+additional arguments particular to the projection type. These additional 
+arguments are marked above with "..." and are explicated on the individual pages 
+for that projection.
+
+
+Grid Projections
+~~~~~~~~~~~~~~~~
+Grids are a mainstay of agent based simulation. Many of the earliest simulation such as Schelling's
+Dynamic Models of Segregation, heatbugs, and sugarscape were originally built on grids. Basically a grid,
+for our purposes, are a 1 or more dimensional data structure that is divided up into a number of cells.
+These cells can be referenced by their integer coordinates. In other words, a grid is an n-dimensional
+matrix. Even though grids have been used in agent based simulation since it's inception (and before),
+they still have value today. These data structures are very efficient and provide a number of different
+ways to define neighborhoods. While they don't offer the flexibility of an abstract network or the realism
+of a continuous or GIS space, the grid can be used to simulate spaces and to create highly structured
+relationships between agents. While most people think of grids to represent space, there is no reason
+why a grid couldn't be used define more abstract kinds of relationships. No matter how you look at it,
+grids are still a powerful tool in an overall agent based toolkit.
+
+.Repast Simphony's Grid support
+Repast Simphony provides a rich set of tools to work with grids of all kinds. Specifically, it supports
+* 2D, 3D and ND grids,
+* querying for Von Neumann and Moore neighborhoods,
+* Toroidal, Reflective and Fixed Border conditions.
+
+.Creating A Grid
+Creating a grid in Repast Simphony is similar to creating the other projections. Your agents must exist in
+the context in order to exist in the grid, and you want to create the grid using a factory to make sure that
+it is initialized properly.
+
+----
+GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
+Grid grid = factory.createGrid("My Grid", context, gridBuilderParameters);
+----
+
+So, most of that is pretty straight forward, eh? Pass the method a name (so that you can look up your
+grid later) and the context that will back the grid. But what is that last argument? The
+gridBuilderParameters. GridBuilderParameters are used to specify the properties of the grid itself, such
+as its dimensions, its border behavior, and how agents are initially added to the grid.
+
+.GridBuilderParameters
+The GridBuilderParameters class contains a variety of static methods for creating specific types of
+GridBuilderParameters. For example,
+
+----
+GridBuilderParameters params = GridBuilderParameters.singleOccupancy2DTorus(
+		new SimpleAdder<Agent>(), 10, 10);
+----
+
+will create parameters for a 10x10 torus where each cell can only have a single occupant. Other static
+methods (see the javadocs) allow you to create other types of grids. In general though, youwill always
+have to specify a GridAdder and perhaps a GridPointTranslator when creating GridBuilderParameters. You
+will also have to specify the dimensions. These will be the last arguments to the method.
+
+.Adders
+Like most projections, an object doesn't exist in the projection until it is added to the context, and once it
+is added to the context, it is automatically added to the projection. But where do we put it in the grid?
+That's where the GridAdder interface comes in. The adder allows you to specify where to place an object
+once it has been added to the context. It has a simple method:
+
+----
+public void add(Grid destination, U object);
+----
+
+More generics fun, eh? Well, it's not so bad. In this case, the destination is the type of projection to
+which we are adding our object (a grid). Object is the object we want to add to that projection. So, <U>
+is whatever we're adding. Basically, to implement this interface, you just take in an object and do
+something with it in the supplied projection. Ok, let's get a bit more concrete. Let's say that we have a
+Grid and when an object is added to the grid, we want to locate it randomly. Here is the implementation
+for that:
+
+----
+public void add(Grid<T> space, T obj) {
+	Dimensions dims = space.getDimensions();
+	int[] location = new int[dims.size()];
+	findLocation(location, dims);
+	while (!space.moveTo(obj, location)) {
+		findLocation(location, dims);
+	}
+}
+
+private void findLocation(int[]location, Dimensions dims) {
+	for (int i = 0; i < location.length; i++) {
+		location[i] = RandomHelper.getDefault().nextIntFromTo(0, dims.getDimension(i) -1);
+	}
+}
+----
+
+The add method randomly generates locations and puts the objects into that location (assuming the grid
+allows the object to be there). This little bit of code sets up a random space for you as you add agents.
+Not surprisingly, this is the code for the RandomGridAdder which comes with Repast Simphony. This
+behaviour may not be what you want. The most basic Adder we provide is the SimpleAdder; This Adder
+doesn't actually locate the object anywhere in the grid. It just allows the object to be used in the grid.
+The object won't appear to have a location until you call
+
+----
+grid.moveTo(object, x, y);
+----
+
+This is a very useful adder because you don't have to know where the agent is supposed to be located in
+advance. Let's look at one example of writing your own Adder. In this case, let's assume that our agents have
+their grid coordinates stored. The adder just needs to use those coordinates to locate the agents
+properly. We'll call the Interface Located:
+
+----
+public interface Located{
+	public int getX();
+	public int getY();
+}
+----
+
+Pretty simple, eh? Let's write an adder that know how to work with this:
+
+----
+public class LocatedAdder<Located> implements GridAdder<Located> {
+	public void add(Grid<Located> grid, Located object){
+		grid.moveTo(object, object.getX(), object.getY());
+	}
+}
+----
+
+This will add the object to the grid at the location specified by the agent itself. This doesn't handle any
+errors or anything, but it should give you an idea of how to create your own adder.
+
+.GridPointTranslators
+A GridPointTranslator determines the border behavior of a grid. The border behavior is what happens
+when an agents moves past the border of a grid. Five kinds of border behavior classes are described
+below together with a description of how the behave in response to a Grid's moveTo and moveBy (the
+moveBy methods are moveByDisplacement and moveByVector) methods.
+
+* StrictBorders -- defines a strict boundary that cannot be crossed without throwing a
+SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
+
+* StickyBorders -- defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+a moveTo across the border will still throw a SpatialException.
+
+* InfiniteBorders -- defines infinite borders that the agent will never cross.
+
+* BouncyBorders -- defines a bouncy border that the agent will bounce off at the appropriate angle in
+a moveBy. However, a moveTo across the border will still throw a SpatialException.
+
+* WrapAroundBorders -- defines borders that wrap around to their opposite borders. This mean
+moveTo and moveBy across the border will cross the border and enter the opposite side. A 2D grid
+with WrapAroundBorders is a torus.
+In general then, moveTo will throw a SpatialException when crossing the border and moveBy will invoke
+the border behavior.
+
+.Moving on a Grid
+Movement on the grid is accomplished with 3 methods.
+
+----
+moveTo(T object, int... newLocation)
+----
+
+This specifies the object to move and the new location to move to. It will return true if the move
+succeeds, for example, if the location is unoccupied an single occupancy grid and the new location doesn't
+violate any border behaviors. This method can be used to introduce objects into the grid if they do not yet have a grid location. This will throw a SpatialException if the object is not already in the space, if the
+number of dimensions in the location does not agree with the number in the space, or if the object is
+moved outside the grid dimensions.
+
+----
+GridPoint moveByDisplacement(T object, int... displacement)
+----
+
+Moves the specified object from its current location by the specifiedamount. For example,
+moveByDisplacement(object, 3, -2, 1) will move the object by 3 along the x-axis, -2 along the y and 1
+alongthe z. The displacement argument can be less than the number of dimensions in the space in which
+case the remaining argument will beset to 0. For example, moveByDisplacement(object, 3) will move the
+object 3 along the x-axis and 0 along the y and z axes, assuming a 3D grid. This will return the new
+location as a GridPoint if the move was successful, otherwise it will return null. Like moveTo it will throw a
+SpatialException if the object is not already in the space or if the number of dimensions in the
+displacement is greater than the number of grid dimensions.
+
+----
+GridPoint moveByVector(T object, double distance, double... anglesInRadians)
+----
+
+Moves the specifed object the specified distance from its current position along the specified angle. For
+example, moveByVector(object, 1, Direction.NORTH) will move the object 1 unit "north" up the y-axis,
+assuming a 2D grid. Similarly, grid.moveByVector(object, 2, 0, Math.toRadians(90), 0) will rotate 90
+egrees around the y-axis, thus moving the object 2 units along the z-axis. Note that the radians /
+degrees are incremented in a anti-clockwise fashion, such that 0 degrees is "east", 90 degrees is "north",
+180 is "west" and 270 is "south." This will return the new location as a GridPoint if the move was
+successful, otherwise it will return null. Like moveTo it will throw a SpatialException if the object is not
+already in the space or if the number of dimensions in the displacement is greater than the number of
+grid dimensions.
+Document
+
+Continuous Space Projection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A continuous (real valued) space projection is a space in which an agents 
+location is represented by floating point coordinates. For example, one agent 
+may be at the point 2.133, 0 and another may be at 21.1, 234. This contrasts 
+with the discrete integer valued grid projections. However, much of the behavior 
+of a continuous space like that of the grid, so it maybe worthwhile reading 
+those Grid Projections pages first.
+
+Repast Simphony provides a rich set of tools to work with grids of all kinds. 
+Specifically, it supports
+
+* 1D, 2D, 3D and ND continuous spaces,
+
+* Toroidal, Reflective and Fixed Border conditions.
+
+.Creating A Continuous Space
+Creating a continuous space in Repast Simphony is similar to creating the other 
+projections. Your agents must exist in the context in order to exist in the 
+continuous space, and you want to create the continuous spaceusing a factory to 
+make sure that it is initialized properly. 
+
+----
+ContinuousSpace factory = ContinuousSpaceFactoryFinder.createGridFactory(new HashMap());
+ContinuousSpace space = factory.createContinuousSpace("My Space", context, 
+	continuousAdder, pointTranslator, 10, 10);
+----
+
+So, most of that is pretty straight forward, eh? Pass the method a name (so that you can look up your
+grid later) and the context that will back the continuous space. But what of these additional arguments.
+Like the Grid, an Adder must be specified as well as a PointTranslator and the dimensions of the grid.
+
+.Adders
+Like most projections, an object doesn't exist in the projection until it is added to the context, and once it
+is added to the context, it is automatically added to the projection. But where do we put it in the
+continuous space? That's where the ContinuousSpaceAdder interface comes in. The adder allows you to
+specify where to place an object once it has been added to the context. It has a simple method:
+
+----
+public void add(ContinuousSpace destination, U object);
+----
+
+More generics fun, eh? Well, it's not so bad. In this case, the destination is the projection to which we
+are adding our object (ContinuousSpace). Object is the object we want to add to that projection. So,
+<U> is whatever we're adding. Basically, to implement this interface, you just take in an object and do
+something with it in the supplied projection. Ok, let's get a bit more concrete. Let's say that we have a
+ContinuousSpace and when an object is added to the continuous space, we want to locate it randomly.
+Here is the implementation for that:
+
+----
+public void add(ContinuousSpace<T> space, T obj) {
+	Dimensions dims = space.getDimensions();
+	double[] location = new double[dims.size()];
+	findLocation(location, dims);
+	while (!space.moveTo(obj, location)) {
+		findLocation(location, dims);
+	}
+}
+private void findLocation(double[] location, Dimensions dims) {
+	for (int i = 0; i < location.length; i++) {
+		location[i] = RandomHelper.getDefault().nextDoubleFromTo(0,dims.getDimension(i) - 1);
+	}
+}
+----
+
+The add method randomly generates locations and puts the objects into that location (assuming the grid
+allows the object to be there). This little bit of code sets up a random space for you as you add agents.
+Not surprisingly, this is the code for the RandomCartesianAdder which comes with Repast Simphony.
+This behaviour may not be what you want. The most basic Adder we provide is the
+SimpleCartesianAdder. This Adder doesn't actually locate the object anywhere in the grid. It just allows
+the object to be used in the grid. The object won't appear to have a location until you call
+
+----
+continuousSpace.moveTo(object, x, y);
+----
+
+This is a very useful adder because you don't have to know where the agent is supposed to be located in
+advance.
+
+Let's look at one example of writing your own Adder. In this case, let's assume that our agents have
+their continuous space coordinates stored. The adder just needs to use those coordinates to locate the
+agents properly. We'll call the Interface Located:
+
+----
+public interface Located{
+	public int getX();
+	public int getY();
+}
+----
+Pretty simple, eh? Let's write an adder that know how to work with this:
+
+----
+public class LocatedAdder<Located> implements ContinuousAdder<Located> {
+	public void add(ContinuousSpace<Located> grid, Located object){
+		grid.moveTo(object, object.getX(), object.getY());
+	}
+}
+----
+
+This will add the object to the grid at the location specified by the agent itself. This doesn't handle any
+errors or anything, but it should give you an idea of how to create your own adder.
+
+.PointTranslators
+Just like the GridPointTranlator described on the Grid's page, a PointTranslator determines the border
+behavior of a continuous space. The border behavior is what happens when an agents moves past the
+border of a continuous space. Five kinds of border behavior classes are described below together with a
+description of how they behave in response to a continuous space's moveTo and moveBy* (the moveBy*
+methods are moveByDisplacement and moveByVector) methods.
+
+* StrictBorders -- defines a strict boundary that cannot be crossed without throwing a
+SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
+
+* StickyBorders -- defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+a moveTo across the border will still throw a SpatialException.
+
+* InfiniteBorders -- defines infinite borders that the agent will never cross.
+
+* BouncyBorders -- defines a bouncy border that the agent will bounce off at the appropriate angle in
+a moveBy. However, a moveTo across the border will still throw a SpatialException.
+* WrapAroundBorders -- defines borders that wrap around to their opposite borders. This mean
+moveTo and moveBy across the border will cross the border and enter the opposite side.
+
+In general then, moveTo will throw a SpatialException when crossing the border and moveBy* will invoke
+the border behavior.
+
+.Moving in a Continuous Space
+Movement on a continuous space is accomplished with 3 methods.
+
+----
+moveTo(T object, double... newLocation)
+----
+
+This specifies the object to move and the new location to move to. It will return true if the move
+succeeds, for example, if the new location doesn't violate any border behaviors. This method can be used
+to introduce objects into the grid if they do not yet have a grid location. This will throw a SpatialException
+if the object is not already in the space, if the number of dimensions in the location does not agree with
+the number in the space, or if the object is moved outside the continuous space's dimensions.
+
+----
+NdPoint moveByDisplacement(T object, double... displacement)
+----
+
+Moves the specified object from its current location by the specified amount. For example,
+moveByDisplacement(object, 3, -2, 1) will move the object by 3 along the x-axis, -2 along the y and 1
+along the z. The displacement argument can be less than the number of dimensions in the space in which
+case the remaining arguments will be set to 0. For example, moveByDisplacement(object, 3) will move
+the object 3 along the x-axis and 0 along the y and z axes, assuming a 3D continuous space. This will
+return the new location as a NdPoint if the move was successful, otherwise it will return null. Like moveTo
+it will throw a SpatialException if the object is not already in the space or if the number of dimensions in
+the displacement is greater than the number of continuous space dimensions.
+
+----
+NdPoint moveByVector(T object, double distance, double... anglesInRadians)
+----
+
+Moves the specifed object the specified distance from its current position along the specified angle. For
+example, moveByVector(object, 1, Direction.NORTH) will move the object 1 unit "north" up the y-axis,
+assuming a 2D continuous space. Similarly, grid.moveByVector(object, 2, 0, Math.toRadians(90), 0) will
+rotate 90 egrees around the y-axis, thus moving the object 2 units along the z-axis. Note that the radians
+/ degrees are incremented in a anti-clockwise fashion, such that 0 degrees is "east", 90 degrees is
+"north", 180 is "west" and 270 is "south." This will return the new location as a NdPoint if the move was
+successful, otherwise it will return null. Like moveTo it will throw a SpatialException if the object is not
+already in the space or if the number of dimensions in the displacement is greater than the number of
+continuous space dimensions.
+
+Network Projections
+~~~~~~~~~~~~~~~~~~~
+Many models use abstract relationships between agents using Networks or Graphs. These connections
+may represent social connections, physical infrastructure connections or some other abstract
+connections. Repast provides tools to work with Networks or Graphs easily as a Projection. The default
+support for networks is supplied by the excellent library JUNG.
+
+.Building a Network
+In many situations, you won't need to build the network yourself. If you are using a persistent Data
+Loader to load the network from a freezedryed instance the networks will be generated for you.
+However, if you using your own ContextBuilder or you wish to create networks during your simulation,
+you will need to be able to build networks in code.
+
+The first thing to remember when working with networks is that, like most projections, in order to
+participate in a network, and agent must already exist in the context. A side affect of this is that any
+agent in a context is automatically a member of any networks associated with that context. The agent
+might not have any edges, but they will be in the network for all intents and purposes.
+
+.Network Builders
+Networks are created using a NetworkBuilder. The NetworkBuilder class allows the user to tune the
+network creation to create specific kinds of networks. This "tuning" is done by calling various methods on
+the builder. If none of these methods are called then a simple "plain vanilla" network is created. For
+example,
+
+----
+NetworkBuilder builder = new NetworkBuilder("Network", context, true);
+Network network = builder.buildNetwork()
+----
+
+The first argument to the builder constructor is the name of the network, the second is the context which
+the network "projects" and the last is whether or not the network is directed. By default, the
+addEdge(source, target, ...) methods of a network will create and use an instance of RepastEdge as the
+edge between the source and target. Using the builder, you can customize this edge creation process by
+specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks like:
+
+----
+/**
+* Factory class for creating edges.
+*
+* @author Nick Collier
+*/
+public interface EdgeCreator<E extends RepastEdge, T> {
+
+	/**
+	* Gets the edge type produced by this EdgeCreator.
+	*
+	* @return the edge type produced by this EdgeCreator.
+	*/
+	Class getEdgeType();
+
+	/**
+	* Creates an Edge with the specified source, target, direction and weight.
+	*
+	* @param source the edge source
+	* @param target the edge target
+	* @param isDirected whether or not the edge is directed
+	* @param weight the weight of the edge
+	* @return the created edge.
+	*/
+	E createEdge(T source, T target, boolean isDirected, double weight);
+}
+----
+
+The intention is that the user implement the createEdge method to customize the edge creation process.
+All edges created on the network via addEdge(source, target, ...) will forward edge creation to this
+method. Specifying the edge creator on the builder looks like:
+
+----
+NetworkBuilder builder = new NetworkBuilder("Network", context, true);
+builder.setEdgeCreator(myEdgeCreator);
+Network network = builder.buildNetwork()
+----
+
+Any networks created using this builder will then use that EdgeCreator.
+
+Networks can also be loaded from a file. Currently, the builder can load networks from UCINet's dl format
+or from Excel. The relevant methods in the NetworkBuilder are:
+
+----
+/**
+* Sets this NetworkBuilder to create the network from a file. This
+* will use the first network found in the file.
+*
+* @param fileName the name of the file to load from
+* @param format the format of the file
+* @param nodeCreator a node creator that will be used to create the agents / nodes
+* @return this NetworkBuilder
+* @throws IOException if there is a file related error
+*/
+public NetworkBuilder load(String fileName, NetworkFileFormat format, 
+	NodeCreator nodeCreator) throws IOException
+
+/**
+* Sets this NetworkBuilder to create the network from a file. This
+* will use the first network found in the file.
+*
+* @param fileName the name of the file to load from
+* @param format the format of the file
+* @param nodeCreator a node creator that will be used to create the agents / nodes
+* @param matrixIndex the index of the matrix in the file to load. Starts with 0.
+* @return this NetworkBuilder
+* @throws IOException if there is a file related error
+*/
+public NetworkBuilder load(String fileName, NetworkFileFormat format, 
+	NodeCreator nodeCreator, int matrixIndex) throws IOException
+----
+
+The NodeCreator in the above is used to perform the actual node / agent creation based on the
+information in the network file. These nodes are added to the context and edges between them are
+created using the link data from the file. The NetworkFileFormat is either NetworkFileFormat.DL or
+NetworkFileFormat.EXCEL, although more formats may be added in the future. The Excel file format is
+described below.
+
+----
+The matrix is assumed to be square.
+
+Each worksheet is treated as a matrix, and any worksheets
+that do not contain matrices will cause an error. The worksheet name
+is treated as the matrix label unless the name begins with Sheet
+(Excel's generic worksheet name). The format for excel files is that
+imported and exported by UCINet. The first cell is empty, and the
+node labels begin on this first row in the second column. The column
+node labels begin in first column on the second row. The actual data
+begins in cell 2,2. For example,
+| first_label | second_label | ...
+-----------+-----------+--------------+----
+first_label | 0 | 1 | ...
+-----------+----------+---------------+----
+second_label | 1 | 0 | ...
+-------------+-------------+--------------+----
+... | ... | ... | ...
+If the matrix has no node labels, repast will expect the first row and
+column to be blank and as before, for the data to begin in cell 2,2.<p>
+----
+
+An example of the network builder loading a file:
+
+----
+NetworkBuilder builder = new NetworkBuilder("Network", context, true);
+builder.load("./repast.simphony.core/test/repast/simphony/graph/matrices.xls",
+NetworkFileFormat.EXCEL, myNodeCreator);
+Network net = builder.buildNetwork();
+----
+
+Lastly, a NetworkGenerator can be set on the NetworkBuilder. NetworkGenerators typically assume that
+the context already contains the nodes / agents and the generator arranges them in the appropriate
+topography (e.g. a Small World). For example,
+
+----
+// make sure the agents are in the context before
+// creating the network with the generator
+for (int i = 0; i < 25; i++) {
+	VizAgent agent = new VizAgent("Agent-" + i);
+	context.add(agent);
+}
+NetworkGenerator gen = new WattsBetaSmallWorldGenerator(.2, 2, false);
+NetworkBuilder builder = new NetworkBuilder("Electricity Network", context, true);
+builder.setGenerator(gen);
+Network net = builder.buildNetwor();
+----
+
+The arguments to the generator are the probability of rewiring the network, the local neighborhood size,
+and whether or not generated edges will be created symmetrically. We then create a NetworkFactory and
+use that to create the network, passing it the network name, the context, the generator, and whether or
+not the resulting network will be directed. In this case, the generator creates a small world type network
+using the agents in the context as nodes.
+
+See the repast.simphony.context.space.graph package for more information on NetworkGenerators and
+what is available.
+
+NOTE: Although the generators supplied by simphony do assume that the context already contains
+nodes / agents, the NetworkGenerator interface is flexible and can be used to implement any sort of
+custom network creation. For example, the network file loaders are actually implements as
+NetworkGenerators whose constructors take the necessary NodeCreator etc. information.
+
+.Working with a network
+Once you have a network, you can always add Relationships, but that's not really that useful until you
+can query based on the relationships. The Network library provides all of the methods you would expect
+to have to access the objects and relationships in it. The particular methods in which you will be
+interested are:
+* getAdjacent(agent) - Retrieves all of the objects that share a relationship with this agent
+* getPredecessors(agent) - Retrieves all of the objects that have a relationship to this agent
+* getSuccessors(agent) - Retrieves all of the objects that have a relationship from this agent
+* getEdges(agent) - Retrieves all of the edges which have this agent as an endpoint
+* getOutEdges(agent) - Retrieves all of the edges which have this agent as a source
+* getInEdges(agent) - Retrieves all of the edges which have this agent as a target
+* addEdge(agent, agent) - Adds an edge between the two agents
+* addEdge(agent, agent, weight) - Adds an edge of the specified weight between the two agents
+* addEdge(RepastEdge edge) - Adds the specified edge. Assumes that the source and target of the
+edge are part of the network
+* getEdge(agent, agent) - Get the edge, if any, between source and target agents
+
+In addition to these, there are also many other methods. See the javadoc for Network for more info.
+
+
+GIS Projections
+~~~~~~~~~~~~~~~
+.TODO 
+****
+add GIS fundamentals such as feature type geometries and raster data
+****
+Repast Simphony's GIS support is based on the Geography projection. A Geography is essentially a space
+in which agents are associated with a spatial geometry (polygon, point, etc.. Agents are stored by type in
+layers within the Geography and agents of the same type must have the same geometry. The geography
+can be queried spatially to return all the agents within some particular area. When a geography is
+displayed the agents are displayed in typical GIS fashion and represented by their associated geometries.
+Repast Simphony uses Geotoolsand the Java Topology Suiteextensively for its GIS support.
+
+.Creating a Geography
+Creating a geography in repast simphony is similar to creating the other projections. Your agents must
+exist in the context in order to exist in the geography, and you want to create the geograhy using a
+factory to make sure that it is initialized properly.
+
+----
+GeographyParameters<Object> params = new GeographyParameters<Object>();
+GeographyFactory factory = GeographyFactoryFinder.createGeographyFactory(null);
+Geography geography = factory.createGeography("GeograhpyName", context, params);
+----
+
+This should be fairly straightforward. We create a GeographyFactory and the create the Geography with
+that, passing the name of the Geography, the associated context, and the GeographyParameters.
+
+.GeographyParameters
+GeographyParameters can be used to set the "adder" and the CoordinateReferenceSystem for a
+Geography.
+
+.Adders
+The adder controls how any agent added to the context is added to the Geography. The default is a
+SimpleAdder which although it makes the Geography aware of the agent, it does not move the agent into
+the Geography by associating it with some Geometry. Custom adders can be created by implementing
+the GISAdder interface. A typical custom adder would call Geography.move to move an agent into the
+Geography and associate it with a Geometry in some model specific manner.
+
+.CoordinateReferenceSystem
+.TODO 
+****
+paragraph on GeoTools axis order and Default WGS84
+****
+Using GeographyParameters, you can define the CoordinateReferenceSystem for the created Geography.
+In the absence of any user supplied CRS, the default is WGS84 as defined by Geotools'
+DefaultGeographicCRS.WGS84. That CRS uses (longitude, latitude) coordinates with longitude
+values increasing East and latitude values increasing North. Angular units are degrees and
+prime meridian is Greenwich.
+
+
+.Moving in a Geography
+Moving a Geography is typically accomplished using the following method
+
+----
+move(T agent, Geometry geom)
+----
+
+The first time this is called for an agent that agent is moved into the Geography and associated with the
+specific geometry. The specific geometry establishes the agent's location in the geographical space and
+subsequent queries of the Geography will make use of that Geometry. If this is the first time an agent of
+this Class has been move in the Geography that type of agent will become associated with that Geometry
+type. For example, if the agent's type is the Java class anl.model.Truck, and the Geometry is a Point,
+then all Trucks are considered to be Points and any Truck moved in the Geography must have a Point
+geometry.
+
+An agent's current Geometry (i.e. its location) can be retrieved with:
+
+----
+Geometry getGeometry(Object agent);
+----
+
+This returned Geometry can be used to move the agent without recreating a Geometry and passing that
+new Geometry to the move method. For example, where "this" refers to an agent,
+
+----
+Geometry geom = geography.getGeometry(this);
+Coordinate coord = geom.getCoordinate();
+coord.x += .005;
+coord.y += .005;
+geography.move(this, geom);
+----
+
+In this case, we know the Geometry is a Point and so it has a single coordinate whose x and y values we
+can change. Note that its important to call move here to register the move with the Geography.
+Geography has additional move methods that can move by displacement etc.:
+
+----
+/**
+* Displaces the specified object by the specified lon and lat amount.
+*
+* @param object the object to move
+* @param lonShift the amount to move longitudinaly
+* @param latShift the amount to move latitudinaly
+* @return the new geometry of the object
+*/
+Geometry moveByDisplacement(T object, double lonShift, double latShift);
+
+/**
+* Moves the specified object the specified distance along the specified angle.
+*
+* @param object the object to move
+* @param distance the distance to move
+* @param unit the distance units. This must be convertable to meters
+* @param angleInRadians the angle along which to move
+*
+* @return the geometric location the object was moved to
+*/
+Geometry moveByVector(T object, double distance, Unit unit, double angleInRadians);
+
+/**
+* Moves the specified object the specified distance along the specified angle.
+*
+* @param object the object to move
+* @param distance the distance to move in meters
+* @param angleInRadians the angle along which to move
+*
+* @return the geometric location the object was moved to
+*/
+Geometry moveByVector(T object, double distance, double angleInRadians);
+----
+
+.Queries
+A Geography can also be queried spatially to return the objects within a particular envelope.
+
+----
+/**
+* Gets an iterable over all the objects within the specified envelope.
+*
+* @param envelope the bounding envelope
+* @return an iterable over all the objects within the specified location.
+*/
+Iterable<T> getObjectsWithin(Envelope envelope);
+----
+
+Additional queries are available for getting agents that intersect another agent or geometry, for getting
+the agents that touch another agent or geometry, and so on. See the classes in the
+repast.simphony.query.space.gis package for more information.
+
+
+
+Random Numbers
+~~~~~~~~~~~~~~
+.RandomRegistry
+Like many of the other registries in Simphony, the RandomRegistry is available 
+through the current RunState (through its getRandomRegistry() method). This 
+interface provides the capability for storing named random distributions and 
+retrieving them. It also can set and retrieve the seed that a stream will use 
+(or is using) for streams it creates through its addStream(String, Class, ...) 
+methods.
+
+.RandomHelper
+The RandomRegistry by itself is somewhat difficult to work with, to simplify 
+using it the RandomHelper class was created. This provides methods for creating 
+the random streams that will be used, and for retrieving the streams after they 
+have been created, when you do not have a reference to the current RunState.
+
+Through its getStream, getUniform and getNormal methods, you can retrieve 
+distributions from the current RandomRegistry. Through its numerous createXXX 
+methods, you can create the distributions and store them to the current 
+RandomRegistry.
+
+The RandomHelper also handles creating and maintaining a default Uniform number 
+stream. This stream is the one used by Repast when it needs a random number, and 
+is no different then the other Uniform number streams, except that it will 
+always exist when requested from the RandomHelper (when the simulation is 
+running). If you wish to use a Uniform distribution for your random numbers, you 
+can avoid some of the extra work that comes with the named streams (meaning, 
+specifying the name of the stream, and possibly casting the stream) by simply 
+using RandomHelpers' getDefault, nextInt, and nextDouble methods. You also can 
+retrieve and/or set the seed for the default stream through the RandomHelper's 
+getSeed and setSeed methods.
+
+Generally there are going to be two types of usage of the random functionality. 
+The first would be when you just need random numbers of some sort. In this case 
+you would just want to use RandomHelper's default methods, meaning the 
+getDefault(), nextInt and nextDouble methods.
+
+The other case is when you want numbers from a non-Uniform distribution, or you 
+want multiple random streams functioning at once. In this case you can use 
+RandomHelper's default methods for any uniform numbers, but for producing 
+multiple streams or a non-Uniform stream you have to use the methods that
+take in a stream name. Each of these separate cases will be walked through next.
+
+.Single Stream Default Use
+When working with the default Uniform stream there is really only one thing you 
+may want to look at manipulating, the default stream's random seed. This is set 
+through the RandomHelper's setSeed(int) method. Setting the random seed should 
+generally happen when the model is setting up. There are two ways you can do 
+this. One way is in a ControllerAction, but if you wish to use the random 
+numbers in setting up the model you will not have your seed set ahead of time. 
+The other (correct) way is in a ParameterSetter.
+
+In the ParameterSetter you are going to want to call RandomHelper's setSeed 
+method, as below:
+
+----
+public class MySimpleSetter extends SimpleParameterSetter {
+	public void next(Parameters params) {
+		RandomHelper.setSeed(System.currentTimeMillis());
+	}
+}
+----
+
+The above code will set the default uniform distribution's seed to be the 
+current time. Now that the time is set, the agents or controller actions (in 
+their runInitialize methods) can use the default distribution and will recieve 
+numbers based off of that seed. For example if you had an agent that wanted to 
+move based on some random condition, that could look like:
+
+----
+public void agentAction() {
+	if (myHappiness < RandomHelper.nextDouble()) {
+		move();
+	}
+}
+----
+
+The above example compares the agent's happiness to a random number between 0 
+and 1, in (0, 1), if the random number is greater than the agent's happiness it 
+will move.
+
+.Multiple Stream / Non Uniform Stream Usage
+As with the single streams, you generally are going to want to create your 
+Random number streams when your model is initializing, primarily in a 
+ParameterSetter, at the point the ParameterSetter will be executed the run's 
+RandomRegistry will be setup, and you can feel free to use the RandomHelper.
+
+With these streams you are going to need to consistently use the same stream 
+name(s) when working with the RandomHelper or the RandomRegistry. You will need 
+to pass this name into the methods, so that that the helper/registry knows where 
+to get the values from. For example, let's say that you want 2 random number 
+streams; one a Poisson distribution, and one a Normal distribution. With both of 
+these using a distinct random seed.
+
+So an example initialization would look like:
+
+----
+public class MySetter extends ParameterSetter {
+	public void next(Parameters params) {
+		// first create the normal distribution
+		// we pass in null so that it will use the current random registry
+		RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
+		// next we create the poisson distribution
+
+		RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
+	}
+}
+----
+
+The above code created a normal distribution named "MyNormal" that has a mean of 
+0, a standard deviation of 1, and some seed (normalSeed). It then creates a 
+poisson distribution named "MyPoisson" with a mean of 0 and some specified seed 
+(poissonSeed). It is worth noticing however that unlike the default stream, if 
+you do not setup these streams with the given name they will not be created for 
+you. You must create them in some way (for instance like above) or you will not 
+be able to use them.
+
+You can then use these distributions from your code. If you wanted to do the 
+same thing as the single stream example, but with the normal stream you would do:
+
+----
+public void agentAction() {
+	if (myHappiness < RandomHelper.getNormal("MyNormal").nextDouble()) {
+		move();
+	}
+}
+----
+
+The Poisson stream is slightly less straighforward to use, in that direct helper 
+methods are not provided that will cast the stream to a Poisson distribution. 
+For this distribution you must cast the stream yourself. This is more 
+complicated than it sounds, and functions simply like:
+
+----
+public void agentAction() {
+	// grab the distribution with the given name, casting it to a Poisson distribution
+	Poisson randomStream = (Poisson) RandomHelper.getStream("MyPoisson");
+	// now use it
+	if (myHappiness < randomStream.nextDouble()) {
+		move();
+	}
+}
+----
+
+Scheduling
+~~~~~~~~~~
+There are basically three ways to work with the Repast Simphony Scheduler. No 
+one is better than the other and they each have their specified purpose.
+
+.Directly Schedule an action
+This is similar to the way that actions have always been scheduled in repast 
+with a slight twist. In this scenario, you get a schedule and tell it the when 
+and what to run. An example of adding an item to the schedule this way is as 
+follows:
+
+----
+//Specify that the action should start at tick 1 and execute every other tick
+ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
+
+//Schedule my agent to execute the move method given the specified schedule parameters.&nbsp;
+schedule.schedule(params, myAgent, "move");
+----
+
+The biggest change here is that instead of using one of the numerous methods to 
+set up the parameters for the action like you would in repast 3, you just use 
+an instance of ScheduleParameters. ScheduleParameters can be created using one 
+of several convient factory methods if desired. A slight alteration of this is:
+
+----
+//Specify that the action should start at tick 1 and execute every other tick
+ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
+
+//Schedule my agent to execute the move method given the specified schedule parameters.
+schedule.schedule(params, myAgent, "move", "Forward", 4);
+----
+
+This example schedules the same action with the same parameters, but passes 
+arguments to the method that is to be called. The "Forward" and 4 will be passed 
+as arguments to the method move. The assumption is that the signature for move 
+looks like this:
+
+----
+public void move(String direction, int distance)
+----
+
+.Schedule with Annotations
+Java 5 introduced several new and exciting features (some of which are used 
+above), but one of the most useful is Annotation support. Annotations, in java, 
+are bits of metadata which can be attached to classes, methods or fields that 
+are available at runtime to give the system more information. Notable uses 
+outside repast includes the EJB3 spec which allows you to create ejbs using 
+annotations without requiring such complex descriptors. For repast, we thought 
+annotations were a perfect match for tying certain types of scheduling 
+information to the methods that should be scheduled. The typical case where you 
+would use annotations is where you have actions whose schedule is know at 
+compile time. So for example, if you know that you want to have the paper 
+delivered every morning, it would be logical to schedule the deliverPaper() 
+method using annotations. Without going into extensive documentation about how 
+annotations work (if you want that look at Java 5 Annotations), here is how you 
+would schedule an action using annotations:
+
+----
+@ScheduledMethod(start=1 , interval=2)
+public void deliverPaper()
+----
+
+The arguments of the annotation are similar to the properties for the 
+ScheduleParameters object. One particularly nice feature of using annotations 
+for scheduling is that you get keep the schedule information right next to the 
+method that is scheduled, so it is easy to keep track of what is executing when. 
+Most of the time, objects with annotations will automatically be added to the 
+schedule, however, if you create a new object while your simulation is running, 
+this may not be the case. Fortunately, the schedule object makes it very easy to 
+schedule objects with annoations.
+
+----
+//Add the annotated methods from the agent to the schedule.
+schedule.schedule(myAgent);
+----
+
+The schedule will search the object for any methods which have annotations and 
+add those methods to the schedule. This type of scheduling is not designed to 
+handle dynamic scheduling, but only scheduling, where the actions are well 
+defined at compile time.
+
+.Schedule with Watcher
+Scheduling using watchers is the most radical of the new scheduling approaches. 
+Watchers are designed to be used for dynamic scheduling where a typical workflow 
+is well understood by the model designer. Basically, a watcher allows an agent 
+to be notified of a state change in another agent and schedule an event to occur 
+as a result. The watcher is set up using an annotation (like above), but instead 
+of using static times for the schedule parameters, the user specifies a query 
+defining whom to watch and a query defining a trigger condition that must be met 
+to execute the action. That's a bit of a mouthfull, so let's take a look at an 
+example to hopefully clarify how this works. (this code is from the 
+SimpleHappyAgent model which ships with Repast Simphony)
+
+----
+@Watch(watcheeClassName = "repast.demo.simple.SimpleHappyAgent", 
+	watcheeFieldName = "happiness", query = "linked_from",
+	whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1,
+	scheduleTriggerPriority = 0)
+public void friendChanged(SimpleHappyAgent friend) {
+	if (Math.random() > .25) {
+	this.setHappiness(friend.getHappiness());
+	} else {
+		this.setHappiness(Random.uniform.nextDouble());
+	}
+	System.out.println("Happiness Changed");
+}
+----
+
+There is a fair amount going on in this, so we'll parse it out piece by piece. 
+First, note that there is a @Watch annotation before the method. This tells the 
+Repast Simphony system that this is going to be watching other objects in order 
+to schedule the friendChanged() method. The first parameter of the annotation is 
+the watcheeClassName. This defines the type of agents that this object will be 
+watching. The second argument, watcheeFieldName, defines what field we are 
+interested in monitoring. This means that there is a variable in the class 
+SimpleHappyAgent, that we want to monitor for changes. When it changes, this 
+object will be notified. The query argument defines which instances of 
+SimpleHappyAgent we want to monitor. In this case we are monitoring agents to 
+whom we are linked. For more documentation on arguments for this query can be 
+found at: Watcher Queries. The whenToTrigger argument specifies whether to 
+execute the action immediately (before the other actions at this time are 
+executed) or to wait until the next tick. The scheduleTriggerDelta defines how 
+long to wait before scheduling the action (in ticks). Finally the 
+scheduleTriggerPriority allows you to help define the order in which this action 
+is executed at it's scheduled time.
+
+Let me give a practical example of how this would be used. Let's say you are 
+modelling electrical networks. You may want to say that if a transformer shuts 
+down, at some time in the future a plant will shut down. So you make the plant a 
+watcher of the transformer. The plant could watch a variable called status on 
+the transformers to which it is connected, and when the transformer's status 
+changes to OFF, then the plant can schedule to shut down in the future. All done 
+with a single annotation. It could look like this:
+
+----
+@Watch(watcheeClassName = "infr.Transformer", watcheeFieldName = "status", query =
+	"linked_from", whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1)
+public void shutDown(){
+	operational = false;
+}
+----
+
+Obviously that is a simple example, but it should give you an idea of how to 
+work with scheduling this way.
+
+Watcher Queries
+~~~~~~~~~~~~~~~
+.TODO
+****
+Provide code examples
+****
+
+Watcher queries are boolean expressions that evaluate the watcher and the 
+watchee with respect to each other and some projection or context. The context 
+is the context where the watcher resides and the projections are those contained 
+by that context. In the following "[arg]" indicates that the arg is optional.
+
+* colocated - true if the watcher and the watchee are in the same context.
+
+* linked_to ['network name'] - true if the watcher is linked to the watchee in 
+any network, or optionally in the named network
+
+* linked_from ['network name'] - true if the watcher is linked from the watchee 
+in any network, or optionally in the named network
+
+* within X ['network name'] - true if the path from the watcher to the watchee 
+is less than or equal to X where X is a double precision number. This is either 
+for any network in the context or in the named network.
+
+* within_vn X ['grid name'] - true if the watchee is in the watcher's von 
+neumann neighborhood in any grid projection or in the named grid. X is the 
+extent of the neighborhood in the x, y, [z] dimensions.
+
+* within_moore X ['grid name'] - true if the watchee is in the watcher's moore 
+neighborhood in any grid projection or in the named grid. X is the extent of the 
+neighborhood in the x, y, [z] dimensions.
+
+* within X ['geography name'] true if the orthodromic distance from the watcher 
+to the watchee is less than or equal to X meters, otherwise false. Watcher 
+queries can be combined using the keywords not and and as well as ( to establish 
+precedence. For example
+
+----
+within 2 'family' and not linked_to 'business'
+----
+
+The queries are tested in WatcherQueryTests and defined as annotations in 
+MyWatcher.
+
+GUI Parameters and Probes
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.TODO
+****
+- GUI Parameters and Probes (remove extended parameters bit, add the custom probe registration stuff and update the annotations that can be used on agent properties, e.g., the statecharts agent property annotation)
+****
+
+.GUI Parameters
+GUI Parameters are the simulation parameters that appear in the parameters view 
+in the application GUI. These parameters are automatically created from the 
+parameters XML file or from any @Parameters method annotations that are used in 
+a Context. At the moment, these two options only allow for the creation of 
+unconstrained numeric, boolean and String parameters. However, constrained 
+parameters of more complicated types can be defined using an xml based format. 
+This section describes how  to save, load and "set as default" parameters using 
+the parameters tools menu, and the last section looks  at the parameters 
+returned from agent probes.
+
+.Convertors and custom parameter types
+Repast Simphony can internally handle the conversion of numeric and boolean 
+types to and from the Strings in the gui display and the parameter file. 
+However, if you wish to use a type other than these, then you must provide a 
+converter that will convert an Object to and from a String representation. A 
+converter is class that implements StringConverter and is used to create the 
+appropriate Object from a string representation when reading the xml file and 
+taking input from the gui. The converter also converts the object to a string 
+representation. This string is then used when writing the object out and 
+displaying the parameter's value in the gui.
+
+For example, supposing you wish use the following Name class as a Parameter.
+
+----
+package repast.test.viz;public class Name {
+	private String first, last;
+	private int hashCode;
+	
+	public Name(String first, String last) {
+		this.first = first;
+		this.last = last;
+		hashCode = 17;
+		hashCode = 37 * hashCode + first.hashCode();
+		hashCode = 37 * hashCode + last.hashCode();
+	}
+
+	public String getFirst() {
+		return first;
+	}
+
+	public String getLast() {
+		return last;
+	}
+	
+	public int hashCode() {
+		return hashCode;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof Name) {
+			Name other = (Name) obj;
+			return other.first.equals(this.first) && other.last.equals(this.last);
+		}
+		return false;
+	}
+	
+	public String toString() {
+		return "Name(" + first + ", " + last + ")";
+	}
+}
+----
+
+Your parameter XML then would look something like:
+----
+<parameters> ...
+	<parameter name="name" displayName="Full Name" type="repast.test.viz.Name" 
+		defaultValue="Joe Smith" converter="repast.test.viz.NameConverter" />
+</parameters>
+----
+
+The type is the fully qualified name of the parameter type (in this case "Name") 
+and the converter is the fully qualified name of the converter class. The 
+converter must implement the StringConverter interface. StringConverter has two 
+methods for converting to and from a String representation.
+
+----
+package repast.parameter;
+
+/**
+* Converts an Object to and from a String representation. Subclasses
+* are specialized for specified objects.
+*
+* @author Nick Collier
+*/
+public interface StringConverter<T> {
+
+	/**
+	* Converts the specified object to a String representation and
+	* returns that representation. The representation should be such
+	* that <code>fromString</code> can recreate the Object.
+	*
+	* @param obj the Object to convert.
+	*
+	* @return a String representation of the Object.
+	*/
+	String toString(T obj);
+
+	/**
+	* Creates an Object from a String representation.
+	*
+	* @param strRep the string representation
+	* @return the created Object.
+	*/
+	T fromString(String strRep);
+}
+----
+
+The NameConverter then looks like:
+
+----
+package repast.test.viz;
+import repast.parameter.*;
+public class NameConverter implements StringConverter<Name> {
+
+	/**
+	* Converts the specified object to a String representation and
+	* returns that representation. The representation should be such
+	* that <code>fromString</code> can recreate the Object.
+	*
+	* @param obj the Object to convert.
+	* @return a String representation of the Object.
+	*/
+	public String toString(Name obj) {
+		return obj.getFirst() + " " + obj.getLast();
+	}
+
+	/**
+	* Creates an Object from a String representation.
+	*
+	* @param strRep the string representation
+	* @return the created Object.
+	*/
+	public Name fromString(String strRep) {
+		int index = strRep.indexOf(" ");
+		String first = strRep.substring(0, index);
+		String last = strRep.substring(index + 1, strRep.length());
+		return new Name(first, last);
+	}
+}
+----
+
+It is also possible to use the values attribute to constrain the possible values 
+of a converted parameter. For example:
+
+----
+<parameters> ...
+	<parameter name="name" displayName="Full Name" type="repast.test.viz.Name" 
+		defaultValue="Joe Smith" converter="repast.test.viz.NameConverter" 
+		values="'Joe Smith' 'Mary Smith' 'Granny Smith'"/>
+</parameters>
+----
+
+When constraining a converted parameter, the elements in the values list must be 
+Strings that can be converted using the converter. If you do constrain a 
+converted parameter in this way, you must override equals (and hashCode) in your 
+custom type. If not, then the constraint validation will most likely fail.
+
+.Parameters Panel Tools
+The menu on the parameters panels allows the user to save and load parameter 
+values, and set the current parameter values as the default.
+
+* Saving - clicking the save menu item will prompt for a file name and then save 
+the current parameter values into that file.
+
+* Loading - clicking the load menu item will prompt for a file name and then 
+load the parameter values from that file into the current parameters. This 
+assumes that the current parameters are compatible with those being loaded, 
+that is, that the names and types of parameters in the file match the current 
+parameters.
+
+* Set as Default - this allows the user to set current parameter values as 
+defaults such that these values will be used when the simulation is reset. 
+Clicking this menu item prompts for which parameters to set as defaults and then 
+sets those as the new defaults.
+
+.Agent Probes
+An agent can be probed by clicking on its visual representation in the gui. The 
+agent's parameters will then be displayed in a probe panel. By default, the 
+displayed parameters are derived from an agent's Java bean properties which are 
+themselves derived from get / set accessor method pairs. For example,
+
+----
+public class VizAgent {
+	...
+	public double getWealth() {
+		...
+	}
+	
+	public void setWealth(double val) {
+		...
+	}
+}
+----
+
+This creates a "wealth" parameter. The probe panel will display an entry for 
+"wealth" whose value is the result of the "getWealth" call. When the user enters 
+a new value in the "wealth" text field then the setWealth method will passed 
+this new value. Read-only parameters can be created by specifying only a 
+get-style method. The label for this field will be the simple java bean 
+properties name. Which properties are treated as parameters, and how to display 
+them can be further refined by adding an @Parameter annotation to either the 
+getter or setter of a property method pair. (The information in the annotation 
+applies equally to both methods.) Using a Parameter annotation, a more 
+descriptive display name can be specified. For example:
+
+----
+public class VizAgent {
+	...
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)")
+	public double getWealth() {
+		...
+	}
+	
+	public void setWealth(double val) {
+		...
+	}
+}
+----
+
+The usageName should correspond to the java bean property which is typically the 
+method name minus the get/set with the first character lower-cased. The 
+displayName specifies the gui label for this parameter in the probe window.
+
+NOTE: If any method is annotated with @Parameter, then only @Parameter annotated 
+methods will be displayed in the probe panel.
+
+Using the @Parameter annotation, you can also specify the name of a converter to 
+convert to and from a displayable String. By specifying a converter, any type of 
+object contained by the agent can be displayed as a parameter. This converter is 
+identical that described above in the extended parameters section. See the 
+convertors and custom parameter types section above for more details. For 
+example,
+
+----
+public class VizAgent {
+	...
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+		converter="repast.demo.MoneyConverter")
+	public Money getWealth() {
+		...
+	}
+
+	public void setWealth(Money val) {
+		...
+	}
+}
+----
+
+In this case, the agent's wealth is represented by a Money class and a 
+MoneyConverter is used to convert to and from a String value. Lastly, by default 
+the probe's title will be the result of calling "toString()" on the probed 
+object (e.g. VizAgent@55927f, in the above screen shot). A more appropriate 
+title can be specified either by overriding toString() and returning the desired 
+value, or annotating any method that returns the desired title with @ProbeID. 
+For example:
+
+----
+public class VizAgent {
+	... 
+	@ProbeID 
+	public String name() { return name;}
+
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+		converter="repast.demo.MoneyConverter")
+	public Money getWealth() {
+		...
+	}
+
+	public void setWealth(Money val) {
+		...
+	}
+}
+----

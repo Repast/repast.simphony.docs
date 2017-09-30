@@ -1,0 +1,248 @@
+Project Configuration
+---------------------
+
+Creating a New Repast Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.TODO
+****
+Needs updating
+****
+
+Updating an Existing Repast Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.TODO
+****
+Needs updating
+****
+
+Adding Repast to an Existing Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.TODO
+****
+Needs updating
+****
+
+If you have an existing Java project in which you would like to reference Repast 
+classes, you can right click on the project and select Repast Simphony -> Add 
+Repast Simphony to this Project. This will add the Repast libraries to the 
+project class path so that you can reference Repast classes and run simulations 
+from your project without needing to manually add all of the Repast libraries 
+and dependencies.
+
+Model Configuration Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.TODO
+****
+Needs updating
+****
+
+.user_path.xml
+
+----
+<model name="Model Name">
+	<classpath>
+		<entry path="..." annotations="[true|false]" />
+		<agents path="..." filter="..." />
+		<builtin fullname="..." />
+	</classpath>
+</model>
+----
+
+* path is path statement to a directory or jar file. If the directory contains 
+jars then all those jars are added to the classpath. If the directory or its 
+children contain .class files then the directory is added to the classpath. More 
+than one path can be specified. Multiple paths should be "," separated. For .class 
+files, the path functions as a classpath and so it must be the directory 
+immediately above the directories corresponding to the class packages. For 
+example, given the class repast.simphony.MyClass and the directory structure 
+X/bin/repast/simphony/MyClass.class, the path should be X/bin. This applies to 
+path in both entry and agents elements.
+
+* annotations specified whether or not any classes found in the specified 
+path(s) should be processed for annotations. The default is false.
+
+* agents specifies the path where agent classes can be found. These are 
+automatically processed for annotations.
+
+* filter specifies a class filter on the agents path(s). For example a filter 
+of "anl.gov.Agent" will filter out all classes but anl.gov.Agent as agent 
+classes. Filters can contain the wildcard "*". So for example, "anl.gov.*Agent" 
+will include any class in the package anl.gov whose class name ends with Agent.
+
+* the builtin element is for the case when a user needs to add an agent class 
+existing in one of the repast plugins. The user specifies the canonical class 
+name as the fullname.
+
+NOTE: For the builtins, since the class can be in any one of the repast plugins, 
+without hard coding the path, it is difficult to use the filter mechanism on all 
+the plugins. This means that unless we can figure out a way to figure out the 
+path of a resource containing a package, we must specify each individual class 
+that we'd like to be considered an agent class. The good news is that this is 
+not a common usage.
+
+.context.xml
+context.xml contains the context heirarchy information.
+
+----
+<context id="..." class="...">
+	<attribute id="..." value="..." type="[int|long|double|float|boolean|string|...]" 
+		display_name="..." converter="..."/>
+	
+	<projection id="..." type="[network|grid|continuous space|geography|value layer]">
+		<attribute id="..." .../>
+	</projection>	
+	
+	<context id="..." class="...">
+		...
+	</context>
+</context>
+----
+
+.Context Element
+[options="header",width="60%",cols="3"]
+|====
+|Attribute Name |Description |Required
+|id |Unique identifer for the context |YES
+|class |Fully qualitifed name of a Context implementation. If this
+is present this context will be used instead of the default |NO
+|====
+
+.Attribute Element
+[options="header",width="60%",cols="3"]
+|====
+|Attribute Name |Description |Required
+|id |Unique identifer for the attribute |YES
+|value |Default value of the attribute |YES
+|type |The primitive or class type of the attribute |YES
+|display_name |Optional name used to display the attribute when it is used as a 
+model parameter |NO |converter |Optional implementation of StringConverter used 
+to convert the attribute to and from a string representation |NO
+|====
+
+For example:
+----
+<context id="MyContext">
+	<attribute id="numAgents" value="20" type="int" display_name="Initial Number of Agents"/>
+</context>
+----
+
+.Projection Element
+[options="header",width="60%",cols="3"]
+|====
+|Attribute Name |Description |Required
+|id |Unique identifer for the projection |YES
+|type |The projection type (network, grid, geography, continuous space, value layer) |YES
+|====
+
+.Special Attributes
+If certain special attributes are present, then the context.xml file can be used 
+to instantiate the actual context hierarchy. The attributes are defined in the repast.simphony.dataLoader.engine.AutoBuilderConstants.
+
+.Context Attributes
+[options="header",width="60%",cols="5"]
+|====
+|Attribute Id |Description |Allowed values |type |Required
+|\_timeUnits_ |The tick unit type |Any string that can be parsed by Amount.valueOf |string |NO
+|====
+
+.Grid Attributes
+[options="header",width="60%",cols="5"]
+|====
+|Attribute Id |Description |Allowed values |type |Required
+|Any attribute of int type |Any int attributes
+will be used as the dimensions of the
+grid. These will be processed in order
+such that the first becomes the width
+(x) dimensions, the next the height
+(y) and so on. |Any int |int |YES
+|border rule |Specifies the behavior of agents
+when moving over a grid's borders. |bouncy, sticky, strict, or periodic |string |YES
+|allows multi |whether or not the grid allows multiple agents in
+each cell |true or false (default is false) |boolean |NO
+|====
+
+For example:
+----
+<context id="MyContext">
+	<projection id="MyGrid" type="grid">
+		<attribute id="width" type="int" value="200"/>
+		<attribute id="height" type="int" value="100"/>
+		<attribute id="border rule" type="string" value="periodic" />
+		<attribute id="allows multi" type="boolean" value="true"/>
+	</projection>
+</context>
+----
+
+will create a 200x100 grid with an id of "MyGrid." The border rule for the grid 
+is "periodic" so the grid will wrap, forming a torus. The grid will also allow 
+multiple agents in each cell.
+
+.Continuous Space Attributes
+[options="header",width="60%",cols="5"]
+|====
+|Attribute Id |Description |Allowed values |type |Required
+|Any attribute of int or double type | Any int or double
+attributes will be used as the dimensions of the grid. These will be
+processed in order such that the first becomes the width (x) dimensions,
+the next the height (y) and so on. |Any int or double |int or double |YES
+|border rule |Specifies the behavior of agents when moving over
+a space's borders. |bouncy, sticky, strict, or periodic |string |YES
+|====
+
+For example:
+----
+<context id="MyContext">
+	<projection id="MySpace" type="continuous space">
+		<attribute id="width" type="int" value="200"/>
+		<attribute id="height" type="int" value="100"/>
+		<attribute id="border rule" type="string" value="strict" />
+	</projection>
+</context>
+-----
+
+will create a 200x100 continuous space with an id of "MySpace." The border rule 
+for the grid is "strict" so any movement across the border will cause an error.
+
+.Network Attributes
+[options="header",width="60%",cols="5"]
+|====
+|Attribute Id |Description |Allowed values |type |Required
+|directed |Whether or not the network is directed |true or false. Default is false |boolean |NO
+|edge class |The fully qualified name of a class that 
+extends RepastEdge. Any edges created by the network will be
+of this type. |Any properly formatted class name extending RepastEdge |string |NO
+|====
+
+For example:
+----
+<context id="MyContext">
+	<projection id="MyNetwork" type="network">
+		<attribute id="directed" type="boolean" value="true"/>
+	</projection>
+</context>
+----
+
+will create a network with an id of "MyNetwork." The network will be directed 
+and use the default RepastEdge as the edge type.
+
+Distributing Your Model
+~~~~~~~~~~~~~~~~~~~~~~~
+.TODO
+****
+Needs updating
+****
+
+Models created with Repast Simphony may easily be distributed with the provided 
+Install Builder tool. This tool builds a distributable installer that anyone may 
+use to install the model to their computer. The only requirement for those to 
+who the model is distributed is the target system to have a current Java Runtime 
+Environment.
+
+To start the Install Builder, select Build Installer in the run menu
+
+The builder make take a few minutes to complete the installer. Once this process 
+is complete, a message "BUILD SUCCESSFUL" should be visible in the Console 
+window.

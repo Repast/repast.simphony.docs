@@ -1,0 +1,70 @@
+Advanced Topics
+---------------
+
+Adding Controller Actions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Controller actions can be added and integrated into the controller tree via 
+plugin extension points. The repast.simphony.core plugin defines the following:
+
+----
+<extension-point id="composite.action">
+	<parameter-def id="creatorClass"/>
+</extension-point>
+<extension-point id="component.action">
+	<parameter-def id="actionIO"/>
+</extension-point>
+----
+
+* "composite.action" is used to create a parent controller action, that is, a controller action that is
+composed of child controller actions. The value of the "creatorClass" parameter must be the name of
+a class that implements the CompositeControllerActionCreator interface.
+
+* "component.action" is used to create child or component controller actions that are leaves in the
+controller action tree. The value of the "actionIO" parameter must the name of a class that
+implements the ControllerActionIO interface. This class is primarily responsible for serializing and
+deserializing (saving and loading) a specific type of controller action. For example, the
+CNDataLoaderControllerActionIO class is responsible for serializing and deserializing the class name
+data loader action.
+
+The repast.simphony.gui plugin extends these two extension points with:
+----
+<extension-point id="composite.action" parent-plugin-id="repast.simphony.core" parent-point-id="composite.action">
+	<parameter-def id="label"/>
+</extension-point>
+<extension-point id="component.action" parent-plugin-id="repast.simphony.core" parent-point-id="component.action">
+	<parameter-def id="editorCreator"/>
+	<parameter-def id="parentMenuItem" multiplicity="none-or-one"/>
+	<parameter-def id="parentID"/>
+</extension-point>
+----
+
+These extend the above by adding gui related parameters.
+* composite.action adds a label parameter the value of which will be the label for the parent action as
+it is displayed in the controller action tree.
+
+* component.action adds 3 new parameters
+. editorCreator. The value of this parameter is a class that implements the ActionEditorCreator
+interface. The editor created by the class that implements this interface will be used to create a
+gui editor for editing this action.
+
+. parentMenuItem. The value of this parameter is a class that implements the EditorMenuItem.
+This will create the item in the parent menu that allows actions of this type to be created.
+
+. parentID. this is the id of the parent of this controller action.Default parent ids are defined in
+repast.plugin.ControllerActionConstants:
+
+----
+String VIZ_ROOT = "repast.controller.action.viz";
+String DATA_LOADER_ROOT = "repast.controller.action.data_loaders";
+String SCHEDULE_ROOT = "repast.controller.action.schedule";
+String OUTPUTTER_ROOT = "repast.controller.action.outputters";
+String GRAPH_ROOT = "repast.controller.action.graphs";
+String REPORT_ROOT = "repast.controller.action.reports";
+String DATA_SET_ROOT = "repast.controller.action.data_sets";
+----
+
+All the controller actions in repast simphony are added via this mechanism so examining their plugin.xml
+files and related code is a good place to learn more.
+
+
