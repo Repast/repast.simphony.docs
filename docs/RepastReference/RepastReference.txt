@@ -1,8 +1,8 @@
 Repast Simphony Documentation
 =============================
 Version 2.5 October 2017
-:themedir: ../RepastReference
-:theme: asciidoc
+//:themedir: ../RepastReference
+//:theme: asciidoc
 :toc2:
 :icons:
 :numbered:
@@ -16,6 +16,8 @@ include::Introduction.txt[]
 include::ProjectConfiguration.txt[]
 
 include::ModelConcepts.txt[]
+
+include::RuntimeGUI.txt[]
 
 include::Batch.txt[]
 
