@@ -535,6 +535,40 @@ body.manpage div.sectionbody {
 }
 
 
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -731,7 +765,7 @@ asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
-<body class="article">
+<body class="article" style="max-width:55em">
 <div id="header">
 <h1>Repast Simphony Documentation</h1>
 <span id="author">Version 2.5 October 2017</span><br />
@@ -744,21 +778,85 @@ asciidoc.install(2);
 <div class="sect1">
 <h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Repast Simphony is a tightly integrated, richly interactive, cross platform
+Java-based modeling system that runs under Microsoft Windows, Apple Mac OS X,
+and Linux. Repast supports the development of extremely flexible models of
+interacting agents for use on workstations and computing clusters. Repast
+Simphony models can be developed in several different forms including the ReLogo
+dialect of Logo, point-and-click statecharts, Groovy, or Java, all of which can
+be fluidly interleaved.</p></div>
+<div class="paragraph"><p>This "cookbook style" reference manual provides background and code examples for
+many aspects of the Repast Simphony API but does not show how to build a
+complete working model from scratch. It is recommended that new users first
+review the introductory tutorial documents included with the Repast installer
+and available at the Repast online documentation page:
+<a href="https://repast.github.io/docs.html">https://repast.github.io/docs.html</a></p></div>
 <div class="sect2">
-<h3 id="_about_repast_simphony">1.1. About Repast Simphony</h3>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>Needs updating</p></div>
-</div></div>
+<h3 id="_support">1.1. Support</h3>
+<div class="paragraph"><p>The primary means of obtaining help with Repast is the
+<a href="http://lists.sourceforge.net/lists/listinfo/repast-interest">Repast Interest</a>
+mailing list and the accumulated
+<a href="https://sourceforge.net/p/repast/mailman/repast-interest">list archives</a>.
+To post a technical question about any  edition of Repast to all of the list
+members, please send an email message to <a href="mailto:repast-interest@lists.sourceforge.net">repast-interest@lists.sourceforge.net</a>.
+(Due to spam, the repast-interest list now limits postings to subscribed users.
+While questions are welcome and usually answered quickly, please check
+the list archives before sending a message as your question may already have
+been answered.</p></div>
+<div class="paragraph"><p>For those interested in regularly hearing about Repast and learning from other&#8217;s
+technical questions, please consider subscribing to the Repast Interest mailing
+list.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_installation">1.2. Installation</h3>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>Needs updating</p></div>
-</div></div>
+<div class="paragraph"><p>Current software releases are available from
+<a href="https://github.com/Repast/repast.simphony/releases/">https://github.com/Repast/repast.simphony/releases/</a>.</p></div>
+<div class="paragraph"><div class="title">Microsoft Windows</div><p><a href="https://www.java.com">Java</a> must be installed prior to running Repast Simphony.
+We reccommend using both the 64-bit version of Java and Repast, which is
+available as a 32-bit or 64-bit installer for Windows.  If you have 32-bit Java
+installed you must use the 32-bit Repast installer, and likewise if you have the
+64-bit version of Java installed, you must use the 64-bit Repast installer.</p></div>
+<div class="paragraph"><div class="title">OS X</div><p>Mac OS X users should download the Mac OS X Disk Image, double click on the
+resulting file and follow the installation instructions that appear. You may
+need to alter your Security &amp; Privacy settings in System Preferences to allow
+you to open Repast Simphony. Alternatively, right clicking on the Repast
+Simphony application and selecting Open will allow you to authenticate and open
+it.</p></div>
+<div class="paragraph"><div class="title">Linux</div><p>Linux users and Unix-related system users should download
+<a href="http://www.eclipse.org/downloads/packages/eclipse-ide-eclipse-committers/oxygen1">
+Eclipse IDE for Eclipse Committers Oxygen</a> then use the Eclipse Update Manager
+(under Help &#8594; Install New Software) to install Repast from its update site:
+<a href="https://repocafe.cels.anl.gov/repos/repast/">https://repocafe.cels.anl.gov/repos/repast/</a>. Repast when installed via the
+update site has the following additional requirement that can be installed using
+Eclipse&#8217;s Update Manager.</p></div>
+<div class="paragraph"><p>From the Groovy Update Site (<a href="http://dist.springsource.org/snapshot/GRECLIPSE/e4.6/">http://dist.springsource.org/snapshot/GRECLIPSE/e4.6/</a>):</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Extra Groovy Compilers
+</p>
+</li>
+<li>
+<p>
+Groovy-Eclipse
+</p>
+</li>
+<li>
+<p>
+Uncategorized
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Once you have downloaded eclipse and installed the plugins, the groovy compiler
+version must be set to anything in the 2.0. version line. Anything else will
+prevent Repast Simphony and especially ReLogo from working correctly. You can
+set the groovy compiler preferences in either the workspace or project
+preferences pane via the "Groovy Compiler" page.</p></div>
+<div class="paragraph"><p>The demonstration models are not provided via the update site, but they can be
+downloaded from the GitHub repository:
+<a href="https://github.com/Repast/repast.simphony.models/">https://github.com/Repast/repast.simphony.models/</a>. Once downloaded, start
+Eclipse and switch to your chosen workspace. Right click in the package panel,
+and choose import, General, Archive File and follow the wizard from there.</p></div>
 </div>
 </div>
 </div>
@@ -2862,328 +2960,10 @@ will use the same random seed.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_agent_adaptation">5. Agent Adaptation</h2>
-<div class="sectionbody">
-<div class="sidebarblock">
-<div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>This section depends on the Flowchart editor and is therefore completely out of
-data with the 2.5 release.  Needs updating with actual code examples.  We should
-probably provide demo models for each.</p></div>
-</div></div>
-<div class="sect2">
-<h3 id="_genetic_algorithms">5.1. Genetic Algorithms</h3>
-<div class="paragraph"><p>Repast Simphony (Repast S) uses the Java Genetic Algorithms Package (JGAP)
-(<a href="http://jgap.sourceforge.net/">http://jgap.sourceforge.net/</a>) to implement genetic algorithms. JGAP can be used
-directly within agents or the Repast S genetic algorithms (GA) wrapper can be
-used. Directly using JGAP provides maximum flexibility but requires more complex
-programming. The Repast S GA wrapper simplifies the use of JGAP while preserving
-most options. It is recommended that Repast S users start with the Repast S
-wrapper and, only if needed, eventually move to directly use of JGAP. The Repast
-S regression wrapper is consistent with direct use of JGAP so this should
-relatively straightforward. Obviously, as with all machine learning tools, it is
-important to make sure that genetic algorithms, in general, and the chosen
-formulation, in particular, are appropriate for your application.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/tip.png" alt="Tip" />
-</td>
-<td class="content">Documentation on how to use JGAP directly can be found on their web site,
-<a href="http://jgap.sourceforge.net/">http://jgap.sourceforge.net/</a> In particular, please see the following page: <a href="http://jgap.sourceforge.net/doc/tutorial.html">http://jgap.sourceforge.net/doc/tutorial.html</a></td>
-</tr></table>
-</div>
-<div class="ulist"><div class="title">To use the Repast S GA wrapper in the visual editor simply follow these steps:</div><ul>
-<li>
-<p>
-Add a property of type "Genetic Algorithm" to an agent. "evaluate" is the name
-of the fitness function that needs to be created as described in step two.
-"populationSize" is the count of the members in the GA population. The "Gene"
-array gives the set of genes, either "IntegerGene" or "DoubleGene," to be used.
-The parameters to the constructors (e.g., "min1" and "max1") are the optional
-lower and upper bounds for that gene. The template is as follows:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>new RepastGA(this, "evaluate", populationSize,
-        new Gene[]{ new IntegerGene(min1, max1) new DoubleGene(min2, max2)})</code></pre>
-</div></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Add a behavior that takes a double precision array (i.e., "double[]"), returns
-an positive integer result, and that uses the fitness function name given above
-(e.g., "evaluate"). The double array is the current population member to be
-evaluated. The genes are in the same order as the template given in step one.
-Higher fitness result values mean greater fitness levels. The exact range does
-not matter as long as the numbers are positive.
-</p>
-</li>
-<li>
-<p>
-Using the Wizard dialog, chose "Advanced Adaptation," "Use a Genetic
-Algorithm," "Get the Best Solution from a Genetic Algorithm," and then fill in
-the form to get a solution. The returned double array is the current best
-solution. The genes are in the same order as the template given in step one.
-</p>
-</li>
-<li>
-<p>
-If the population needs to be reset, perhaps due to a plateau, using the
-Wizard dialog, chose "Advanced Adaptation," "Use a Genetic Algorithm," "Reset
-the Population of a Genetic Algorithm," and then fill in the form.
-</p>
-</li>
-</ul></div>
-<div class="ulist"><div class="title">To use the Repast S GA wrapper in the Java or Groovy simply follow these steps:</div><ul>
-<li>
-<p>
-Add an agent class field of type RepastGA and create an instance following
-this template:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>new RepastGA(this, "evaluate", populationSize,
-        new Gene[]{ new IntegerGene(min1, max1) new DoubleGene(min2, max2)})</code></pre>
-</div></div>
-<div class="paragraph"><p>"evaluate" is the name of the fitness function that needs to be created as
-described in step two. "populationSize" is the count of the members in the GA
-population. The "Gene" array gives the set of genes, either "IntegerGene" or
-"DoubleGene," to be used. The parameters to the constructors (e.g., "min1" and
-"max1") are the optional lower and upper bounds for that gene.</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Add a class method behavior that takes a double precision array (i.e.,
-"double[]"), returns an positive integer result, and that uses the fitness
-function name given above (e.g., "evaluate"). The double array is the current
-population member to be evaluated. The genes are in the same order as the
-template given in step one. Higher fitness result values mean greater fitness
-levels. The exact range does not matter as long as the numbers are positive. For
-higher performance, advanced users can implement org.jgap.FitnessFunction in
-place of just the creating the simple "int evaluate(double[])" method.
-</p>
-</li>
-<li>
-<p>
-Use the following method template to get a solution:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>double[] solution = model.getBestSolution(cycles)</code></pre>
-</div></div>
-<div class="paragraph"><p>"cycles" is the number of evolutionary steps to use to compute the requested
-solution. The returned double array is the current best solution. The genes are
-in the same order as the template given in step one.</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-If the population needs to be reset, use the following method template:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>model.reset()</code></pre>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="_neural_networks">5.2. Neural Networks</h3>
-<div class="paragraph"><p>Repast Simphony (Repast S) uses the Java Object Oriented Neural Engine (Joone)
-(<a href="http://www.jooneworld.com/">http://www.jooneworld.com/</a>) library to implement neural networks. Joone can be
-used directly within agents or the Repast S neural network wrapper can be used.
-Directly using Joone provides maximum flexibility but requires more complex
-programming. The Repast S wrapper simplifies the use of Joone while preserving
-most options. It is recommended that Repast S users start with the Repast S
-wrapper and, only if needed, eventually move to directly use of Joone. The
-Repast S wrapper is consistent with direct use of Joone so this should
-relatively straightforward. Obviously, as with all machine learning tools, it is
-important to make sure that neural networks, in general, and the chosen network
-design, in particular, are appropriate for your application.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/tip.png" alt="Tip" />
-</td>
-<td class="content">Documentation on how to use Joone directly can be found on their web site,
-<a href="http://www.jooneworld.com/">http://www.jooneworld.com/</a></td>
-</tr></table>
-</div>
-<div class="paragraph"><div class="title">To use the Repast S neural network wrapper in the visual editor simply follow</div><p>these steps:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Add a property of type "Linear Neural Network," "Logistic Neural Network," or
-"Softmax Neural Network" to an agent to produce the corresponding type of neural
-network. Replace the integer (i.e., int) array elements with a description of
-the layers for your application. The first number in the array is the count of
-input neurons, the last number is the count of output neurons, and the
-intermediate numbers are the interstitial layers. You can have as many
-interstitial layers as you would like (i.e., zero or more).
-</p>
-</li>
-<li>
-<p>
-Using the Wizard dialog, chose "Advanced Adaptation," "Use a Neural Network,"
-"Train a Neural Network Model," and then fill in the form to store data for
-fitting. The input data array is indexed by the number of training examples and
-the number of input neurons. The output data array is indexed by the number of
-training examples and the number of output neurons.
-</p>
-</li>
-<li>
-<p>
-Using the Wizard dialog, chose "Advanced Adaptation," "Use a Neural Network,"
-"Forecast from a Neural Network," and then fill in the form to get a forecast.
-The input data array is indexed by the number of input neurons. The output data
-array is indexed by the number of output neurons. To use the Repast S regression
-wrapper in the Java or Groovy simply follow these steps:
-</p>
-</li>
-<li>
-<p>
-Add an agent class field of type NeuralNet and create an linear, logistic, or
-softmax instance as follows:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>JooneTools.create_standard(new int[]{inputNeurons intermediateLayer1 intermediateLayer2
-intermediateLayerN outputNeurons}, JooneTools.LINEAR)).
-
-JooneTools.create_standard(new int[]{inputNeurons intermediateLayer1 intermediateLayer2
-intermediateLayerN outputNeurons}, JooneTools.LOGISTIC)).
-
-JooneTools.create_standard(new int[]{inputNeurons intermediateLayer1 intermediateLayer2
-intermediateLayerN outputNeurons}, JooneTools. SOFTMAX)).</code></pre>
-</div></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Use the following method to store data for fitting where "model" is the new
-field name:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>JooneTools.train(model, inputDataArray, targetOutputDataArray, epochs, convergenceLimit, 0, null);</code></pre>
-</div></div>
-<div class="paragraph"><p>The input data array is indexed by the number of training examples and the
-number of input neurons. The output data array is indexed by the number of
-training examples and the number of output neurons. The model will be trained
-until "epochs" cycles are completed or the "convergenceLimit" of root mean square
-error is achieved, whichever comes first.</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Use the following method to get a forecast where "model" is the new field name:
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>double outputData[] = JooneTools.interrogate(model, inputData)</code></pre>
-</div></div>
-<div class="paragraph"><p>The input data array is indexed by the number of input neurons. The output data
-array is indexed by the number of output neurons.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_regression">5.3. Regression</h3>
-<div class="paragraph"><p>Repast Simphony (Repast S) uses the OpenForecast
-(<a href="http://openforecast.sourceforge.net/">http://openforecast.sourceforge.net/</a>) library to implement regression.
-OpenForecast can be used directly within agents or the Repast S regression
-wrapper can be used. Directly using OpenForecast provides maximum flexibility
-but requires more complex programming. The Repast S regression wrapper
-simplifies the use of OpenForecast while preserving most options. It is
-recommended that Repast S users start with the Repast S wrapper and, only if
-needed, eventually move to directly use of OpenForecast. The Repast S regression
-wrapper is consistent with direct use of OpenForecast so this should relatively
-straightforward. Obviously, as with all statistical tools, it is important to
-make sure that regression, in general, and the chosen regression fit, in
-particular, are appropriate for your application. The method "getForecastType()"
-can be used to find a text description of the selected equation for both types
-of regression. It is recommended that this be checked for appropriateness.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/tip.png" alt="Tip" />
-</td>
-<td class="content">Documentation on how to use OpenForecast directly can be found on their web
-site, <a href="http://openforecast.sourceforge.net/">http://openforecast.sourceforge.net/</a></td>
-</tr></table>
-</div>
-<div class="paragraph"><div class="title">To use the Repast S regression wrapper in the visual editor simply follow these</div><p>steps:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Add a property of type "Multilinear Regression Model" or "Best Fit Regression Model" to an agent
-"Multilinear Regression Model" always fits input data sets using a linear equation for one input variable or
-multilinear equation for multiple input variables. "Best Fit Regression Model" causes OpenForecast to
-consider a range of different equation families and then find the best fitting member of the best fitting
-equation family. This includes linear and multilinear equations as well as other families as defined in the
-OpenForecast documentation.
-</p>
-</li>
-<li>
-<p>
-Using the Wizard dialog, chose "Advanced Adaptation," "Use a Regression Model," "Store Data for a
-Regression Model," and then fill in the form to store data for fitting.
-</p>
-</li>
-<li>
-<p>
-Using the Wizard dialog, chose "Advanced Adaptation," "Use a Regression Model," "Forecast from a
-Regression Model," and then fill in the form to get a forecast. Please note that it generally is necessary to
-return default forecasts for several steps before enough example data is available for a good quality
-forecast.
-</p>
-</li>
-</ul></div>
-<div class="ulist"><div class="title">To use the Repast S regression wrapper in the Java or Groovy simply follow these steps:</div><ul>
-<li>
-<p>
-Add an agent class field of type RepastRegressionModel and create an instance (i.e., new
-RepastRegressionModel(false)). Set the constructor parameter to "false" for "Multilinear Regression
-Model" or "true" for "Best Fit Regression Model." "Multilinear Regression Model" always fits input data sets
-using a linear equation for one input variable or multilinear equation for multiple input variables. "Best Fit
-Regression Model" causes OpenForecast to consider a range of different equation families and then find
-the best fitting member of the best fitting equation family. This includes linear and multilinear equations
-as well as other families as defined in the OpenForecast documentation. Obviously, as with all statistical
-tools, it is important to make sure that the chosen functions, both multilinear and best fit, are appropriate
-for your application. The method "getForecastType()" can be used to find a text description of the
-selected equation for both types of regression. It is recommended that this be checked for
-appropriateness.
-</p>
-</li>
-<li>
-<p>
-Use the new field&#8217;s "add(&#8230;) method to store data for fitting (i.e., model.add(y, x1, x2, x3)).
-</p>
-</li>
-<li>
-<p>
-Use the new field&#8217;s "forecast(&#8230;)" method to get a forecast (i.e., double x = model.forecast(y1, y2,
-y3)). Please note that it generally is necessary to return default forecasts for several steps before enough
-example data is available for a good quality forecast.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_advanced_topics">6. Advanced Topics</h2>
+<h2 id="_advanced_topics">5. Advanced Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_adding_controller_actions">6.1. Adding Controller Actions</h3>
+<h3 id="_adding_controller_actions">5.1. Adding Controller Actions</h3>
 <div class="paragraph"><p>Controller actions can be added and integrated into the controller tree via
 plugin extension points. The repast.simphony.core plugin defines the following:</p></div>
 <div class="listingblock">
@@ -3273,10 +3053,10 @@ files and related code is a good place to learn more.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_developer_topics">7. Developer Topics</h2>
+<h2 id="_developer_topics">6. Developer Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_creating_a_dynamic_wizard">7.1. Creating a Dynamic Wizard</h3>
+<h3 id="_creating_a_dynamic_wizard">6.1. Creating a Dynamic Wizard</h3>
 <div class="paragraph"><p>I&#8217;ve made a wizard framework that dynamically loads its options based on
 "options" specified in plugin.xmls. I&#8217;ve used it in enough places that I&#8217;ve gone
 ahead and generalized it. If you wish to use this setup I made it fairly
@@ -3381,7 +3161,7 @@ steps (as needed).
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_freezedrying_of_custom_projections">7.2. Enabling FreezeDrying of Custom Projections</h3>
+<h3 id="_enabling_freezedrying_of_custom_projections">6.2. Enabling FreezeDrying of Custom Projections</h3>
 <div class="paragraph"><p>When building a new Projection, some things should be done if it is to be integrated into the whole
 system. In particular, if it is to be freeze dryable, some special considerations may need to be made.
 Since the freeze dryer generally just writes out all the fields of an object, this may or may not function
@@ -3472,7 +3252,7 @@ method.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-30 18:00:32 Central Daylight Time
+Last updated 2017-10-02 12:52:51 Central Daylight Time
 </div>
 </div>
 </body>

@@ -1,9 +1,12 @@
 Repast Simphony Documentation
 =============================
 Version 2.5 October 2017
-:toc:
+:themedir: ../RepastReference
+:theme: asciidoc
+:toc2:
 :icons:
 :numbered:
+:max-width: 55em
 :website: http://repast.github.io
 
 // Sections need line break between includes
@@ -17,7 +20,7 @@ include::ModelConcepts.txt[]
 include::Batch.txt[]
 
 // TODO Don't include adaptation with 2.5 release
-include::AgentAdaptation.txt[]
+//include::AgentAdaptation.txt[]
 
 include::AdvancedTopics.txt[]
 
