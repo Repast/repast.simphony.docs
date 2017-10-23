@@ -17,7 +17,8 @@ include::ProjectConfiguration.txt[]
 
 include::ModelConcepts.txt[]
 
-include::RuntimeGUI.txt[]
+// TODO GUI
+//include::RuntimeGUI.txt[]
 
 include::Batch.txt[]
 

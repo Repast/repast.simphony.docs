@@ -22,10 +22,7 @@ that scan lists of agents) should be simple and direct.
 Contexts
 ~~~~~~~~
 
-.TODO
-****
-Perhaps rearrange this section so that the theory is discussed in each subsection.
-****
+// TODO Perhaps rearrange this section so that the theory is discussed in each subsection.
 
 .Contexts and Projections
 The Context is the core concept and object in Repast Simphony. It provides a 
@@ -307,10 +304,7 @@ way.
 
 . Use the factory to create the projection
 
-.TODO
-****
-Use complete examples or merge with the following sections
-****
+// TODO Use complete examples or merge with the following sections
 
 ----
 Context<SimpleHappyAgent> context = Contexts.createContext(SimpleHappyAgent.class, "my context");
@@ -876,10 +870,9 @@ In addition to these, there are also many other methods. See the javadoc for Net
 
 GIS Projections
 ~~~~~~~~~~~~~~~
-.TODO 
-****
-add GIS fundamentals such as feature type geometries and raster data
-****
+
+// TODO add GIS fundamentals such as feature type geometries and raster data
+
 Repast Simphony's GIS support is based on the Geography projection. A Geography is essentially a space
 in which agents are associated with a spatial geometry (polygon, point, etc.. Agents are stored by type in
 layers within the Geography and agents of the same type must have the same geometry. The geography
@@ -913,10 +906,9 @@ the GISAdder interface. A typical custom adder would call Geography.move to move
 Geography and associate it with a Geometry in some model specific manner.
 
 .CoordinateReferenceSystem
-.TODO 
-****
-paragraph on GeoTools axis order and Default WGS84
-****
+
+// TODO paragraph on GeoTools axis order and Default WGS84
+
 Using GeographyParameters, you can define the CoordinateReferenceSystem for the created Geography.
 In the absence of any user supplied CRS, the default is WGS84 as defined by Geotools'
 DefaultGeographicCRS.WGS84. That CRS uses (longitude, latitude) coordinates with longitude
@@ -1305,10 +1297,8 @@ work with scheduling this way.
 
 Watcher Queries
 ~~~~~~~~~~~~~~~
-.TODO
-****
-Provide code examples
-****
+
+// TODO Provide code examples
 
 Watcher queries are boolean expressions that evaluate the watcher and the 
 watchee with respect to each other and some projection or context. The context 
@@ -1349,10 +1339,9 @@ MyWatcher.
 
 GUI Parameters and Probes
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-.TODO
-****
-- GUI Parameters and Probes (remove extended parameters bit, add the custom probe registration stuff and update the annotations that can be used on agent properties, e.g., the statecharts agent property annotation)
-****
+
+// TODO GUI Parameters and Probes (remove extended parameters bit, add the custom probe registration stuff and update the annotations that can be used on agent properties, e.g., the statecharts agent property annotation)
+
 
 .GUI Parameters
 GUI Parameters are the simulation parameters that appear in the parameters view 

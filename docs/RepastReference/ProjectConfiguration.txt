@@ -1,29 +1,17 @@
 Project Configuration
 ---------------------
 
-Creating a New Repast Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Creating a New Repast Project
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// TODO
 
-.TODO
-****
-Needs updating
-****
+//Updating an Existing Repast Project
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// TODO
 
-Updating an Existing Repast Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.TODO
-****
-Needs updating
-****
-
-Adding Repast to an Existing Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.TODO
-****
-Needs updating
-****
+//Adding Repast to an Existing Project
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// TODO
 
 If you have an existing Java project in which you would like to reference Repast 
 classes, you can right click on the project and select Repast Simphony -> Add 
@@ -34,10 +22,6 @@ and dependencies.
 
 Model Configuration Files
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-.TODO
-****
-Needs updating
-****
 
 .user_path.xml
 
@@ -230,10 +214,9 @@ and use the default RepastEdge as the edge type.
 
 Distributing Your Model
 ~~~~~~~~~~~~~~~~~~~~~~~
-.TODO
-****
-Needs updating
-****
+
+// TODO Needs updating
+
 
 Models created with Repast Simphony may easily be distributed with the provided 
 Install Builder tool. This tool builds a distributable installer that anyone may 

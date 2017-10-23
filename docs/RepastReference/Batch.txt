@@ -1,17 +1,13 @@
 Batch Runs
 ----------
 
-.TODO
-****
-Brief explanation or see Batch guide.
-****
+// TODO Brief explanation or see Batch guide.
 
 Batch Parameters
 ~~~~~~~~~~~~~~~~
-.TODO
-****
-Needs updating. check if this is described in Batch Guide
-****
+
+// TODO Needs updating. check if this is described in Batch Guide
+
 
 Repast Simphony supports the creation of a parameter sweep through an xml file or through a scripted
 bsf file. Both define a sweep through the defintion of parameter setters. These setters may be constant

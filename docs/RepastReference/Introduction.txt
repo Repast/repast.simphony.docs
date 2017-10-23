@@ -2,7 +2,7 @@ Introduction
 ------------
 
 Repast Simphony is a tightly integrated, richly interactive, cross platform 
-Java-based modeling system that runs under Microsoft Windows, Apple Mac OS X, 
+Java-based modeling system that runs under Microsoft Windows, Apple macOS, 
 and Linux. Repast supports the development of extremely flexible models of 
 interacting agents for use on workstations and computing clusters. Repast 
 Simphony models can be developed in several different forms including the ReLogo 
@@ -49,8 +49,8 @@ available as a 32-bit or 64-bit installer for Windows.  If you have 32-bit Java
 installed you must use the 32-bit Repast installer, and likewise if you have the
 64-bit version of Java installed, you must use the 64-bit Repast installer.
 
-.OS X
-Mac OS X users should download the Mac OS X Disk Image, double click on the 
+.macOS
+macOS users should download the macOS X Disk Image, double click on the 
 resulting file and follow the installation instructions that appear. You may 
 need to alter your Security & Privacy settings in System Preferences to allow 
 you to open Repast Simphony. Alternatively, right clicking on the Repast 
@@ -66,7 +66,7 @@ https://repocafe.cels.anl.gov/repos/repast/. Repast when installed via the
 update site has the following additional requirement that can be installed using 
 Eclipse's Update Manager.
 
-From the Groovy Update Site (http://dist.springsource.org/snapshot/GRECLIPSE/e4.6/):
+From the Groovy Update Site (http://dist.springsource.org/snapshot/GRECLIPSE/e4.7/):
 
 * Extra Groovy Compilers
 * Groovy-Eclipse
