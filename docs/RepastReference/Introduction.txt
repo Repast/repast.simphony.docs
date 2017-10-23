@@ -50,7 +50,7 @@ installed you must use the 32-bit Repast installer, and likewise if you have the
 64-bit version of Java installed, you must use the 64-bit Repast installer.
 
 .macOS
-macOS users should download the macOS X Disk Image, double click on the 
+macOS users should download the macOS Disk Image, double click on the 
 resulting file and follow the installation instructions that appear. You may 
 need to alter your Security & Privacy settings in System Preferences to allow 
 you to open Repast Simphony. Alternatively, right clicking on the Repast 
