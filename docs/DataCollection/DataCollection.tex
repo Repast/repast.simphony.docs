@@ -131,7 +131,8 @@ To define a non-aggregate method data source, select the source class in the Sou
 
 Custom data sources for non-aggregate data sets work the same way as aggregate data sets described above. However, the class must implement repast.simphony.data2.\\NonAggregateDataSource. 
 
-Once you've defined your data sources, you can click ``Next'' and define when you want your data to be recorded. Click ``Finish'' to add the data set (and its data sources) to your scenario. Don't forget to save the scenario after adding new data sets.
+Once you've defined your data sources, you can click ``Next'' and define when you want your data to be recorded by setting the start time, priority, frequency, and interval (assuming a repeating frequency). You can also select if the data should be recorded at the end of the simulation, as well at the scheduled times, by clicking the "Also At End" checkbox. If you want the data to be recorded \textbf{only} at the of the simulation and not at any other time, click the "Only At End" checkbox.
+Click ``Finish'' to add the data set (and its data sources) to your scenario. Don't forget to save the scenario after adding new data sets.
 
 \section{Writing Data}
 Once the data set(s) have been defined, RS will record from the data sources in those data sets. RS can write data to both a file and the console. File output will write the recorded data out to a file. Console output will show up in Eclipse's console tab and can be useful for debugging. 
