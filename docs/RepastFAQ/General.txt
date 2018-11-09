@@ -1,0 +1,62 @@
+== General
+
+=== How do I install Repast Simphony?
+Please see the current download and installation instructions here: https://repast.github.io/download.html
+
+=== Which version of Repast should I use?
+There are two editions of Repast and several ways to write models in each edition 
+because there are many different kinds of users, each of whom has unique needs:
+
+* New users are strongly encouraged to begin by using ReLogo within Repast Simphony.
+* Users with limited programming backgrounds are strongly encouraged to use 
+ReLogo within Repast Simphony.
+* Users desiring rapid prototyping are encouraged to use ReLogo within Repast Simphony.
+* Users seeking visual model construction are encouraged to use ReLogo and 
+Statecharts within Repast Simphony.
+* Users with a workable knowledge of a Java-generating language such as Groovy 
+and who want to use the features of that language should to use their chosen 
+language along with the Java approach within Repast Simphony.
+* Users with a workable knowledge of Java who want highly customized models should 
+to use the Java approach within Repast Simphony.
+* Users with a basic knowledge of C\++ who need models that run on supercomputers 
+should use the Logo-style C++ approach within Repast HPC.
+* Users with a strong knowledge of C\++ who need highly customized models that 
+run on supercomputers should to use the standard C++ approach within Repast HPC. 
+
+=== What is the difference between Repast Simphony and RepastJ?
+Repast Simphony is the current version of the Repast ABM toolkit and is actively 
+maintained with regular release cycles.  RepastJ is the original version of Repast
+that was released in 1999, and is no longer maintained, although archive builds
+are available at https://sourceforge.net/projects/repast/files/Repast/.  Users
+wishing to develop ABMs should use Repast Simphony, and legacy RepastJ models can
+be easily updated to work with Repast Simphony.
+
+=== Is Repast Simphony Free? And how is it licensed?
+Repast Simphony is free and open source software licensed under the "New BSD"
+license, which means you are free to use, modify, and redistribute Repast and Repast
+models.  All third-party libraries used by Repast have been rigorously checked for
+license compatibility with the BSD license, and these third party libraries may
+also be freely re-distributed.  The current Repast Simphony license is located here: 
+https://repast.github.io/license.html
+
+=== How can I get help with using Repast Simphony?
+Support information is available here: https://repast.github.io/support.html
+
+=== How can I create an agent-based model in my domain of interest?
+Agent-based models are not necessarily complicated or hard to make, but there is 
+no single modeling approach that works for all domains. To get a better 
+understanding of agent-based modeling and simulation (ABMS) and ABMS toolkits we 
+suggest the following references:
+
+* *Complex adaptive systems modeling with Repast Simphony*, MJ North, NT Collier, 
+J Ozik, E Tatara, CM Macal, M Bragen, P Sydelko, Complex adaptive systems modeling 1 (1), 2013. 
+https://link.springer.com/article/10.1186/2194-3206-1-3
+ 
+* *Proceedings of the Agent 200X conference* http://www.dis.anl.gov/agent20XY/
+
+* *Managing Business Complexity: Discovering Strategic Solutions with Agent-Based Modeling and Simulation*, 
+Michael J. North and Charles M. Macal, Oxford University Press, 2007.
+http://www.oxfordscholarship.com/view/10.1093/acprof:oso/9780195172119.001.0001/acprof-9780195172119
+
+* *Tutorial on agent-based modelling and simulation*, CM Macal, MJ North, Journal of simulation 4 (3), 151-162, 2010.
+https://link.springer.com/article/10.1057/jos.2010.3
