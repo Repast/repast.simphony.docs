@@ -1,5 +1,12 @@
 == Problems
 
+=== My project does not show up on Eclipse's run (launch) button
+The project launch configuration has simply become hidden and needs to be manually
+added to the list of available programs to run.  Follow these steps:
+1. Choose "Organize Favorites" from the bottom of the Run menu 
+2. Press the "Add" button on the upper left of the resulting "Organize Run Favorites" window. 
+3. Select all of the items in the "Add Run Favorites" window.
+
 === WARNING: An illegal reflective access operation has occurred
 The following warning message occurs when using Java 9 or later, and has no impact
 on the model code, performance, or reliability, and can be safely ignored:
@@ -75,8 +82,25 @@ argument and provide a numerical value for the memory using the 'M' or 'G' quali
 to specify megabytes or gigabytes.  For example -Xmx4000M and -Xmx4G both specify 
 a memory limit of 4 GB.
 
-[vmargs_image]
+[[vmargs_image, Foo]]
 .Eclipse launch configuration dialog showing VM arguments options.
 image::figures/vmargs.png[]
+
+=== When I run the model I get the runtime error javax.media.opengl.GLException
+When running a Repast model with displays an error similar to that shown below is 
+seen and the displays do not show correctly in the Repast runtime GUI:
+----
+javax.media.opengl.GLException: WindowsWGLDrawableFactory - Could not initialize shared resources...
+ERROR [AWT-EventQueue-0] 12:13:10,314 repast.simphony.visualizationOGL2D.DisplayOGL2D - Error initializing OGL 2D display. JOGL must be installed and computer must support open gl rendering
+javax.media.opengl.GLException: Profile GL2 is not available on null, but: [GLProfile[GL2ES2/GL4.hw], GLProfile[GL4/GL4.hw], GLProfile[GL3/GL3.hw], GLProfile[GL4/GL4.hw], GLProfile[GL2GL3/GL4.hw]]
+	at javax.media.opengl.GLProfile.get(GLProfile.java:806)
+----
+This is caused by the system's graphics card drivers being out of date, or the 
+system graphics hardware not supporting OpenGL.  The most common cause of this error
+is out of date graphics drivers.  The graphics drivers should be updated and are
+generally available from the computer manufaturer or directly from the GPU support
+sites of NVidia or ATI.
+
+
 
 

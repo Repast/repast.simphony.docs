@@ -10,7 +10,64 @@ Quick Start guide for instructions on using the example models.
 Include the link to quick start.
 ****
 
-=== How do I schedule a "global" behavior, a behavior above the individual agent level?
+=== Do I have to use Java or Groovy for my agents?
+Repast Simphony accepts both user-defned POJOs (Plain Old Java Objects) as well
+as POGOs (Plain Old Groovy Objects) as agents (or for defning other model components),
+making the use of Groovy completely optional. For those interested in learning more 
+about Groovy, a dynamically typed programming language very well integrated with Java, there is the Groovy
+home page http://groovy.codehaus.org/ and the very informative book "Groovy in
+Action" by Dierk Koenig.
+
+=== How do I create a new Repast project?
+.TODO
+****
+Include the link to quick start.
+****
+
+=== How do I create a new ReLogo project?
+.TODO
+****
+Include the link to quick start.
+****
+
+=== How can I connect my model results to software tools for data analysis
+.TODO
+*****
+Discuss R, Excel Weka...
+*****
+
+=== Can I see a complete listing of all agents in a model at a specific time?
+.TODO
+*****
+Discuss agent table
+*****
+
+=== How do I log data for model output?
+.TODO
+*****
+Discuss data sets and file outputters -> point to reference
+*****
+
+=== How can I sample from a statistical distribution?
+.TODO
+*****
+TODO
+*****
+
+=== How can I create a model in which Agents follow a road network?
+.TODO
+*****
+TODO
+*****
+
+=== Scheduling
+==== How can I schedule an agent behavior to execute at a regular tick interval?
+.TODO
+*****
+Discuss @ScheduledMethod -> point to reference manual
+*****
+
+==== How do I schedule a "global" behavior, a behavior above the individual agent level?
 
 There's at least two ways to do this. Both assume that you create your model in 
 your own ContextBuilder Java class.
@@ -58,15 +115,56 @@ public class MyContextBuilder implements ContextBuilder {
 }
 -----
 
-=== Do I have to use Java or Groovy for my agents?
-Repast Simphony accepts both user-defned POJOs (Plain Old Java Objects) as well
-as POGOs (Plain Old Groovy Objects) as agents (or for defning other model components),
-making the use of Groovy completely optional. For those interested in learning more 
-about Groovy, a dynamically typed programming language very well integrated with Java, there is the Groovy
-home page http://groovy.codehaus.org/ and the very informative book "Groovy in
-Action" by Dierk Koenig.
+==== How can I dynamically schedule actions based on events?
+.TODO
+*****
+Discuss programmatic scheduling -> point to reference
+*****
 
-=== How do I create a custom display?
+==== How can I stop or pause the simulation at a specific time or event?
+.TODO
+*****
+Discuss scheduling pause, stop RunEnvironment.getInstance().endAt(endTime);
+*****
+
+=== Displays and GUI
+==== How can I change the tick format in the Runtime GUI?
+.TODO
+*****
+TODO
+*****
+
+==== How do I add a background image to a display?
+.TODO
+*****
+Discuss adding background to 2D, GIS -> point to reference manual
+*****
+
+==== How can I track agent movement paths in a display?
+.TODO
+*****
+Discuss waypoints / network -> point to reference manual
+*****
+
+==== Can I add a custom display or controls to the Repast runtime GUI?
+.TODO
+*****
+Discuss adding displays programmatically and the user panel customization
+*****
+
+==== How do I add a custom listener to the runtime control buttons?
+.TODO
+*****
+TODO
+*****
+
+==== How do I change the color, shape, or size of agents in a display?
+.TODO
+*****
+Discuss styles...
+*****
+
+==== How do I create a custom display?
 All simphony displays implement IDisplay. link:CustomDisplay.java[CustomDisplay.java] 
 is an example that displays a panel with a simple label in it. Note that most of 
 the methods are empty or return null. The important methods are render, update and 
@@ -90,7 +188,75 @@ For example
 model.initializer class="repast.simphony.demo.mousetrap.TrapInitializer"
 ----
 
-=== How can I run Repast Simphony from another Java application?
+==== How can I change the mouse behavior in displays?
+.TODO
+*****
+Custom mouse listener from mail list -> reference guide section
+*****
+
+==== How can I save a movie or image of my Repast model displays?
+.TODO
+*****
+TODO
+*****
+
+==== Where can I find 3D models to use in displays?
+There are many online sources for 3D model files that can be used in Repast 3D 
+displays. The models available online generally are of one of the more popular formats such 
+as Lightwave, Wavefront OBJ or AutoDesk 3DS. To display one of these models in a 
+Repast 3D display, the file needs to be loaded as a 
+https://download.java.net/media/java3d/javadoc/1.5.2-latest/com/sun/j3d/loaders/Loader.html[com.sun.j3d.loaders.Scene] 
+object. The Scene object is then used to define the TaggedBranchGroup object that 
+is provided by the user-defined 3D style class. 
+
+The J3D group provides an interface com.sun.j3d.loaders.Loader which returns the 
+Scene object provided the model file. The default J3D Loader implentations handle 
+models of type Wavefront OBJ, and Lightwave files. We have additionally included 
+a Loader implementation that handles MilkShape (.ms3d) files. 
+Milkshape http://www.milkshape3d.com/ a shareware 3D modeling tool 
+that has the ability to import and convert many different types of 3D model files. 
+Generally, if a 3D model is available online it may be opened with Milkshape 
+and saved in the MS3D format.
+
+=== Geographic GIS Modeling
+==== Does Repast support geographic projections (GIS)?
+.TODO
+*****
+TODO
+*****
+
+==== How can I import a GIS shapefile or raster into a Repast model?
+.TODO
+*****
+TODO
+*****
+
+==== What is the difference between the GIS and GIS 3D displays?
+.TODO
+*****
+TODO
+*****
+
+==== How do I find agents in a geography within some distance from a specific point?
+.TODO
+*****
+TODO
+*****
+
+==== How do I find the straight line distance between points in a geography?
+.TODO
+*****
+TODO
+*****
+
+==== How do I find the distance between a point and a polygon in a geography?
+.TODO
+*****
+TODO
+*****
+
+=== Running Models
+==== How can I run Repast Simphony from another Java application?
 Repast may be launched programmatically by directly calling the 
 repast.simphony.runtime.RepastMain class. RepastMain takes two arguments, the 
 first is the location of the model scenario directory and the second is an 
@@ -125,7 +291,7 @@ public UserMain(){};
 }
 ----
 
-=== How can I control the Repast Simphony schedule from another Java application?
+==== How can I control the Repast Simphony schedule from another Java application?
 To run a simulation purely programmatically with fine control, you need to create 
 a class that extends repast.simphony.engine.environment.AbstractRunner and modify 
 it to suit your needs. The runner class can then be used to initialize, step, run, 
@@ -139,7 +305,26 @@ In this case you won't use either the RepastMain (GUI) or the BatchMain (batch m
 but use the runner class directly. Note that you will need to include the classes 
 from repast.simphony.runtime and repast.simphony.Batch in your classpath to run.
 
-=== How can I convert my Repast Simphony 1.0, 1.1 or 1.2 model to run in Repast Simphony 2.0 and later?
+==== How can I run a Repast model from the command line?
+.TODO
+*****
+TODO
+*****
+
+==== How can I ensure repeatability across runs?
+.TODO
+*****
+Discuss using only Repast RandomHelper and not using Math.rand()...shuffle, iterating over map values
+*****
+
+==== Can I execute multiple model runs in parallel?
+.TODO
+*****
+TODO
+*****
+
+=== Model Configuration
+==== How can I convert my Repast Simphony 1.0, 1.1 or 1.2 model to run in Repast Simphony 2.0 and later?
 To upgrade scenarios simply do the following:
 
 * Right click on the scenario folder (usually "yourmodelname.rs").
@@ -150,7 +335,7 @@ It will also make backup copy of the scenario.xml file and then remove any displ
 from the scenario file. Removing the displays is necessary because old Piccolo 
 2D displays will no longer load in version 2.0.
 
-=== How can I convert my Repast J model to run in Repast Simphony?
+==== How can I convert my Repast J model to run in Repast Simphony?
 A quick summary of the process of converting to Repast J to Repast S:
 
 * Create a new Repast Simphony project or add the Repast nature to your existing project(see tutorial).
@@ -163,25 +348,27 @@ Several of the demos (sugarscape and regression) included with Repast Simphony
 are direct ports from the Repast J models, so comparing these will provide some 
 additional help on porting models.
 
-=== Where can I find 3D models to use in displays?
-There are many online sources for 3D model files that can be used in Repast 3D 
-displays. The models available online generally are of one of the more popular formats such 
-as Lightwave, Wavefront OBJ or AutoDesk 3DS. To display one of these models in a 
-Repast 3D display, the file needs to be loaded as a 
-https://download.java.net/media/java3d/javadoc/1.5.2-latest/com/sun/j3d/loaders/Loader.html[com.sun.j3d.loaders.Scene] 
-object. The Scene object is then used to define the TaggedBranchGroup object that 
-is provided by the user-defined 3D style class. 
+==== How do I include a third-party library in my model?
 
-The J3D group provides an interface com.sun.j3d.loaders.Loader which returns the 
-Scene object provided the model file. The default J3D Loader implentations handle 
-models of type Wavefront OBJ, and Lightwave files. We have additionally included 
-a Loader implementation that handles MilkShape (.ms3d) files. 
-Milkshape http://www.milkshape3d.com/ a shareware 3D modeling tool 
-that has the ability to import and convert many different types of 3D model files. 
-Generally, if a 3D model is available online it may be opened with Milkshape 
-and saved in the MS3D format.
-
-=== How do I include a third-party library in my model?
-
+.TODO
+*****
 TODO
+*****
 
+==== How can I give my Repast model to someone else?
+.TODO
+*****
+TODO
+*****
+
+==== How do I open a Repast model that someone else gave me?
+.TODO
+*****
+TODO
+*****
+
+==== Can I use Maven with a Repast project in Eclipse?
+.TODO
+*****
+TODO
+*****
