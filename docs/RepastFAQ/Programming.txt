@@ -61,13 +61,13 @@ public class MyContextBuilder implements ContextBuilder {
 === Do I have to use Java or Groovy for my agents?
 Repast Simphony accepts both user-defned POJOs (Plain Old Java Objects) as well
 as POGOs (Plain Old Groovy Objects) as agents (or for defning other model components),
-making the use of Groovy completely optional. For those interested in learning more about Groovy, a dynam-
-ically typed programming language very well integrated with Java, there is the Groovy
+making the use of Groovy completely optional. For those interested in learning more 
+about Groovy, a dynamically typed programming language very well integrated with Java, there is the Groovy
 home page http://groovy.codehaus.org/ and the very informative book "Groovy in
 Action" by Dierk Koenig.
 
 === How do I create a custom display?
-All simphony displays implement IDisplay. http://CustomDisplay.java[CustomDisplay.java] 
+All simphony displays implement IDisplay. link:CustomDisplay.java[CustomDisplay.java] 
 is an example that displays a panel with a simple label in it. Note that most of 
 the methods are empty or return null. The important methods are render, update and 
 getPanel(). When update is called the display should update its internal state to 
@@ -75,12 +75,12 @@ reflect the latest state of whatever its displaying. When render is called, the
 display should draw those updates. getPanel is called during initialization to 
 put a panel into a display tab.
 
-The next step then is telling simphony to load this display during initialization. You do
+The next step then is to load this display during initialization. You do
 that with a ModelInitializer. The model initializer is run once just after your scenario is
 loaded. It can be used to add additional items to the scenario tree that's displayed on the
-left hand side of simphony. Its not immediately obvious but this is actually a tree of actions
-that simphony executes when it initializes a model prior to a run. A model initializer then
-can add a custom action that initializes a custom display. TrapInitializer.java does just
+left hand side of the Repast runtime GUI. A model initializer then
+can add a custom action that initializes a custom display. 
+link:TrapInitializer.java[TrapInitializer.java] does just
 that. The second added controller action is what sets up the custom display. Lastly, you
 need tell Simphony to run your ModelInitializer and you do that in the scenario.xml file
 located in your scenario directory (e.g. mousetrap.rs) by adding a model.initializer entry.
@@ -125,13 +125,27 @@ public UserMain(){};
 }
 ----
 
+=== How can I control the Repast Simphony schedule from another Java application?
+To run a simulation purely programmatically with fine control, you need to create 
+a class that extends repast.simphony.engine.environment.AbstractRunner and modify 
+it to suit your needs. The runner class can then be used to initialize, step, run, 
+pause, stop and reset the model. This approach uses components from the GUI which 
+is totally user driven and the Batch run which is completely self-contained with 
+no user-interaction.
+
+The example Java runner class link:TestRunner_2.java[TestRunner_2.java] and 
+main class link:TestMain_2.java[TestMain_2.java] provide examples.  
+In this case you won't use either the RepastMain (GUI) or the BatchMain (batch mode), 
+but use the runner class directly. Note that you will need to include the classes 
+from repast.simphony.runtime and repast.simphony.Batch in your classpath to run.
+
 === How can I convert my Repast Simphony 1.0, 1.1 or 1.2 model to run in Repast Simphony 2.0 and later?
 To upgrade scenarios simply do the following:
 
 * Right click on the scenario folder (usually "yourmodelname.rs").
 * Choose "Convert Scenario" from the popup menu.
 
-This will create a user\_path.xml and a context.xml from your old Score file. 
+This will create a *user\_path.xml* and a *context.xml* from your old Score file. 
 It will also make backup copy of the scenario.xml file and then remove any displays 
 from the scenario file. Removing the displays is necessary because old Piccolo 
 2D displays will no longer load in version 2.0.
@@ -149,4 +163,25 @@ Several of the demos (sugarscape and regression) included with Repast Simphony
 are direct ports from the Repast J models, so comparing these will provide some 
 additional help on porting models.
 
+=== Where can I find 3D models to use in displays?
+There are many online sources for 3D model files that can be used in Repast 3D 
+displays. The models available online generally are of one of the more popular formats such 
+as Lightwave, Wavefront OBJ or AutoDesk 3DS. To display one of these models in a 
+Repast 3D display, the file needs to be loaded as a 
+https://download.java.net/media/java3d/javadoc/1.5.2-latest/com/sun/j3d/loaders/Loader.html[com.sun.j3d.loaders.Scene] 
+object. The Scene object is then used to define the TaggedBranchGroup object that 
+is provided by the user-defined 3D style class. 
+
+The J3D group provides an interface com.sun.j3d.loaders.Loader which returns the 
+Scene object provided the model file. The default J3D Loader implentations handle 
+models of type Wavefront OBJ, and Lightwave files. We have additionally included 
+a Loader implementation that handles MilkShape (.ms3d) files. 
+Milkshape http://www.milkshape3d.com/ a shareware 3D modeling tool 
+that has the ability to import and convert many different types of 3D model files. 
+Generally, if a 3D model is available online it may be opened with Milkshape 
+and saved in the MS3D format.
+
+=== How do I include a third-party library in my model?
+
+TODO
 

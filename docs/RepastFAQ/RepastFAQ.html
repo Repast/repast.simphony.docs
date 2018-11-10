@@ -749,7 +749,18 @@ asciidoc.install(2);
 <div class="paragraph"><p>Please see the current download and installation instructions here: <a href="https://repast.github.io/download.html">https://repast.github.io/download.html</a></p></div>
 </div>
 <div class="sect2">
-<h3 id="_which_version_of_repast_should_i_use">1.2. Which version of Repast should I use?</h3>
+<h3 id="_what_version_of_java_is_required_to_run_repast_simphony">1.2. What version of Java is required to run Repast Simphony.</h3>
+<div class="paragraph"><p>Repast Simphony version 2.6 requires Java 8 or later, and is interchangeably compatible
+with Java 8 LTS or Java 11 LTS versions.  Please see the Java Requirements page
+for more details.</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>Link to Java Requirements</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_which_version_of_repast_should_i_use">1.3. Which version of Repast should I use?</h3>
 <div class="paragraph"><p>There are two editions of Repast and several ways to write models in each edition
 because there are many different kinds of users, each of whom has unique needs:</p></div>
 <div class="ulist"><ul>
@@ -803,7 +814,7 @@ run on supercomputers should to use the standard C++ approach within Repast HPC.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_what_is_the_difference_between_repast_simphony_and_repastj">1.3. What is the difference between Repast Simphony and RepastJ?</h3>
+<h3 id="_what_is_the_difference_between_repast_simphony_and_repastj">1.4. What is the difference between Repast Simphony and RepastJ?</h3>
 <div class="paragraph"><p>Repast Simphony is the current version of the Repast ABM toolkit and is actively
 maintained with regular release cycles.  RepastJ is the original version of Repast
 that was released in 1999, and is no longer maintained, although archive builds
@@ -812,7 +823,7 @@ wishing to develop ABMs should use Repast Simphony, and legacy RepastJ models ca
 be easily updated to work with Repast Simphony.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_is_repast_simphony_free_and_how_is_it_licensed">1.4. Is Repast Simphony Free? And how is it licensed?</h3>
+<h3 id="_is_repast_simphony_free_and_how_is_it_licensed">1.5. Is Repast Simphony Free? And how is it licensed?</h3>
 <div class="paragraph"><p>Repast Simphony is free and open source software licensed under the "New BSD"
 license, which means you are free to use, modify, and redistribute Repast and Repast
 models.  All third-party libraries used by Repast have been rigorously checked for
@@ -821,11 +832,11 @@ also be freely re-distributed.  The current Repast Simphony license is located h
 <a href="https://repast.github.io/license.html">https://repast.github.io/license.html</a></p></div>
 </div>
 <div class="sect2">
-<h3 id="_how_can_i_get_help_with_using_repast_simphony">1.5. How can I get help with using Repast Simphony?</h3>
+<h3 id="_how_can_i_get_help_with_using_repast_simphony">1.6. How can I get help with using Repast Simphony?</h3>
 <div class="paragraph"><p>Support information is available here: <a href="https://repast.github.io/support.html">https://repast.github.io/support.html</a></p></div>
 </div>
 <div class="sect2">
-<h3 id="_how_can_i_create_an_agent_based_model_in_my_domain_of_interest">1.6. How can I create an agent-based model in my domain of interest?</h3>
+<h3 id="_how_can_i_create_an_agent_based_model_in_my_domain_of_interest">1.7. How can I create an agent-based model in my domain of interest?</h3>
 <div class="paragraph"><p>Agent-based models are not necessarily complicated or hard to make, but there is
 no single modeling approach that works for all domains. To get a better
 understanding of agent-based modeling and simulation (ABMS) and ABMS toolkits we
@@ -923,26 +934,26 @@ Schedule with which can add your behavior. For example</p></div>
 <h3 id="_do_i_have_to_use_java_or_groovy_for_my_agents">2.3. Do I have to use Java or Groovy for my agents?</h3>
 <div class="paragraph"><p>Repast Simphony accepts both user-defned POJOs (Plain Old Java Objects) as well
 as POGOs (Plain Old Groovy Objects) as agents (or for defning other model components),
-making the use of Groovy completely optional. For those interested in learning more about Groovy, a dynam-
-ically typed programming language very well integrated with Java, there is the Groovy
+making the use of Groovy completely optional. For those interested in learning more
+about Groovy, a dynamically typed programming language very well integrated with Java, there is the Groovy
 home page <a href="http://groovy.codehaus.org/">http://groovy.codehaus.org/</a> and the very informative book "Groovy in
 Action" by Dierk Koenig.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_how_do_i_create_a_custom_display">2.4. How do I create a custom display?</h3>
-<div class="paragraph"><p>All simphony displays implement IDisplay. <a href="http://CustomDisplay.java">CustomDisplay.java</a>
+<div class="paragraph"><p>All simphony displays implement IDisplay. <a href="CustomDisplay.java">CustomDisplay.java</a>
 is an example that displays a panel with a simple label in it. Note that most of
 the methods are empty or return null. The important methods are render, update and
 getPanel(). When update is called the display should update its internal state to
 reflect the latest state of whatever its displaying. When render is called, the
 display should draw those updates. getPanel is called during initialization to
 put a panel into a display tab.</p></div>
-<div class="paragraph"><p>The next step then is telling simphony to load this display during initialization. You do
+<div class="paragraph"><p>The next step then is to load this display during initialization. You do
 that with a ModelInitializer. The model initializer is run once just after your scenario is
 loaded. It can be used to add additional items to the scenario tree that&#8217;s displayed on the
-left hand side of simphony. Its not immediately obvious but this is actually a tree of actions
-that simphony executes when it initializes a model prior to a run. A model initializer then
-can add a custom action that initializes a custom display. TrapInitializer.java does just
+left hand side of the Repast runtime GUI. A model initializer then
+can add a custom action that initializes a custom display.
+<a href="TrapInitializer.java">TrapInitializer.java</a> does just
 that. The second added controller action is what sets up the custom display. Lastly, you
 need tell Simphony to run your ModelInitializer and you do that in the scenario.xml file
 located in your scenario directory (e.g. mousetrap.rs) by adding a model.initializer entry.</p></div>
@@ -986,7 +997,21 @@ public UserMain(){};
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_how_can_i_convert_my_repast_simphony_1_0_1_1_or_1_2_model_to_run_in_repast_simphony_2_0_and_later">2.6. How can I convert my Repast Simphony 1.0, 1.1 or 1.2 model to run in Repast Simphony 2.0 and later?</h3>
+<h3 id="_how_can_i_control_the_repast_simphony_schedule_from_another_java_application">2.6. How can I control the Repast Simphony schedule from another Java application?</h3>
+<div class="paragraph"><p>To run a simulation purely programmatically with fine control, you need to create
+a class that extends repast.simphony.engine.environment.AbstractRunner and modify
+it to suit your needs. The runner class can then be used to initialize, step, run,
+pause, stop and reset the model. This approach uses components from the GUI which
+is totally user driven and the Batch run which is completely self-contained with
+no user-interaction.</p></div>
+<div class="paragraph"><p>The example Java runner class <a href="TestRunner_2.java">TestRunner_2.java</a> and
+main class <a href="TestMain_2.java">TestMain_2.java</a> provide examples.
+In this case you won&#8217;t use either the RepastMain (GUI) or the BatchMain (batch mode),
+but use the runner class directly. Note that you will need to include the classes
+from repast.simphony.runtime and repast.simphony.Batch in your classpath to run.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_how_can_i_convert_my_repast_simphony_1_0_1_1_or_1_2_model_to_run_in_repast_simphony_2_0_and_later">2.7. How can I convert my Repast Simphony 1.0, 1.1 or 1.2 model to run in Repast Simphony 2.0 and later?</h3>
 <div class="paragraph"><p>To upgrade scenarios simply do the following:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1000,13 +1025,13 @@ Choose "Convert Scenario" from the popup menu.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>This will create a user\_path.xml and a context.xml from your old Score file.
+<div class="paragraph"><p>This will create a <strong>user\_path.xml</strong> and a <strong>context.xml</strong> from your old Score file.
 It will also make backup copy of the scenario.xml file and then remove any displays
 from the scenario file. Removing the displays is necessary because old Piccolo
 2D displays will no longer load in version 2.0.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_how_can_i_convert_my_repast_j_model_to_run_in_repast_simphony">2.7. How can I convert my Repast J model to run in Repast Simphony?</h3>
+<h3 id="_how_can_i_convert_my_repast_j_model_to_run_in_repast_simphony">2.8. How can I convert my Repast J model to run in Repast Simphony?</h3>
 <div class="paragraph"><p>A quick summary of the process of converting to Repast J to Repast S:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1039,13 +1064,126 @@ Create displays, loggers, etc via the Repast S runtime interface.
 are direct ports from the Repast J models, so comparing these will provide some
 additional help on porting models.</p></div>
 </div>
+<div class="sect2">
+<h3 id="_where_can_i_find_3d_models_to_use_in_displays">2.9. Where can I find 3D models to use in displays?</h3>
+<div class="paragraph"><p>There are many online sources for 3D model files that can be used in Repast 3D
+displays. The models available online generally are of one of the more popular formats such
+as Lightwave, Wavefront OBJ or AutoDesk 3DS. To display one of these models in a
+Repast 3D display, the file needs to be loaded as a
+<a href="https://download.java.net/media/java3d/javadoc/1.5.2-latest/com/sun/j3d/loaders/Loader.html">com.sun.j3d.loaders.Scene</a>
+object. The Scene object is then used to define the TaggedBranchGroup object that
+is provided by the user-defined 3D style class.</p></div>
+<div class="paragraph"><p>The J3D group provides an interface com.sun.j3d.loaders.Loader which returns the
+Scene object provided the model file. The default J3D Loader implentations handle
+models of type Wavefront OBJ, and Lightwave files. We have additionally included
+a Loader implementation that handles MilkShape (.ms3d) files.
+Milkshape <a href="http://www.milkshape3d.com/">http://www.milkshape3d.com/</a> a shareware 3D modeling tool
+that has the ability to import and convert many different types of 3D model files.
+Generally, if a 3D model is available online it may be opened with Milkshape
+and saved in the MS3D format.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_how_do_i_include_a_third_party_library_in_my_model">2.10. How do I include a third-party library in my model?</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_problems">3. Problems</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_warning_an_illegal_reflective_access_operation_has_occurred">3.1. WARNING: An illegal reflective access operation has occurred</h3>
+<div class="paragraph"><p>The following warning message occurs when using Java 9 or later, and has no impact
+on the model code, performance, or reliability, and can be safely ignored:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by ...
+WARNING: Please consider reporting this to the maintainers of ...
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_severe_retrieval_returned_no_content_for_https_worldwind20_arc_nasa_gov_8230">3.2. SEVERE: Retrieval returned no content for https://worldwind20.arc.nasa.gov/&#8230;</h3>
+<div class="paragraph"><p>This is a benign warning that sometimes occurs in GIS displays because the online
+server for layers like satellite imagery is unreachable or offline.  The only impact
+of this error is that some GIS display imagery data may be unavailable.  Model behavior
+is not affected.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_warn_empty_or_non_existent_path">3.3. WARN "Empty or non-existent path"</h3>
+<div class="paragraph"><p>When launching a Repast model, the following errors may occur in the console:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>WARN  ... Warning while parsing classpath: Empty or non-existent path 'mypath'.
+WARN  ... While initializing watchers: Empty or non-existent path 'mypath'.
+WARN  ....While initializing classpath: Empty or non-existent path 'mypath'.</code></pre>
+</div></div>
+<div class="paragraph"><p>indicating that the model classpath has not been configured, or is empty.  Check
+that the <strong>user_path.xml</strong> agents entry points to the correct path for the model agents,
+usually by default this is "../bin".  This warning will also occur if no agent
+classes are defined within the "mypath" location.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_when_i_run_my_model_i_see_the_error_java_lang_classnotfoundexception_somepackage_someclass_at_8230">3.4. When I run my model I see the error "java.lang.ClassNotFoundException: somepackage.someclass at &#8230;"</h3>
+<div class="paragraph"><p>This is caused by a Java classpath configuration error such that the model cannot
+find the specified class "somepackage.someclass".  If the specified class refers to
+a user-created model file, please make sure that the <strong>user_path.xml</strong> agents path
+is pointing to the project "../bin" folder.  If the specified class is not a user-defined
+class, it is probably referenced from a third party library.  Make sure the library
+is included in the project /lib folder and that the <strong>user_path.xml</strong> specifies the /lib
+folder as a classpath entry.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_i_press_the_run_button_but_nothing_happens_or_the_tick_reads_1">3.5. I press the run button but nothing happens or the tick reads -1</h3>
+<div class="paragraph"><p>The tick counter will not increment if no behaviors have been scheduled.  Schedule
+agent behaviors in the agent classes using the @ScheduledMethod annotation.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_error_log4j_warn_no_appenders_could_be_found_for_logger_messagecenter_internal_repast_simphony_ui_rsuiplugin">3.6. Error "log4j:WARN No appenders could be found for logger (MessageCenter.INTERNAL.repast.simphony.ui.RSUIPlugin)"</h3>
+<div class="paragraph"><p>An issue sometimes occurs with the Repast message logging system that results in
+error messages like</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>log4j:WARN No appenders could be found for logger (MessageCenter.INTERNAL.repast.simphony.ui.RSApplication).
+log4j:WARN Please initialize the log4j system properly.</code></pre>
+</div></div>
+<div class="paragraph"><p>with some variability in the (MessageCenter&#8230;.) part. In almost all cases, this
+warning is NOT actually related to logging configuration errors, and more likely
+it is related to problems in the user_path.xml file like incorrect paths, or
+missing agent class files.</p></div>
+<div class="paragraph"><p>When you start a Repast model and you get the log4j message in the Eclipse console,
+you can usually find more information from the Repast runtime error log.
+The error log is available when the icon in the lower right corner of the Repast runtime is flashing.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_exception_in_thread_main_java_lang_outofmemoryerror_java_heap_space">3.7. Exception in thread "main" java.lang.OutOfMemoryError: Java heap space</h3>
+<div class="paragraph"><p>Java has attempted to use more memory that is available to the model.  With version
+of Java prior to version 9, it was usually necessary to specify the amount of memory
+needed by an application, because the default amount or "heap space" was very small.
+Java 9 and later generally have better memory management, however it is still possible
+to experience an OutOfMemoryError if a model uses an unusually large amount of memory.</p></div>
+<div class="paragraph"><p>To increase the amount of system memory available to Java, a "VM" argument may be
+specified in the Eclipse launch configuration for the model as shown in <a href="#vmargs_image">[vmargs_image]</a>.
+To increase the available memory (up to the physical system limit) use the -Xmx
+argument and provide a numerical value for the memory using the <em>M</em> or <em>G</em> qualifier
+to specify megabytes or gigabytes.  For example -Xmx4000M and -Xmx4G both specify
+a memory limit of 4 GB.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/vmargs.png" alt="vmargs_image" />
+</div>
+<div class="title">Figure 1. Eclipse launch configuration dialog showing VM arguments options.</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-09 13:46:19 Central Standard Time
+Last updated 2018-11-09 18:10:39 Central Standard Time
 </div>
 </div>
 </body>

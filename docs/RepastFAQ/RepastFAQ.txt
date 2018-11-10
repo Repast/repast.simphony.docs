@@ -1,7 +1,6 @@
 Repast Simphony Frequently Asked Questions
 ==========================================
 November 2018
-//:themedir: ../RepastReference
 //:theme: asciidoc
 //:toc2:
 :toc:
@@ -15,3 +14,5 @@ November 2018
 include::General.txt[]
 
 include::Programming.txt[]
+
+include::Problems.txt[]

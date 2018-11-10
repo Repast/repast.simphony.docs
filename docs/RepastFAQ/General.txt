@@ -3,6 +3,16 @@
 === How do I install Repast Simphony?
 Please see the current download and installation instructions here: https://repast.github.io/download.html
 
+=== What version of Java is required to run Repast Simphony.
+Repast Simphony version 2.6 requires Java 8 or later, and is interchangeably compatible
+with Java 8 LTS or Java 11 LTS versions.  Please see the Java Requirements page
+for more details.
+
+.TODO
+****
+Link to Java Requirements
+****
+
 === Which version of Repast should I use?
 There are two editions of Repast and several ways to write models in each edition 
 because there are many different kinds of users, each of whom has unique needs:
