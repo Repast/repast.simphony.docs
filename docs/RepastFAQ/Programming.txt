@@ -12,11 +12,11 @@ Include the link to quick start.
 
 === Do I have to use Java or Groovy for my agents?
 Repast Simphony accepts both user-defned POJOs (Plain Old Java Objects) as well
-as POGOs (Plain Old Groovy Objects) as agents (or for defning other model components),
+as POGOs (Plain Old Groovy Objects) as agents (or for defining other model components),
 making the use of Groovy completely optional. For those interested in learning more 
-about Groovy, a dynamically typed programming language very well integrated with Java, there is the Groovy
-home page http://groovy.codehaus.org/ and the very informative book "Groovy in
-Action" by Dierk Koenig.
+about Groovy, a dynamically typed programming language very well integrated with 
+Java, please see the Groovy home page http://groovy-lang.org/ and the very 
+informative book "Groovy in Action" by Dierk Koenig. https://www.manning.com/books/groovy-in-action
 
 === How do I create a new Repast project?
 .TODO
@@ -165,7 +165,7 @@ Discuss styles...
 *****
 
 ==== How do I create a custom display?
-All simphony displays implement IDisplay. link:CustomDisplay.java[CustomDisplay.java] 
+All Simphony displays implement IDisplay. link:CustomDisplay.java[CustomDisplay.java] 
 is an example that displays a panel with a simple label in it. Note that most of 
 the methods are empty or return null. The important methods are render, update and 
 getPanel(). When update is called the display should update its internal state to 

@@ -17,7 +17,7 @@ modeling library, and geographical spaces including full Geographical
 Information Systems (GIS) support.
 * A range of data storage "freeze dryers" for model check pointing and restoration 
 including text file and database storage.
-* A fully concurrent multithreaded discrete event scheduler. 
+* A fully concurrent multi-threaded discrete event scheduler. 
 * Integrate support for random number generation, statistical distributions, and 
 specialized mathematics.
 
@@ -25,11 +25,13 @@ specialized mathematics.
 Please see the current download and installation instructions here: 
 https://repast.github.io/download.html
 
+=== Can I install different versions of Repast Simphony at the same time?
+Yes, as long as each version is installed to a different folder, each installed
+copy of Repast Simphony is fully self=contained and will not interfere with other
+versions of the software.
+
 === How do I get started using Repast Simphony?
-.TODO
-*****
-TODO
-*****
+Please see the Repast Quick Start guide: https://repast.github.io/quick_start.html
 
 === What software platforms work with Repast Simphony?
 Repast Simphony is a Java application that is compatible with Windows, macOS, and 
@@ -77,13 +79,27 @@ range of modeling and programming expertise, combining the sophisticated and
 powerful ABM infrastructure and capabilities in the Repast Suite with the ease of 
 use of the https://en.wikipedia.org/wiki/Logo_(programming_language)[Logo programming language] 
 and its associated programming idioms.  Repast projects may optionally include
-ReLogo laungauge components that seamlessly integrate with Java and Groovy agents.
+ReLogo language components that seamlessly integrate with Java and Groovy agents.
 
 For more information, please see:
 
 *  *The ReLogo agent-based modeling language*, J Ozik, NT Collier, JT Murphy, 
 and MJ North, 2013 Winter Simulations Conference (WSC), Washington, DC, 2013, pp. 1560-1568.
 http://doi.org/10.1109/WSC.2013.6721539
+
+=== What is groovy?
+Repast Simphony ReLogo is based on the Groovy dynamic language. Groovy itself is 
+a widely used, free, and open source Java Virtual Machine (JVM) language that both 
+compiles to Java bytecode and tightly integrates with Java. Thanks to its Groovy 
+foundations, ReLogo freely interoperates with Groovy and Java.  A Repast model 
+developer can use Groovy classes in both Repast and ReLogo projects and can use 
+any Java or Groovy library without special syntax. They can also write  Groovy 
+and most Java code fluidly at any point in a ReLogo file to gain access to the 
+advanced features of either language.
+
+For those interested in learning more about Groovy, please see the Groovy home 
+page http://groovy-lang.org/ and the very informative book "Groovy in Action" 
+by Dierk Koenig. https://www.manning.com/books/groovy-in-action
 
 === What are Statecharts?
 Statecharts are a software engineering design methodology and an explicit visual 
@@ -106,7 +122,7 @@ and agent-based models.
 
 For more information, please see:
 
-* *Repast simphony statecharts*, J Ozik, N Collier, T Combs, CM Macal, and M North,
+* *Repast Simphony statecharts*, J Ozik, N Collier, T Combs, CM Macal, and M North,
 Journal of Artificial Societies and Social Simulation, 18 (3) 11, 2015.
 http://jasss.soc.surrey.ac.uk/18/3/11.html
 
@@ -141,6 +157,10 @@ https://repast.github.io/license.html
 === How can I get help with using Repast Simphony?
 Support information is available here: https://repast.github.io/support.html
 
+=== How can I report a problem or bug with Repast Simphony?
+The Repast team maintains a public issue tracker on Github and welcomes all comments
+and suggestions on how to improve the software: https://github.com/Repast/repast.simphony/issues
+ 
 === How can I create an agent-based model in my domain of interest?
 Agent-based models are not necessarily complicated or hard to make, but there is 
 no single modeling approach that works for all domains. To get a better 
@@ -149,27 +169,42 @@ suggest the following references:
 
 * *Everything you need to know about agent-based modelling and simulation*, 
 CM Macal, Journal of Simulation, 10:2, 144-156, 2016. 
-https://www.tandfonline.com/doi/full/10.1057/jos.2016.7
+https://doi.org/10.1057/jos.2016.7
+
+* *Hammer or Tongs: How Best to Build Agent-Based Models?*, North M.J., 
+In Advances in Practical Applications of Agents, Multi-Agent Systems, and 
+Complexity: The PAAMS Collection. PAAMS 2018. Lecture Notes in Computer Science, 
+vol 10978. Springer.  https://doi.org/10.1007/978-3-319-94580-4_1
 
 * *Complex adaptive systems modeling with Repast Simphony*, MJ North, NT Collier, 
 J Ozik, E Tatara, CM Macal, M Bragen, P Sydelko, Complex adaptive systems modeling 1 (1), 2013. 
-https://link.springer.com/article/10.1186/2194-3206-1-3
+https://doi.org/10.1186/2194-3206-1-3
  
 * *Proceedings of the Agent 200X conference* http://www.dis.anl.gov/agent20XY/
 
 * *Managing Business Complexity: Discovering Strategic Solutions with Agent-Based Modeling and Simulation*, 
 Michael J. North and Charles M. Macal, Oxford University Press, 2007.
-http://www.oxfordscholarship.com/view/10.1093/acprof:oso/9780195172119.001.0001/acprof-9780195172119
+http://doi.org/10.1093/acprof:oso/9780195172119.001.0001
 
 * *Tutorial on agent-based modelling and simulation*, CM Macal, MJ North, Journal of simulation 4 (3), 151-162, 2010.
-https://link.springer.com/article/10.1057/jos.2010.3
+https://doi.org/10.1057/jos.2010.3
+
+=== How do I perform verification and validation of my model?
+Please see the Repast Model Testing Guide documentation.  The following reference
+provides a review of ABM validation and verification literature:
+
+* *Hammer or Tongs: How Best to Build Agent-Based Models?*, North M.J., 
+In Advances in Practical Applications of Agents, Multi-Agent Systems, and 
+Complexity: The PAAMS Collection. PAAMS 2018. Lecture Notes in Computer Science, 
+vol 10978. Springer.  https://doi.org/10.1007/978-3-319-94580-4_1
+
 
 === How do I cite Repast in scientific publications?
 If you publish a Repast Simphony-related paper, please considering citing the following paper:
 
 * North, MJ, NT Collier, J Ozik, E Tatara, M Altaweel, CM Macal, M Bragen, and P Sydelko, 
 "Complex Adaptive Systems Modeling with Repast Simphony", Complex Adaptive Systems Modeling, 
-Springer, Heidelberg, FRG (2013). http://www.casmodeling.com/content/1/1/3
+Springer, Heidelberg, FRG (2013). https://doi.org/10.1186/2194-3206-1-3
 
 If you publish a Repast HPC-related paper, please considering citing the following paper:
 
