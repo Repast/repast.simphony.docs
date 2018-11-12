@@ -27,7 +27,7 @@ https://repast.github.io/download.html
 
 === Can I install different versions of Repast Simphony at the same time?
 Yes, as long as each version is installed to a different folder, each installed
-copy of Repast Simphony is fully self=contained and will not interfere with other
+copy of Repast Simphony is fully self-contained and will not interfere with other
 versions of the software.
 
 === How do I get started using Repast Simphony?
@@ -87,7 +87,7 @@ For more information, please see:
 and MJ North, 2013 Winter Simulations Conference (WSC), Washington, DC, 2013, pp. 1560-1568.
 http://doi.org/10.1109/WSC.2013.6721539
 
-=== What is groovy?
+=== What is Groovy?
 Repast Simphony ReLogo is based on the Groovy dynamic language. Groovy itself is 
 a widely used, free, and open source Java Virtual Machine (JVM) language that both 
 compiles to Java bytecode and tightly integrates with Java. Thanks to its Groovy 

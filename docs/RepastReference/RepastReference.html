@@ -871,21 +871,22 @@ from your project without needing to manually add all of the Repast libraries
 and dependencies.</p></div>
 <div class="sect2">
 <h3 id="_model_configuration_files">2.1. Model Configuration Files</h3>
+<div class="sect3">
+<h4 id="_user_path_xml">2.1.1. user_path.xml</h4>
 <div class="listingblock">
-<div class="title">user_path.xml</div>
 <div class="content">
 <pre><code>&lt;model name="Model Name"&gt;
-        &lt;classpath&gt;
-                &lt;entry path="..." annotations="[true|false]" /&gt;
-                &lt;agents path="..." filter="..." /&gt;
-                &lt;builtin fullname="..." /&gt;
-        &lt;/classpath&gt;
+  &lt;classpath&gt;
+    &lt;entry path="..." annotations="[true|false]" /&gt;
+    &lt;agents path="..." filter="..." /&gt;
+    &lt;builtin fullname="..." /&gt;
+  &lt;/classpath&gt;
 &lt;/model&gt;</code></pre>
 </div></div>
 <div class="ulist"><ul>
 <li>
 <p>
-path is path statement to a directory or jar file. If the directory contains
+<strong>path</strong> is path statement to a directory or jar file. If the directory contains
 jars then all those jars are added to the classpath. If the directory or its
 children contain .class files then the directory is added to the classpath. More
 than one path can be specified. Multiple paths should be "," separated. For .class
@@ -898,19 +899,19 @@ path in both entry and agents elements.
 </li>
 <li>
 <p>
-annotations specified whether or not any classes found in the specified
+<strong>annotations</strong> specified whether or not any classes found in the specified
 path(s) should be processed for annotations. The default is false.
 </p>
 </li>
 <li>
 <p>
-agents specifies the path where agent classes can be found. These are
+<strong>agents</strong> specifies the path where agent classes can be found. These are
 automatically processed for annotations.
 </p>
 </li>
 <li>
 <p>
-filter specifies a class filter on the agents path(s). For example a filter
+<strong>filter</strong> specifies a class filter on the agents path(s). For example a filter
 of "anl.gov.Agent" will filter out all classes but anl.gov.Agent as agent
 classes. Filters can contain the wildcard "*". So for example, "anl.gov.*Agent"
 will include any class in the package anl.gov whose class name ends with Agent.
@@ -918,7 +919,7 @@ will include any class in the package anl.gov whose class name ends with Agent.
 </li>
 <li>
 <p>
-the builtin element is for the case when a user needs to add an agent class
+<strong>builtin</strong> is for cases when a user needs to add an agent class
 existing in one of the repast plugins. The user specifies the canonical class
 name as the fullname.
 </p>
@@ -937,25 +938,28 @@ that we&#8217;d like to be considered an agent class. The good news is that this
 not a common usage.</td>
 </tr></table>
 </div>
-<div class="paragraph"><div class="title">context.xml</div><p>context.xml contains the context heirarchy information.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_context_xml">2.1.2. context.xml</h4>
+<div class="paragraph"><p>context.xml contains the context heirarchy information.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;context id="..." class="..."&gt;
-        &lt;attribute id="..." value="..." type="[int|long|double|float|boolean|string|...]"
-                display_name="..." converter="..."/&gt;
+  &lt;attribute id="..." value="..." type="[int|long|double|float|boolean|string|...]"
+    display_name="..." converter="..."/&gt;
 
-        &lt;projection id="..." type="[network|grid|continuous space|geography|value layer]"&gt;
-                &lt;attribute id="..." .../&gt;
-        &lt;/projection&gt;
+  &lt;projection id="..." type="[network|grid|continuous space|geography|value layer]"&gt;
+    &lt;attribute id="..." .../&gt;
+  &lt;/projection&gt;
 
-        &lt;context id="..." class="..."&gt;
-                ...
-        &lt;/context&gt;
+  &lt;context id="..." class="..."&gt;
+    ...
+  &lt;/context&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 1. Context Element</caption>
@@ -986,7 +990,7 @@ is present this context will be used instead of the default</p></td>
 </div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 2. Attribute Element</caption>
@@ -1035,12 +1039,12 @@ to convert the attribute to and from a string representation</p></td>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;context id="MyContext"&gt;
-        &lt;attribute id="numAgents" value="20" type="int" display_name="Initial Number of Agents"/&gt;
+  &lt;attribute id="numAgents" value="20" type="int" display_name="Initial No. Agents"/&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 3. Projection Element</caption>
@@ -1072,7 +1076,7 @@ cellspacing="0" cellpadding="4">
 to instantiate the actual context hierarchy. The attributes are defined in the repast.simphony.dataLoader.engine.AutoBuilderConstants.</p></div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 4. Context Attributes</caption>
@@ -1103,7 +1107,7 @@ cellspacing="0" cellpadding="4">
 </div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 5. Grid Attributes</caption>
@@ -1157,20 +1161,20 @@ each cell</p></td>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;context id="MyContext"&gt;
-        &lt;projection id="MyGrid" type="grid"&gt;
-                &lt;attribute id="width" type="int" value="200"/&gt;
-                &lt;attribute id="height" type="int" value="100"/&gt;
-                &lt;attribute id="border rule" type="string" value="periodic" /&gt;
-                &lt;attribute id="allows multi" type="boolean" value="true"/&gt;
-        &lt;/projection&gt;
+  &lt;projection id="MyGrid" type="grid"&gt;
+    &lt;attribute id="width" type="int" value="200"/&gt;
+    &lt;attribute id="height" type="int" value="100"/&gt;
+    &lt;attribute id="border rule" type="string" value="periodic" /&gt;
+    &lt;attribute id="allows multi" type="boolean" value="true"/&gt;
+  &lt;/projection&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
-<div class="paragraph"><p>will create a 200x100 grid with an id of "MyGrid." The border rule for the grid
+<div class="paragraph"><p>will create a 200 x 100 grid with an id of "MyGrid". The border rule for the grid
 is "periodic" so the grid will wrap, forming a torus. The grid will also allow
 multiple agents in each cell.</p></div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 6. Continuous Space Attributes</caption>
@@ -1214,18 +1218,18 @@ a space&#8217;s borders.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;context id="MyContext"&gt;
-        &lt;projection id="MySpace" type="continuous space"&gt;
-                &lt;attribute id="width" type="int" value="200"/&gt;
-                &lt;attribute id="height" type="int" value="100"/&gt;
-                &lt;attribute id="border rule" type="string" value="strict" /&gt;
-        &lt;/projection&gt;
+  &lt;projection id="MySpace" type="continuous space"&gt;
+    &lt;attribute id="width" type="int" value="200"/&gt;
+    &lt;attribute id="height" type="int" value="100"/&gt;
+    &lt;attribute id="border rule" type="string" value="strict" /&gt;
+  &lt;/projection&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
 <div class="paragraph"><p>will create a 200x100 continuous space with an id of "MySpace." The border rule
 for the grid is "strict" so any movement across the border will cause an error.</p></div>
 <div class="tableblock">
 <table rules="all"
-width="60%"
+width="80%"
 frame="border"
 cellspacing="0" cellpadding="4">
 <caption class="title">Table 7. Network Attributes</caption>
@@ -1267,13 +1271,14 @@ of this type.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;context id="MyContext"&gt;
-        &lt;projection id="MyNetwork" type="network"&gt;
-                &lt;attribute id="directed" type="boolean" value="true"/&gt;
-        &lt;/projection&gt;
+  &lt;projection id="MyNetwork" type="network"&gt;
+    &lt;attribute id="directed" type="boolean" value="true"/&gt;
+  &lt;/projection&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
 <div class="paragraph"><p>will create a network with an id of "MyNetwork." The network will be directed
 and use the default RepastEdge as the edge type.</p></div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_distributing_your_model">2.2. Distributing Your Model</h3>
@@ -1337,7 +1342,9 @@ that scan lists of agents) should be simple and direct.
 </ul></div>
 <div class="sect2">
 <h3 id="_contexts">3.1. Contexts</h3>
-<div class="paragraph"><div class="title">Contexts and Projections</div><p>The Context is the core concept and object in Repast Simphony. It provides a
+<div class="sect3">
+<h4 id="_contexts_and_projections">3.1.1. Contexts and Projections</h4>
+<div class="paragraph"><p>The Context is the core concept and object in Repast Simphony. It provides a
 data structure to organize your agents from both a modelling perspective as well
 as a software perspective. Fundamentally, a context is just a bucket full of
 agents, but they provide more richness.</p></div>
@@ -1389,7 +1396,10 @@ between each agent. A Network Projection containing social relationships in the
 same Context might define friendship relations between the agents. A second
 Network Projection in the given Context might define family relationships
 between the agents.</p></div>
-<div class="paragraph"><div class="title">Queries</div><p>Repast S provides a mechanism to query a model&#8217;s Context hierarchy and the
+</div>
+<div class="sect3">
+<h4 id="_queries">3.1.2. Queries</h4>
+<div class="paragraph"><p>Repast S provides a mechanism to query a model&#8217;s Context hierarchy and the
 associated Projections and agents. This mechanism provides methods to find
 agents with specific types, agents with selected individual properties, and
 agents with given Projections properties (e.g., agents at a given location in a
@@ -1498,7 +1508,10 @@ these approaches are discussed later in this section. Groovy uses the same
 syntax as Java for the predicates. When used in an imperative mode, queries
 normally return a list scanning object or Iterator. These iterators can be used
 in programmed agent behaviors to operate on and react to members of the list.</p></div>
-<div class="paragraph"><div class="title">Watches</div><p>The Repast S Watcher mechanism builds on the Context hierarchy and query system
+</div>
+<div class="sect3">
+<h4 id="_watches">3.1.3. Watches</h4>
+<div class="paragraph"><p>The Repast S Watcher mechanism builds on the Context hierarchy and query system
 to provide behavioral triggers. Watchers allow modelers to easily:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1532,8 +1545,9 @@ that instruments the monitored agents with the needed behavioral activation
 checks.</p></div>
 <div class="paragraph"><p>Repast Simphony&#8217;s combination of Contexts, Projections, Queries, and Watchers
 provides a powerful and flexible environment for ABMS implementation.</p></div>
+</div>
 <div class="sect3">
-<h4 id="_finding_contexts">3.1.1. Finding Contexts</h4>
+<h4 id="_finding_contexts">3.1.4. Finding Contexts</h4>
 <div class="paragraph"><p>The Repast <em>ContextUtils</em> class provides a number of utility functions for finding
 Context instances from the model code.</p></div>
 <div class="admonitionblock">
@@ -1558,7 +1572,7 @@ referenced.</td>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_adding_and_removing_objects_in_contexts">3.1.2. Adding and Removing Objects in Contexts</h4>
+<h4 id="_adding_and_removing_objects_in_contexts">3.1.5. Adding and Removing Objects in Contexts</h4>
 <div class="paragraph"><p>The Repast <em>Context</em> interface extends the standard Java <em>Collection</em> so that
 objects can be added or removed to or from contexts similar to how one would
 perform such operations with Java collections such as lists.</p></div>
@@ -1602,7 +1616,7 @@ To remove a context that is a subcontext:
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_finding_objects_in_contexts">3.1.3. Finding Objects in Contexts</h4>
+<h4 id="_finding_objects_in_contexts">3.1.6. Finding Objects in Contexts</h4>
 <div class="paragraph"><p>Objects (typically agents) contained in a context can be referenced in several
 ways.</p></div>
 <div class="ulist"><ul>
@@ -1644,7 +1658,7 @@ To get a random iterable collection of all objects of a specific class:
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_implementing_custom_contexts">3.1.4. Implementing Custom Contexts</h4>
+<h4 id="_implementing_custom_contexts">3.1.7. Implementing Custom Contexts</h4>
 <div class="paragraph"><p>User models can implement their own custom Context implementations, either by
 creating a complete <em>Context</em> interface implementation from scratch, or by
 extending the Repast <em>DefaultContext</em> class.  Extending <em>DefaultContext</em> is the
@@ -1666,16 +1680,16 @@ implementations that perform context loading:</p></div>
 * Interface for classes that build a Context by adding projections,
 * agents and so forth.
 */
-        public interface ContextBuilder&lt;T&gt; {
-        /**
-        * Builds and returns a context. Building a context consists of filling it with
-        * agents, adding projects and so forth. The returned context does not necessarily
-        * have to be the passed in context.
-        *
-        * @param context
-        * @return the built context.
-        */
-        Context build(Context&lt;T&gt; context);
+  public interface ContextBuilder&lt;T&gt; {
+  /**
+  * Builds and returns a context. Building a context consists of filling it with
+  * agents, adding projects and so forth. The returned context does not necessarily
+  * have to be the passed in context.
+  *
+  * @param context
+  * @return the built context.
+  */
+  Context build(Context&lt;T&gt; context);
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>Models should include a single <em>ContextBuilder</em> implementation.  The context
@@ -1731,9 +1745,8 @@ specific type (e.g. Network or Grid):</p></div>
 <pre><code>Context context = ContextUtils.getContext (this)
 Network network = (Network)context.getProjection("mynetwork");</code></pre>
 </div></div>
-</div>
-<div class="sect2">
-<h3 id="_creating_projections">3.4. Creating Projections</h3>
+<div class="sect3">
+<h4 id="_creating_projections">3.3.1. Creating Projections</h4>
 <div class="paragraph"><p>In general, projections are created using a factory mechanism in the following
 way.</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -1750,10 +1763,8 @@ Use the factory to create the projection
 </ol></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Context&lt;SimpleHappyAgent&gt; context = Contexts.createContext(SimpleHappyAgent.class, "my context");
-GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
-Grid grid = factory.createGrid("Simple Grid", context, ...);
-Context&lt;SimpleHappyAgent&gt; context = Contexts.createContext(SimpleHappyAgent.class, "mycontext");</code></pre>
+<pre><code>GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
+Grid grid = factory.createGrid("Simple Grid", context, ...);</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content">
@@ -1766,34 +1777,37 @@ additional arguments particular to the projection type. These additional
 arguments are marked above with "&#8230;" and are explicated on the individual pages
 for that projection.</p></div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_grid_projections">3.5. Grid Projections</h3>
-<div class="paragraph"><p>Grids are a mainstay of agent based simulation. Many of the earliest simulation such as Schelling&#8217;s
-Dynamic Models of Segregation, heatbugs, and sugarscape were originally built on grids. Basically a grid,
-for our purposes, are a 1 or more dimensional data structure that is divided up into a number of cells.
+<h3 id="_grid_projections">3.4. Grid Projections</h3>
+<div class="paragraph"><p>Grids are a mainstay of agent based simulation. Many of the earliest simulations such as Schelling&#8217;s
+Dynamic Models of Segregation, Heatbugs, and Sugarscape were originally built on grids.
+Grids are a 1 or more dimensional data structure that is divided up into a number of cells.
 These cells can be referenced by their integer coordinates. In other words, a grid is an n-dimensional
-matrix. Even though grids have been used in agent based simulation since it&#8217;s inception (and before),
+matrix. Even though grids have been used in agent based simulation since it&#8217;s inception,
 they still have value today. These data structures are very efficient and provide a number of different
-ways to define neighborhoods. While they don&#8217;t offer the flexibility of an abstract network or the realism
+ways to define neighborhoods. While grids don&#8217;t offer the flexibility of an abstract network or the realism
 of a continuous or GIS space, the grid can be used to simulate spaces and to create highly structured
-relationships between agents. While most people think of grids to represent space, there is no reason
+relationships between agents. While some think of grids to represent space, there is no reason
 why a grid couldn&#8217;t be used define more abstract kinds of relationships. No matter how you look at it,
 grids are still a powerful tool in an overall agent based toolkit.</p></div>
 <div class="paragraph"><div class="title">Repast Simphony&#8217;s Grid support</div><p>Repast Simphony provides a rich set of tools to work with grids of all kinds. Specifically, it supports
 * 2D, 3D and ND grids,
 * querying for Von Neumann and Moore neighborhoods,
 * Toroidal, Reflective and Fixed Border conditions.</p></div>
-<div class="paragraph"><div class="title">Creating A Grid</div><p>Creating a grid in Repast Simphony is similar to creating the other projections. Your agents must exist in
-the context in order to exist in the grid, and you want to create the grid using a factory to make sure that
-it is initialized properly.</p></div>
+<div class="sect3">
+<h4 id="_creating_a_grid">3.4.1. Creating A Grid</h4>
+<div class="paragraph"><p>Creating a grid in Repast Simphony is similar to creating the other projections.
+Your agents must exist in the context in order to exist in the grid, and you want
+to create the grid using a factory to make sure that it is initialized properly.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
 Grid grid = factory.createGrid("My Grid", context, gridBuilderParameters);</code></pre>
 </div></div>
-<div class="paragraph"><p>So, most of that is pretty straight forward, eh? Pass the method a name (so that you can look up your
-grid later) and the context that will back the grid. But what is that last argument? The
-gridBuilderParameters. GridBuilderParameters are used to specify the properties of the grid itself, such
+<div class="paragraph"><p>Pass the method a name (so that you can look up your grid later) and the context
+that will back the grid. But what is that last argument? The gridBuilderParameters.
+GridBuilderParameters are used to specify the properties of the grid itself, such
 as its dimensions, its border behavior, and how agents are initially added to the grid.</p></div>
 <div class="paragraph"><div class="title">GridBuilderParameters</div><p>The GridBuilderParameters class contains a variety of static methods for creating specific types of
 GridBuilderParameters. For example,</p></div>
@@ -1806,7 +1820,10 @@ GridBuilderParameters. For example,</p></div>
 methods (see the javadocs) allow you to create other types of grids. In general though, youwill always
 have to specify a GridAdder and perhaps a GridPointTranslator when creating GridBuilderParameters. You
 will also have to specify the dimensions. These will be the last arguments to the method.</p></div>
-<div class="paragraph"><div class="title">Adders</div><p>Like most projections, an object doesn&#8217;t exist in the projection until it is added to the context, and once it
+</div>
+<div class="sect3">
+<h4 id="_gridadder">3.4.2. GridAdder</h4>
+<div class="paragraph"><p>An object doesn&#8217;t exist in the projection until it is added to the context, and once it
 is added to the context, it is automatically added to the projection. But where do we put it in the grid?
 That&#8217;s where the GridAdder interface comes in. The adder allows you to specify where to place an object
 once it has been added to the context. It has a simple method:</p></div>
@@ -1814,7 +1831,7 @@ once it has been added to the context. It has a simple method:</p></div>
 <div class="content">
 <pre><code>public void add(Grid destination, U object);</code></pre>
 </div></div>
-<div class="paragraph"><p>More generics fun, eh? Well, it&#8217;s not so bad. In this case, the destination is the type of projection to
+<div class="paragraph"><p>In this case, the destination is the type of projection to
 which we are adding our object (a grid). Object is the object we want to add to that projection. So, &lt;U&gt;
 is whatever we&#8217;re adding. Basically, to implement this interface, you just take in an object and do
 something with it in the supplied projection. Ok, let&#8217;s get a bit more concrete. Let&#8217;s say that we have a
@@ -1823,18 +1840,18 @@ for that:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public void add(Grid&lt;T&gt; space, T obj) {
-        Dimensions dims = space.getDimensions();
-        int[] location = new int[dims.size()];
-        findLocation(location, dims);
-        while (!space.moveTo(obj, location)) {
-                findLocation(location, dims);
-        }
+  Dimensions dims = space.getDimensions();
+  int[] location = new int[dims.size()];
+  findLocation(location, dims);
+  while (!space.moveTo(obj, location)) {
+    findLocation(location, dims);
+  }
 }
 
 private void findLocation(int[]location, Dimensions dims) {
-        for (int i = 0; i &lt; location.length; i++) {
-                location[i] = RandomHelper.getDefault().nextIntFromTo(0, dims.getDimension(i) -1);
-        }
+  for (int i = 0; i &lt; location.length; i++) {
+    location[i] = RandomHelper.getDefault().nextIntFromTo(0, dims.getDimension(i) -1);
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>The add method randomly generates locations and puts the objects into that location (assuming the grid
@@ -1854,60 +1871,65 @@ properly. We&#8217;ll call the Interface Located:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public interface Located{
-        public int getX();
-        public int getY();
+  public int getX();
+  public int getY();
 }</code></pre>
 </div></div>
-<div class="paragraph"><p>Pretty simple, eh? Let&#8217;s write an adder that know how to work with this:</p></div>
+<div class="paragraph"><p>Let&#8217;s write an adder that knows how to work with this:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public class LocatedAdder&lt;Located&gt; implements GridAdder&lt;Located&gt; {
-        public void add(Grid&lt;Located&gt; grid, Located object){
-                grid.moveTo(object, object.getX(), object.getY());
-        }
+  public void add(Grid&lt;Located&gt; grid, Located object){
+    grid.moveTo(object, object.getX(), object.getY());
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>This will add the object to the grid at the location specified by the agent itself. This doesn&#8217;t handle any
 errors or anything, but it should give you an idea of how to create your own adder.</p></div>
-<div class="paragraph"><div class="title">GridPointTranslators</div><p>A GridPointTranslator determines the border behavior of a grid. The border behavior is what happens
+</div>
+<div class="sect3">
+<h4 id="_gridpointtranslators">3.4.3. GridPointTranslators</h4>
+<div class="paragraph"><p>A GridPointTranslator determines the <em>border behavior</em> of a grid. The border behavior is what happens
 when an agents moves past the border of a grid. Five kinds of border behavior classes are described
 below together with a description of how the behave in response to a Grid&#8217;s moveTo and moveBy (the
 moveBy methods are moveByDisplacement and moveByVector) methods.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-StrictBorders&#8201;&#8212;&#8201;defines a strict boundary that cannot be crossed without throwing a
+<strong>StrictBorders</strong> defines a strict boundary that cannot be crossed without throwing a
 SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
 </p>
 </li>
 <li>
 <p>
-StickyBorders&#8201;&#8212;&#8201;defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+<strong>StickyBorders</strong> defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
 a moveTo across the border will still throw a SpatialException.
 </p>
 </li>
 <li>
 <p>
-InfiniteBorders&#8201;&#8212;&#8201;defines infinite borders that the agent will never cross.
+<strong>InfiniteBorders</strong> defines infinite borders that the agent will never cross.
 </p>
 </li>
 <li>
 <p>
-BouncyBorders&#8201;&#8212;&#8201;defines a bouncy border that the agent will bounce off at the appropriate angle in
+<strong>BouncyBorders</strong> defines a bouncy border that the agent will bounce off at the appropriate angle in
 a moveBy. However, a moveTo across the border will still throw a SpatialException.
 </p>
 </li>
 <li>
 <p>
-WrapAroundBorders&#8201;&#8212;&#8201;defines borders that wrap around to their opposite borders. This mean
+<strong>WrapAroundBorders</strong> defines borders that wrap around to their opposite borders. This mean
 moveTo and moveBy across the border will cross the border and enter the opposite side. A 2D grid
-with WrapAroundBorders is a torus.
-In general then, moveTo will throw a SpatialException when crossing the border and moveBy will invoke
-the border behavior.
+with WrapAroundBorders is a torus. In general then, moveTo will throw a SpatialException
+when crossing the border and moveBy will invoke the border behavior.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><div class="title">Moving on a Grid</div><p>Movement on the grid is accomplished with 3 methods.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_moving_on_a_grid">3.4.4. Moving on a Grid</h4>
+<div class="paragraph"><p>Movement on the grid is accomplished with 3 methods.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>moveTo(T object, int... newLocation)</code></pre>
@@ -1944,8 +1966,9 @@ already in the space or if the number of dimensions in the displacement is great
 grid dimensions.
 Document</p></div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_continuous_space_projection">3.6. Continuous Space Projection</h3>
+<h3 id="_continuous_space_projection">3.5. Continuous Space Projection</h3>
 <div class="paragraph"><p>A continuous (real valued) space projection is a space in which an agents
 location is represented by floating point coordinates. For example, one agent
 may be at the point 2.133, 0 and another may be at 21.1, 234. This contrasts
@@ -1966,7 +1989,9 @@ Toroidal, Reflective and Fixed Border conditions.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><div class="title">Creating A Continuous Space</div><p>Creating a continuous space in Repast Simphony is similar to creating the other
+<div class="sect3">
+<h4 id="_creating_a_continuous_space">3.5.1. Creating A Continuous Space</h4>
+<div class="paragraph"><p>Creating a continuous space in Repast Simphony is similar to creating the other
 projections. Your agents must exist in the context in order to exist in the
 continuous space, and you want to create the continuous spaceusing a factory to
 make sure that it is initialized properly.</p></div>
@@ -1976,10 +2001,13 @@ make sure that it is initialized properly.</p></div>
 ContinuousSpace space = factory.createContinuousSpace("My Space", context,
         continuousAdder, pointTranslator, 10, 10);</code></pre>
 </div></div>
-<div class="paragraph"><p>So, most of that is pretty straight forward, eh? Pass the method a name (so that you can look up your
-grid later) and the context that will back the continuous space. But what of these additional arguments.
-Like the Grid, an Adder must be specified as well as a PointTranslator and the dimensions of the grid.</p></div>
-<div class="paragraph"><div class="title">Adders</div><p>Like most projections, an object doesn&#8217;t exist in the projection until it is added to the context, and once it
+<div class="paragraph"><p>Pass the method a name (so that you can look up your space later) and the context
+that will back the continuous space. Like the Grid, an Adder must be specified
+as well as a PointTranslator and the dimensions of the space.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_continuousspaceadder">3.5.2. ContinuousSpaceAdder</h4>
+<div class="paragraph"><p>Like most projections, an object doesn&#8217;t exist in the projection until it is added to the context, and once it
 is added to the context, it is automatically added to the projection. But where do we put it in the
 continuous space? That&#8217;s where the ContinuousSpaceAdder interface comes in. The adder allows you to
 specify where to place an object once it has been added to the context. It has a simple method:</p></div>
@@ -1987,7 +2015,7 @@ specify where to place an object once it has been added to the context. It has a
 <div class="content">
 <pre><code>public void add(ContinuousSpace destination, U object);</code></pre>
 </div></div>
-<div class="paragraph"><p>More generics fun, eh? Well, it&#8217;s not so bad. In this case, the destination is the projection to which we
+<div class="paragraph"><p>n this case, the destination is the projection to which we
 are adding our object (ContinuousSpace). Object is the object we want to add to that projection. So,
 &lt;U&gt; is whatever we&#8217;re adding. Basically, to implement this interface, you just take in an object and do
 something with it in the supplied projection. Ok, let&#8217;s get a bit more concrete. Let&#8217;s say that we have a
@@ -1996,17 +2024,17 @@ Here is the implementation for that:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public void add(ContinuousSpace&lt;T&gt; space, T obj) {
-        Dimensions dims = space.getDimensions();
-        double[] location = new double[dims.size()];
-        findLocation(location, dims);
-        while (!space.moveTo(obj, location)) {
-                findLocation(location, dims);
-        }
+  Dimensions dims = space.getDimensions();
+  double[] location = new double[dims.size()];
+  findLocation(location, dims);
+  while (!space.moveTo(obj, location)) {
+    findLocation(location, dims);
+  }
 }
 private void findLocation(double[] location, Dimensions dims) {
-        for (int i = 0; i &lt; location.length; i++) {
-                location[i] = RandomHelper.getDefault().nextDoubleFromTo(0,dims.getDimension(i) - 1);
-        }
+  for (int i = 0; i &lt; location.length; i++) {
+    location[i] = RandomHelper.getDefault().nextDoubleFromTo(0,dims.getDimension(i) - 1);
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>The add method randomly generates locations and puts the objects into that location (assuming the grid
@@ -2027,60 +2055,64 @@ agents properly. We&#8217;ll call the Interface Located:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public interface Located{
-        public int getX();
-        public int getY();
+  public int getX();
+  public int getY();
 }</code></pre>
 </div></div>
-<div class="paragraph"><p>Pretty simple, eh? Let&#8217;s write an adder that know how to work with this:</p></div>
+<div class="paragraph"><p>Let&#8217;s write an adder that know how to work with this:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public class LocatedAdder&lt;Located&gt; implements ContinuousAdder&lt;Located&gt; {
-        public void add(ContinuousSpace&lt;Located&gt; grid, Located object){
-                grid.moveTo(object, object.getX(), object.getY());
-        }
+  public void add(ContinuousSpace&lt;Located&gt; grid, Located object){
+    grid.moveTo(object, object.getX(), object.getY());
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>This will add the object to the grid at the location specified by the agent itself. This doesn&#8217;t handle any
 errors or anything, but it should give you an idea of how to create your own adder.</p></div>
-<div class="paragraph"><div class="title">PointTranslators</div><p>Just like the GridPointTranlator described on the Grid&#8217;s page, a PointTranslator determines the border
+</div>
+<div class="sect3">
+<h4 id="_pointtranslators">3.5.3. PointTranslators</h4>
+<div class="paragraph"><p>Just like the GridPointTranlator described on the Grid&#8217;s page, a PointTranslator determines the border
 behavior of a continuous space. The border behavior is what happens when an agents moves past the
 border of a continuous space. Five kinds of border behavior classes are described below together with a
-description of how they behave in response to a continuous space&#8217;s moveTo and moveBy* (the moveBy*
+description of how they behave in response to a continuous space&#8217;s moveTo and moveBy_ (the moveBy_
 methods are moveByDisplacement and moveByVector) methods.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-StrictBorders&#8201;&#8212;&#8201;defines a strict boundary that cannot be crossed without throwing a
+<strong>StrictBorders</strong> defines a strict boundary that cannot be crossed without throwing a
 SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
 </p>
 </li>
 <li>
 <p>
-StickyBorders&#8201;&#8212;&#8201;defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+<strong>StickyBorders</strong> defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
 a moveTo across the border will still throw a SpatialException.
 </p>
 </li>
 <li>
 <p>
-InfiniteBorders&#8201;&#8212;&#8201;defines infinite borders that the agent will never cross.
+<strong>InfiniteBorders</strong> defines infinite borders that the agent will never cross.
 </p>
 </li>
 <li>
 <p>
-BouncyBorders&#8201;&#8212;&#8201;defines a bouncy border that the agent will bounce off at the appropriate angle in
+<strong>BouncyBorders</strong> defines a bouncy border that the agent will bounce off at the appropriate angle in
 a moveBy. However, a moveTo across the border will still throw a SpatialException.
 </p>
 </li>
 <li>
 <p>
-WrapAroundBorders&#8201;&#8212;&#8201;defines borders that wrap around to their opposite borders. This mean
+<strong>WrapAroundBorders</strong>&#8201;&#8212;&#8201;defines borders that wrap around to their opposite borders. This mean
 moveTo and moveBy across the border will cross the border and enter the opposite side.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>In general then, moveTo will throw a SpatialException when crossing the border and moveBy* will invoke
-the border behavior.</p></div>
-<div class="paragraph"><div class="title">Moving in a Continuous Space</div><p>Movement on a continuous space is accomplished with 3 methods.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_moving_in_a_continuous_space">3.5.4. Moving in a Continuous Space</h4>
+<div class="paragraph"><p>Movement on a continuous space is accomplished with 3 methods.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>moveTo(T object, double... newLocation)</code></pre>
@@ -2116,21 +2148,19 @@ successful, otherwise it will return null. Like moveTo it will throw a SpatialEx
 already in the space or if the number of dimensions in the displacement is greater than the number of
 continuous space dimensions.</p></div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_network_projections">3.7. Network Projections</h3>
-<div class="paragraph"><p>Many models use abstract relationships between agents using Networks or Graphs. These connections
+<h3 id="_network_projections">3.6. Network Projections</h3>
+<div class="paragraph"><p>Many models use abstract relationships between agents in the form of networks and graphs. These connections
 may represent social connections, physical infrastructure connections or some other abstract
-connections. Repast provides tools to work with Networks or Graphs easily as a Projection. The default
-support for networks is supplied by the excellent library JUNG.</p></div>
-<div class="paragraph"><div class="title">Building a Network</div><p>In many situations, you won&#8217;t need to build the network yourself. If you are using a persistent Data
-Loader to load the network from a freezedryed instance the networks will be generated for you.
-However, if you using your own ContextBuilder or you wish to create networks during your simulation,
-you will need to be able to build networks in code.</p></div>
-<div class="paragraph"><p>The first thing to remember when working with networks is that, like most projections, in order to
+connections. Repast provides tools to work with Networks or Graphs easily as a Projection.</p></div>
+<div class="paragraph"><div class="title">Building a Network</div><p>The first thing to remember when working with networks is that, like most projections, in order to
 participate in a network, and agent must already exist in the context. A side affect of this is that any
 agent in a context is automatically a member of any networks associated with that context. The agent
 might not have any edges, but they will be in the network for all intents and purposes.</p></div>
-<div class="paragraph"><div class="title">Network Builders</div><p>Networks are created using a NetworkBuilder. The NetworkBuilder class allows the user to tune the
+<div class="sect3">
+<h4 id="_network_builders">3.6.1. Network Builders</h4>
+<div class="paragraph"><p>Networks are created using a NetworkBuilder. The NetworkBuilder class allows the user to tune the
 network creation to create specific kinds of networks. This "tuning" is done by calling various methods on
 the builder. If none of these methods are called then a simple "plain vanilla" network is created. For
 example,</p></div>
@@ -2140,9 +2170,10 @@ example,</p></div>
 Network network = builder.buildNetwork()</code></pre>
 </div></div>
 <div class="paragraph"><p>The first argument to the builder constructor is the name of the network, the second is the context which
-the network "projects" and the last is whether or not the network is directed. By default, the
+the network "projects" and the last is whether or not the network is <em>directed</em>. By default, the
 addEdge(source, target, &#8230;) methods of a network will create and use an instance of RepastEdge as the
-edge between the source and target. Using the builder, you can customize this edge creation process by
+edge between the source and target.</p></div>
+<div class="paragraph"><p>Using the builder, you can customize this edge creation process by
 specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks like:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -2153,23 +2184,23 @@ specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks
 */
 public interface EdgeCreator&lt;E extends RepastEdge, T&gt; {
 
-        /**
-        * Gets the edge type produced by this EdgeCreator.
-        *
-        * @return the edge type produced by this EdgeCreator.
-        */
-        Class getEdgeType();
+  /**
+  * Gets the edge type produced by this EdgeCreator.
+  *
+  * @return the edge type produced by this EdgeCreator.
+  */
+  Class getEdgeType();
 
-        /**
-        * Creates an Edge with the specified source, target, direction and weight.
-        *
-        * @param source the edge source
-        * @param target the edge target
-        * @param isDirected whether or not the edge is directed
-        * @param weight the weight of the edge
-        * @return the created edge.
-        */
-        E createEdge(T source, T target, boolean isDirected, double weight);
+  /**
+  * Creates an Edge with the specified source, target, direction and weight.
+  *
+  * @param source the edge source
+  * @param target the edge target
+  * @param isDirected whether or not the edge is directed
+  * @param weight the weight of the edge
+  * @return the created edge.
+  */
+  E createEdge(T source, T target, boolean isDirected, double weight);
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>The intention is that the user implement the createEdge method to customize the edge creation process.
@@ -2301,8 +2332,9 @@ edge are part of the network
 * getEdge(agent, agent) - Get the edge, if any, between source and target agents</p></div>
 <div class="paragraph"><p>In addition to these, there are also many other methods. See the javadoc for Network for more info.</p></div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_gis_projections">3.8. GIS Projections</h3>
+<h3 id="_gis_projections">3.7. GIS Projections</h3>
 <div class="paragraph"><p>Repast Simphony&#8217;s GIS support is based on the Geography projection. A Geography is essentially a space
 in which agents are associated with a spatial geometry (polygon, point, or line). Agents are stored by type in
 layers within the Geography and agents of the same type must have the same geometry. The geography
@@ -2335,7 +2367,9 @@ In the absence of any user supplied CRS, the default is WGS84 as defined by Geot
 DefaultGeographicCRS.WGS84. That CRS uses (longitude, latitude) coordinates with longitude
 values increasing East and latitude values increasing North. Angular units are degrees and
 prime meridian is Greenwich.</p></div>
-<div class="paragraph"><div class="title">Moving in a Geography</div><p>Moving a Geography is typically accomplished using the following method</p></div>
+<div class="sect3">
+<h4 id="_moving_in_a_geography">3.7.1. Moving in a Geography</h4>
+<div class="paragraph"><p>Moving a Geography is typically accomplished using the following method</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>move(T agent, Geometry geom)</code></pre>
@@ -2414,7 +2448,10 @@ Iterable&lt;T&gt; getObjectsWithin(Envelope envelope);</code></pre>
 <div class="paragraph"><p>Additional queries are available for getting agents that intersect another agent or geometry, for getting
 the agents that touch another agent or geometry, and so on. See the classes in the
 repast.simphony.query.space.gis package for more information.</p></div>
-<div class="paragraph"><div class="title">Loading agent data from Shapefiles</div><p>Agent geometry data can be loaded from standard ESRI shapefiles using the GeoToos API.
+</div>
+<div class="sect3">
+<h4 id="_loading_agent_data_from_shapefiles">3.7.2. Loading agent data from Shapefiles</h4>
+<div class="paragraph"><p>Agent geometry data can be loaded from standard ESRI shapefiles using the GeoToos API.
 An exmaple of creating a list of features from a shapefile filename string is provided
 below.</p></div>
 <div class="admonitionblock">
@@ -2466,7 +2503,10 @@ agent geometry in the Geography projection via:</p></div>
 <pre><code>Geometry geom = (Geometry)feature.getDefaultGeometry();
 geography.move(agent, geom);</code></pre>
 </div></div>
-<div class="paragraph"><div class="title">Coverage Raster Layers</div><p>Repast Geography projections support geolocated 2D grid coverage layers that
+</div>
+<div class="sect3">
+<h4 id="_coverage_raster_layers">3.7.3. Coverage Raster Layers</h4>
+<div class="paragraph"><p>Repast Geography projections support geolocated 2D grid coverage layers that
 provide storage and reference of integer and floating point data.  Coverage layers
 can be stored in a Geography projection as a GeoTools GridCoverage2D via:</p></div>
 <div class="listingblock">
@@ -2528,7 +2568,10 @@ WritableGridCoverage2D coverage2 = RepastCoverageFactory.createWritableByteIndex
 <pre><code>WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFromFile(
         File file, boolean forceLonLatAxisOrder)</code></pre>
 </div></div>
-<div class="paragraph"><div class="title">Network Projections in GIS</div><p>Repast Network projections can be displayed on a GIS display just like any other
+</div>
+<div class="sect3">
+<h4 id="_network_projections_in_gis">3.7.4. Network Projections in GIS</h4>
+<div class="paragraph"><p>Repast Network projections can be displayed on a GIS display just like any other
 Repast Display type using the runtime Display wizards.  In this case no additional
 code is required since the GIS display will handle the layout of the network.  However,
 there are scenarios where a modeller might want the Geography projection to be "aware"
@@ -2550,15 +2593,21 @@ geometries in the geograhy.  Additionaly, when network edges are created or dest
 the GISNetworkListener will automatically create or destroy the associated line features
 in the geograhy.</p></div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_random_numbers">3.9. Random Numbers</h3>
-<div class="paragraph"><div class="title">RandomRegistry</div><p>Like many of the other registries in Simphony, the RandomRegistry is available
+<h3 id="_random_numbers">3.8. Random Numbers</h3>
+<div class="sect3">
+<h4 id="_randomregistry">3.8.1. RandomRegistry</h4>
+<div class="paragraph"><p>Like many of the other registries in Simphony, the RandomRegistry is available
 through the current RunState (through its getRandomRegistry() method). This
 interface provides the capability for storing named random distributions and
 retrieving them. It also can set and retrieve the seed that a stream will use
 (or is using) for streams it creates through its addStream(String, Class, &#8230;)
 methods.</p></div>
-<div class="paragraph"><div class="title">RandomHelper</div><p>The RandomRegistry by itself is somewhat difficult to work with, to simplify
+</div>
+<div class="sect3">
+<h4 id="_randomhelper">3.8.2. RandomHelper</h4>
+<div class="paragraph"><p>The RandomRegistry by itself is somewhat difficult to work with, to simplify
 using it the RandomHelper class was created. This provides methods for creating
 the random streams that will be used, and for retrieving the streams after they
 have been created, when you do not have a reference to the current RunState.</p></div>
@@ -2585,7 +2634,10 @@ want multiple random streams functioning at once. In this case you can use
 RandomHelper&#8217;s default methods for any uniform numbers, but for producing
 multiple streams or a non-Uniform stream you have to use the methods that
 take in a stream name. Each of these separate cases will be walked through next.</p></div>
-<div class="paragraph"><div class="title">Single Stream Default Use</div><p>When working with the default Uniform stream there is really only one thing you
+</div>
+<div class="sect3">
+<h4 id="_single_stream_default_use">3.8.3. Single Stream Default Use</h4>
+<div class="paragraph"><p>When working with the default Uniform stream there is really only one thing you
 may want to look at manipulating, the default stream&#8217;s random seed. This is set
 through the RandomHelper&#8217;s setSeed(int) method. Setting the random seed should
 generally happen when the model is setting up. There are two ways you can do
@@ -2597,9 +2649,9 @@ method, as below:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public class MySimpleSetter extends SimpleParameterSetter {
-        public void next(Parameters params) {
-                RandomHelper.setSeed(System.currentTimeMillis());
-        }
+  public void next(Parameters params) {
+    RandomHelper.setSeed(System.currentTimeMillis());
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>The above code will set the default uniform distribution&#8217;s seed to be the
@@ -2610,15 +2662,18 @@ move based on some random condition, that could look like:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public void agentAction() {
-        if (myHappiness &lt; RandomHelper.nextDouble()) {
-                move();
-        }
+  if (myHappiness &lt; RandomHelper.nextDouble()) {
+    move();
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>The above example compares the agent&#8217;s happiness to a random number between 0
 and 1, in (0, 1), if the random number is greater than the agent&#8217;s happiness it
 will move.</p></div>
-<div class="paragraph"><div class="title">Multiple Stream / Non Uniform Stream Usage</div><p>As with the single streams, you generally are going to want to create your
+</div>
+<div class="sect3">
+<h4 id="_multiple_stream_non_uniform_stream_usage">3.8.4. Multiple Stream / Non Uniform Stream Usage</h4>
+<div class="paragraph"><p>As with the single streams, you generally are going to want to create your
 Random number streams when your model is initializing, primarily in a
 ParameterSetter, at the point the ParameterSetter will be executed the run&#8217;s
 RandomRegistry will be setup, and you can feel free to use the RandomHelper.</p></div>
@@ -2632,14 +2687,14 @@ these using a distinct random seed.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>public class MySetter extends ParameterSetter {
-        public void next(Parameters params) {
-                // first create the normal distribution
-                // we pass in null so that it will use the current random registry
-                RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
-                // next we create the poisson distribution
+  public void next(Parameters params) {
+    // first create the normal distribution
+    // we pass in null so that it will use the current random registry
+    RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
+    // next we create the poisson distribution
 
-                RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
-        }
+    RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
+  }
 }</code></pre>
 </div></div>
 <div class="paragraph"><p>The above code created a normal distribution named "MyNormal" that has a mean of
@@ -2675,8 +2730,9 @@ complicated than it sounds, and functions simply like:</p></div>
 }</code></pre>
 </div></div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_scheduling">3.10. Scheduling</h3>
+<h3 id="_scheduling">3.9. Scheduling</h3>
 <div class="paragraph"><p>There are basically three ways to work with the Repast Simphony Scheduler. No
 one is better than the other and they each have their specified purpose.</p></div>
 <div class="paragraph"><div class="title">Directly Schedule an action</div><p>This is similar to the way that actions have always been scheduled in repast
@@ -2808,7 +2864,7 @@ public void shutDown(){
 work with scheduling this way.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_watcher_queries">3.11. Watcher Queries</h3>
+<h3 id="_watcher_queries">3.10. Watcher Queries</h3>
 <div class="paragraph"><p>Watcher queries are boolean expressions that evaluate the watcher and the
 watchee with respect to each other and some projection or context. The context
 is the context where the watcher resides and the projections are those contained
@@ -2869,7 +2925,7 @@ precedence. For example
 MyWatcher.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_gui_parameters_and_probes">3.12. GUI Parameters and Probes</h3>
+<h3 id="_gui_parameters_and_probes">3.11. GUI Parameters and Probes</h3>
 <div class="paragraph"><div class="title">GUI Parameters</div><p>GUI Parameters are the simulation parameters that appear in the parameters view
 in the application GUI. These parameters are automatically created from the
 parameters XML file or from any @Parameters method annotations that are used in

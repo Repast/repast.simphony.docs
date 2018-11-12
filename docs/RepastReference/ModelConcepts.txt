@@ -1,5 +1,4 @@
-Repast Model Design Fundamental Concepts
-----------------------------------------
+== Repast Model Design Fundamental Concepts
 Repast Simphony has an architectural design based on central principles 
 important to agent-based modeling. These principles combine findings from many 
 years of ABMS toolkit development and from experience applying the ABMS toolkits 
@@ -19,12 +18,11 @@ declarative runtime configuration settings when possible.
 * Idiomatic code expressions (i.e., repeatedly used blocks of code such as loops 
 that scan lists of agents) should be simple and direct.
 
-Contexts
-~~~~~~~~
+=== Contexts
 
 // TODO Perhaps rearrange this section so that the theory is discussed in each subsection.
 
-.Contexts and Projections
+==== Contexts and Projections
 The Context is the core concept and object in Repast Simphony. It provides a 
 data structure to organize your agents from both a modelling perspective as well 
 as a software perspective. Fundamentally, a context is just a bucket full of 
@@ -64,7 +62,7 @@ same Context might define friendship relations between the agents. A second
 Network Projection in the given Context might define family relationships 
 between the agents.
 
-.Queries
+==== Queries
 Repast S provides a mechanism to query a model's Context hierarchy and the 
 associated Projections and agents. This mechanism provides methods to find 
 agents with specific types, agents with selected individual properties, and 
@@ -112,7 +110,7 @@ syntax as Java for the predicates. When used in an imperative mode, queries
 normally return a list scanning object or Iterator. These iterators can be used 
 in programmed agent behaviors to operate on and react to members of the list.
 
-.Watches
+==== Watches
 The Repast S Watcher mechanism builds on the Context hierarchy and query system 
 to provide behavioral triggers. Watchers allow modelers to easily:
 
@@ -129,8 +127,7 @@ checks.
 Repast Simphony's combination of Contexts, Projections, Queries, and Watchers 
 provides a powerful and flexible environment for ABMS implementation.
 
-Finding Contexts
-^^^^^^^^^^^^^^^^
+==== Finding Contexts
 The Repast _ContextUtils_ class provides a number of utility functions for finding
 Context instances from the model code.  
 
@@ -150,8 +147,7 @@ The context's parent context (if exists) can similarly be found using:
 Context parentContext = ContextUtils.getParentContext (context)
 ----
 
-Adding and Removing Objects in Contexts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Adding and Removing Objects in Contexts
 The Repast _Context_ interface extends the standard Java _Collection_ so that 
 objects can be added or removed to or from contexts similar to how one would
 perform such operations with Java collections such as lists.
@@ -180,8 +176,7 @@ context.addSubContext(subContext);
 context.removeSubContext(subContext);
 ----
 
-Finding Objects in Contexts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Finding Objects in Contexts
 Objects (typically agents) contained in a context can be referenced in several 
 ways. 
 
@@ -212,8 +207,7 @@ for (Object o : collection){
 }
 ----
 
-Implementing Custom Contexts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Implementing Custom Contexts
 User models can implement their own custom Context implementations, either by 
 creating a complete _Context_ interface implementation from scratch, or by 
 extending the Repast _DefaultContext_ class.  Extending _DefaultContext_ is the 
@@ -221,9 +215,7 @@ recommended route since the default implementation contains all of the working
 implementations for the _Context_ interface.  User context imlplementations can
 be used in model code in exactly the same way as the default Repast Context.
 
-Context Loading
-~~~~~~~~~~~~~~~
-
+=== Context Loading
 Context loading is the process of populating the root model context with agents,
 projections, and sub-contexts and occurs when a model run is initialized, and
 may be thought of as the model's "main" function that assembles the model 
@@ -235,16 +227,16 @@ implementations that perform context loading:
 * Interface for classes that build a Context by adding projections,
 * agents and so forth.
 */
-	public interface ContextBuilder<T> {
-	/**
-	* Builds and returns a context. Building a context consists of filling it with
-	* agents, adding projects and so forth. The returned context does not necessarily
-	* have to be the passed in context.
-	*
-	* @param context
-	* @return the built context.
-	*/
-	Context build(Context<T> context);
+  public interface ContextBuilder<T> {
+  /**
+  * Builds and returns a context. Building a context consists of filling it with
+  * agents, adding projects and so forth. The returned context does not necessarily
+  * have to be the passed in context.
+  *
+  * @param context
+  * @return the built context.
+  */
+  Context build(Context<T> context);
 }
 ----
 
@@ -263,8 +255,7 @@ scenario.xml file until it is set via the runtime menu option.  To specify the
 user-defined ContextBuilder, see the section on xref:DataLoaders[Data Loaders].
 
 
-Projections
-~~~~~~~~~~~
+=== Projections
 While Contexts create a container to hold your agents, Projections impose a 
 structure upon those agents. Simply using Contexts, one could never write a 
 model that provided more than a simple "soup" for the agents. The only way to 
@@ -295,24 +286,21 @@ Context context = ContextUtils.getContext (this)
 Network network = (Network)context.getProjection("mynetwork");
 ----
 
-Creating Projections
-~~~~~~~~~~~~~~~~~~~~
+==== Creating Projections
 In general, projections are created using a factory mechanism in the following 
 way.
 
-. Find the factory
+1. Find the factory
 
-. Use the factory to create the projection
+2. Use the factory to create the projection
 
 // TODO Use complete examples or merge with the following sections
+// TODO Fill in the spacea attribute options and alloed values
 
 ----
-Context<SimpleHappyAgent> context = Contexts.createContext(SimpleHappyAgent.class, "my context");
 GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
 Grid grid = factory.createGrid("Simple Grid", context, ...);
-Context<SimpleHappyAgent> context = Contexts.createContext(SimpleHappyAgent.class, "mycontext");
 ----
-
 ----
 ContinuousSpaceFactory factory = ContinuousSpaceFactoryFinder.createContinuousSpaceFactory(new HashMap());
 ContinuousSpace space = factory.createContinuousSpace("Simple Space", context, ...);
@@ -325,17 +313,16 @@ arguments are marked above with "..." and are explicated on the individual pages
 for that projection.
 
 
-Grid Projections
-~~~~~~~~~~~~~~~~
-Grids are a mainstay of agent based simulation. Many of the earliest simulation such as Schelling's
-Dynamic Models of Segregation, heatbugs, and sugarscape were originally built on grids. Basically a grid,
-for our purposes, are a 1 or more dimensional data structure that is divided up into a number of cells.
+=== Grid Projections
+Grids are a mainstay of agent based simulation. Many of the earliest simulations such as Schelling's
+Dynamic Models of Segregation, Heatbugs, and Sugarscape were originally built on grids. 
+Grids are a 1 or more dimensional data structure that is divided up into a number of cells.
 These cells can be referenced by their integer coordinates. In other words, a grid is an n-dimensional
-matrix. Even though grids have been used in agent based simulation since it's inception (and before),
+matrix. Even though grids have been used in agent based simulation since it's inception,
 they still have value today. These data structures are very efficient and provide a number of different
-ways to define neighborhoods. While they don't offer the flexibility of an abstract network or the realism
+ways to define neighborhoods. While grids don't offer the flexibility of an abstract network or the realism
 of a continuous or GIS space, the grid can be used to simulate spaces and to create highly structured
-relationships between agents. While most people think of grids to represent space, there is no reason
+relationships between agents. While some think of grids to represent space, there is no reason
 why a grid couldn't be used define more abstract kinds of relationships. No matter how you look at it,
 grids are still a powerful tool in an overall agent based toolkit.
 
@@ -345,19 +332,19 @@ Repast Simphony provides a rich set of tools to work with grids of all kinds. Sp
 * querying for Von Neumann and Moore neighborhoods,
 * Toroidal, Reflective and Fixed Border conditions.
 
-.Creating A Grid
-Creating a grid in Repast Simphony is similar to creating the other projections. Your agents must exist in
-the context in order to exist in the grid, and you want to create the grid using a factory to make sure that
-it is initialized properly.
+==== Creating A Grid
+Creating a grid in Repast Simphony is similar to creating the other projections. 
+Your agents must exist in the context in order to exist in the grid, and you want 
+to create the grid using a factory to make sure that it is initialized properly.
 
 ----
 GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
 Grid grid = factory.createGrid("My Grid", context, gridBuilderParameters);
 ----
 
-So, most of that is pretty straight forward, eh? Pass the method a name (so that you can look up your
-grid later) and the context that will back the grid. But what is that last argument? The
-gridBuilderParameters. GridBuilderParameters are used to specify the properties of the grid itself, such
+Pass the method a name (so that you can look up your grid later) and the context 
+that will back the grid. But what is that last argument? The gridBuilderParameters. 
+GridBuilderParameters are used to specify the properties of the grid itself, such
 as its dimensions, its border behavior, and how agents are initially added to the grid.
 
 .GridBuilderParameters
@@ -374,8 +361,8 @@ methods (see the javadocs) allow you to create other types of grids. In general 
 have to specify a GridAdder and perhaps a GridPointTranslator when creating GridBuilderParameters. You
 will also have to specify the dimensions. These will be the last arguments to the method.
 
-.Adders
-Like most projections, an object doesn't exist in the projection until it is added to the context, and once it
+==== GridAdder
+An object doesn't exist in the projection until it is added to the context, and once it
 is added to the context, it is automatically added to the projection. But where do we put it in the grid?
 That's where the GridAdder interface comes in. The adder allows you to specify where to place an object
 once it has been added to the context. It has a simple method:
@@ -384,7 +371,7 @@ once it has been added to the context. It has a simple method:
 public void add(Grid destination, U object);
 ----
 
-More generics fun, eh? Well, it's not so bad. In this case, the destination is the type of projection to
+In this case, the destination is the type of projection to
 which we are adding our object (a grid). Object is the object we want to add to that projection. So, <U>
 is whatever we're adding. Basically, to implement this interface, you just take in an object and do
 something with it in the supplied projection. Ok, let's get a bit more concrete. Let's say that we have a
@@ -393,18 +380,18 @@ for that:
 
 ----
 public void add(Grid<T> space, T obj) {
-	Dimensions dims = space.getDimensions();
-	int[] location = new int[dims.size()];
-	findLocation(location, dims);
-	while (!space.moveTo(obj, location)) {
-		findLocation(location, dims);
-	}
+  Dimensions dims = space.getDimensions();
+  int[] location = new int[dims.size()];
+  findLocation(location, dims);
+  while (!space.moveTo(obj, location)) {
+    findLocation(location, dims);
+  }
 }
 
 private void findLocation(int[]location, Dimensions dims) {
-	for (int i = 0; i < location.length; i++) {
-		location[i] = RandomHelper.getDefault().nextIntFromTo(0, dims.getDimension(i) -1);
-	}
+  for (int i = 0; i < location.length; i++) {
+    location[i] = RandomHelper.getDefault().nextIntFromTo(0, dims.getDimension(i) -1);
+  }
 }
 ----
 
@@ -426,48 +413,47 @@ properly. We'll call the Interface Located:
 
 ----
 public interface Located{
-	public int getX();
-	public int getY();
+  public int getX();
+  public int getY();
 }
 ----
 
-Pretty simple, eh? Let's write an adder that know how to work with this:
+Let's write an adder that knows how to work with this:
 
 ----
 public class LocatedAdder<Located> implements GridAdder<Located> {
-	public void add(Grid<Located> grid, Located object){
-		grid.moveTo(object, object.getX(), object.getY());
-	}
+  public void add(Grid<Located> grid, Located object){
+    grid.moveTo(object, object.getX(), object.getY());
+  }
 }
 ----
 
 This will add the object to the grid at the location specified by the agent itself. This doesn't handle any
 errors or anything, but it should give you an idea of how to create your own adder.
 
-.GridPointTranslators
-A GridPointTranslator determines the border behavior of a grid. The border behavior is what happens
+==== GridPointTranslators
+A GridPointTranslator determines the _border behavior_ of a grid. The border behavior is what happens
 when an agents moves past the border of a grid. Five kinds of border behavior classes are described
 below together with a description of how the behave in response to a Grid's moveTo and moveBy (the
 moveBy methods are moveByDisplacement and moveByVector) methods.
 
-* StrictBorders -- defines a strict boundary that cannot be crossed without throwing a
+* *StrictBorders* defines a strict boundary that cannot be crossed without throwing a
 SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
 
-* StickyBorders -- defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+* *StickyBorders* defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
 a moveTo across the border will still throw a SpatialException.
 
-* InfiniteBorders -- defines infinite borders that the agent will never cross.
+* *InfiniteBorders* defines infinite borders that the agent will never cross.
 
-* BouncyBorders -- defines a bouncy border that the agent will bounce off at the appropriate angle in
+* *BouncyBorders* defines a bouncy border that the agent will bounce off at the appropriate angle in
 a moveBy. However, a moveTo across the border will still throw a SpatialException.
 
-* WrapAroundBorders -- defines borders that wrap around to their opposite borders. This mean
+* *WrapAroundBorders* defines borders that wrap around to their opposite borders. This mean
 moveTo and moveBy across the border will cross the border and enter the opposite side. A 2D grid
-with WrapAroundBorders is a torus.
-In general then, moveTo will throw a SpatialException when crossing the border and moveBy will invoke
-the border behavior.
+with WrapAroundBorders is a torus. In general then, moveTo will throw a SpatialException 
+when crossing the border and moveBy will invoke the border behavior.
 
-.Moving on a Grid
+==== Moving on a Grid
 Movement on the grid is accomplished with 3 methods.
 
 ----
@@ -508,8 +494,7 @@ already in the space or if the number of dimensions in the displacement is great
 grid dimensions.
 Document
 
-Continuous Space Projection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Continuous Space Projection
 A continuous (real valued) space projection is a space in which an agents 
 location is represented by floating point coordinates. For example, one agent 
 may be at the point 2.133, 0 and another may be at 21.1, 234. This contrasts 
@@ -524,7 +509,7 @@ Specifically, it supports
 
 * Toroidal, Reflective and Fixed Border conditions.
 
-.Creating A Continuous Space
+==== Creating A Continuous Space
 Creating a continuous space in Repast Simphony is similar to creating the other 
 projections. Your agents must exist in the context in order to exist in the 
 continuous space, and you want to create the continuous spaceusing a factory to 
@@ -536,11 +521,11 @@ ContinuousSpace space = factory.createContinuousSpace("My Space", context,
 	continuousAdder, pointTranslator, 10, 10);
 ----
 
-So, most of that is pretty straight forward, eh? Pass the method a name (so that you can look up your
-grid later) and the context that will back the continuous space. But what of these additional arguments.
-Like the Grid, an Adder must be specified as well as a PointTranslator and the dimensions of the grid.
+Pass the method a name (so that you can look up your space later) and the context 
+that will back the continuous space. Like the Grid, an Adder must be specified 
+as well as a PointTranslator and the dimensions of the space.
 
-.Adders
+==== ContinuousSpaceAdder
 Like most projections, an object doesn't exist in the projection until it is added to the context, and once it
 is added to the context, it is automatically added to the projection. But where do we put it in the
 continuous space? That's where the ContinuousSpaceAdder interface comes in. The adder allows you to
@@ -550,7 +535,7 @@ specify where to place an object once it has been added to the context. It has a
 public void add(ContinuousSpace destination, U object);
 ----
 
-More generics fun, eh? Well, it's not so bad. In this case, the destination is the projection to which we
+n this case, the destination is the projection to which we
 are adding our object (ContinuousSpace). Object is the object we want to add to that projection. So,
 <U> is whatever we're adding. Basically, to implement this interface, you just take in an object and do
 something with it in the supplied projection. Ok, let's get a bit more concrete. Let's say that we have a
@@ -559,17 +544,17 @@ Here is the implementation for that:
 
 ----
 public void add(ContinuousSpace<T> space, T obj) {
-	Dimensions dims = space.getDimensions();
-	double[] location = new double[dims.size()];
-	findLocation(location, dims);
-	while (!space.moveTo(obj, location)) {
-		findLocation(location, dims);
-	}
+  Dimensions dims = space.getDimensions();
+  double[] location = new double[dims.size()];
+  findLocation(location, dims);
+  while (!space.moveTo(obj, location)) {
+    findLocation(location, dims);
+  }
 }
 private void findLocation(double[] location, Dimensions dims) {
-	for (int i = 0; i < location.length; i++) {
-		location[i] = RandomHelper.getDefault().nextDoubleFromTo(0,dims.getDimension(i) - 1);
-	}
+  for (int i = 0; i < location.length; i++) {
+    location[i] = RandomHelper.getDefault().nextDoubleFromTo(0,dims.getDimension(i) - 1);
+  }
 }
 ----
 
@@ -593,47 +578,45 @@ agents properly. We'll call the Interface Located:
 
 ----
 public interface Located{
-	public int getX();
-	public int getY();
+  public int getX();
+  public int getY();
 }
 ----
-Pretty simple, eh? Let's write an adder that know how to work with this:
+Let's write an adder that know how to work with this:
 
 ----
 public class LocatedAdder<Located> implements ContinuousAdder<Located> {
-	public void add(ContinuousSpace<Located> grid, Located object){
-		grid.moveTo(object, object.getX(), object.getY());
-	}
+  public void add(ContinuousSpace<Located> grid, Located object){
+    grid.moveTo(object, object.getX(), object.getY());
+  }
 }
 ----
 
 This will add the object to the grid at the location specified by the agent itself. This doesn't handle any
 errors or anything, but it should give you an idea of how to create your own adder.
 
-.PointTranslators
+==== PointTranslators
 Just like the GridPointTranlator described on the Grid's page, a PointTranslator determines the border
 behavior of a continuous space. The border behavior is what happens when an agents moves past the
 border of a continuous space. Five kinds of border behavior classes are described below together with a
-description of how they behave in response to a continuous space's moveTo and moveBy* (the moveBy*
+description of how they behave in response to a continuous space's moveTo and moveBy_ (the moveBy_
 methods are moveByDisplacement and moveByVector) methods.
 
-* StrictBorders -- defines a strict boundary that cannot be crossed without throwing a
+* *StrictBorders* defines a strict boundary that cannot be crossed without throwing a
 SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
 
-* StickyBorders -- defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+* *StickyBorders* defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
 a moveTo across the border will still throw a SpatialException.
 
-* InfiniteBorders -- defines infinite borders that the agent will never cross.
+* *InfiniteBorders* defines infinite borders that the agent will never cross.
 
-* BouncyBorders -- defines a bouncy border that the agent will bounce off at the appropriate angle in
+* *BouncyBorders* defines a bouncy border that the agent will bounce off at the appropriate angle in
 a moveBy. However, a moveTo across the border will still throw a SpatialException.
-* WrapAroundBorders -- defines borders that wrap around to their opposite borders. This mean
+
+* *WrapAroundBorders* -- defines borders that wrap around to their opposite borders. This mean
 moveTo and moveBy across the border will cross the border and enter the opposite side.
 
-In general then, moveTo will throw a SpatialException when crossing the border and moveBy* will invoke
-the border behavior.
-
-.Moving in a Continuous Space
+==== Moving in a Continuous Space
 Movement on a continuous space is accomplished with 3 methods.
 
 ----
@@ -673,25 +656,23 @@ successful, otherwise it will return null. Like moveTo it will throw a SpatialEx
 already in the space or if the number of dimensions in the displacement is greater than the number of
 continuous space dimensions.
 
-Network Projections
-~~~~~~~~~~~~~~~~~~~
-Many models use abstract relationships between agents using Networks or Graphs. These connections
+=== Network Projections
+Many models use abstract relationships between agents in the form of networks and graphs. These connections
 may represent social connections, physical infrastructure connections or some other abstract
-connections. Repast provides tools to work with Networks or Graphs easily as a Projection. The default
-support for networks is supplied by the excellent library JUNG.
+connections. Repast provides tools to work with Networks or Graphs easily as a Projection. 
 
 .Building a Network
-In many situations, you won't need to build the network yourself. If you are using a persistent Data
-Loader to load the network from a freezedryed instance the networks will be generated for you.
-However, if you using your own ContextBuilder or you wish to create networks during your simulation,
-you will need to be able to build networks in code.
+//In many situations, you won't need to build the network yourself. If you are using a persistent Data
+//Loader to load the network from a freezedryed instance the networks will be generated for you.
+//However, if you using your own ContextBuilder or you wish to create networks during your simulation,
+//you will need to be able to build networks in code.
 
 The first thing to remember when working with networks is that, like most projections, in order to
 participate in a network, and agent must already exist in the context. A side affect of this is that any
 agent in a context is automatically a member of any networks associated with that context. The agent
 might not have any edges, but they will be in the network for all intents and purposes.
 
-.Network Builders
+==== Network Builders
 Networks are created using a NetworkBuilder. The NetworkBuilder class allows the user to tune the
 network creation to create specific kinds of networks. This "tuning" is done by calling various methods on
 the builder. If none of these methods are called then a simple "plain vanilla" network is created. For
@@ -703,9 +684,14 @@ Network network = builder.buildNetwork()
 ----
 
 The first argument to the builder constructor is the name of the network, the second is the context which
-the network "projects" and the last is whether or not the network is directed. By default, the
+the network "projects" and the last is whether or not the network is _directed_. By default, the
 addEdge(source, target, ...) methods of a network will create and use an instance of RepastEdge as the
-edge between the source and target. Using the builder, you can customize this edge creation process by
+edge between the source and target. 
+
+
+// TODO EdgeBuilder seems like an advanced topic
+
+Using the builder, you can customize this edge creation process by
 specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks like:
 
 ----
@@ -716,23 +702,23 @@ specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks
 */
 public interface EdgeCreator<E extends RepastEdge, T> {
 
-	/**
-	* Gets the edge type produced by this EdgeCreator.
-	*
-	* @return the edge type produced by this EdgeCreator.
-	*/
-	Class getEdgeType();
+  /**
+  * Gets the edge type produced by this EdgeCreator.
+  *
+  * @return the edge type produced by this EdgeCreator.
+  */
+  Class getEdgeType();
 
-	/**
-	* Creates an Edge with the specified source, target, direction and weight.
-	*
-	* @param source the edge source
-	* @param target the edge target
-	* @param isDirected whether or not the edge is directed
-	* @param weight the weight of the edge
-	* @return the created edge.
-	*/
-	E createEdge(T source, T target, boolean isDirected, double weight);
+  /**
+  * Creates an Edge with the specified source, target, direction and weight.
+  *
+  * @param source the edge source
+  * @param target the edge target
+  * @param isDirected whether or not the edge is directed
+  * @param weight the weight of the edge
+  * @return the created edge.
+  */
+  E createEdge(T source, T target, boolean isDirected, double weight);
 }
 ----
 
@@ -921,7 +907,7 @@ values increasing East and latitude values increasing North. Angular units are d
 prime meridian is Greenwich.
 
 
-.Moving in a Geography
+==== Moving in a Geography
 Moving a Geography is typically accomplished using the following method
 
 ----
@@ -1009,7 +995,7 @@ Additional queries are available for getting agents that intersect another agent
 the agents that touch another agent or geometry, and so on. See the classes in the
 repast.simphony.query.space.gis package for more information.
 
-.Loading agent data from Shapefiles
+==== Loading agent data from Shapefiles
 Agent geometry data can be loaded from standard ESRI shapefiles using the GeoToos API.
 An exmaple of creating a list of features from a shapefile filename string is provided 
 below.
@@ -1058,7 +1044,7 @@ Geometry geom = (Geometry)feature.getDefaultGeometry();
 geography.move(agent, geom);
 ----
 
-.Coverage Raster Layers
+==== Coverage Raster Layers
 Repast Geography projections support geolocated 2D grid coverage layers that 
 provide storage and reference of integer and floating point data.  Coverage layers
 can be stored in a Geography projection as a GeoTools GridCoverage2D via:
@@ -1122,7 +1108,7 @@ WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFr
 	File file, boolean forceLonLatAxisOrder)
 ----
 
-.Network Projections in GIS
+==== Network Projections in GIS
 Repast Network projections can be displayed on a GIS display just like any other
 Repast Display type using the runtime Display wizards.  In this case no additional
 code is required since the GIS display will handle the layout of the network.  However,
@@ -1147,9 +1133,9 @@ geometries in the geograhy.  Additionaly, when network edges are created or dest
 the GISNetworkListener will automatically create or destroy the associated line features
 in the geograhy.
 
-Random Numbers
-~~~~~~~~~~~~~~
-.RandomRegistry
+=== Random Numbers
+
+==== RandomRegistry
 Like many of the other registries in Simphony, the RandomRegistry is available 
 through the current RunState (through its getRandomRegistry() method). This 
 interface provides the capability for storing named random distributions and 
@@ -1157,7 +1143,7 @@ retrieving them. It also can set and retrieve the seed that a stream will use
 (or is using) for streams it creates through its addStream(String, Class, ...) 
 methods.
 
-.RandomHelper
+==== RandomHelper
 The RandomRegistry by itself is somewhat difficult to work with, to simplify 
 using it the RandomHelper class was created. This provides methods for creating 
 the random streams that will be used, and for retrieving the streams after they 
@@ -1190,7 +1176,7 @@ RandomHelper's default methods for any uniform numbers, but for producing
 multiple streams or a non-Uniform stream you have to use the methods that
 take in a stream name. Each of these separate cases will be walked through next.
 
-.Single Stream Default Use
+==== Single Stream Default Use
 When working with the default Uniform stream there is really only one thing you 
 may want to look at manipulating, the default stream's random seed. This is set 
 through the RandomHelper's setSeed(int) method. Setting the random seed should 
@@ -1204,9 +1190,9 @@ method, as below:
 
 ----
 public class MySimpleSetter extends SimpleParameterSetter {
-	public void next(Parameters params) {
-		RandomHelper.setSeed(System.currentTimeMillis());
-	}
+  public void next(Parameters params) {
+    RandomHelper.setSeed(System.currentTimeMillis());
+  }
 }
 ----
 
@@ -1218,9 +1204,9 @@ move based on some random condition, that could look like:
 
 ----
 public void agentAction() {
-	if (myHappiness < RandomHelper.nextDouble()) {
-		move();
-	}
+  if (myHappiness < RandomHelper.nextDouble()) {
+    move();
+  }
 }
 ----
 
@@ -1228,7 +1214,7 @@ The above example compares the agent's happiness to a random number between 0
 and 1, in (0, 1), if the random number is greater than the agent's happiness it 
 will move.
 
-.Multiple Stream / Non Uniform Stream Usage
+==== Multiple Stream / Non Uniform Stream Usage
 As with the single streams, you generally are going to want to create your 
 Random number streams when your model is initializing, primarily in a 
 ParameterSetter, at the point the ParameterSetter will be executed the run's 
@@ -1245,14 +1231,14 @@ So an example initialization would look like:
 
 ----
 public class MySetter extends ParameterSetter {
-	public void next(Parameters params) {
-		// first create the normal distribution
-		// we pass in null so that it will use the current random registry
-		RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
-		// next we create the poisson distribution
+  public void next(Parameters params) {
+    // first create the normal distribution
+    // we pass in null so that it will use the current random registry
+    RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
+    // next we create the poisson distribution
 
-		RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
-	}
+    RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
+  }
 }
 ----
 
