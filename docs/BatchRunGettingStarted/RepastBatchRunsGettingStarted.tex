@@ -249,7 +249,9 @@ The situation on windows is more complicated. OSX and Linux come with ssh and th
 
 Once you've got your keys on the remote machine, you can run remote batch runs using the Batch Run GUI. The host properties User, Host and SSH Key are used to login to the remote host. The User property should be the user name for the ssh login. The host is the name or ip address of the machine to login into and the SSH Key File is the private key file on the local machine used to auto-login to the remote machine. This file is typically called id\_rsa in a .ssh directory in the user's home directory,  but it may be different.
 
-When performing a batch run using a remote host, the active payload will be copied to the account of the user specified in the host properties. After that, the run occurs as it does in the local version. The archive is unzipped and the parameter space is divided among the instances to be run on that remote host. When the instance runs have ended the output is copied back to the machine where the GUI was run, concatenated and written to the output directory.
+When performing a batch run using a remote host, the active payload will be copied to the account of the user specified in the host properties. After that, the run occurs as it does in the local version. The archive is unzipped and the parameter space is divided among the instances to be run on that remote host. When the instance runs have ended the output is copied back to the machine where the GUI was run, concatenated and written to the output directory. Note that the remote model runs will be performed using whatever Java
+runtime is the default on the remote machine. If you receive class format or other errors that indicate a Java runtime incompatibility, make sure that that the remote Java is compatible with the Java version with which you have compiled your code. Typically, code
+compiled with a later version of Java is not compatible with a previous version's runtime.
 
 \section{Preparing Your Model for Batch Runs}
 
