@@ -31,7 +31,7 @@ copy of Repast Simphony is fully self-contained and will not interfere with othe
 versions of the software.
 
 === How do I get started using Repast Simphony?
-Please see the Repast Quick Start guide: https://repast.github.io/quick_start.html
+Please see the https://repast.github.io/quick_start.html[Repast Quick Start guide].
 
 === What software platforms work with Repast Simphony?
 Repast Simphony is a Java application that is compatible with Windows, macOS, and 

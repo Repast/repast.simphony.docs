@@ -1,0 +1,200 @@
+== Network Projections
+Many models use abstract relationships between agents in the form of networks and graphs. These connections
+may represent social connections, physical infrastructure connections or some other abstract
+connections. Repast provides tools to work with Networks or Graphs easily as a Projection. 
+
+.Building a Network
+//In many situations, you won't need to build the network yourself. If you are using a persistent Data
+//Loader to load the network from a freezedryed instance the networks will be generated for you.
+//However, if you using your own ContextBuilder or you wish to create networks during your simulation,
+//you will need to be able to build networks in code.
+
+The first thing to remember when working with networks is that, like most projections, in order to
+participate in a network, and agent must already exist in the context. A side affect of this is that any
+agent in a context is automatically a member of any networks associated with that context. The agent
+might not have any edges, but they will be in the network for all intents and purposes.
+
+=== Network Builders
+Networks are created using a NetworkBuilder. The NetworkBuilder class allows the user to tune the
+network creation to create specific kinds of networks. This "tuning" is done by calling various methods on
+the builder. If none of these methods are called then a simple "plain vanilla" network is created. For
+example,
+
+----
+NetworkBuilder builder = new NetworkBuilder("Network", context, true);
+Network network = builder.buildNetwork()
+----
+
+The first argument to the builder constructor is the name of the network, the second is the context which
+the network "projects" and the last is whether or not the network is _directed_. By default, the
+addEdge(source, target, ...) methods of a network will create and use an instance of RepastEdge as the
+edge between the source and target. 
+
+
+// TODO EdgeBuilder seems like an advanced topic
+
+Using the builder, you can customize this edge creation process by
+specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks like:
+
+----
+/**
+* Factory class for creating edges.
+*
+* @author Nick Collier
+*/
+public interface EdgeCreator<E extends RepastEdge, T> {
+
+  /**
+  * Gets the edge type produced by this EdgeCreator.
+  *
+  * @return the edge type produced by this EdgeCreator.
+  */
+  Class getEdgeType();
+
+  /**
+  * Creates an Edge with the specified source, target, direction and weight.
+  *
+  * @param source the edge source
+  * @param target the edge target
+  * @param isDirected whether or not the edge is directed
+  * @param weight the weight of the edge
+  * @return the created edge.
+  */
+  E createEdge(T source, T target, boolean isDirected, double weight);
+}
+----
+
+The intention is that the user implement the createEdge method to customize the edge creation process.
+All edges created on the network via addEdge(source, target, ...) will forward edge creation to this
+method. Specifying the edge creator on the builder looks like:
+
+----
+NetworkBuilder builder = new NetworkBuilder("Network", context, true);
+builder.setEdgeCreator(myEdgeCreator);
+Network network = builder.buildNetwork()
+----
+
+Any networks created using this builder will then use that EdgeCreator.
+
+=== Loading networks from input files
+Networks can also be loaded from a file. Currently, the builder can load networks from UCINet's dl format
+or from Excel. The relevant methods in the NetworkBuilder are:
+
+----
+/**
+* Sets this NetworkBuilder to create the network from a file. This
+* will use the first network found in the file.
+*
+* @param fileName the name of the file to load from
+* @param format the format of the file
+* @param nodeCreator a node creator that will be used to create the agents / nodes
+* @return this NetworkBuilder
+* @throws IOException if there is a file related error
+*/
+public NetworkBuilder load(String fileName, NetworkFileFormat format, 
+	NodeCreator nodeCreator) throws IOException
+
+/**
+* Sets this NetworkBuilder to create the network from a file. This
+* will use the first network found in the file.
+*
+* @param fileName the name of the file to load from
+* @param format the format of the file
+* @param nodeCreator a node creator that will be used to create the agents / nodes
+* @param matrixIndex the index of the matrix in the file to load. Starts with 0.
+* @return this NetworkBuilder
+* @throws IOException if there is a file related error
+*/
+public NetworkBuilder load(String fileName, NetworkFileFormat format, 
+	NodeCreator nodeCreator, int matrixIndex) throws IOException
+----
+
+The NodeCreator in the above is used to perform the actual node / agent creation based on the
+information in the network file. These nodes are added to the context and edges between them are
+created using the link data from the file. The NetworkFileFormat is either NetworkFileFormat.DL or
+NetworkFileFormat.EXCEL, although more formats may be added in the future. The Excel file format is
+described below.
+
+----
+The matrix is assumed to be square.
+
+Each worksheet is treated as a matrix, and any worksheets
+that do not contain matrices will cause an error. The worksheet name
+is treated as the matrix label unless the name begins with Sheet
+(Excel's generic worksheet name). The format for excel files is that
+imported and exported by UCINet. The first cell is empty, and the
+node labels begin on this first row in the second column. The column
+node labels begin in first column on the second row. The actual data
+begins in cell 2,2. For example,
+
+             | first_label | second_label | ...
+-------------+-------------+--------------+----
+first_label  | 0           | 1            | ...
+-------------+-------------+--------------+----
+second_label | 1           | 0            | ...
+-------------+-------------+--------------+----
+...          | ...         | ...          | ...
+
+If the matrix has no node labels, repast will expect the first row and
+column to be blank and as before, for the data to begin in cell 2,2.<p>
+----
+
+An example of the network builder loading a file:
+
+----
+NetworkBuilder builder = new NetworkBuilder("Network", context, true);
+builder.load("./data/mynetwork.xls",
+NetworkFileFormat.EXCEL, myNodeCreator);
+Network net = builder.buildNetwork();
+----
+
+Lastly, a NetworkGenerator can be set on the NetworkBuilder. NetworkGenerators typically assume that
+the context already contains the nodes / agents and the generator arranges them in the appropriate
+topography (e.g. a Small World). For example,
+
+----
+// make sure the agents are in the context before
+// creating the network with the generator
+for (int i = 0; i < 25; i++) {
+  VizAgent agent = new VizAgent("Agent-" + i);
+  context.add(agent);
+}
+NetworkGenerator gen = new WattsBetaSmallWorldGenerator(.2, 2, false);
+NetworkBuilder builder = new NetworkBuilder("Electricity Network", context, true);
+builder.setGenerator(gen);
+Network net = builder.buildNetwor();
+----
+
+The arguments to the generator are the probability of rewiring the network, the local neighborhood size,
+and whether or not generated edges will be created symmetrically. We then create a NetworkFactory and
+use that to create the network, passing it the network name, the context, the generator, and whether or
+not the resulting network will be directed. In this case, the generator creates a small world type network
+using the agents in the context as nodes.
+
+See the repast.simphony.context.space.graph package for more information on NetworkGenerators and
+what is available.
+
+NOTE: Although the generators supplied by simphony do assume that the context already contains
+nodes / agents, the NetworkGenerator interface is flexible and can be used to implement any sort of
+custom network creation. For example, the network file loaders are actually implements as
+NetworkGenerators whose constructors take the necessary NodeCreator etc. information.
+
+.Working with a network
+Once you have a network, you can always add Relationships, but that's not really that useful until you
+can query based on the relationships. The Network library provides all of the methods you would expect
+to have to access the objects and relationships in it. The particular methods in which you will be
+interested are:
+
+* getAdjacent(agent) - Retrieves all of the objects that share a relationship with this agent
+* getPredecessors(agent) - Retrieves all of the objects that have a relationship to this agent
+* getSuccessors(agent) - Retrieves all of the objects that have a relationship from this agent
+* getEdges(agent) - Retrieves all of the edges which have this agent as an endpoint
+* getOutEdges(agent) - Retrieves all of the edges which have this agent as a source
+* getInEdges(agent) - Retrieves all of the edges which have this agent as a target
+* addEdge(agent, agent) - Adds an edge between the two agents
+* addEdge(agent, agent, weight) - Adds an edge of the specified weight between the two agents
+* addEdge(RepastEdge edge) - Adds the specified edge. Assumes that the source and target of the
+edge are part of the network
+* getEdge(agent, agent) - Get the edge, if any, between source and target agents
+
+In addition to these, there are also many other methods. See the javadoc for Network for more info.

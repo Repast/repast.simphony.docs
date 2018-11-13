@@ -1,0 +1,143 @@
+== Random Numbers
+
+=== RandomRegistry
+Like many of the other registries in Simphony, the RandomRegistry is available 
+through the current RunState (through its getRandomRegistry() method). This 
+interface provides the capability for storing named random distributions and 
+retrieving them. It also can set and retrieve the seed that a stream will use 
+(or is using) for streams it creates through its addStream(String, Class, ...) 
+methods.
+
+=== RandomHelper
+The RandomRegistry by itself is somewhat difficult to work with, to simplify 
+using it the RandomHelper class was created. This provides methods for creating 
+the random streams that will be used, and for retrieving the streams after they 
+have been created, when you do not have a reference to the current RunState.
+
+Through its getStream, getUniform and getNormal methods, you can retrieve 
+distributions from the current RandomRegistry. Through its numerous createXXX 
+methods, you can create the distributions and store them to the current 
+RandomRegistry.
+
+The RandomHelper also handles creating and maintaining a default Uniform number 
+stream. This stream is the one used by Repast when it needs a random number, and 
+is no different then the other Uniform number streams, except that it will 
+always exist when requested from the RandomHelper (when the simulation is 
+running). If you wish to use a Uniform distribution for your random numbers, you 
+can avoid some of the extra work that comes with the named streams (meaning, 
+specifying the name of the stream, and possibly casting the stream) by simply 
+using RandomHelpers' getDefault, nextInt, and nextDouble methods. You also can 
+retrieve and/or set the seed for the default stream through the RandomHelper's 
+getSeed and setSeed methods.
+
+Generally there are going to be two types of usage of the random functionality. 
+The first would be when you just need random numbers of some sort. In this case 
+you would just want to use RandomHelper's default methods, meaning the 
+getDefault(), nextInt and nextDouble methods.
+
+The other case is when you want numbers from a non-Uniform distribution, or you 
+want multiple random streams functioning at once. In this case you can use 
+RandomHelper's default methods for any uniform numbers, but for producing 
+multiple streams or a non-Uniform stream you have to use the methods that
+take in a stream name. Each of these separate cases will be walked through next.
+
+=== Single Stream Default Use
+When working with the default Uniform stream there is really only one thing you 
+may want to look at manipulating, the default stream's random seed. This is set 
+through the RandomHelper's setSeed(int) method. Setting the random seed should 
+generally happen when the model is setting up. There are two ways you can do 
+this. One way is in a ControllerAction, but if you wish to use the random 
+numbers in setting up the model you will not have your seed set ahead of time. 
+The other (correct) way is in a ParameterSetter.
+
+In the ParameterSetter you are going to want to call RandomHelper's setSeed 
+method, as below:
+
+----
+public class MySimpleSetter extends SimpleParameterSetter {
+  public void next(Parameters params) {
+    RandomHelper.setSeed(System.currentTimeMillis());
+  }
+}
+----
+
+The above code will set the default uniform distribution's seed to be the 
+current time. Now that the time is set, the agents or controller actions (in 
+their runInitialize methods) can use the default distribution and will recieve 
+numbers based off of that seed. For example if you had an agent that wanted to 
+move based on some random condition, that could look like:
+
+----
+public void agentAction() {
+  if (myHappiness < RandomHelper.nextDouble()) {
+    move();
+  }
+}
+----
+
+The above example compares the agent's happiness to a random number between 0 
+and 1, in (0, 1), if the random number is greater than the agent's happiness it 
+will move.
+
+=== Multiple Stream / Non Uniform Stream Usage
+As with the single streams, you generally are going to want to create your 
+Random number streams when your model is initializing, primarily in a 
+ParameterSetter, at the point the ParameterSetter will be executed the run's 
+RandomRegistry will be setup, and you can feel free to use the RandomHelper.
+
+With these streams you are going to need to consistently use the same stream 
+name(s) when working with the RandomHelper or the RandomRegistry. You will need 
+to pass this name into the methods, so that that the helper/registry knows where 
+to get the values from. For example, let's say that you want 2 random number 
+streams; one a Poisson distribution, and one a Normal distribution. With both of 
+these using a distinct random seed.
+
+So an example initialization would look like:
+
+----
+public class MySetter extends ParameterSetter {
+  public void next(Parameters params) {
+    // first create the normal distribution
+    // we pass in null so that it will use the current random registry
+    RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
+    // next we create the poisson distribution
+
+    RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
+  }
+}
+----
+
+The above code created a normal distribution named "MyNormal" that has a mean of 
+0, a standard deviation of 1, and some seed (normalSeed). It then creates a 
+poisson distribution named "MyPoisson" with a mean of 0 and some specified seed 
+(poissonSeed). It is worth noticing however that unlike the default stream, if 
+you do not setup these streams with the given name they will not be created for 
+you. You must create them in some way (for instance like above) or you will not 
+be able to use them.
+
+You can then use these distributions from your code. If you wanted to do the 
+same thing as the single stream example, but with the normal stream you would do:
+
+----
+public void agentAction() {
+	if (myHappiness < RandomHelper.getNormal("MyNormal").nextDouble()) {
+		move();
+	}
+}
+----
+
+The Poisson stream is slightly less straighforward to use, in that direct helper 
+methods are not provided that will cast the stream to a Poisson distribution. 
+For this distribution you must cast the stream yourself. This is more 
+complicated than it sounds, and functions simply like:
+
+----
+public void agentAction() {
+	// grab the distribution with the given name, casting it to a Poisson distribution
+	Poisson randomStream = (Poisson) RandomHelper.getStream("MyPoisson");
+	// now use it
+	if (myHappiness < randomStream.nextDouble()) {
+		move();
+	}
+}
+----

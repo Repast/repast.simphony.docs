@@ -1,0 +1,128 @@
+== Working With Contexts
+
+=== Finding Contexts
+The Repast _ContextUtils_ class provides a number of utility functions for finding
+Context instances from the model code.  
+
+TIP: Generally there is no need to store local references to Contexts (say 
+within an agent) since the Context in which an agent resides can always be 
+referenced.  
+
+To reference the current context of an agent:
+
+----
+Context context = ContextUtils.getContext (agent)
+----
+
+The context's parent context (if exists) can similarly be found using:
+
+----
+Context parentContext = ContextUtils.getParentContext (context)
+----
+
+=== Adding and Removing Objects in Contexts
+The Repast _Context_ interface extends the standard Java _Collection_ so that 
+objects can be added or removed to or from contexts similar to how one would
+perform such operations with Java collections such as lists.
+
+* To add an object to a context:
++
+----
+context.add(object);
+----
+
+* To remove an object from a context:
++
+----
+context.remove(object);
+----
+
+* Similarly, to add a context that is a subcontext:
++
+----
+context.addSubContext(subContext);
+----
+
+* To remove a context that is a subcontext:
++
+----
+context.removeSubContext(subContext);
+----
+
+=== Finding Objects in Contexts
+Objects (typically agents) contained in a context can be referenced in several 
+ways. 
+
+* To get a single random object from a reference:
++
+----
+Object o = context.getRandomObject();
+----
+
+* To get a random iterable collection of some (count) objects of a specific 
+class:
++
+----
+Iterable collection = context.getRandomObjects(MyClass.class, count);
+----
+
+* To get a random iterable collection of all objects of a specific class:
++
+----
+IndexedIterable collection = context.getObjects(MyClass.class);
+----
+
+The typical way to access the objects in the returned iterable collections is:
+
+----
+for (Object o : collection){
+	// do something with o here.
+}
+----
+
+=== Implementing Custom Contexts
+User models can implement their own custom Context implementations, either by 
+creating a complete _Context_ interface implementation from scratch, or by 
+extending the Repast _DefaultContext_ class.  Extending _DefaultContext_ is the 
+recommended route since the default implementation contains all of the working 
+implementations for the _Context_ interface.  User context imlplementations can
+be used in model code in exactly the same way as the default Repast Context.
+
+=== Context Loading
+Context loading is the process of populating the root model context with agents,
+projections, and sub-contexts and occurs when a model run is initialized, and
+may be thought of as the model's "main" function that assembles the model 
+components.  The Repast _ContextBuilder_ interface is used for model 
+implementations that perform context loading:
+
+----
+/**
+* Interface for classes that build a Context by adding projections,
+* agents and so forth.
+*/
+  public interface ContextBuilder<T> {
+  /**
+  * Builds and returns a context. Building a context consists of filling it with
+  * agents, adding projects and so forth. The returned context does not necessarily
+  * have to be the passed in context.
+  *
+  * @param context
+  * @return the built context.
+  */
+  Context build(Context<T> context);
+}
+----
+
+Models should include a single _ContextBuilder_ implementation.  The context 
+argument in the +build()+ method is an instance of the Repast DefaultContext 
+that can be populated and returned.  A custom user-defined Context 
+implementation could be created and returned instead of the default provided 
+context.
+
+TIP: All of the Repast Simphony models implemented in Java use a ContextBuilder to 
+create the main context and populate it with agents.
+
+The ContxtBuilder is called by the Repast runtime at initialization, but the 
+implementing user model class (e.g. MyContextBuilder) is not specified in the 
+scenario.xml file until it is set via the runtime menu option.  To specify the
+user-defined ContextBuilder, see the section on xref:DataLoaders[Data Loaders].

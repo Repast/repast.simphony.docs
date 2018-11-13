@@ -1,0 +1,280 @@
+== GUI Parameters and Probes
+
+// TODO GUI Parameters and Probes (remove extended parameters bit, add the custom
+//  probe registration stuff and update the annotations that can be used on agent 
+//   properties, e.g., the statecharts agent property annotation)
+
+.GUI Parameters
+GUI Parameters are the simulation parameters that appear in the parameters view 
+in the application GUI. These parameters are automatically created from the 
+parameters XML file or from any @Parameters method annotations that are used in 
+a Context. At the moment, these two options only allow for the creation of 
+unconstrained numeric, boolean and String parameters. However, constrained 
+parameters of more complicated types can be defined using an xml based format. 
+This section describes how  to save, load and "set as default" parameters using 
+the parameters tools menu, and the last section looks  at the parameters 
+returned from agent probes.
+
+.Convertors and custom parameter types
+Repast Simphony can internally handle the conversion of numeric and boolean 
+types to and from the Strings in the gui display and the parameter file. 
+However, if you wish to use a type other than these, then you must provide a 
+converter that will convert an Object to and from a String representation. A 
+converter is class that implements StringConverter and is used to create the 
+appropriate Object from a string representation when reading the xml file and 
+taking input from the gui. The converter also converts the object to a string 
+representation. This string is then used when writing the object out and 
+displaying the parameter's value in the gui.
+
+For example, supposing you wish use the following Name class as a Parameter.
+
+----
+package repast.test.viz;public class Name {
+	private String first, last;
+	private int hashCode;
+	
+	public Name(String first, String last) {
+		this.first = first;
+		this.last = last;
+		hashCode = 17;
+		hashCode = 37 * hashCode + first.hashCode();
+		hashCode = 37 * hashCode + last.hashCode();
+	}
+
+	public String getFirst() {
+		return first;
+	}
+
+	public String getLast() {
+		return last;
+	}
+	
+	public int hashCode() {
+		return hashCode;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof Name) {
+			Name other = (Name) obj;
+			return other.first.equals(this.first) && other.last.equals(this.last);
+		}
+		return false;
+	}
+	
+	public String toString() {
+		return "Name(" + first + ", " + last + ")";
+	}
+}
+----
+
+Your parameter XML then would look something like:
+----
+<parameters> ...
+	<parameter name="name" displayName="Full Name" type="repast.test.viz.Name" 
+		defaultValue="Joe Smith" converter="repast.test.viz.NameConverter" />
+</parameters>
+----
+
+The type is the fully qualified name of the parameter type (in this case "Name") 
+and the converter is the fully qualified name of the converter class. The 
+converter must implement the StringConverter interface. StringConverter has two 
+methods for converting to and from a String representation.
+
+----
+package repast.parameter;
+
+/**
+* Converts an Object to and from a String representation. Subclasses
+* are specialized for specified objects.
+*
+* @author Nick Collier
+*/
+public interface StringConverter<T> {
+
+	/**
+	* Converts the specified object to a String representation and
+	* returns that representation. The representation should be such
+	* that <code>fromString</code> can recreate the Object.
+	*
+	* @param obj the Object to convert.
+	*
+	* @return a String representation of the Object.
+	*/
+	String toString(T obj);
+
+	/**
+	* Creates an Object from a String representation.
+	*
+	* @param strRep the string representation
+	* @return the created Object.
+	*/
+	T fromString(String strRep);
+}
+----
+
+The NameConverter then looks like:
+
+----
+package repast.test.viz;
+import repast.parameter.*;
+public class NameConverter implements StringConverter<Name> {
+
+	/**
+	* Converts the specified object to a String representation and
+	* returns that representation. The representation should be such
+	* that <code>fromString</code> can recreate the Object.
+	*
+	* @param obj the Object to convert.
+	* @return a String representation of the Object.
+	*/
+	public String toString(Name obj) {
+		return obj.getFirst() + " " + obj.getLast();
+	}
+
+	/**
+	* Creates an Object from a String representation.
+	*
+	* @param strRep the string representation
+	* @return the created Object.
+	*/
+	public Name fromString(String strRep) {
+		int index = strRep.indexOf(" ");
+		String first = strRep.substring(0, index);
+		String last = strRep.substring(index + 1, strRep.length());
+		return new Name(first, last);
+	}
+}
+----
+
+It is also possible to use the values attribute to constrain the possible values 
+of a converted parameter. For example:
+
+----
+<parameters> ...
+	<parameter name="name" displayName="Full Name" type="repast.test.viz.Name" 
+		defaultValue="Joe Smith" converter="repast.test.viz.NameConverter" 
+		values="'Joe Smith' 'Mary Smith' 'Granny Smith'"/>
+</parameters>
+----
+
+When constraining a converted parameter, the elements in the values list must be 
+Strings that can be converted using the converter. If you do constrain a 
+converted parameter in this way, you must override equals (and hashCode) in your 
+custom type. If not, then the constraint validation will most likely fail.
+
+.Parameters Panel Tools
+The menu on the parameters panels allows the user to save and load parameter 
+values, and set the current parameter values as the default.
+
+* Saving - clicking the save menu item will prompt for a file name and then save 
+the current parameter values into that file.
+
+* Loading - clicking the load menu item will prompt for a file name and then 
+load the parameter values from that file into the current parameters. This 
+assumes that the current parameters are compatible with those being loaded, 
+that is, that the names and types of parameters in the file match the current 
+parameters.
+
+* Set as Default - this allows the user to set current parameter values as 
+defaults such that these values will be used when the simulation is reset. 
+Clicking this menu item prompts for which parameters to set as defaults and then 
+sets those as the new defaults.
+
+.Agent Probes
+An agent can be probed by clicking on its visual representation in the gui. The 
+agent's parameters will then be displayed in a probe panel. By default, the 
+displayed parameters are derived from an agent's Java bean properties which are 
+themselves derived from get / set accessor method pairs. For example,
+
+----
+public class VizAgent {
+	...
+	public double getWealth() {
+		...
+	}
+	
+	public void setWealth(double val) {
+		...
+	}
+}
+----
+
+This creates a "wealth" parameter. The probe panel will display an entry for 
+"wealth" whose value is the result of the "getWealth" call. When the user enters 
+a new value in the "wealth" text field then the setWealth method will passed 
+this new value. Read-only parameters can be created by specifying only a 
+get-style method. The label for this field will be the simple java bean 
+properties name. Which properties are treated as parameters, and how to display 
+them can be further refined by adding an @Parameter annotation to either the 
+getter or setter of a property method pair. (The information in the annotation 
+applies equally to both methods.) Using a Parameter annotation, a more 
+descriptive display name can be specified. For example:
+
+----
+public class VizAgent {
+	...
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)")
+	public double getWealth() {
+		...
+	}
+	
+	public void setWealth(double val) {
+		...
+	}
+}
+----
+
+The usageName should correspond to the java bean property which is typically the 
+method name minus the get/set with the first character lower-cased. The 
+displayName specifies the gui label for this parameter in the probe window.
+
+NOTE: If any method is annotated with @Parameter, then only @Parameter annotated 
+methods will be displayed in the probe panel.
+
+Using the @Parameter annotation, you can also specify the name of a converter to 
+convert to and from a displayable String. By specifying a converter, any type of 
+object contained by the agent can be displayed as a parameter. This converter is 
+identical that described above in the extended parameters section. See the 
+convertors and custom parameter types section above for more details. For 
+example,
+
+----
+public class VizAgent {
+	...
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+		converter="repast.demo.MoneyConverter")
+	public Money getWealth() {
+		...
+	}
+
+	public void setWealth(Money val) {
+		...
+	}
+}
+----
+
+In this case, the agent's wealth is represented by a Money class and a 
+MoneyConverter is used to convert to and from a String value. Lastly, by default 
+the probe's title will be the result of calling "toString()" on the probed 
+object (e.g. VizAgent@55927f, in the above screen shot). A more appropriate 
+title can be specified either by overriding toString() and returning the desired 
+value, or annotating any method that returns the desired title with @ProbeID. 
+For example:
+
+----
+public class VizAgent {
+	... 
+	@ProbeID 
+	public String name() { return name;}
+
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+		converter="repast.demo.MoneyConverter")
+	public Money getWealth() {
+		...
+	}
+
+	public void setWealth(Money val) {
+		...
+	}
+}
+----

@@ -863,16 +863,43 @@ and choose import, General, Archive File and follow the wizard from there.</p></
 <div class="sect1">
 <h2 id="_project_configuration">2. Project Configuration</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_a_new_repast_project">2.1. Creating a New Repast Project</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>TODO</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_new_relogo_project">2.2. Creating a New ReLogo Project</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>TODO</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_updating_an_existing_repast_project">2.3. Updating an Existing Repast Project</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>TODO</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_adding_repast_to_an_existing_project">2.4. Adding Repast to an Existing Project</h3>
 <div class="paragraph"><p>If you have an existing Java project in which you would like to reference Repast
 classes, you can right click on the project and select Repast Simphony &#8594; Add
 Repast Simphony to this Project. This will add the Repast libraries to the
 project class path so that you can reference Repast classes and run simulations
 from your project without needing to manually add all of the Repast libraries
 and dependencies.</p></div>
+</div>
 <div class="sect2">
-<h3 id="_model_configuration_files">2.1. Model Configuration Files</h3>
+<h3 id="_model_configuration_files">2.5. Model Configuration Files</h3>
 <div class="sect3">
-<h4 id="_user_path_xml">2.1.1. user_path.xml</h4>
+<h4 id="_user_path_xml">2.5.1. user_path.xml</h4>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;model name="Model Name"&gt;
@@ -940,7 +967,7 @@ not a common usage.</td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_context_xml">2.1.2. context.xml</h4>
+<h4 id="_context_xml">2.5.2. context.xml</h4>
 <div class="paragraph"><p>context.xml contains the context heirarchy information.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1225,7 +1252,7 @@ a space&#8217;s borders.</p></td>
   &lt;/projection&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
-<div class="paragraph"><p>will create a 200x100 continuous space with an id of "MySpace." The border rule
+<div class="paragraph"><p>will create a 200 x 100 continuous space with an id of "MySpace". The border rule
 for the grid is "strict" so any movement across the border will cause an error.</p></div>
 <div class="tableblock">
 <table rules="all"
@@ -1276,12 +1303,12 @@ of this type.</p></td>
   &lt;/projection&gt;
 &lt;/context&gt;</code></pre>
 </div></div>
-<div class="paragraph"><p>will create a network with an id of "MyNetwork." The network will be directed
+<div class="paragraph"><p>will create a network with an id of "MyNetwork". The network will be directed
 and use the default RepastEdge as the edge type.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_distributing_your_model">2.2. Distributing Your Model</h3>
+<h3 id="_distributing_your_model">2.6. Distributing Your Model</h3>
 <div class="paragraph"><p>Models created with Repast Simphony may easily be distributed with the provided
 Install Builder tool. This tool builds a distributable installer that anyone may
 use to install the model to their computer. The only requirement for those to
@@ -1291,6 +1318,14 @@ Environment.</p></div>
 <div class="paragraph"><p>The builder make take a few minutes to complete the installer. Once this process
 is complete, a message "BUILD SUCCESSFUL" should be visible in the Console
 window.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_importing_a_model">2.7. Importing a Model</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>TODO</p></div>
+</div></div>
 </div>
 </div>
 </div>
@@ -1340,11 +1375,7 @@ that scan lists of agents) should be simple and direct.
 </p>
 </li>
 </ul></div>
-<div class="sect2">
-<h3 id="_contexts">3.1. Contexts</h3>
-<div class="sect3">
-<h4 id="_contexts_and_projections">3.1.1. Contexts and Projections</h4>
-<div class="paragraph"><p>The Context is the core concept and object in Repast Simphony. It provides a
+<div class="paragraph"><div class="title">Contexts and Projections</div><p>The Context is the core concept and object in Repast Simphony. It provides a
 data structure to organize your agents from both a modelling perspective as well
 as a software perspective. Fundamentally, a context is just a bucket full of
 agents, but they provide more richness.</p></div>
@@ -1396,10 +1427,7 @@ between each agent. A Network Projection containing social relationships in the
 same Context might define friendship relations between the agents. A second
 Network Projection in the given Context might define family relationships
 between the agents.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_queries">3.1.2. Queries</h4>
-<div class="paragraph"><p>Repast S provides a mechanism to query a model&#8217;s Context hierarchy and the
+<div class="paragraph"><div class="title">Queries</div><p>Repast S provides a mechanism to query a model&#8217;s Context hierarchy and the
 associated Projections and agents. This mechanism provides methods to find
 agents with specific types, agents with selected individual properties, and
 agents with given Projections properties (e.g., agents at a given location in a
@@ -1508,10 +1536,7 @@ these approaches are discussed later in this section. Groovy uses the same
 syntax as Java for the predicates. When used in an imperative mode, queries
 normally return a list scanning object or Iterator. These iterators can be used
 in programmed agent behaviors to operate on and react to members of the list.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_watches">3.1.3. Watches</h4>
-<div class="paragraph"><p>The Repast S Watcher mechanism builds on the Context hierarchy and query system
+<div class="paragraph"><div class="title">Watches</div><p>The Repast S Watcher mechanism builds on the Context hierarchy and query system
 to provide behavioral triggers. Watchers allow modelers to easily:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1545,9 +1570,80 @@ that instruments the monitored agents with the needed behavioral activation
 checks.</p></div>
 <div class="paragraph"><p>Repast Simphony&#8217;s combination of Contexts, Projections, Queries, and Watchers
 provides a powerful and flexible environment for ABMS implementation.</p></div>
+<div class="sect2">
+<h3 id="_projections">3.1. Projections</h3>
+<div class="paragraph"><p>While Contexts create a container to hold your agents, Projections impose a
+structure upon those agents. Simply using Contexts, one could never write a
+model that provided more than a simple "soup" for the agents. The only way to
+reference other agents would be randomly. Projections allow the modeller to
+create a structure that defines relationships, whether they be spatial, network,
+or something else. A projection os attached to a particular Context and applies
+to all of the agents in that Context. This raises an important point:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/important.png" alt="Important" />
+</td>
+<td class="content">An object (agent) must exist in a Context before it can be used in a
+projection.</td>
+</tr></table>
 </div>
+<div class="paragraph"><p>Multiple projections can be addeded to the same context therefore it is possible,
+for example, for a context to contain a grid, a geography, and a network.</p></div>
+<div class="paragraph"><p>Agents may reference projections through their containing context by specifying
+the name of the projections, e.g. "mynetwork":</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Context context = ContextUtils.getContext (this)
+Projection projection = context.getProjection("mynetwork");</code></pre>
+</div></div>
+<div class="paragraph"><p>The returned Projection object will have limited value unless is is cast to the
+specific type (e.g. Network or Grid):</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Context context = ContextUtils.getContext (this)
+Network network = (Network)context.getProjection("mynetwork");</code></pre>
+</div></div>
 <div class="sect3">
-<h4 id="_finding_contexts">3.1.4. Finding Contexts</h4>
+<h4 id="_creating_projections">3.1.1. Creating Projections</h4>
+<div class="paragraph"><p>In general, projections are created using a factory mechanism in the following
+way.</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Find the factory
+</p>
+</li>
+<li>
+<p>
+Use the factory to create the projection
+</p>
+</li>
+</ol></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
+Grid grid = factory.createGrid("Simple Grid", context, ...);</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>ContinuousSpaceFactory factory = ContinuousSpaceFactoryFinder.createContinuousSpaceFactory(new HashMap());
+ContinuousSpace space = factory.createContinuousSpace("Simple Space", context, ...);</code></pre>
+</div></div>
+<div class="paragraph"><p>Each factory creates a projection of a specific type and requires the context
+that the projection is associated with and the projections name as well as
+additional arguments particular to the projection type. These additional
+arguments are marked above with "&#8230;" and are explicated on the individual pages
+for that projection.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_working_with_contexts">4. Working With Contexts</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_finding_contexts">4.1. Finding Contexts</h3>
 <div class="paragraph"><p>The Repast <em>ContextUtils</em> class provides a number of utility functions for finding
 Context instances from the model code.</p></div>
 <div class="admonitionblock">
@@ -1571,8 +1667,8 @@ referenced.</td>
 <pre><code>Context parentContext = ContextUtils.getParentContext (context)</code></pre>
 </div></div>
 </div>
-<div class="sect3">
-<h4 id="_adding_and_removing_objects_in_contexts">3.1.5. Adding and Removing Objects in Contexts</h4>
+<div class="sect2">
+<h3 id="_adding_and_removing_objects_in_contexts">4.2. Adding and Removing Objects in Contexts</h3>
 <div class="paragraph"><p>The Repast <em>Context</em> interface extends the standard Java <em>Collection</em> so that
 objects can be added or removed to or from contexts similar to how one would
 perform such operations with Java collections such as lists.</p></div>
@@ -1615,8 +1711,8 @@ To remove a context that is a subcontext:
 </li>
 </ul></div>
 </div>
-<div class="sect3">
-<h4 id="_finding_objects_in_contexts">3.1.6. Finding Objects in Contexts</h4>
+<div class="sect2">
+<h3 id="_finding_objects_in_contexts">4.3. Finding Objects in Contexts</h3>
 <div class="paragraph"><p>Objects (typically agents) contained in a context can be referenced in several
 ways.</p></div>
 <div class="ulist"><ul>
@@ -1657,8 +1753,8 @@ To get a random iterable collection of all objects of a specific class:
 }</code></pre>
 </div></div>
 </div>
-<div class="sect3">
-<h4 id="_implementing_custom_contexts">3.1.7. Implementing Custom Contexts</h4>
+<div class="sect2">
+<h3 id="_implementing_custom_contexts">4.4. Implementing Custom Contexts</h3>
 <div class="paragraph"><p>User models can implement their own custom Context implementations, either by
 creating a complete <em>Context</em> interface implementation from scratch, or by
 extending the Repast <em>DefaultContext</em> class.  Extending <em>DefaultContext</em> is the
@@ -1666,9 +1762,8 @@ recommended route since the default implementation contains all of the working
 implementations for the <em>Context</em> interface.  User context imlplementations can
 be used in model code in exactly the same way as the default Repast Context.</p></div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="_context_loading">3.2. Context Loading</h3>
+<h3 id="_context_loading">4.5. Context Loading</h3>
 <div class="paragraph"><p>Context loading is the process of populating the root model context with agents,
 projections, and sub-contexts and occurs when a model run is initialized, and
 may be thought of as the model&#8217;s "main" function that assembles the model
@@ -1711,75 +1806,215 @@ implementing user model class (e.g. MyContextBuilder) is not specified in the
 scenario.xml file until it is set via the runtime menu option.  To specify the
 user-defined ContextBuilder, see the section on <a href="#DataLoaders">Data Loaders</a>.</p></div>
 </div>
-<div class="sect2">
-<h3 id="_projections">3.3. Projections</h3>
-<div class="paragraph"><p>While Contexts create a container to hold your agents, Projections impose a
-structure upon those agents. Simply using Contexts, one could never write a
-model that provided more than a simple "soup" for the agents. The only way to
-reference other agents would be randomly. Projections allow the modeller to
-create a structure that defines relationships, whether they be spatial, network,
-or something else. A projection os attached to a particular Context and applies
-to all of the agents in that Context. This raises an important point:</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/important.png" alt="Important" />
-</td>
-<td class="content">An object (agent) must exist in a Context before it can be used in a
-projection.</td>
-</tr></table>
 </div>
-<div class="paragraph"><p>Multiple projections can be addeded to the same context therefore it is possible,
-for example, for a context to contain a grid, a geography, and a network.</p></div>
-<div class="paragraph"><p>Agents may reference projections through their containing context by specifying
-the name of the projections, e.g. "mynetwork":</p></div>
+</div>
+<div class="sect1">
+<h2 id="_scheduling">5. Scheduling</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There are basically three ways to work with the Repast Simphony Scheduler. No
+one is better than the other and they each have their specified purpose.</p></div>
+<div class="sect2">
+<h3 id="_directly_schedule_an_action">5.1. Directly Schedule an action</h3>
+<div class="paragraph"><p>This is similar to the way that actions have always been scheduled in repast
+with a slight twist. In this scenario, you get a schedule and tell it the when
+and what to run. An example of adding an item to the schedule this way is as
+follows:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Context context = ContextUtils.getContext (this)
-Projection projection = context.getProjection("mynetwork");</code></pre>
+<pre><code>//Specify that the action should start at tick 1 and execute every other tick
+ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
+
+//Schedule my agent to execute the move method given the specified schedule parameters.
+schedule.schedule(params, myAgent, "move");</code></pre>
 </div></div>
-<div class="paragraph"><p>The returned Projection object will have limited value unless is is cast to the
-specific type (e.g. Network or Grid):</p></div>
+<div class="paragraph"><p>The biggest change here is that instead of using one of the numerous methods to
+set up the parameters for the action like you would in repast 3, you just use
+an instance of ScheduleParameters. ScheduleParameters can be created using one
+of several convient factory methods if desired. A slight alteration of this is:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Context context = ContextUtils.getContext (this)
-Network network = (Network)context.getProjection("mynetwork");</code></pre>
+<pre><code>//Specify that the action should start at tick 1 and execute every other tick
+ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
+
+//Schedule my agent to execute the move method given the specified schedule parameters.
+schedule.schedule(params, myAgent, "move", "Forward", 4);</code></pre>
 </div></div>
-<div class="sect3">
-<h4 id="_creating_projections">3.3.1. Creating Projections</h4>
-<div class="paragraph"><p>In general, projections are created using a factory mechanism in the following
-way.</p></div>
-<div class="olist arabic"><ol class="arabic">
+<div class="paragraph"><p>This example schedules the same action with the same parameters, but passes
+arguments to the method that is to be called. The "Forward" and 4 will be passed
+as arguments to the method move. The assumption is that the signature for move
+looks like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>public void move(String direction, int distance)</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_schedule_with_annotations">5.2. Schedule with Annotations</h3>
+<div class="paragraph"><p>Java 5 introduced several new and exciting features (some of which are used
+above), but one of the most useful is Annotation support. Annotations, in java,
+are bits of metadata which can be attached to classes, methods or fields that
+are available at runtime to give the system more information. Notable uses
+outside repast includes the EJB3 spec which allows you to create ejbs using
+annotations without requiring such complex descriptors. For repast, we thought
+annotations were a perfect match for tying certain types of scheduling
+information to the methods that should be scheduled. The typical case where you
+would use annotations is where you have actions whose schedule is know at
+compile time. So for example, if you know that you want to have the paper
+delivered every morning, it would be logical to schedule the deliverPaper()
+method using annotations. Without going into extensive documentation about how
+annotations work (if you want that look at Java 5 Annotations), here is how you
+would schedule an action using annotations:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>@ScheduledMethod(start=1 , interval=2)
+public void deliverPaper()</code></pre>
+</div></div>
+<div class="paragraph"><p>The arguments of the annotation are similar to the properties for the
+ScheduleParameters object. One particularly nice feature of using annotations
+for scheduling is that you get keep the schedule information right next to the
+method that is scheduled, so it is easy to keep track of what is executing when.
+Most of the time, objects with annotations will automatically be added to the
+schedule, however, if you create a new object while your simulation is running,
+this may not be the case. Fortunately, the schedule object makes it very easy to
+schedule objects with annoations.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>//Add the annotated methods from the agent to the schedule.
+schedule.schedule(myAgent);</code></pre>
+</div></div>
+<div class="paragraph"><p>The schedule will search the object for any methods which have annotations and
+add those methods to the schedule. This type of scheduling is not designed to
+handle dynamic scheduling, but only scheduling, where the actions are well
+defined at compile time.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_schedule_with_watcher">5.3. Schedule with Watcher</h3>
+<div class="paragraph"><p>Scheduling using watchers is the most radical of the new scheduling approaches.
+Watchers are designed to be used for dynamic scheduling where a typical workflow
+is well understood by the model designer. Basically, a watcher allows an agent
+to be notified of a state change in another agent and schedule an event to occur
+as a result. The watcher is set up using an annotation (like above), but instead
+of using static times for the schedule parameters, the user specifies a query
+defining whom to watch and a query defining a trigger condition that must be met
+to execute the action. That&#8217;s a bit of a mouthfull, so let&#8217;s take a look at an
+example to hopefully clarify how this works. (this code is from the
+SimpleHappyAgent model which ships with Repast Simphony)</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>@Watch(watcheeClassName = "repast.demo.simple.SimpleHappyAgent",
+        watcheeFieldName = "happiness", query = "linked_from",
+        whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1,
+        scheduleTriggerPriority = 0)
+public void friendChanged(SimpleHappyAgent friend) {
+        if (Math.random() &gt; .25) {
+        this.setHappiness(friend.getHappiness());
+        } else {
+                this.setHappiness(Random.uniform.nextDouble());
+        }
+        System.out.println("Happiness Changed");
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>There is a fair amount going on in this, so we&#8217;ll parse it out piece by piece.
+First, note that there is a @Watch annotation before the method. This tells the
+Repast Simphony system that this is going to be watching other objects in order
+to schedule the friendChanged() method. The first parameter of the annotation is
+the watcheeClassName. This defines the type of agents that this object will be
+watching. The second argument, watcheeFieldName, defines what field we are
+interested in monitoring. This means that there is a variable in the class
+SimpleHappyAgent, that we want to monitor for changes. When it changes, this
+object will be notified. The query argument defines which instances of
+SimpleHappyAgent we want to monitor. In this case we are monitoring agents to
+whom we are linked. For more documentation on arguments for this query can be
+found at: Watcher Queries. The whenToTrigger argument specifies whether to
+execute the action immediately (before the other actions at this time are
+executed) or to wait until the next tick. The scheduleTriggerDelta defines how
+long to wait before scheduling the action (in ticks). Finally the
+scheduleTriggerPriority allows you to help define the order in which this action
+is executed at it&#8217;s scheduled time.</p></div>
+<div class="paragraph"><p>Let me give a practical example of how this would be used. Let&#8217;s say you are
+modelling electrical networks. You may want to say that if a transformer shuts
+down, at some time in the future a plant will shut down. So you make the plant a
+watcher of the transformer. The plant could watch a variable called status on
+the transformers to which it is connected, and when the transformer&#8217;s status
+changes to OFF, then the plant can schedule to shut down in the future. All done
+with a single annotation. It could look like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>@Watch(watcheeClassName = "infr.Transformer", watcheeFieldName = "status", query =
+        "linked_from", whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1)
+public void shutDown(){
+        operational = false;
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>Obviously that is a simple example, but it should give you an idea of how to
+work with scheduling this way.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_watcher_queries">5.4. Watcher Queries</h3>
+<div class="paragraph"><p>Watcher queries are boolean expressions that evaluate the watcher and the
+watchee with respect to each other and some projection or context. The context
+is the context where the watcher resides and the projections are those contained
+by that context. In the following "[arg]" indicates that the arg is optional.</p></div>
+<div class="ulist"><ul>
 <li>
 <p>
-Find the factory
+colocated - true if the watcher and the watchee are in the same context.
 </p>
 </li>
 <li>
 <p>
-Use the factory to create the projection
+linked_to [<em>network name</em>] - true if the watcher is linked to the watchee in
+any network, or optionally in the named network
 </p>
 </li>
-</ol></div>
+<li>
+<p>
+linked_from [<em>network name</em>] - true if the watcher is linked from the watchee
+in any network, or optionally in the named network
+</p>
+</li>
+<li>
+<p>
+within X [<em>network name</em>] - true if the path from the watcher to the watchee
+is less than or equal to X where X is a double precision number. This is either
+for any network in the context or in the named network.
+</p>
+</li>
+<li>
+<p>
+within_vn X [<em>grid name</em>] - true if the watchee is in the watcher&#8217;s von
+neumann neighborhood in any grid projection or in the named grid. X is the
+extent of the neighborhood in the x, y, [z] dimensions.
+</p>
+</li>
+<li>
+<p>
+within_moore X [<em>grid name</em>] - true if the watchee is in the watcher&#8217;s moore
+neighborhood in any grid projection or in the named grid. X is the extent of the
+neighborhood in the x, y, [z] dimensions.
+</p>
+</li>
+<li>
+<p>
+within X [<em>geography name</em>] true if the orthodromic distance from the watcher
+to the watchee is less than or equal to X meters, otherwise false. Watcher
+queries can be combined using the keywords not and and as well as ( to establish
+precedence. For example
+</p>
+</li>
+</ul></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
-Grid grid = factory.createGrid("Simple Grid", context, ...);</code></pre>
+<pre><code>within 2 'family' and not linked_to 'business'</code></pre>
 </div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>ContinuousSpaceFactory factory = ContinuousSpaceFactoryFinder.createContinuousSpaceFactory(new HashMap());
-ContinuousSpace space = factory.createContinuousSpace("Simple Space", context, ...);</code></pre>
-</div></div>
-<div class="paragraph"><p>Each factory creates a projection of a specific type and requires the context
-that the projection is associated with and the projections name as well as
-additional arguments particular to the projection type. These additional
-arguments are marked above with "&#8230;" and are explicated on the individual pages
-for that projection.</p></div>
+<div class="paragraph"><p>The queries are tested in WatcherQueryTests and defined as annotations in
+MyWatcher.</p></div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_grid_projections">3.4. Grid Projections</h3>
+</div>
+<div class="sect1">
+<h2 id="_grid_projections">6. Grid Projections</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>Grids are a mainstay of agent based simulation. Many of the earliest simulations such as Schelling&#8217;s
 Dynamic Models of Segregation, Heatbugs, and Sugarscape were originally built on grids.
 Grids are a 1 or more dimensional data structure that is divided up into a number of cells.
@@ -1795,8 +2030,8 @@ grids are still a powerful tool in an overall agent based toolkit.</p></div>
 * 2D, 3D and ND grids,
 * querying for Von Neumann and Moore neighborhoods,
 * Toroidal, Reflective and Fixed Border conditions.</p></div>
-<div class="sect3">
-<h4 id="_creating_a_grid">3.4.1. Creating A Grid</h4>
+<div class="sect2">
+<h3 id="_creating_a_grid">6.1. Creating A Grid</h3>
 <div class="paragraph"><p>Creating a grid in Repast Simphony is similar to creating the other projections.
 Your agents must exist in the context in order to exist in the grid, and you want
 to create the grid using a factory to make sure that it is initialized properly.</p></div>
@@ -1821,8 +2056,8 @@ methods (see the javadocs) allow you to create other types of grids. In general 
 have to specify a GridAdder and perhaps a GridPointTranslator when creating GridBuilderParameters. You
 will also have to specify the dimensions. These will be the last arguments to the method.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_gridadder">3.4.2. GridAdder</h4>
+<div class="sect2">
+<h3 id="_gridadder">6.2. GridAdder</h3>
 <div class="paragraph"><p>An object doesn&#8217;t exist in the projection until it is added to the context, and once it
 is added to the context, it is automatically added to the projection. But where do we put it in the grid?
 That&#8217;s where the GridAdder interface comes in. The adder allows you to specify where to place an object
@@ -1887,8 +2122,8 @@ properly. We&#8217;ll call the Interface Located:</p></div>
 <div class="paragraph"><p>This will add the object to the grid at the location specified by the agent itself. This doesn&#8217;t handle any
 errors or anything, but it should give you an idea of how to create your own adder.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_gridpointtranslators">3.4.3. GridPointTranslators</h4>
+<div class="sect2">
+<h3 id="_gridpointtranslators">6.3. GridPointTranslators</h3>
 <div class="paragraph"><p>A GridPointTranslator determines the <em>border behavior</em> of a grid. The border behavior is what happens
 when an agents moves past the border of a grid. Five kinds of border behavior classes are described
 below together with a description of how the behave in response to a Grid&#8217;s moveTo and moveBy (the
@@ -1927,8 +2162,8 @@ when crossing the border and moveBy will invoke the border behavior.
 </li>
 </ul></div>
 </div>
-<div class="sect3">
-<h4 id="_moving_on_a_grid">3.4.4. Moving on a Grid</h4>
+<div class="sect2">
+<h3 id="_moving_on_a_grid">6.4. Moving on a Grid</h3>
 <div class="paragraph"><p>Movement on the grid is accomplished with 3 methods.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1963,12 +2198,13 @@ degrees are incremented in a anti-clockwise fashion, such that 0 degrees is "eas
 180 is "west" and 270 is "south." This will return the new location as a GridPoint if the move was
 successful, otherwise it will return null. Like moveTo it will throw a SpatialException if the object is not
 already in the space or if the number of dimensions in the displacement is greater than the number of
-grid dimensions.
-Document</p></div>
+grid dimensions.</p></div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_continuous_space_projection">3.5. Continuous Space Projection</h3>
+</div>
+<div class="sect1">
+<h2 id="_continuous_space_projection">7. Continuous Space Projection</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>A continuous (real valued) space projection is a space in which an agents
 location is represented by floating point coordinates. For example, one agent
 may be at the point 2.133, 0 and another may be at 21.1, 234. This contrasts
@@ -1989,8 +2225,8 @@ Toroidal, Reflective and Fixed Border conditions.
 </p>
 </li>
 </ul></div>
-<div class="sect3">
-<h4 id="_creating_a_continuous_space">3.5.1. Creating A Continuous Space</h4>
+<div class="sect2">
+<h3 id="_creating_a_continuous_space">7.1. Creating A Continuous Space</h3>
 <div class="paragraph"><p>Creating a continuous space in Repast Simphony is similar to creating the other
 projections. Your agents must exist in the context in order to exist in the
 continuous space, and you want to create the continuous spaceusing a factory to
@@ -2005,8 +2241,8 @@ ContinuousSpace space = factory.createContinuousSpace("My Space", context,
 that will back the continuous space. Like the Grid, an Adder must be specified
 as well as a PointTranslator and the dimensions of the space.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_continuousspaceadder">3.5.2. ContinuousSpaceAdder</h4>
+<div class="sect2">
+<h3 id="_continuousspaceadder">7.2. ContinuousSpaceAdder</h3>
 <div class="paragraph"><p>Like most projections, an object doesn&#8217;t exist in the projection until it is added to the context, and once it
 is added to the context, it is automatically added to the projection. But where do we put it in the
 continuous space? That&#8217;s where the ContinuousSpaceAdder interface comes in. The adder allows you to
@@ -2071,8 +2307,8 @@ agents properly. We&#8217;ll call the Interface Located:</p></div>
 <div class="paragraph"><p>This will add the object to the grid at the location specified by the agent itself. This doesn&#8217;t handle any
 errors or anything, but it should give you an idea of how to create your own adder.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_pointtranslators">3.5.3. PointTranslators</h4>
+<div class="sect2">
+<h3 id="_pointtranslators">7.3. PointTranslators</h3>
 <div class="paragraph"><p>Just like the GridPointTranlator described on the Grid&#8217;s page, a PointTranslator determines the border
 behavior of a continuous space. The border behavior is what happens when an agents moves past the
 border of a continuous space. Five kinds of border behavior classes are described below together with a
@@ -2109,9 +2345,8 @@ moveTo and moveBy across the border will cross the border and enter the opposite
 </p>
 </li>
 </ul></div>
-</div>
 <div class="sect3">
-<h4 id="_moving_in_a_continuous_space">3.5.4. Moving in a Continuous Space</h4>
+<h4 id="_moving_in_a_continuous_space">7.3.1. Moving in a Continuous Space</h4>
 <div class="paragraph"><p>Movement on a continuous space is accomplished with 3 methods.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -2149,8 +2384,11 @@ already in the space or if the number of dimensions in the displacement is great
 continuous space dimensions.</p></div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_network_projections">3.6. Network Projections</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_network_projections">8. Network Projections</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>Many models use abstract relationships between agents in the form of networks and graphs. These connections
 may represent social connections, physical infrastructure connections or some other abstract
 connections. Repast provides tools to work with Networks or Graphs easily as a Projection.</p></div>
@@ -2158,8 +2396,8 @@ connections. Repast provides tools to work with Networks or Graphs easily as a P
 participate in a network, and agent must already exist in the context. A side affect of this is that any
 agent in a context is automatically a member of any networks associated with that context. The agent
 might not have any edges, but they will be in the network for all intents and purposes.</p></div>
-<div class="sect3">
-<h4 id="_network_builders">3.6.1. Network Builders</h4>
+<div class="sect2">
+<h3 id="_network_builders">8.1. Network Builders</h3>
 <div class="paragraph"><p>Networks are created using a NetworkBuilder. The NetworkBuilder class allows the user to tune the
 network creation to create specific kinds of networks. This "tuning" is done by calling various methods on
 the builder. If none of these methods are called then a simple "plain vanilla" network is created. For
@@ -2213,6 +2451,9 @@ builder.setEdgeCreator(myEdgeCreator);
 Network network = builder.buildNetwork()</code></pre>
 </div></div>
 <div class="paragraph"><p>Any networks created using this builder will then use that EdgeCreator.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_loading_networks_from_input_files">8.2. Loading networks from input files</h3>
 <div class="paragraph"><p>Networks can also be loaded from a file. Currently, the builder can load networks from UCINet&#8217;s dl format
 or from Excel. The relevant methods in the NetworkBuilder are:</p></div>
 <div class="listingblock">
@@ -2277,7 +2518,7 @@ column to be blank and as before, for the data to begin in cell 2,2.&lt;p&gt;</c
 <div class="listingblock">
 <div class="content">
 <pre><code>NetworkBuilder builder = new NetworkBuilder("Network", context, true);
-builder.load("./repast.simphony.core/test/repast/simphony/graph/matrices.xls",
+builder.load("./data/mynetwork.xls",
 NetworkFileFormat.EXCEL, myNodeCreator);
 Network net = builder.buildNetwork();</code></pre>
 </div></div>
@@ -2289,8 +2530,8 @@ topography (e.g. a Small World). For example,</p></div>
 <pre><code>// make sure the agents are in the context before
 // creating the network with the generator
 for (int i = 0; i &lt; 25; i++) {
-        VizAgent agent = new VizAgent("Agent-" + i);
-        context.add(agent);
+  VizAgent agent = new VizAgent("Agent-" + i);
+  context.add(agent);
 }
 NetworkGenerator gen = new WattsBetaSmallWorldGenerator(.2, 2, false);
 NetworkBuilder builder = new NetworkBuilder("Electricity Network", context, true);
@@ -2318,23 +2559,67 @@ NetworkGenerators whose constructors take the necessary NodeCreator etc. informa
 <div class="paragraph"><div class="title">Working with a network</div><p>Once you have a network, you can always add Relationships, but that&#8217;s not really that useful until you
 can query based on the relationships. The Network library provides all of the methods you would expect
 to have to access the objects and relationships in it. The particular methods in which you will be
-interested are:
-* getAdjacent(agent) - Retrieves all of the objects that share a relationship with this agent
-* getPredecessors(agent) - Retrieves all of the objects that have a relationship to this agent
-* getSuccessors(agent) - Retrieves all of the objects that have a relationship from this agent
-* getEdges(agent) - Retrieves all of the edges which have this agent as an endpoint
-* getOutEdges(agent) - Retrieves all of the edges which have this agent as a source
-* getInEdges(agent) - Retrieves all of the edges which have this agent as a target
-* addEdge(agent, agent) - Adds an edge between the two agents
-* addEdge(agent, agent, weight) - Adds an edge of the specified weight between the two agents
-* addEdge(RepastEdge edge) - Adds the specified edge. Assumes that the source and target of the
+interested are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+getAdjacent(agent) - Retrieves all of the objects that share a relationship with this agent
+</p>
+</li>
+<li>
+<p>
+getPredecessors(agent) - Retrieves all of the objects that have a relationship to this agent
+</p>
+</li>
+<li>
+<p>
+getSuccessors(agent) - Retrieves all of the objects that have a relationship from this agent
+</p>
+</li>
+<li>
+<p>
+getEdges(agent) - Retrieves all of the edges which have this agent as an endpoint
+</p>
+</li>
+<li>
+<p>
+getOutEdges(agent) - Retrieves all of the edges which have this agent as a source
+</p>
+</li>
+<li>
+<p>
+getInEdges(agent) - Retrieves all of the edges which have this agent as a target
+</p>
+</li>
+<li>
+<p>
+addEdge(agent, agent) - Adds an edge between the two agents
+</p>
+</li>
+<li>
+<p>
+addEdge(agent, agent, weight) - Adds an edge of the specified weight between the two agents
+</p>
+</li>
+<li>
+<p>
+addEdge(RepastEdge edge) - Adds the specified edge. Assumes that the source and target of the
 edge are part of the network
-* getEdge(agent, agent) - Get the edge, if any, between source and target agents</p></div>
+</p>
+</li>
+<li>
+<p>
+getEdge(agent, agent) - Get the edge, if any, between source and target agents
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>In addition to these, there are also many other methods. See the javadoc for Network for more info.</p></div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_gis_projections">3.7. GIS Projections</h3>
+</div>
+<div class="sect1">
+<h2 id="_gis_projections">9. GIS Projections</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>Repast Simphony&#8217;s GIS support is based on the Geography projection. A Geography is essentially a space
 in which agents are associated with a spatial geometry (polygon, point, or line). Agents are stored by type in
 layers within the Geography and agents of the same type must have the same geometry. The geography
@@ -2367,8 +2652,8 @@ In the absence of any user supplied CRS, the default is WGS84 as defined by Geot
 DefaultGeographicCRS.WGS84. That CRS uses (longitude, latitude) coordinates with longitude
 values increasing East and latitude values increasing North. Angular units are degrees and
 prime meridian is Greenwich.</p></div>
-<div class="sect3">
-<h4 id="_moving_in_a_geography">3.7.1. Moving in a Geography</h4>
+<div class="sect2">
+<h3 id="_moving_in_a_geography">9.1. Moving in a Geography</h3>
 <div class="paragraph"><p>Moving a Geography is typically accomplished using the following method</p></div>
 <div class="listingblock">
 <div class="content">
@@ -2449,8 +2734,8 @@ Iterable&lt;T&gt; getObjectsWithin(Envelope envelope);</code></pre>
 the agents that touch another agent or geometry, and so on. See the classes in the
 repast.simphony.query.space.gis package for more information.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_loading_agent_data_from_shapefiles">3.7.2. Loading agent data from Shapefiles</h4>
+<div class="sect2">
+<h3 id="_loading_agent_data_from_shapefiles">9.2. Loading agent data from Shapefiles</h3>
 <div class="paragraph"><p>Agent geometry data can be loaded from standard ESRI shapefiles using the GeoToos API.
 An exmaple of creating a list of features from a shapefile filename string is provided
 below.</p></div>
@@ -2503,9 +2788,8 @@ agent geometry in the Geography projection via:</p></div>
 <pre><code>Geometry geom = (Geometry)feature.getDefaultGeometry();
 geography.move(agent, geom);</code></pre>
 </div></div>
-</div>
 <div class="sect3">
-<h4 id="_coverage_raster_layers">3.7.3. Coverage Raster Layers</h4>
+<h4 id="_coverage_raster_layers">9.2.1. Coverage Raster Layers</h4>
 <div class="paragraph"><p>Repast Geography projections support geolocated 2D grid coverage layers that
 provide storage and reference of integer and floating point data.  Coverage layers
 can be stored in a Geography projection as a GeoTools GridCoverage2D via:</p></div>
@@ -2569,8 +2853,9 @@ WritableGridCoverage2D coverage2 = RepastCoverageFactory.createWritableByteIndex
         File file, boolean forceLonLatAxisOrder)</code></pre>
 </div></div>
 </div>
-<div class="sect3">
-<h4 id="_network_projections_in_gis">3.7.4. Network Projections in GIS</h4>
+</div>
+<div class="sect2">
+<h3 id="_network_projections_in_gis">9.3. Network Projections in GIS</h3>
 <div class="paragraph"><p>Repast Network projections can be displayed on a GIS display just like any other
 Repast Display type using the runtime Display wizards.  In this case no additional
 code is required since the GIS display will handle the layout of the network.  However,
@@ -2594,10 +2879,12 @@ the GISNetworkListener will automatically create or destroy the associated line 
 in the geograhy.</p></div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_random_numbers">10. Random Numbers</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_random_numbers">3.8. Random Numbers</h3>
-<div class="sect3">
-<h4 id="_randomregistry">3.8.1. RandomRegistry</h4>
+<h3 id="_randomregistry">10.1. RandomRegistry</h3>
 <div class="paragraph"><p>Like many of the other registries in Simphony, the RandomRegistry is available
 through the current RunState (through its getRandomRegistry() method). This
 interface provides the capability for storing named random distributions and
@@ -2605,8 +2892,8 @@ retrieving them. It also can set and retrieve the seed that a stream will use
 (or is using) for streams it creates through its addStream(String, Class, &#8230;)
 methods.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_randomhelper">3.8.2. RandomHelper</h4>
+<div class="sect2">
+<h3 id="_randomhelper">10.2. RandomHelper</h3>
 <div class="paragraph"><p>The RandomRegistry by itself is somewhat difficult to work with, to simplify
 using it the RandomHelper class was created. This provides methods for creating
 the random streams that will be used, and for retrieving the streams after they
@@ -2635,8 +2922,8 @@ RandomHelper&#8217;s default methods for any uniform numbers, but for producing
 multiple streams or a non-Uniform stream you have to use the methods that
 take in a stream name. Each of these separate cases will be walked through next.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_single_stream_default_use">3.8.3. Single Stream Default Use</h4>
+<div class="sect2">
+<h3 id="_single_stream_default_use">10.3. Single Stream Default Use</h3>
 <div class="paragraph"><p>When working with the default Uniform stream there is really only one thing you
 may want to look at manipulating, the default stream&#8217;s random seed. This is set
 through the RandomHelper&#8217;s setSeed(int) method. Setting the random seed should
@@ -2671,8 +2958,8 @@ move based on some random condition, that could look like:</p></div>
 and 1, in (0, 1), if the random number is greater than the agent&#8217;s happiness it
 will move.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_multiple_stream_non_uniform_stream_usage">3.8.4. Multiple Stream / Non Uniform Stream Usage</h4>
+<div class="sect2">
+<h3 id="_multiple_stream_non_uniform_stream_usage">10.4. Multiple Stream / Non Uniform Stream Usage</h3>
 <div class="paragraph"><p>As with the single streams, you generally are going to want to create your
 Random number streams when your model is initializing, primarily in a
 ParameterSetter, at the point the ParameterSetter will be executed the run&#8217;s
@@ -2731,201 +3018,10 @@ complicated than it sounds, and functions simply like:</p></div>
 </div></div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_scheduling">3.9. Scheduling</h3>
-<div class="paragraph"><p>There are basically three ways to work with the Repast Simphony Scheduler. No
-one is better than the other and they each have their specified purpose.</p></div>
-<div class="paragraph"><div class="title">Directly Schedule an action</div><p>This is similar to the way that actions have always been scheduled in repast
-with a slight twist. In this scenario, you get a schedule and tell it the when
-and what to run. An example of adding an item to the schedule this way is as
-follows:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>//Specify that the action should start at tick 1 and execute every other tick
-ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
-
-//Schedule my agent to execute the move method given the specified schedule parameters.
-schedule.schedule(params, myAgent, "move");</code></pre>
-</div></div>
-<div class="paragraph"><p>The biggest change here is that instead of using one of the numerous methods to
-set up the parameters for the action like you would in repast 3, you just use
-an instance of ScheduleParameters. ScheduleParameters can be created using one
-of several convient factory methods if desired. A slight alteration of this is:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>//Specify that the action should start at tick 1 and execute every other tick
-ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
-
-//Schedule my agent to execute the move method given the specified schedule parameters.
-schedule.schedule(params, myAgent, "move", "Forward", 4);</code></pre>
-</div></div>
-<div class="paragraph"><p>This example schedules the same action with the same parameters, but passes
-arguments to the method that is to be called. The "Forward" and 4 will be passed
-as arguments to the method move. The assumption is that the signature for move
-looks like this:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public void move(String direction, int distance)</code></pre>
-</div></div>
-<div class="paragraph"><div class="title">Schedule with Annotations</div><p>Java 5 introduced several new and exciting features (some of which are used
-above), but one of the most useful is Annotation support. Annotations, in java,
-are bits of metadata which can be attached to classes, methods or fields that
-are available at runtime to give the system more information. Notable uses
-outside repast includes the EJB3 spec which allows you to create ejbs using
-annotations without requiring such complex descriptors. For repast, we thought
-annotations were a perfect match for tying certain types of scheduling
-information to the methods that should be scheduled. The typical case where you
-would use annotations is where you have actions whose schedule is know at
-compile time. So for example, if you know that you want to have the paper
-delivered every morning, it would be logical to schedule the deliverPaper()
-method using annotations. Without going into extensive documentation about how
-annotations work (if you want that look at Java 5 Annotations), here is how you
-would schedule an action using annotations:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>@ScheduledMethod(start=1 , interval=2)
-public void deliverPaper()</code></pre>
-</div></div>
-<div class="paragraph"><p>The arguments of the annotation are similar to the properties for the
-ScheduleParameters object. One particularly nice feature of using annotations
-for scheduling is that you get keep the schedule information right next to the
-method that is scheduled, so it is easy to keep track of what is executing when.
-Most of the time, objects with annotations will automatically be added to the
-schedule, however, if you create a new object while your simulation is running,
-this may not be the case. Fortunately, the schedule object makes it very easy to
-schedule objects with annoations.</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>//Add the annotated methods from the agent to the schedule.
-schedule.schedule(myAgent);</code></pre>
-</div></div>
-<div class="paragraph"><p>The schedule will search the object for any methods which have annotations and
-add those methods to the schedule. This type of scheduling is not designed to
-handle dynamic scheduling, but only scheduling, where the actions are well
-defined at compile time.</p></div>
-<div class="paragraph"><div class="title">Schedule with Watcher</div><p>Scheduling using watchers is the most radical of the new scheduling approaches.
-Watchers are designed to be used for dynamic scheduling where a typical workflow
-is well understood by the model designer. Basically, a watcher allows an agent
-to be notified of a state change in another agent and schedule an event to occur
-as a result. The watcher is set up using an annotation (like above), but instead
-of using static times for the schedule parameters, the user specifies a query
-defining whom to watch and a query defining a trigger condition that must be met
-to execute the action. That&#8217;s a bit of a mouthfull, so let&#8217;s take a look at an
-example to hopefully clarify how this works. (this code is from the
-SimpleHappyAgent model which ships with Repast Simphony)</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>@Watch(watcheeClassName = "repast.demo.simple.SimpleHappyAgent",
-        watcheeFieldName = "happiness", query = "linked_from",
-        whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1,
-        scheduleTriggerPriority = 0)
-public void friendChanged(SimpleHappyAgent friend) {
-        if (Math.random() &gt; .25) {
-        this.setHappiness(friend.getHappiness());
-        } else {
-                this.setHappiness(Random.uniform.nextDouble());
-        }
-        System.out.println("Happiness Changed");
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>There is a fair amount going on in this, so we&#8217;ll parse it out piece by piece.
-First, note that there is a @Watch annotation before the method. This tells the
-Repast Simphony system that this is going to be watching other objects in order
-to schedule the friendChanged() method. The first parameter of the annotation is
-the watcheeClassName. This defines the type of agents that this object will be
-watching. The second argument, watcheeFieldName, defines what field we are
-interested in monitoring. This means that there is a variable in the class
-SimpleHappyAgent, that we want to monitor for changes. When it changes, this
-object will be notified. The query argument defines which instances of
-SimpleHappyAgent we want to monitor. In this case we are monitoring agents to
-whom we are linked. For more documentation on arguments for this query can be
-found at: Watcher Queries. The whenToTrigger argument specifies whether to
-execute the action immediately (before the other actions at this time are
-executed) or to wait until the next tick. The scheduleTriggerDelta defines how
-long to wait before scheduling the action (in ticks). Finally the
-scheduleTriggerPriority allows you to help define the order in which this action
-is executed at it&#8217;s scheduled time.</p></div>
-<div class="paragraph"><p>Let me give a practical example of how this would be used. Let&#8217;s say you are
-modelling electrical networks. You may want to say that if a transformer shuts
-down, at some time in the future a plant will shut down. So you make the plant a
-watcher of the transformer. The plant could watch a variable called status on
-the transformers to which it is connected, and when the transformer&#8217;s status
-changes to OFF, then the plant can schedule to shut down in the future. All done
-with a single annotation. It could look like this:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>@Watch(watcheeClassName = "infr.Transformer", watcheeFieldName = "status", query =
-        "linked_from", whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1)
-public void shutDown(){
-        operational = false;
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>Obviously that is a simple example, but it should give you an idea of how to
-work with scheduling this way.</p></div>
 </div>
-<div class="sect2">
-<h3 id="_watcher_queries">3.10. Watcher Queries</h3>
-<div class="paragraph"><p>Watcher queries are boolean expressions that evaluate the watcher and the
-watchee with respect to each other and some projection or context. The context
-is the context where the watcher resides and the projections are those contained
-by that context. In the following "[arg]" indicates that the arg is optional.</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-colocated - true if the watcher and the watchee are in the same context.
-</p>
-</li>
-<li>
-<p>
-linked_to [<em>network name</em>] - true if the watcher is linked to the watchee in
-any network, or optionally in the named network
-</p>
-</li>
-<li>
-<p>
-linked_from [<em>network name</em>] - true if the watcher is linked from the watchee
-in any network, or optionally in the named network
-</p>
-</li>
-<li>
-<p>
-within X [<em>network name</em>] - true if the path from the watcher to the watchee
-is less than or equal to X where X is a double precision number. This is either
-for any network in the context or in the named network.
-</p>
-</li>
-<li>
-<p>
-within_vn X [<em>grid name</em>] - true if the watchee is in the watcher&#8217;s von
-neumann neighborhood in any grid projection or in the named grid. X is the
-extent of the neighborhood in the x, y, [z] dimensions.
-</p>
-</li>
-<li>
-<p>
-within_moore X [<em>grid name</em>] - true if the watchee is in the watcher&#8217;s moore
-neighborhood in any grid projection or in the named grid. X is the extent of the
-neighborhood in the x, y, [z] dimensions.
-</p>
-</li>
-<li>
-<p>
-within X [<em>geography name</em>] true if the orthodromic distance from the watcher
-to the watchee is less than or equal to X meters, otherwise false. Watcher
-queries can be combined using the keywords not and and as well as ( to establish
-precedence. For example
-</p>
-</li>
-</ul></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>within 2 'family' and not linked_to 'business'</code></pre>
-</div></div>
-<div class="paragraph"><p>The queries are tested in WatcherQueryTests and defined as annotations in
-MyWatcher.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_gui_parameters_and_probes">3.11. GUI Parameters and Probes</h3>
+<div class="sect1">
+<h2 id="_gui_parameters_and_probes">11. GUI Parameters and Probes</h2>
+<div class="sectionbody">
 <div class="paragraph"><div class="title">GUI Parameters</div><p>GUI Parameters are the simulation parameters that appear in the parameters view
 in the application GUI. These parameters are automatically created from the
 parameters XML file or from any @Parameters method annotations that are used in
@@ -3203,12 +3299,11 @@ For example:</p></div>
 </div></div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="_batch_runs">4. Batch Runs</h2>
+<h2 id="_batch_runs">12. Batch Runs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_batch_parameters">4.1. Batch Parameters</h3>
+<h3 id="_batch_parameters">12.1. Batch Parameters</h3>
 <div class="paragraph"><p>Repast Simphony supports the creation of a parameter sweep through an xml file or through a scripted
 bsf file. Both define a sweep through the defintion of parameter setters. These setters may be constant
 setters such that the parameter value remains at its initial value, or the setters may define a list of values
@@ -3329,10 +3424,10 @@ will use the same random seed.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_advanced_topics">5. Advanced Topics</h2>
+<h2 id="_advanced_topics">13. Advanced Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_adding_controller_actions">5.1. Adding Controller Actions</h3>
+<h3 id="_adding_controller_actions">13.1. Adding Controller Actions</h3>
 <div class="paragraph"><p>Controller actions can be added and integrated into the controller tree via
 plugin extension points. The repast.simphony.core plugin defines the following:</p></div>
 <div class="listingblock">
@@ -3422,10 +3517,10 @@ files and related code is a good place to learn more.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_developer_topics">6. Developer Topics</h2>
+<h2 id="_developer_topics">14. Developer Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_creating_a_dynamic_wizard">6.1. Creating a Dynamic Wizard</h3>
+<h3 id="_creating_a_dynamic_wizard">14.1. Creating a Dynamic Wizard</h3>
 <div class="paragraph"><p>I&#8217;ve made a wizard framework that dynamically loads its options based on
 "options" specified in plugin.xmls. I&#8217;ve used it in enough places that I&#8217;ve gone
 ahead and generalized it. If you wish to use this setup I made it fairly
@@ -3530,7 +3625,7 @@ steps (as needed).
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_freezedrying_of_custom_projections">6.2. Enabling FreezeDrying of Custom Projections</h3>
+<h3 id="_enabling_freezedrying_of_custom_projections">14.2. Enabling FreezeDrying of Custom Projections</h3>
 <div class="paragraph"><p>When building a new Projection, some things should be done if it is to be integrated into the whole
 system. In particular, if it is to be freeze dryable, some special considerations may need to be made.
 Since the freeze dryer generally just writes out all the fields of an object, this may or may not function
@@ -3621,7 +3716,7 @@ method.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-09 11:13:17 Central Standard Time
+Last updated 2018-11-12 22:03:31 Central Standard Time
 </div>
 </div>
 </body>

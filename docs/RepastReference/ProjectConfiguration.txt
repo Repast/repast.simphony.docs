@@ -1,17 +1,24 @@
 == Project Configuration
 
-//Creating a New Repast Project
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// TODO
+=== Creating a New Repast Project
+.TODO
+****
+TODO
+****
 
-//Updating an Existing Repast Project
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// TODO
+=== Creating a New ReLogo Project
+.TODO
+****
+TODO
+****
 
-//Adding Repast to an Existing Project
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// TODO
+=== Updating an Existing Repast Project
+.TODO
+****
+TODO
+****
 
+=== Adding Repast to an Existing Project
 If you have an existing Java project in which you would like to reference Repast 
 classes, you can right click on the project and select Repast Simphony -> Add 
 Repast Simphony to this Project. This will add the Repast libraries to the 
@@ -184,7 +191,7 @@ For example:
 </context>
 -----
 
-will create a 200x100 continuous space with an id of "MySpace." The border rule 
+will create a 200 x 100 continuous space with an id of "MySpace". The border rule 
 for the grid is "strict" so any movement across the border will cause an error.
 
 .Network Attributes
@@ -206,11 +213,10 @@ For example:
 </context>
 ----
 
-will create a network with an id of "MyNetwork." The network will be directed 
+will create a network with an id of "MyNetwork". The network will be directed 
 and use the default RepastEdge as the edge type.
 
-Distributing Your Model
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Distributing Your Model
 
 // TODO Needs updating
 
@@ -226,3 +232,9 @@ To start the Install Builder, select Build Installer in the run menu
 The builder make take a few minutes to complete the installer. Once this process 
 is complete, a message "BUILD SUCCESSFUL" should be visible in the Console 
 window.
+
+=== Importing a Model
+.TODO
+****
+TODO
+****

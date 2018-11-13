@@ -1,0 +1,275 @@
+== GIS Projections
+
+// TODO add GIS fundamentals such as feature type geometries and raster data
+
+Repast Simphony's GIS support is based on the Geography projection. A Geography is essentially a space
+in which agents are associated with a spatial geometry (polygon, point, or line). Agents are stored by type in
+layers within the Geography and agents of the same type must have the same geometry. The geography
+can be queried spatially to return all the agents within some particular area. When a geography is
+displayed the agents are displayed in typical GIS fashion and represented by their associated geometries.
+Repast Simphony uses Geotools and the Java Topology Suite extensively for its GIS support.  Geography 
+projections also support raster data (via GeoTools' GridCoverage) which can be loaded into models and accessed
+by agents or simply used as a background layers in the GIS displays.  Currently supported
+raster file types include GeoTIFF, ArcGrid, and World image files.
+
+.Creating a Geography
+Creating a geography in repast simphony is similar to creating the other projections. Your agents must
+exist in the context in order to exist in the geography, and you want to create the geograhy using a
+factory to make sure that it is initialized properly.
+
+----
+GeographyParameters<Object> params = new GeographyParameters<Object>();
+GeographyFactory factory = GeographyFactoryFinder.createGeographyFactory(null);
+Geography geography = factory.createGeography("GeograhpyName", context, params);
+----
+
+This should be fairly straightforward. We create a GeographyFactory and the create the Geography with
+that, passing the name of the Geography, the associated context, and the GeographyParameters.
+
+.GeographyParameters
+GeographyParameters can be used to set the "adder" and the CoordinateReferenceSystem for a
+Geography.
+
+.Adders
+The adder controls how any agent added to the context is added to the Geography. The default is a
+SimpleAdder which although it makes the Geography aware of the agent, it does not move the agent into
+the Geography by associating it with some Geometry. Custom adders can be created by implementing
+the GISAdder interface. A typical custom adder would call Geography.move to move an agent into the
+Geography and associate it with a Geometry in some model specific manner.
+
+.CoordinateReferenceSystem
+
+// TODO paragraph on GeoTools axis order and Default WGS84
+
+Using GeographyParameters, you can define the CoordinateReferenceSystem for the created Geography.
+In the absence of any user supplied CRS, the default is WGS84 as defined by Geotools'
+DefaultGeographicCRS.WGS84. That CRS uses (longitude, latitude) coordinates with longitude
+values increasing East and latitude values increasing North. Angular units are degrees and
+prime meridian is Greenwich.
+
+
+=== Moving in a Geography
+Moving a Geography is typically accomplished using the following method
+
+----
+move(T agent, Geometry geom)
+----
+
+The first time this is called for an agent that agent is moved into the Geography and associated with the
+specific geometry. The specific geometry establishes the agent's location in the geographical space and
+subsequent queries of the Geography will make use of that Geometry. If this is the first time an agent of
+this Class has been move in the Geography that type of agent will become associated with that Geometry
+type. For example, if the agent's type is the Java class anl.model.Truck, and the Geometry is a Point,
+then all Trucks are considered to be Points and any Truck moved in the Geography must have a Point
+geometry.
+
+An agent's current Geometry (i.e. its location) can be retrieved with:
+
+----
+Geometry getGeometry(Object agent);
+----
+
+This returned Geometry can be used to move the agent without recreating a Geometry and passing that
+new Geometry to the move method. For example, where "this" refers to an agent,
+
+----
+Geometry geom = geography.getGeometry(this);
+Coordinate coord = geom.getCoordinate();
+coord.x += .005;
+coord.y += .005;
+geography.move(this, geom);
+----
+
+In this case, we know the Geometry is a Point and so it has a single coordinate whose x and y values we
+can change. Note that its important to call move here to register the move with the Geography.
+Geography has additional move methods that can move by displacement etc.:
+
+----
+/**
+* Displaces the specified object by the specified lon and lat amount.
+*
+* @param object the object to move
+* @param lonShift the amount to move longitudinaly
+* @param latShift the amount to move latitudinaly
+* @return the new geometry of the object
+*/
+Geometry moveByDisplacement(T object, double lonShift, double latShift);
+
+/**
+* Moves the specified object the specified distance along the specified angle.
+*
+* @param object the object to move
+* @param distance the distance to move
+* @param unit the distance units. This must be convertable to meters
+* @param angleInRadians the angle along which to move
+*
+* @return the geometric location the object was moved to
+*/
+Geometry moveByVector(T object, double distance, Unit unit, double angleInRadians);
+
+/**
+* Moves the specified object the specified distance along the specified angle.
+*
+* @param object the object to move
+* @param distance the distance to move in meters
+* @param angleInRadians the angle along which to move
+*
+* @return the geometric location the object was moved to
+*/
+Geometry moveByVector(T object, double distance, double angleInRadians);
+----
+
+.Queries
+A Geography can also be queried spatially to return the objects within a particular envelope.
+
+----
+/**
+* Gets an iterable over all the objects within the specified envelope.
+*
+* @param envelope the bounding envelope
+* @return an iterable over all the objects within the specified location.
+*/
+Iterable<T> getObjectsWithin(Envelope envelope);
+----
+
+Additional queries are available for getting agents that intersect another agent or geometry, for getting
+the agents that touch another agent or geometry, and so on. See the classes in the
+repast.simphony.query.space.gis package for more information.
+
+=== Loading agent data from Shapefiles
+Agent geometry data can be loaded from standard ESRI shapefiles using the GeoToos API.
+An exmaple of creating a list of features from a shapefile filename string is provided 
+below.
+
+TIP: The Repast Geography demo provides examples of loading agent shapes from shapefiles.
+
+----
+private List<SimpleFeature> loadFeaturesFromShapefile(String filename){
+	URL url = null;
+	try {
+		url = new File(filename).toURL();
+	} catch (MalformedURLException e1) {
+		e1.printStackTrace();
+	}
+
+	List<SimpleFeature> features = new ArrayList<SimpleFeature>();
+		
+	// Try to load the shapefile
+	SimpleFeatureIterator fiter = null;
+	ShapefileDataStore store = null;
+	store = new ShapefileDataStore(url);
+
+	try {
+		fiter = store.getFeatureSource().getFeatures().features();
+
+		while(fiter.hasNext()){
+			features.add(fiter.next());
+		}
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	finally{
+		fiter.close();
+		store.dispose();
+	}
+		
+	return features;
+}
+----
+
+After the list of SimpleFeature objects is obtained, they can be assigned to the
+agent geometry in the Geography projection via:
+
+----
+Geometry geom = (Geometry)feature.getDefaultGeometry();
+geography.move(agent, geom);
+----
+
+==== Coverage Raster Layers
+Repast Geography projections support geolocated 2D grid coverage layers that 
+provide storage and reference of integer and floating point data.  Coverage layers
+can be stored in a Geography projection as a GeoTools GridCoverage2D via:
+
+----
+geography.addCoverage("My coverage", coverage);
+----
+
+TIP: The Repast Geography demo provides examples of using coverage layers.
+
+The Geography.addCoverage(...) method assigns the provided coverage and name to the
+Geography and can be later referenced using:
+
+----
+GridCoverage2D coverage = geography.getCoverage("My coverage");
+---- 
+
+Repast Geography supports any valid GridCoverage2D as described by the
+http://docs.geotools.org/latest/userguide/library/coverage/grid.html[GeoTools API].
+
+Instances of GridCoverage2D usually created through the GeoTools API from various
+file loaders are typically read-only and cannot be modified in memory.  The 
+RepastCoverageFactory provides a number of static methods for creating writable coverages
+that can be both written to and read from using agent code.  For example, to create
+a 2D coverage of size 10x10 grid cells with float data and data range of 0-10:
+
+----
+WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFloat(
+				"My data", 10, 10, env, null, -1, 0, 10, -1);
+----
+
+The env argument is a Geotools ReferenceEnevelope that defines the lat/lon coordinates
+of the grid coverage, for example:
+
+----
+ReferencedEnvelope env = new ReferencedEnvelope(-87.761278, -87.742395, 
+				41.778022, 41.791462, DefaultGeographicCRS.WGS84);
+----
+
+The float and double-precision coverage layers support any continuous data values up to the maximum
+allowed by the respective data types.  GIS raster data can also be (and is often) stored as discreete
+category type data using integer or byte data.  The RepastCoverageFactory provides the 
+ability to create writable indexed coverages with user-defined category data.  For example:
+
+----
+// Simple 3-category coverage with no-data
+Category[] categories	= new Category[] {	
+	 new Category("No data", Color.BLACK, 0),
+	 new Category("Level 1", Color.GREEN, 1),
+	 new Category("Level 2", Color.BLUE, 2),
+	 new Category("Level 3", Color.RED, 3)
+};
+WritableGridCoverage2D coverage2 = RepastCoverageFactory.createWritableByteIndexedCoverage(
+		"My data indexed", 100, 200, env, categories, null, 0);
+----
+
+Finally, writable coverage layers can be loaded from raster data files using:
+
+----
+WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFromFile(
+	File file, boolean forceLonLatAxisOrder)
+----
+
+=== Network Projections in GIS
+Repast Network projections can be displayed on a GIS display just like any other
+Repast Display type using the runtime Display wizards.  In this case no additional
+code is required since the GIS display will handle the layout of the network.  However,
+there are scenarios where a modeller might want the Geography projection to be "aware"
+of Network projection data and events, say in the case of performing an intersection
+query between a network line and an agent geometry.  
+
+Repast provides a utility class GISNetworkListener that couples a Geography and Network
+and updates the Geography when Network events occur.   The GISNetworkListener will
+create and move line geometries in a Geography Projection when changes occur in a Nework.
+GISNetworkListener is used as follows:
+
+----
+new GISNetworkListener(context, geography, network);
+----
+
+GISNetworkListener does not need to be storred locally as it assigns itself as a projection
+listener on both the network and the geograhy.   GISNetworkListener should be called
+before any network or geography objects are added.   When agents move in a geograhy,
+the GISNetworkListener will automatically update the location of the network edge line
+geometries in the geograhy.  Additionaly, when network edges are created or destroyed,
+the GISNetworkListener will automatically create or destroy the associated line features
+in the geograhy.

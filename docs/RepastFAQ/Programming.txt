@@ -3,12 +3,8 @@
 === Where can I find example models?
 
 A library of example Repast models is included with Repast.  Please see the 
-Quick Start guide for instructions on using the example models.
-
-.TODO
-****
-Include the link to quick start.
-****
+https://repast.github.io/quick_start.html[Repast Quick Start guide] for instructions on using 
+the example models.
 
 === Do I have to use Java or Groovy for my agents?
 Repast Simphony accepts both user-defned POJOs (Plain Old Java Objects) as well
@@ -19,16 +15,18 @@ Java, please see the Groovy home page http://groovy-lang.org/ and the very
 informative book "Groovy in Action" by Dierk Koenig. https://www.manning.com/books/groovy-in-action
 
 === How do I create a new Repast project?
-.TODO
-****
-Include the link to quick start.
-****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#_creating_a_new_repast_project[Creating a New Repast Project].
 
 === How do I create a new ReLogo project?
-.TODO
-****
-Include the link to quick start.
-****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#_creating_a_new_relogo_project[Creating a New ReLogo Project].
+
+=== How do I update an existing Repast or ReLogo Project?
+If you created a Repast or ReLogo project using a previous version of Repast Simphony
+and would like to update the project files to a newer version of Repast, see the 
+Repast Reference manual section 
+link:../RepastReference/RepastReference.html#_updating_an_existing_repast_project[Updating an Existing Repast Project].
 
 === How can I connect my model results to software tools for data analysis
 .TODO
@@ -59,6 +57,10 @@ TODO
 *****
 TODO
 *****
+
+=== How can I load a network from an Excel file?
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#_loading_networks_from_input_files[Loading Networks from input files].
 
 === Scheduling
 ==== How can I schedule an agent behavior to execute at a regular tick interval?

@@ -1,0 +1,161 @@
+== Continuous Space Projection
+A continuous (real valued) space projection is a space in which an agents 
+location is represented by floating point coordinates. For example, one agent 
+may be at the point 2.133, 0 and another may be at 21.1, 234. This contrasts 
+with the discrete integer valued grid projections. However, much of the behavior 
+of a continuous space like that of the grid, so it maybe worthwhile reading 
+those Grid Projections pages first.
+
+Repast Simphony provides a rich set of tools to work with grids of all kinds. 
+Specifically, it supports
+
+* 1D, 2D, 3D and ND continuous spaces,
+
+* Toroidal, Reflective and Fixed Border conditions.
+
+=== Creating A Continuous Space
+Creating a continuous space in Repast Simphony is similar to creating the other 
+projections. Your agents must exist in the context in order to exist in the 
+continuous space, and you want to create the continuous spaceusing a factory to 
+make sure that it is initialized properly. 
+
+----
+ContinuousSpace factory = ContinuousSpaceFactoryFinder.createGridFactory(new HashMap());
+ContinuousSpace space = factory.createContinuousSpace("My Space", context, 
+	continuousAdder, pointTranslator, 10, 10);
+----
+
+Pass the method a name (so that you can look up your space later) and the context 
+that will back the continuous space. Like the Grid, an Adder must be specified 
+as well as a PointTranslator and the dimensions of the space.
+
+=== ContinuousSpaceAdder
+Like most projections, an object doesn't exist in the projection until it is added to the context, and once it
+is added to the context, it is automatically added to the projection. But where do we put it in the
+continuous space? That's where the ContinuousSpaceAdder interface comes in. The adder allows you to
+specify where to place an object once it has been added to the context. It has a simple method:
+
+----
+public void add(ContinuousSpace destination, U object);
+----
+
+n this case, the destination is the projection to which we
+are adding our object (ContinuousSpace). Object is the object we want to add to that projection. So,
+<U> is whatever we're adding. Basically, to implement this interface, you just take in an object and do
+something with it in the supplied projection. Ok, let's get a bit more concrete. Let's say that we have a
+ContinuousSpace and when an object is added to the continuous space, we want to locate it randomly.
+Here is the implementation for that:
+
+----
+public void add(ContinuousSpace<T> space, T obj) {
+  Dimensions dims = space.getDimensions();
+  double[] location = new double[dims.size()];
+  findLocation(location, dims);
+  while (!space.moveTo(obj, location)) {
+    findLocation(location, dims);
+  }
+}
+private void findLocation(double[] location, Dimensions dims) {
+  for (int i = 0; i < location.length; i++) {
+    location[i] = RandomHelper.getDefault().nextDoubleFromTo(0,dims.getDimension(i) - 1);
+  }
+}
+----
+
+The add method randomly generates locations and puts the objects into that location (assuming the grid
+allows the object to be there). This little bit of code sets up a random space for you as you add agents.
+Not surprisingly, this is the code for the RandomCartesianAdder which comes with Repast Simphony.
+This behaviour may not be what you want. The most basic Adder we provide is the
+SimpleCartesianAdder. This Adder doesn't actually locate the object anywhere in the grid. It just allows
+the object to be used in the grid. The object won't appear to have a location until you call
+
+----
+continuousSpace.moveTo(object, x, y);
+----
+
+This is a very useful adder because you don't have to know where the agent is supposed to be located in
+advance.
+
+Let's look at one example of writing your own Adder. In this case, let's assume that our agents have
+their continuous space coordinates stored. The adder just needs to use those coordinates to locate the
+agents properly. We'll call the Interface Located:
+
+----
+public interface Located{
+  public int getX();
+  public int getY();
+}
+----
+Let's write an adder that know how to work with this:
+
+----
+public class LocatedAdder<Located> implements ContinuousAdder<Located> {
+  public void add(ContinuousSpace<Located> grid, Located object){
+    grid.moveTo(object, object.getX(), object.getY());
+  }
+}
+----
+
+This will add the object to the grid at the location specified by the agent itself. This doesn't handle any
+errors or anything, but it should give you an idea of how to create your own adder.
+
+=== PointTranslators
+Just like the GridPointTranlator described on the Grid's page, a PointTranslator determines the border
+behavior of a continuous space. The border behavior is what happens when an agents moves past the
+border of a continuous space. Five kinds of border behavior classes are described below together with a
+description of how they behave in response to a continuous space's moveTo and moveBy_ (the moveBy_
+methods are moveByDisplacement and moveByVector) methods.
+
+* *StrictBorders* defines a strict boundary that cannot be crossed without throwing a
+SpatialException. Consequently, any moveTo or moveBy across the border will throw an exception.
+
+* *StickyBorders* defines a "sticky" border that to which an agent will "stick" in a moveBy. However,
+a moveTo across the border will still throw a SpatialException.
+
+* *InfiniteBorders* defines infinite borders that the agent will never cross.
+
+* *BouncyBorders* defines a bouncy border that the agent will bounce off at the appropriate angle in
+a moveBy. However, a moveTo across the border will still throw a SpatialException.
+
+* *WrapAroundBorders* -- defines borders that wrap around to their opposite borders. This mean
+moveTo and moveBy across the border will cross the border and enter the opposite side.
+
+==== Moving in a Continuous Space
+Movement on a continuous space is accomplished with 3 methods.
+
+----
+moveTo(T object, double... newLocation)
+----
+
+This specifies the object to move and the new location to move to. It will return true if the move
+succeeds, for example, if the new location doesn't violate any border behaviors. This method can be used
+to introduce objects into the grid if they do not yet have a grid location. This will throw a SpatialException
+if the object is not already in the space, if the number of dimensions in the location does not agree with
+the number in the space, or if the object is moved outside the continuous space's dimensions.
+
+----
+NdPoint moveByDisplacement(T object, double... displacement)
+----
+
+Moves the specified object from its current location by the specified amount. For example,
+moveByDisplacement(object, 3, -2, 1) will move the object by 3 along the x-axis, -2 along the y and 1
+along the z. The displacement argument can be less than the number of dimensions in the space in which
+case the remaining arguments will be set to 0. For example, moveByDisplacement(object, 3) will move
+the object 3 along the x-axis and 0 along the y and z axes, assuming a 3D continuous space. This will
+return the new location as a NdPoint if the move was successful, otherwise it will return null. Like moveTo
+it will throw a SpatialException if the object is not already in the space or if the number of dimensions in
+the displacement is greater than the number of continuous space dimensions.
+
+----
+NdPoint moveByVector(T object, double distance, double... anglesInRadians)
+----
+
+Moves the specifed object the specified distance from its current position along the specified angle. For
+example, moveByVector(object, 1, Direction.NORTH) will move the object 1 unit "north" up the y-axis,
+assuming a 2D continuous space. Similarly, grid.moveByVector(object, 2, 0, Math.toRadians(90), 0) will
+rotate 90 egrees around the y-axis, thus moving the object 2 units along the z-axis. Note that the radians
+/ degrees are incremented in a anti-clockwise fashion, such that 0 degrees is "east", 90 degrees is
+"north", 180 is "west" and 270 is "south." This will return the new location as a NdPoint if the move was
+successful, otherwise it will return null. Like moveTo it will throw a SpatialException if the object is not
+already in the space or if the number of dimensions in the displacement is greater than the number of
+continuous space dimensions.
