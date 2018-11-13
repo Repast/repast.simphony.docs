@@ -126,7 +126,7 @@ For more information, please see:
 Journal of Artificial Societies and Social Simulation, 18 (3) 11, 2015.
 http://jasss.soc.surrey.ac.uk/18/3/11.html
 
-* Statecharts: A Visual Formalism for Complex Systems, D. Harel, Sci. Comput. Program. 
+* *Statecharts: A Visual Formalism for Complex Systems*, D. Harel, Sci. Comput. Program. 
 8 (3): 231–274, 1987. https://doi.org/10.1016/0167-6423(87)90035-9.
 
 
@@ -194,7 +194,7 @@ http://doi.org/10.1093/acprof:oso/9780195172119.001.0001
 https://doi.org/10.1057/jos.2010.3
 
 === How do I perform verification and validation of my model?
-Please see the https://repast.github.io/docs/RepastModelTesting.pdf[Repast Model Testing Guide] documentation: 
+Please see the https://repast.github.io/docs/RepastModelTesting.pdf[Repast Model Testing Guide]. 
 
 The following reference provides a review of ABM validation and verification literature:
 
