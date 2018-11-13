@@ -1,16 +1,110 @@
-== Project Configuration
+== Project Setup and Configuration
+To begin the development of a Repast Simphony model in Java, ReLogo, Groovy, or 
+Statecharts, a new project needs to be created, or an existing Java or Groovy project
+can be configured to use Repast capabilities. 
 
+Creating new Repast Simphony projects follows the standard Eclipse IDE new project
+creation wizard, but with customized options for Repast projects.  Step-by-step
+instructions for creating new Repast projects are provided below.  Please also
+refer to the online https://help.eclipse.org[Eclipse Help pages] for more details. 
+
+[[create-repast-project]]
 === Creating a New Repast Project
-.TODO
-****
-TODO
-****
+1. *Start Repast Simphony and open a new workspace*.  A blank workspace is set to the
+ReLogo perspective as shown below.  Eclipse perspectives provide customized layouts
+of the Eclipse window components depending on the type of activity the user is doing.
+The ReLogo perspective provides a minimal view of development components.  For developing
+Java-based Repast projects, switch to the Java perspective by clicking the Java
+perspective button image:figures/eclipse_java_button.png[] in the upper right corner.
++
+[[new_eclipse_workspace]]
+.New Eclipse Workspace
+image::figures/blank_workspace.png[width=750]
 
+2. *Right click in the Package Explorer* panel located on the left side of the 
+window, and select New -> Project... as shown below:
++
+[[new_project]]
+.New Eclipse Project
+image::figures/new_project.png[width=750]
+
+3. *The New Project wizard will appear* prompting to select the type of project to 
+create.  Scroll down the list to the Repast Simphony category and select Repast
+Simphony Project as shown below:
++
+[[new_repast_project]]
+.New Repast Simphony Project Selection
+image::figures/new_repast_project.png[]
+
+4. *The Repast Simphony Project dialog appears* and prompts for a project name.  Provide
+the project name and optionally specify the project location.  By default, the project
+will be saved in the workspace folder.  Click Finish to complete the new project
+setup.
++
+[[new_repast_project_dialog]]
+.New Repast Project Dialog Example
+image::figures/new_repast_project_dialog.png[] 
+
+5. *The new Repast project wizard* will automatically create the project in the
+workspace and add the Repast development libraries to the project.  A sample
+completed new Repast project in the Eclipse workspace is shown below.  The project
+folder named "MyProject" in the example workspace contains a list of folders and
+files that are described in the section <<project-contents,Project Contents>>.
++
+[[new_repast_project_workspace]]
+.New Repast Project in the Workspace
+image::figures/new_repast_project_workspace.png[width=750]
+
+
+[[create-relogo-project]]
 === Creating a New ReLogo Project
-.TODO
-****
-TODO
-****
+ReLogo project creation is nearly identical to <<create-repast-project, creating
+a Repast project>>.  The steps are outlined below.
+  
+1. *Start Repast Simphony and open a new workspace*.  A blank workspace is set to the
+ReLogo perspective as shown below.  Eclipse perspectives provide customized layouts
+of the Eclipse window components depending on the type of activity the user is doing.
+The ReLogo perspective provides a minimal view of development components.  Different
+Eclipse perspectives can be switched to, however it is recommended to continue
+using the ReLogo perspective with ReLogo projects.
++
+[[new_eclipse_workspace_relogo]]
+.New Eclipse Workspace
+image::figures/blank_workspace.png[width=750]
+
+2. *Right click in the Package Explorer* panel located on the left side of the 
+window, and select New -> Project... as shown below:
++
+[[new_project_relogo]]
+.New Eclipse Project
+image::figures/new_project.png[width=750]
+
+3. *The New Project wizard will appear* prompting to select the type of project to 
+create.  Scroll down the list to the ReLogo category and select ReLogo Project 
+as shown below:
++
+[[new_relogo_project]]
+.New ReLogo Project Selection
+image::figures/new_relogo_project.png[]
+
+4. *The ReLogo Project dialog appears* and prompts for a project name.  Provide
+the project name and optionally specify the package name.  By default, the project
+will be saved in the workspace folder.  Click Finish to complete the new project
+setup.
++
+[[new_relogo_project_dialog]]
+.New ReLogo Project Dialog Example
+image::figures/new_relogo_project_dialog.png[] 
+
+5. *The new ReLogo project wizard* will automatically create the project in the
+workspace and add the Repast development libraries to the project.  A sample
+completed new ReLogo project in the Eclipse workspace is shown below.  The project
+folder named "MyRelogoProject" in the example workspace contains a list of folders and
+files that are described in the section <<project-contents,Project Contents>>.
++
+[[new_relogo_project_workspace]]
+.New ReLogo Project in the Workspace
+image::figures/new_relogo_project_workspace.png[width=750]
 
 === Updating an Existing Repast Project
 .TODO
@@ -19,15 +113,123 @@ TODO
 ****
 
 === Adding Repast to an Existing Project
-If you have an existing Java project in which you would like to reference Repast 
-classes, you can right click on the project and select Repast Simphony -> Add 
-Repast Simphony to this Project. This will add the Repast libraries to the 
+An existing Java project can be configured such that Repast and ReLogo models
+and components can be used.  This involves adding the *Repast Nature* to the Eclipse
+project.  Adding the Repast Nature requires a single step:
+
+1. *Right click on the project and select Repast Simphony -> Add 
+Repast Simphony Nature*. This will add the Repast libraries to the 
 project class path so that you can reference Repast classes and run simulations 
 from your project without needing to manually add all of the Repast libraries 
 and dependencies.
++
+[[add_repast_nature]]
+.Adding the Repast Nature to a Java Project
+image::figures/project_add_repast_nature.png[width=750]
 
-=== Model Configuration Files
+2. After the Repast Nature has been added, the existing project will be modified
+to include the Groovy and Repast development libraries as shown in the following 
+figure.   Note that the Repast configuration files have not been added to the 
+project, as the Repast Nature only provides access to the libraries.  To fully
+build a Repast model with the updated Java project, the <<project-contents, project
+configuration files>> will need to be manually added.
++
+[[project_repast_nature]]
+.Workspace Showing the Repast Nature on a Java Project
+image::figures/project_repast_nature.png[width=750]
+
+[[project-contents]]
+=== Project Contents and Model Configuration Files
+Repast and ReLogo projects contain a number of folders and files that are required
+and contain essential model configuration data.  Repast Java project developers
+typically modify these files to suit the model properties, however ReLogo project
+developers typically will not need to modify any of these files.  The following
+figure displays the project contents for a newly created Repast Java project.  If
+the project contents are not visible, it may be necessary to switch to the Java 
+perspective by clicking the Java perspective button image:figures/eclipse_java_button.png[] 
+in the upper right corner.
+
+[[repast_project_contents]]
+.Workspace Showing the full contents of aRepast Java Project
+image::figures/repast_project_contents.png[width=750]
+
+.Required Project Contents
+The following list of folders contain essential Repast project configuration files
+and should not be deleted or renamed:
+
+* *src* is the source code folder that contains all of the project source code 
+such as agent class files.
+
+* *batch* folder contains batch run parameter XML file that is normally used
+when running Repast models in batch mode. 
+
+* *installer* folder contains configuration files used by the Repast model builder
+installer that packages stand-alone distributable versions of the user's Repast model.
+
+* *launchers* folder contains the Eclipse launch configuration files that are used
+to run the Repast model.
+
+* *MyProject.rs* folder contains the Repast model meta-data XML files that describe
+specific details about the Repast model, like agent locations, types of displays,
+charts, and logging information.  The prefix of this folder (before .rs) is depndend
+on the project name.
+
+After creating a new Repast project, the model meta-data XML files need to be updated
+according to the types of components that a user would like to include in the model.
+The only two files that need to be directly edited are the <<user-path, user_path.xml>>
+and the <<context-xml, context.xml>> files.  All other project configuration files
+are automatically updated by the Repast GUI, although they may be manually edited
+as well.
+
+[[user-path]]
 ==== user_path.xml
+The user_path.xml file located in the MyProject.rs folder provides information to
+the Repast runtime about where to look for agent files and other files or libraries
+needed by the model.  The default user_path.xml file created by the Repast new
+project wizard is shown below.  In many cases, the default user_path.xml file
+does not need to be changed at all since the default configuration is the least
+constrained in terms of what agents and libraries are made available to the Repast
+runtime. 
+
+----
+<model name="MyProject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://repast.org/scenario/user_path">
+  <classpath>
+    <agents path="../bin" />
+    <entry path="../lib" />
+  </classpath>
+</model>
+
+----
+
+NOTE: The only unique entry in the user_path.xml file is the model name attribute
+which is the same as the project name.
+
+As may be evident, the purpose of the user_path.xml file is to provide the locations
+of the model agent classes to the Repast runtime.  The default user_path.xml sets
+the *agents path* value to "../bin" which is the default location of compiled class
+files in Java projects.  The bin folder is typically not visible in the Java perspective.
+When the agents path is set to "../bin", it means that the Repast runtime will look
+in the project bin folder which is the root folder for all compiled classes in the 
+project.  In other words, *all* class files in the project will be made available 
+to the Repast runtime as "Agents".  This special classification is used in the runtime
+to scan agent classes for annotations, such as those used for scheduling, and all
+agent classes will appear in the runtime wizards for creating displays or data 
+collectors.  
+
+For small projects, providing the entire set of project classes to the Repast 
+agents path may be fine, however when projects become very large, it may be beneficial
+to *filter* what types of classes the Repast runtime considers "agents".  The filter
+can be specified in the agents path element as follows:
+
+----
+<agents path="../bin" filter="myProject.somepackage.agents.*"/>
+----
+
+The filter value specifies which package contents are to be loaded as "agents"
+by the Repast runtime.  In the above example, it is assumed that the package 
+myProject.somepackage.agents exists, and that the agent classes are located in this
+package.  Note that the wildcard character "*" is required to specify that all classes
+in the package should be loaded as agents.
 
 ----
 <model name="Model Name">
@@ -71,6 +273,7 @@ path of a resource containing a package, we must specify each individual class
 that we'd like to be considered an agent class. The good news is that this is 
 not a common usage.
 
+[[context-xml]]
 ==== context.xml
 context.xml contains the context heirarchy information.
 

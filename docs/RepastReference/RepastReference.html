@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
-<title>Repast Simphony Documentation</title>
+<title>Repast Simphony Reference Manual</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -767,7 +767,7 @@ asciidoc.install(2);
 </head>
 <body class="article" style="max-width:55em">
 <div id="header">
-<h1>Repast Simphony Documentation</h1>
+<h1>Repast Simphony Reference Manual</h1>
 <span id="author">Version 2.6 November 2018</span><br />
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
@@ -778,7 +778,7 @@ asciidoc.install(2);
 <div class="sect1">
 <h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Repast Simphony is a tightly integrated, richly interactive, cross platform
+<div class="paragraph"><p>Repast Simphony is a agent-based modeling toolkit and cross platform
 Java-based modeling system that runs under Microsoft Windows, Apple macOS,
 and Linux. Repast supports the development of extremely flexible models of
 interacting agents for use on workstations and computing clusters. Repast
@@ -789,95 +789,182 @@ be fluidly interleaved.</p></div>
 many aspects of the Repast Simphony API but does not show how to build a
 complete working model from scratch. It is recommended that new users first
 review the introductory tutorial documents included with the Repast installer
-and available at the Repast online documentation page:
-<a href="https://repast.github.io/docs.html">https://repast.github.io/docs.html</a></p></div>
+and available at the online <a href="https://repast.github.io/docs.html">Repast documentation page</a>.</p></div>
 <div class="sect2">
 <h3 id="_support">1.1. Support</h3>
-<div class="paragraph"><p>The primary means of obtaining help with Repast is the
-<a href="http://lists.sourceforge.net/lists/listinfo/repast-interest">Repast Interest</a>
-mailing list and the accumulated
-<a href="https://sourceforge.net/p/repast/mailman/repast-interest">list archives</a>.
-To post a technical question about any  edition of Repast to all of the list
-members, please send an email message to <a href="mailto:repast-interest@lists.sourceforge.net">repast-interest@lists.sourceforge.net</a>.
-(Due to spam, the repast-interest list now limits postings to subscribed users.
-While questions are welcome and usually answered quickly, please check
-the list archives before sending a message as your question may already have
-been answered.</p></div>
-<div class="paragraph"><p>For those interested in regularly hearing about Repast and learning from other&#8217;s
-technical questions, please consider subscribing to the Repast Interest mailing
-list.</p></div>
+<div class="paragraph"><p>The Repast development team maintains an active mail list monitors Stack Overflow
+questions related to Repast and agent-based modeling.  Please see the
+<a href="https://repast.github.io/support.html">Support page</a> for the most current help links.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_installation">1.2. Installation</h3>
-<div class="paragraph"><p>Current software releases are available from
-<a href="https://github.com/Repast/repast.simphony/releases/">https://github.com/Repast/repast.simphony/releases/</a>.</p></div>
-<div class="paragraph"><div class="title">Microsoft Windows</div><p><a href="https://www.java.com">Java</a> must be installed prior to running Repast Simphony.
-We reccommend using both the 64-bit version of Java and Repast, which is
-available as a 32-bit or 64-bit installer for Windows.  If you have 32-bit Java
-installed you must use the 32-bit Repast installer, and likewise if you have the
-64-bit version of Java installed, you must use the 64-bit Repast installer.</p></div>
-<div class="paragraph"><div class="title">macOS</div><p>macOS users should download the macOS Disk Image, double click on the
-resulting file and follow the installation instructions that appear. You may
-need to alter your Security &amp; Privacy settings in System Preferences to allow
-you to open Repast Simphony. Alternatively, right clicking on the Repast
-Simphony application and selecting Open will allow you to authenticate and open
-it.</p></div>
-<div class="paragraph"><div class="title">Linux</div><p>Linux users and Unix-related system users should download
-<a href="http://www.eclipse.org/downloads/packages/eclipse-ide-eclipse-committers/oxygen1">
-Eclipse IDE for Eclipse Committers Oxygen</a> then use the Eclipse Update Manager
-(under Help &#8594; Install New Software) to install Repast from its update site:
-<a href="https://repocafe.cels.anl.gov/repos/repast/">https://repocafe.cels.anl.gov/repos/repast/</a>. Repast when installed via the
-update site has the following additional requirement that can be installed using
-Eclipse&#8217;s Update Manager.</p></div>
-<div class="paragraph"><p>From the Groovy Update Site (<a href="http://dist.springsource.org/snapshot/GRECLIPSE/e4.7/">http://dist.springsource.org/snapshot/GRECLIPSE/e4.7/</a>):</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Extra Groovy Compilers
-</p>
-</li>
-<li>
-<p>
-Groovy-Eclipse
-</p>
-</li>
-<li>
-<p>
-Uncategorized
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>Once you have downloaded eclipse and installed the plugins, the groovy compiler
-version must be set to anything in the 2.0. version line. Anything else will
-prevent Repast Simphony and especially ReLogo from working correctly. You can
-set the groovy compiler preferences in either the workspace or project
-preferences pane via the "Groovy Compiler" page.</p></div>
-<div class="paragraph"><p>The demonstration models are not provided via the update site, but they can be
-downloaded from the GitHub repository:
-<a href="https://github.com/Repast/repast.simphony.models/">https://github.com/Repast/repast.simphony.models/</a>. Once downloaded, start
-Eclipse and switch to your chosen workspace. Right click in the package panel,
-and choose import, General, Archive File and follow the wizard from there.</p></div>
+<div class="paragraph"><p>Please see the online <a href="https://repast.github.io/download.html">Repast Downloads page</a>
+for current release information.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_project_configuration">2. Project Configuration</h2>
+<h2 id="_project_setup_and_configuration">2. Project Setup and Configuration</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>To begin the development of a Repast Simphony model in Java, ReLogo, Groovy, or
+Statecharts, a new project needs to be created, or an existing Java or Groovy project
+can be configured to use Repast capabilities.</p></div>
+<div class="paragraph"><p>Creating new Repast Simphony projects follows the standard Eclipse IDE new project
+creation wizard, but with customized options for Repast projects.  Step-by-step
+instructions for creating new Repast projects are provided below.  Please also
+refer to the online <a href="https://help.eclipse.org">Eclipse Help pages</a> for more details.</p></div>
 <div class="sect2">
-<h3 id="_creating_a_new_repast_project">2.1. Creating a New Repast Project</h3>
-<div class="sidebarblock">
+<h3 id="create-repast-project">2.1. Creating a New Repast Project</h3>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<strong>Start Repast Simphony and open a new workspace</strong>.  A blank workspace is set to the
+ReLogo perspective as shown below.  Eclipse perspectives provide customized layouts
+of the Eclipse window components depending on the type of activity the user is doing.
+The ReLogo perspective provides a minimal view of development components.  For developing
+Java-based Repast projects, switch to the Java perspective by clicking the Java
+perspective button <span class="image">
+<img src="figures/eclipse_java_button.png" alt="figures/eclipse_java_button.png" />
+</span> in the upper right corner.
+</p>
+<div class="imageblock" id="new_eclipse_workspace">
 <div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>TODO</p></div>
-</div></div>
+<img src="figures/blank_workspace.png" alt="figures/blank_workspace.png" width="750" />
+</div>
+<div class="title">Figure 1. New Eclipse Workspace</div>
+</div>
+</li>
+<li>
+<p>
+<strong>Right click in the Package Explorer</strong> panel located on the left side of the
+window, and select New &#8594; Project&#8230; as shown below:
+</p>
+<div class="imageblock" id="new_project">
+<div class="content">
+<img src="figures/new_project.png" alt="figures/new_project.png" width="750" />
+</div>
+<div class="title">Figure 2. New Eclipse Project</div>
+</div>
+</li>
+<li>
+<p>
+<strong>The New Project wizard will appear</strong> prompting to select the type of project to
+create.  Scroll down the list to the Repast Simphony category and select Repast
+Simphony Project as shown below:
+</p>
+<div class="imageblock" id="new_repast_project">
+<div class="content">
+<img src="figures/new_repast_project.png" alt="figures/new_repast_project.png" />
+</div>
+<div class="title">Figure 3. New Repast Simphony Project Selection</div>
+</div>
+</li>
+<li>
+<p>
+<strong>The Repast Simphony Project dialog appears</strong> and prompts for a project name.  Provide
+the project name and optionally specify the project location.  By default, the project
+will be saved in the workspace folder.  Click Finish to complete the new project
+setup.
+</p>
+<div class="imageblock" id="new_repast_project_dialog">
+<div class="content">
+<img src="figures/new_repast_project_dialog.png" alt="figures/new_repast_project_dialog.png" />
+</div>
+<div class="title">Figure 4. New Repast Project Dialog Example</div>
+</div>
+</li>
+<li>
+<p>
+<strong>The new Repast project wizard</strong> will automatically create the project in the
+workspace and add the Repast development libraries to the project.  A sample
+completed new Repast project in the Eclipse workspace is shown below.  The project
+folder named "MyProject" in the example workspace contains a list of folders and
+files that are described in the section <a href="#project-contents">Project Contents</a>.
+</p>
+<div class="imageblock" id="new_repast_project_workspace">
+<div class="content">
+<img src="figures/new_repast_project_workspace.png" alt="figures/new_repast_project_workspace.png" width="750" />
+</div>
+<div class="title">Figure 5. New Repast Project in the Workspace</div>
+</div>
+</li>
+</ol></div>
 </div>
 <div class="sect2">
-<h3 id="_creating_a_new_relogo_project">2.2. Creating a New ReLogo Project</h3>
-<div class="sidebarblock">
+<h3 id="create-relogo-project">2.2. Creating a New ReLogo Project</h3>
+<div class="paragraph"><p>ReLogo project creation is nearly identical to <a href="#create-repast-project">creating a Repast project</a>.  The steps are outlined below.</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<strong>Start Repast Simphony and open a new workspace</strong>.  A blank workspace is set to the
+ReLogo perspective as shown below.  Eclipse perspectives provide customized layouts
+of the Eclipse window components depending on the type of activity the user is doing.
+The ReLogo perspective provides a minimal view of development components.  Different
+Eclipse perspectives can be switched to, however it is recommended to continue
+using the ReLogo perspective with ReLogo projects.
+</p>
+<div class="imageblock" id="new_eclipse_workspace_relogo">
 <div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>TODO</p></div>
-</div></div>
+<img src="figures/blank_workspace.png" alt="figures/blank_workspace.png" width="750" />
+</div>
+<div class="title">Figure 6. New Eclipse Workspace</div>
+</div>
+</li>
+<li>
+<p>
+<strong>Right click in the Package Explorer</strong> panel located on the left side of the
+window, and select New &#8594; Project&#8230; as shown below:
+</p>
+<div class="imageblock" id="new_project_relogo">
+<div class="content">
+<img src="figures/new_project.png" alt="figures/new_project.png" width="750" />
+</div>
+<div class="title">Figure 7. New Eclipse Project</div>
+</div>
+</li>
+<li>
+<p>
+<strong>The New Project wizard will appear</strong> prompting to select the type of project to
+create.  Scroll down the list to the ReLogo category and select ReLogo Project
+as shown below:
+</p>
+<div class="imageblock" id="new_relogo_project">
+<div class="content">
+<img src="figures/new_relogo_project.png" alt="figures/new_relogo_project.png" />
+</div>
+<div class="title">Figure 8. New ReLogo Project Selection</div>
+</div>
+</li>
+<li>
+<p>
+<strong>The ReLogo Project dialog appears</strong> and prompts for a project name.  Provide
+the project name and optionally specify the package name.  By default, the project
+will be saved in the workspace folder.  Click Finish to complete the new project
+setup.
+</p>
+<div class="imageblock" id="new_relogo_project_dialog">
+<div class="content">
+<img src="figures/new_relogo_project_dialog.png" alt="figures/new_relogo_project_dialog.png" />
+</div>
+<div class="title">Figure 9. New ReLogo Project Dialog Example</div>
+</div>
+</li>
+<li>
+<p>
+<strong>The new ReLogo project wizard</strong> will automatically create the project in the
+workspace and add the Repast development libraries to the project.  A sample
+completed new ReLogo project in the Eclipse workspace is shown below.  The project
+folder named "MyRelogoProject" in the example workspace contains a list of folders and
+files that are described in the section <a href="#project-contents">Project Contents</a>.
+</p>
+<div class="imageblock" id="new_relogo_project_workspace">
+<div class="content">
+<img src="figures/new_relogo_project_workspace.png" alt="figures/new_relogo_project_workspace.png" width="750" />
+</div>
+<div class="title">Figure 10. New ReLogo Project in the Workspace</div>
+</div>
+</li>
+</ol></div>
 </div>
 <div class="sect2">
 <h3 id="_updating_an_existing_repast_project">2.3. Updating an Existing Repast Project</h3>
@@ -889,17 +976,153 @@ and choose import, General, Archive File and follow the wizard from there.</p></
 </div>
 <div class="sect2">
 <h3 id="_adding_repast_to_an_existing_project">2.4. Adding Repast to an Existing Project</h3>
-<div class="paragraph"><p>If you have an existing Java project in which you would like to reference Repast
-classes, you can right click on the project and select Repast Simphony &#8594; Add
-Repast Simphony to this Project. This will add the Repast libraries to the
+<div class="paragraph"><p>An existing Java project can be configured such that Repast and ReLogo models
+and components can be used.  This involves adding the <strong>Repast Nature</strong> to the Eclipse
+project.  Adding the Repast Nature requires a single step:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<strong>Right click on the project and select Repast Simphony &#8594; Add
+Repast Simphony Nature</strong>. This will add the Repast libraries to the
 project class path so that you can reference Repast classes and run simulations
 from your project without needing to manually add all of the Repast libraries
-and dependencies.</p></div>
+and dependencies.
+</p>
+<div class="imageblock" id="add_repast_nature">
+<div class="content">
+<img src="figures/project_add_repast_nature.png" alt="figures/project_add_repast_nature.png" width="750" />
+</div>
+<div class="title">Figure 11. Adding the Repast Nature to a Java Project</div>
+</div>
+</li>
+<li>
+<p>
+After the Repast Nature has been added, the existing project will be modified
+to include the Groovy and Repast development libraries as shown in the following
+figure.   Note that the Repast configuration files have not been added to the
+project, as the Repast Nature only provides access to the libraries.  To fully
+build a Repast model with the updated Java project, the <a href="#project-contents">project configuration files</a> will need to be manually added.
+</p>
+<div class="imageblock" id="project_repast_nature">
+<div class="content">
+<img src="figures/project_repast_nature.png" alt="figures/project_repast_nature.png" width="750" />
+</div>
+<div class="title">Figure 12. Workspace Showing the Repast Nature on a Java Project</div>
+</div>
+</li>
+</ol></div>
 </div>
 <div class="sect2">
-<h3 id="_model_configuration_files">2.5. Model Configuration Files</h3>
+<h3 id="project-contents">2.5. Project Contents and Model Configuration Files</h3>
+<div class="paragraph"><p>Repast and ReLogo projects contain a number of folders and files that are required
+and contain essential model configuration data.  Repast Java project developers
+typically modify these files to suit the model properties, however ReLogo project
+developers typically will not need to modify any of these files.  The following
+figure displays the project contents for a newly created Repast Java project.  If
+the project contents are not visible, it may be necessary to switch to the Java
+perspective by clicking the Java perspective button <span class="image">
+<img src="figures/eclipse_java_button.png" alt="figures/eclipse_java_button.png" />
+</span>
+in the upper right corner.</p></div>
+<div class="imageblock" id="repast_project_contents">
+<div class="content">
+<img src="figures/repast_project_contents.png" alt="figures/repast_project_contents.png" width="750" />
+</div>
+<div class="title">Figure 13. Workspace Showing the full contents of aRepast Java Project</div>
+</div>
+<div class="paragraph"><div class="title">Required Project Contents</div><p>The following list of folders contain essential Repast project configuration files
+and should not be deleted or renamed:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>src</strong> is the source code folder that contains all of the project source code
+such as agent class files.
+</p>
+</li>
+<li>
+<p>
+<strong>batch</strong> folder contains batch run parameter XML file that is normally used
+when running Repast models in batch mode.
+</p>
+</li>
+<li>
+<p>
+<strong>installer</strong> folder contains configuration files used by the Repast model builder
+installer that packages stand-alone distributable versions of the user&#8217;s Repast model.
+</p>
+</li>
+<li>
+<p>
+<strong>launchers</strong> folder contains the Eclipse launch configuration files that are used
+to run the Repast model.
+</p>
+</li>
+<li>
+<p>
+<strong>MyProject.rs</strong> folder contains the Repast model meta-data XML files that describe
+specific details about the Repast model, like agent locations, types of displays,
+charts, and logging information.  The prefix of this folder (before .rs) is depndend
+on the project name.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>After creating a new Repast project, the model meta-data XML files need to be updated
+according to the types of components that a user would like to include in the model.
+The only two files that need to be directly edited are the <a href="#user-path">user_path.xml</a>
+and the <a href="#context-xml">context.xml</a> files.  All other project configuration files
+are automatically updated by the Repast GUI, although they may be manually edited
+as well.</p></div>
 <div class="sect3">
-<h4 id="_user_path_xml">2.5.1. user_path.xml</h4>
+<h4 id="user-path">2.5.1. user_path.xml</h4>
+<div class="paragraph"><p>The user_path.xml file located in the MyProject.rs folder provides information to
+the Repast runtime about where to look for agent files and other files or libraries
+needed by the model.  The default user_path.xml file created by the Repast new
+project wizard is shown below.  In many cases, the default user_path.xml file
+does not need to be changed at all since the default configuration is the least
+constrained in terms of what agents and libraries are made available to the Repast
+runtime.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>&lt;model name="MyProject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://repast.org/scenario/user_path"&gt;
+  &lt;classpath&gt;
+    &lt;agents path="../bin" /&gt;
+    &lt;entry path="../lib" /&gt;
+  &lt;/classpath&gt;
+&lt;/model&gt;</code></pre>
+</div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/note.png" alt="Note" />
+</td>
+<td class="content">The only unique entry in the user_path.xml file is the model name attribute
+which is the same as the project name.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>As may be evident, the purpose of the user_path.xml file is to provide the locations
+of the model agent classes to the Repast runtime.  The default user_path.xml sets
+the <strong>agents path</strong> value to "../bin" which is the default location of compiled class
+files in Java projects.  The bin folder is typically not visible in the Java perspective.
+When the agents path is set to "../bin", it means that the Repast runtime will look
+in the project bin folder which is the root folder for all compiled classes in the
+project.  In other words, <strong>all</strong> class files in the project will be made available
+to the Repast runtime as "Agents".  This special classification is used in the runtime
+to scan agent classes for annotations, such as those used for scheduling, and all
+agent classes will appear in the runtime wizards for creating displays or data
+collectors.</p></div>
+<div class="paragraph"><p>For small projects, providing the entire set of project classes to the Repast
+agents path may be fine, however when projects become very large, it may be beneficial
+to <strong>filter</strong> what types of classes the Repast runtime considers "agents".  The filter
+can be specified in the agents path element as follows:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>&lt;agents path="../bin" filter="myProject.somepackage.agents.*"/&gt;</code></pre>
+</div></div>
+<div class="paragraph"><p>The filter value specifies which package contents are to be loaded as "agents"
+by the Repast runtime.  In the above example, it is assumed that the package
+myProject.somepackage.agents exists, and that the agent classes are located in this
+package.  Note that the wildcard character "*" is required to specify that all classes
+in the package should be loaded as agents.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;model name="Model Name"&gt;
@@ -967,7 +1190,7 @@ not a common usage.</td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_context_xml">2.5.2. context.xml</h4>
+<h4 id="context-xml">2.5.2. context.xml</h4>
 <div class="paragraph"><p>context.xml contains the context heirarchy information.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -3716,7 +3939,7 @@ method.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-12 22:03:31 Central Standard Time
+Last updated 2018-11-13 12:53:40 Central Standard Time
 </div>
 </div>
 </body>
