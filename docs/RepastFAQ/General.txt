@@ -98,8 +98,8 @@ and most Java code fluidly at any point in a ReLogo file to gain access to the
 advanced features of either language.
 
 For those interested in learning more about Groovy, please see the Groovy home 
-page http://groovy-lang.org/ and the very informative book "Groovy in Action" 
-by Dierk Koenig. https://www.manning.com/books/groovy-in-action
+page http://groovy-lang.org/ and particularly the Learn section of the
+site http://groovy-lang.org/learn.html
 
 === What are Statecharts?
 Statecharts are a software engineering design methodology and an explicit visual 
@@ -111,9 +111,9 @@ agent state and behavioral logic representation, visual statecharts can also be
 useful for monitoring agent status during a simulation, quickly conveying the 
 underlying dynamics of complex models as a simulation evolves over time. 
 
-The new statecharts framework in Repast Simphony, a subset of Harel's statecharts, 
-introduces software engineering practices through the use of statecharts that 
-directly translate visual representations of agent states and behaviors into 
+The new statecharts framework in Repast Simphony, a subset of Harel's statecharts
+(Harel 1987), introduces software engineering practices through the use of statecharts
+that directly translate visual representations of agent states and behaviors into 
 software implementations. By integrating an agent statecharts framework into 
 Repast Simphony, we have made it easier for users at all levels to take advantage 
 of this important modeling paradigm. Through the visual programming that 
@@ -125,6 +125,10 @@ For more information, please see:
 * *Repast Simphony statecharts*, J Ozik, N Collier, T Combs, CM Macal, and M North,
 Journal of Artificial Societies and Social Simulation, 18 (3) 11, 2015.
 http://jasss.soc.surrey.ac.uk/18/3/11.html
+
+* Statecharts: A Visual Formalism for Complex Systems, D. Harel, Sci. Comput. Program. 
+8 (3): 231–274, 1987. https://doi.org/10.1016/0167-6423(87)90035-9.
+
 
 === What is the difference between Eclipse and Repast Simphony?
 http://eclipse.org[Eclipse] is a free and open-source integrated development environment (IDE) that
@@ -180,7 +184,7 @@ vol 10978. Springer.  https://doi.org/10.1007/978-3-319-94580-4_1
 J Ozik, E Tatara, CM Macal, M Bragen, P Sydelko, Complex adaptive systems modeling 1 (1), 2013. 
 https://doi.org/10.1186/2194-3206-1-3
  
-* *Proceedings of the Agent 200X conference* http://www.dis.anl.gov/agent20XY/
+//* *Proceedings of the Agent 200X conference* http://www.dis.anl.gov/agent20XY/
 
 * *Managing Business Complexity: Discovering Strategic Solutions with Agent-Based Modeling and Simulation*, 
 Michael J. North and Charles M. Macal, Oxford University Press, 2007.
@@ -190,8 +194,9 @@ http://doi.org/10.1093/acprof:oso/9780195172119.001.0001
 https://doi.org/10.1057/jos.2010.3
 
 === How do I perform verification and validation of my model?
-Please see the Repast Model Testing Guide documentation.  The following reference
-provides a review of ABM validation and verification literature:
+Please see the https://repast.github.io/docs/RepastModelTesting.pdf[Repast Model Testing Guide] documentation: 
+
+The following reference provides a review of ABM validation and verification literature:
 
 * *Hammer or Tongs: How Best to Build Agent-Based Models?*, North M.J., 
 In Advances in Practical Applications of Agents, Multi-Agent Systems, and 
