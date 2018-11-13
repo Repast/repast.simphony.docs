@@ -1,6 +1,6 @@
 \documentclass[11pt]{amsart}
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ...
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}
@@ -21,9 +21,9 @@
 
 
 
- 
+
 % include the lines below to use a nicer fixed-width font than the default one
- 
+
 \lstset{fancyvrb=true}
 \lstset{
 	basicstyle=\small\tt,
@@ -44,7 +44,7 @@
 \author{Nick Collier, Jonathan Ozik  - Repast Development Team}
 %\date{\today}                                           % Activate to display a given date or no date
 
-\begin{document} 
+\begin{document}
 \maketitle
 \setcounter{section}{-1}
 
@@ -84,7 +84,7 @@ The  Batch Run Configuration GUI is used to configure and launch the batch run. 
 \end{center}
 \end{figure}
 
-The GUI is used to configure a batch run. This configuration can be saved and then loaded at a future time. The configuration GUI consists of a tool bar and four tabbed panels (fig. ~\ref{fig:config_gui}). The first four toolbar buttons \includegraphics[height=.2in]{images/gui_file_buttons.png} are used to create a new configuration, open an existing configuration, save the current configuration, and save the current configuration in a new file. Hovering over the buttons with the mouse will show a tooltip explaining the buttons function.  The fifth button \includegraphics[height=.2in]{images/reload_button.png} will reload the properties in the model panel from the current model. 
+The GUI is used to configure a batch run. This configuration can be saved and then loaded at a future time. The configuration GUI consists of a tool bar and four tabbed panels (fig. ~\ref{fig:config_gui}). The first four toolbar buttons \includegraphics[height=.2in]{images/gui_file_buttons.png} are used to create a new configuration, open an existing configuration, save the current configuration, and save the current configuration in a new file. Hovering over the buttons with the mouse will show a tooltip explaining the buttons function.  The fifth button \includegraphics[height=.2in]{images/reload_button.png} will reload the properties in the model panel from the current model.
 
 \begin{figure}[h]
 \begin{center}
@@ -104,14 +104,14 @@ The remaining two buttons have to do with performing the batch runs itself. Rega
 When the batch configuration GUI is started and you have a model loaded in the Repast Simphony runtime then the GUI will create a new configuration with that model loaded. The model panel will contain various required model properties:
 
 \begin{description}
-\item[Model Project] The location of the project that contains the model. 
-\item[Scenario] The location of the scenario directory of the model. 
+\item[Model Project] The location of the project that contains the model.
+\item[Scenario] The location of the scenario directory of the model.
 \item[Output Directory] The directory where the model batch run output will be written.
 \end{description}
 
 The browse button next to each of these items can be used to select the directory for each property. The reload button\includegraphics[height=.2in]{images/reload_button.png}  will load best guess defaults for these properties when the GUI is launched with an associated project.
 
-By default the batch run mechanism will collect and concatenate any output files specified in the simphony model as File Sinks. If you do your own custom output that is not defined in a File Sink, you can use the ``Optional Output File Patterns'' table to define how to deal with such custom output. You provide a file pattern that can be used to identify the different instances of the custom output and how to treat that output once it is found. If the output is to be aggregated it will be concatenated and copied to the master machine. If its not aggregated, the output will still be copied to the master machine so you do not need to grab the files individually. 
+By default the batch run mechanism will collect and concatenate any output files specified in the simphony model as File Sinks. If you do your own custom output that is not defined in a File Sink, you can use the ``Optional Output File Patterns'' table to define how to deal with such custom output. You provide a file pattern that can be used to identify the different instances of the custom output and how to treat that output once it is found. If the output is to be aggregated it will be concatenated and copied to the master machine. If its not aggregated, the output will still be copied to the master machine so you do not need to grab the files individually.
 
 The fields in the table are defined as follows:
 
@@ -124,7 +124,7 @@ The fields in the table are defined as follows:
 
 Specifying output patterns is optional, and only necessary if you do not generate file output using the default File Sink mechanism.
 
-The Run Properties sections defines properties that are used during the actual model run. 
+The Run Properties sections defines properties that are used during the actual model run.
 
 \begin{description}
 \item[SSH Key Directory] The directory that contains the user's public ssh rsa key. See the distributed runs section (section \ref{sec:distributed_runs}) below for more details.
@@ -132,7 +132,7 @@ The Run Properties sections defines properties that are used during the actual m
 \item[Poll Frequency] The frequency with which the master process will poll its clients to determine if they have finished.\end{description}
 
 \subsection{Batch Parameters Panel}
-The batch parameters panel (fig. ~\ref{fig:batch_params})  is used to define the parameter space that the batch run will iterate over. 
+The batch parameters panel (fig. ~\ref{fig:batch_params})  is used to define the parameter space that the batch run will iterate over.
 
 \begin{figure}[h]
 \begin{center}
@@ -156,12 +156,12 @@ The GUI will use the parameters file to generate some sample batch parameters if
 
 \begin{description}
 \item[Constant] The parameter will be set to the specified value in the ``value'' box and this value will remain constant over all the batch runs.
-\item[Number Range] The parameter will begin at the value specified in the ``From'' text box and be incremented by the ``Step'' amount up to and including the ``To'' amount. 
+\item[Number Range] The parameter will begin at the value specified in the ``From'' text box and be incremented by the ``Step'' amount up to and including the ``To'' amount.
 \item[Space Separated List] The parameter will be set to each individual value in the ``Values'' list. The values should be space separated.
 \item[Random] Sets the value at random. This only applies to the Random Seed which will then be initialized with the current time.
 \end{description}
 
-The full combination of the parameters defines the parameter space. The batch runs will iterate over the entire space. For example, if the 
+The full combination of the parameters defines the parameter space. The batch runs will iterate over the entire space. For example, if the
 Random Seed is set to a constant of 1, the Human Count to a Number Range where From: 1, To: 3, Step: 1 and the Zombie Count is set to a Space Separated List of ``20 15'', then the parameters for each run will be:
 
 \begin{enumerate}
@@ -201,10 +201,18 @@ The Host Properties are:
 \item[Instances] The number of instances to run on the host. Each instance will be assigned a chunk of the parameter space to run.
 \end{description}
 
-Each of the hosts defined on the host panel will be used to perform the batch runs. For example, if one local host and one remote host is defined and the local host has two instances and the remote host has a single instance, then the batch parameter space will be divided in thirds. Two-thirds will be run locally in parallel: each instance on the local machine will run a third of the space. The remaining third will be run on the remote machine. The number of instances to run on a machine should be roughly the number of hardware threads available on the machine. Of course, your milage may vary, especially if the machine is performing other computationally expensive tasks.  
+Each of the hosts defined on the host panel will be used to perform the batch runs. For example, if one local host and one remote host is defined and the local host has two instances and the remote host has a single instance, then the batch parameter space will be divided in thirds. Two-thirds will be run locally in parallel: each instance on the local machine will run a third of the space. The remaining third will be run on the remote machine. The number of instances to run on a machine should be roughly the number of hardware threads available on the machine. Of course, your milage may vary, especially if the machine is performing other computationally expensive tasks.
 
 \subsubsection{Local Runs}
 Local runs are the easiest runs to perform, requiring the least amount of external setup. To configure a local run, create a host (or chose an existing one) and set its type to LOCAL. You will see the host labeled as something like X@localhost where X is the user name of the account running the GUI. When you perform a local run, the GUI copies the archive payload mentioned above to a temporary location on the machine's hard-drive. This payload is unzipped and the parameter space is divided among the instances to be run locally and the runs are begun. Once the runs have ended, the output generated by each instance is concatenated together and placed in the output directory specified in the model panel.
+
+Note that if the only Java version you have installed on your machine is that included with
+Repast Simphony, then the runs may fail because a Java runtime cannot be found. If that is
+the case Java 8 and Java 11 JDKs can be downloaed from from
+ \href{https://adoptopenjdk.net}{Adopt Open JDK}. Select either
+OpenJDK 8 with Hotspot or OpenJDK 11 with Hotspot. See \href{https://stackoverflow.com/questions/52511778/how-to-install-openjdk-11-on-windows}
+{https://stackoverflow.com/questions/52511778/how-to-install-openjdk-11-on-windows} for
+help on installing under Windows and untar into /Library/Java/JavaVirtualMachines on macOS.
 
 \subsubsection{Remote Runs}
 \label{sec:distributed_runs}
@@ -229,9 +237,9 @@ The situation on windows is more complicated. OSX and Linux come with ssh and th
 \item Check if you have a key pair already generated. If the files id\_rsa and id\_rsa.pub exist in an .ssh directory in your home directory (e.g. C:\textbackslash Users\textbackslash nick\textbackslash .ssh) then the keys already exist and you can skip to step 5.
 \item In the Git Bash terminal type {\tt ssh-keygen -t rsa -C "your\_email@example.com"} We want the default settings so when asked to enter a file in which to save the key just press enter. Then enter a short passphrase. You should see see something like figure \ref{fig:win_ssh}
 \item In the Git Bash terminal type {\tt scp \textasciitilde/.ssh/id\_rsa.pub user@machine:\textasciitilde} where user is the user name used to login to the remote machine and machine is the machine name or ip address. This will copy the public key into the home directory on the remote machine.
-\item Login to the remote machine. Type {\tt ssh user@machine} replacing user and machine as appropriate. You will be asked for the password to login to the remote machine. 
+\item Login to the remote machine. Type {\tt ssh user@machine} replacing user and machine as appropriate. You will be asked for the password to login to the remote machine.
 \item Type {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} to add the public key to the list of authorized keys on the remote machine. If you get a ``no such file or directory'' message, type {\tt mkdir .ssh; touch .ssh/authorized\_keys} and then  {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} . If you get an error that .ssh already exists when trying to create the directory with {\tt mkdir}, type {\tt touch .ssh/authorized\_keys} and then  {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} .
-\item Type {\tt exit} to logout from the remote machine. 
+\item Type {\tt exit} to logout from the remote machine.
 \item Try to login to the remote machine again by typing {\tt ssh user@machine} replacing user and machine. If you are NOT asked for your password but are asked for your ssh private key passphrase then the setup was successful.
 \end{enumerate}
 
@@ -249,7 +257,9 @@ The situation on windows is more complicated. OSX and Linux come with ssh and th
 
 Once you've got your keys on the remote machine, you can run remote batch runs using the Batch Run GUI. The host properties User, Host and SSH Key are used to login to the remote host. The User property should be the user name for the ssh login. The host is the name or ip address of the machine to login into and the SSH Key File is the private key file on the local machine used to auto-login to the remote machine. This file is typically called id\_rsa in a .ssh directory in the user's home directory,  but it may be different.
 
-When performing a batch run using a remote host, the active payload will be copied to the account of the user specified in the host properties. After that, the run occurs as it does in the local version. The archive is unzipped and the parameter space is divided among the instances to be run on that remote host. When the instance runs have ended the output is copied back to the machine where the GUI was run, concatenated and written to the output directory.
+When performing a batch run using a remote host, the active payload will be copied to the account of the user specified in the host properties. After that, the run occurs as it does in the local version. The archive is unzipped and the parameter space is divided among the instances to be run on that remote host. When the instance runs have ended the output is copied back to the machine where the GUI was run, concatenated and written to the output directory. Note that the remote model runs will be performed using whatever Java
+runtime is the default on the remote machine. If you receive class format or other errors that indicate a Java runtime incompatibility, make sure that that the remote Java is compatible with the Java version with which you have compiled your code. Typically, code
+compiled with a later version of Java is not compatible with a previous version's runtime.
 
 \section{Preparing Your Model for Batch Runs}
 
@@ -327,7 +337,7 @@ The format here is ``hostname.username.instance number = status".  In this case,
 
 This section will walk you through an example batch run using a combination of local and remote machines. We will run 1 instance locally, 2 instances on a remote OSX machine and 1 instance on an Amazon EC2 cloud instance. We have set up the remote OSX machine and the Amazon cloud host using the instructions in section \ref{sec:remote_machines}. The JZombies demo will be our example model.
 
-We've set up the Model, Batch Parameters and Hosts Panel as in fig. ~\ref{fig:model_panel_run}, fig. ~\ref{fig:batch_panel_run} and fig. ~\ref{fig:hosts_panel_run} respectively. Note that the IP address of the OSX machine as been obscured. If you want to follow along with the example, fill the Run Properties part of the Model panel as in the figure and set the batch parameters in the Batch Parameters panel to match the batch panel figure. For the hosts, create only a local host with two instances. To do that, go to the hosts panel, if there is an existing localhost entry, click on it and make sure the instances entry is 2. If there is no localhost entry, click the ``Add Host'' \includegraphics[height=.2in]{images/add_host.png} button and set its type to LOCAL and instances to 2. 
+We've set up the Model, Batch Parameters and Hosts Panel as in fig. ~\ref{fig:model_panel_run}, fig. ~\ref{fig:batch_panel_run} and fig. ~\ref{fig:hosts_panel_run} respectively. Note that the IP address of the OSX machine as been obscured. If you want to follow along with the example, fill the Run Properties part of the Model panel as in the figure and set the batch parameters in the Batch Parameters panel to match the batch panel figure. For the hosts, create only a local host with two instances. To do that, go to the hosts panel, if there is an existing localhost entry, click on it and make sure the instances entry is 2. If there is no localhost entry, click the ``Add Host'' \includegraphics[height=.2in]{images/add_host.png} button and set its type to LOCAL and instances to 2.
 
 \begin{figure}[h]
 \begin{center}
@@ -363,7 +373,7 @@ We've set up the Model, Batch Parameters and Hosts Panel as in fig. ~\ref{fig:mo
 \end{figure}
 
 
-Once the various configuration properties have been set, we can click the run button. This will create the archive payload and start the runs. The Console panel will display information about the archive creation and then about the runs themselves. If you have a passphrase associated with your SSH key and you are doing remote runs you will be asked for  your passphrase in the passphrase dialog (fig. ~\ref{fig:passphrase}). 
+Once the various configuration properties have been set, we can click the run button. This will create the archive payload and start the runs. The Console panel will display information about the archive creation and then about the runs themselves. If you have a passphrase associated with your SSH key and you are doing remote runs you will be asked for  your passphrase in the passphrase dialog (fig. ~\ref{fig:passphrase}).
 
 The Console output reports the status of the batch run from setup through the actual runs. It can look daunting at first but it contains lots of useful information. Much of the output begins with a status keyword such as INFO, WARN or ERROR. If the run completes without any issues you should see only INFO type status messages. Following the status keyword is a timestamp followed by the name of the Java class that is producing the status message. After that, you will see the status message itself.
 
@@ -372,16 +382,16 @@ contains all the batch run properties that were entered into the GUI. The code t
 
 \begin{verbatim}
 
-INFO  [AWT-EventQueue-0] 16:55:18,582 
-  repast.simphony.batch.gui.BatchConfigMediator - Writing batch 
+INFO  [AWT-EventQueue-0] 16:55:18,582
+  repast.simphony.batch.gui.BatchConfigMediator - Writing batch
   run config file to: JZombies_Demo/output/config.props
 \end{verbatim}
 
-The second status message says that the batch\_params.xml file that was created via the GUI is ``unrolled'' and written to a temporary directory. ``Unrolling'' here refers to explicitly producing and writing each individual parameter combination to a file. It is this unrolled parameter file that is divided and distributed to the hosts for running. 
+The second status message says that the batch\_params.xml file that was created via the GUI is ``unrolled'' and written to a temporary directory. ``Unrolling'' here refers to explicitly producing and writing each individual parameter combination to a file. It is this unrolled parameter file that is divided and distributed to the hosts for running.
 
 \begin{verbatim}
-INFO  [AWT-EventQueue-0] 16:55:18,588 
-  repast.simphony.batch.gui.BatchConfigMediator - 
+INFO  [AWT-EventQueue-0] 16:55:18,588
+  repast.simphony.batch.gui.BatchConfigMediator -
   Unrolling batch parameter file: JZombies_Demo/batch/batch_params.xml to
   /var/folders/31/yd0l22kx35zgy1wbnc8p7gbr0000gr/T/unrolledParamFile.txt
 \end{verbatim}
@@ -397,7 +407,7 @@ make_zip:
    [copy] Copying 2 files to /private/var/folders/.../working
    [copy] Copying 3 resources to /private/var/folders/.../working
    [copy] Copying 1 resource to /private/var/folders/.../working/bin
- 
+
 make_pre_reqs:
     [mkdir] Created dir: /private/var/folders/.../working/data
     [mkdir] Created dir: /private/var/folders/.../working/lib
@@ -413,95 +423,95 @@ make_pre_reqs:
      [echo] Completed building model archive.
 \end{verbatim}
 
-The archive payload is then copied to the local and remote hosts. The process here is that a zip archive is created containing the archive payload as well as some additional configuration data. This zip archive is named with the user name followed by the host together with a timestamp (e.g. nick\_localhost4106394375716993975.zip). In the case of a local host, the zip archive is copied to a local temporary directory whose name begins with simphony\_model\_ followed by a timestamp (e.g. simphony\_model\_1368219324898). 
+The archive payload is then copied to the local and remote hosts. The process here is that a zip archive is created containing the archive payload as well as some additional configuration data. This zip archive is named with the user name followed by the host together with a timestamp (e.g. nick\_localhost4106394375716993975.zip). In the case of a local host, the zip archive is copied to a local temporary directory whose name begins with simphony\_model\_ followed by a timestamp (e.g. simphony\_model\_1368219324898).
 
 \begin{verbatim}
-INFO  [SwingWorker-pool-1-thread-2] 16:56:26,990 
-  repast.simphony.batch.ssh.LocalSession - 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:26,990
+  repast.simphony.batch.ssh.LocalSession -
   Copying locally /var/folders/.../nick_localhost4106394375716993975.zip
   to  /var/folders/.../simphony_model_1368219324898
-INFO  [SwingWorker-pool-1-thread-2] 16:56:27,411 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:27,411
   repast.simphony.batch.ssh.LocalSession - Copying Finished.
 \end{verbatim}
 
 The remote host works similarly. The zip archive is copied to a simphony\_model\_ plus timestamp directory on the remote host. In this case, the zip archive is named  ubuntu\_ec2-107-20-23-221.compute-1.amazonaws.com8807870753490178805.zip and the remote directory is ~/simphony\_model\_1368219324898/.
 
 \begin{verbatim}
-INFO  [SwingWorker-pool-1-thread-2] 16:56:09,829 
-  repast.simphony.batch.ssh.RemoteSession - 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:09,829
+  repast.simphony.batch.ssh.RemoteSession -
   Copying /var/folders/.../
-  ubuntu_ec2-107-20-23-221.compute-1.amazonaws.com8807870753490178805.zip to 
+  ubuntu_ec2-107-20-23-221.compute-1.amazonaws.com8807870753490178805.zip to
   ubuntu@ec2-107-20-23-221.compute-1.amazonaws.com:~/simphony_model_1368219324898/
   ubuntu_ec2-107-20-23-221.compute-1.amazonaws.com8807870753490178805.zip ...
-INFO  [SwingWorker-pool-1-thread-2] 16:56:23,197 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:23,197
   repast.simphony.batch.ssh.RemoteSession - Copying Finished.
 \end{verbatim}
 
 Before a remote run is attempted,  a check is made to see if Java is installed on the remote host. If it is not, then you will see an error. In this case, we can see that the java version is 1.7.0\_21.
 
 \begin{verbatim}
-INFO  [SwingWorker-pool-1-thread-2] 16:56:33,369 
-  repast.simphony.batch.ssh.RemoteSession - 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:33,369
+  repast.simphony.batch.ssh.RemoteSession -
   Checking for java on ubuntu@ec2-107-20-23-221.compute-1.amazonaws.com
 INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,691
   repast.simphony.batch.ssh.SSHSession - java version "1.7.0_21"
 INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,692
   repast.simphony.batch.ssh.SSHSession - OpenJDK Runtime Environment (IcedTea 2.3.9)
   (7u21-2.3.9-0ubuntu0.11.10.1)
-INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,692 
-  repast.simphony.batch.ssh.SSHSession - 
+INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,692
+  repast.simphony.batch.ssh.SSHSession -
   OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
 \end{verbatim}
 
 Once the java version has been checked and assuming it is OK, then the archive payload is unzipped and run.
 
 \begin{verbatim}
-INFO  [SwingWorker-pool-1-thread-2] 16:56:38,685 
-  repast.simphony.batch.ssh.LocalSession - Unzipping model 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:38,685
+  repast.simphony.batch.ssh.LocalSession - Unzipping model
   /var/folders/.../simphony_model_1368219324898/nick_localhost4106394375716993975.zip
-INFO  [SwingWorker-pool-1-thread-2] 16:56:39,177 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:39,177
   repast.simphony.batch.ssh.LocalSession - Running model on localhost ...
 
-INFO  [SwingWorker-pool-1-thread-2] 16:56:34,583 
-  repast.simphony.batch.ssh.RemoteSession - Unzipping model on 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:34,583
+  repast.simphony.batch.ssh.RemoteSession - Unzipping model on
   ubuntu@ec2-107-20-23-221.compute-1.amazonaws.com
-INFO  [SwingWorker-pool-1-thread-2] 16:56:37,633 
- repast.simphony.batch.ssh.RemoteSession - Running model on 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:37,633
+ repast.simphony.batch.ssh.RemoteSession - Running model on
  ubuntu@ec2-107-20-23-221.compute-1.amazonaws.com ...
 \end{verbatim}
 
 The remote and local hosts are then periodically polled to see if they have finished. The polling status updates end with ``DONE:'' followed by a ``yes'' if the runs on that host have finished. Otherwise ``no'' will be output.
 
 \begin{verbatim}
-INFO  [pool-3-thread-3] 16:56:51,210 repast.simphony.batch.ssh.LocalDonePoller - 
+INFO  [pool-3-thread-3] 16:56:51,210 repast.simphony.batch.ssh.LocalDonePoller -
   Polled /var/folders/.../simphony_model_1368219324898 for DONE:  yes
-INFO  [pool-3-thread-2] 16:56:52,540 repast.simphony.batch.ssh.RemoteDonePoller - 
- Polled simphony_model_1368219324898 on ec2-107-20-23-221.compute-1.amazonaws.com 
+INFO  [pool-3-thread-2] 16:56:52,540 repast.simphony.batch.ssh.RemoteDonePoller -
+ Polled simphony_model_1368219324898 on ec2-107-20-23-221.compute-1.amazonaws.com
  for DONE: yes
-INFO  [pool-3-thread-1] 16:56:52,796 repast.simphony.batch.ssh.RemoteDonePoller - 
-  Polled simphony_model_1368219324898 on XXX.XXX.XXX.XXX 
+INFO  [pool-3-thread-1] 16:56:52,796 repast.simphony.batch.ssh.RemoteDonePoller -
+  Polled simphony_model_1368219324898 on XXX.XXX.XXX.XXX
   for DONE: yes
 \end{verbatim}
 
 If there was error during the run, that should be reported here as part of the polling. Assuming there wasn't then the local and remote output is copied and concatenated into the output directory that was specified in the GUI.
 
 \begin{verbatim}
-INFO  [SwingWorker-pool-1-thread-2] 16:56:55,630 
-  repast.simphony.batch.ssh.RemoteSession - Finding and copying remote 
-  output from sshtesting@XXX.XXX.XXX.XXX:simphony_model_1368219324898 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:55,630
+  repast.simphony.batch.ssh.RemoteSession - Finding and copying remote
+  output from sshtesting@XXX.XXX.XXX.XXX:simphony_model_1368219324898
   to /var/folders/.../sshtesting_XXX.XXX.XXX.XXX
-INFO  [SwingWorker-pool-1-thread-2] 16:56:58,412 
+INFO  [SwingWorker-pool-1-thread-2] 16:56:58,412
   repast.simphony.batch.ssh.RemoteSession - Finding and copying remote
   output from ubuntu@ec2-107-20-23-221.compute-1.amazonaws.com:
   simphony_model_1368219324898 to /var/folders/.../
   ubuntu_ec2-107-20-23-221.compute-1.amazonaws.com
-INFO  [SwingWorker-pool-1-thread-2] 16:57:00,247 
+INFO  [SwingWorker-pool-1-thread-2] 16:57:00,247
   repast.simphony.batch.ssh.LocalSession - Finding output on localhost in
   /var/folders/.../simphony_model_1368219324898
-INFO  [SwingWorker-pool-1-thread-2] 16:57:00,266 
-  repast.simphony.batch.ssh.SessionsDriver - Aggregating output into 
+INFO  [SwingWorker-pool-1-thread-2] 16:57:00,266
+  repast.simphony.batch.ssh.SessionsDriver - Aggregating output into
   JZombies_Demo/output
-INFO  [SwingWorker-pool-1-thread-2] 16:57:00,267 
+INFO  [SwingWorker-pool-1-thread-2] 16:57:00,267
   repast.simphony.batch.ssh.SessionsDriver - Finished. Elapsed Time: 1.5906
 \end{verbatim}
 
@@ -632,7 +642,7 @@ To shut down the virtual machine when you no longer need it, you can close the w
 \subsection{Amazon Cloud Services}
 Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides resizable compute capacity in the cloud. It is designed to make web-scale computing easier for developers. It is possible to use this remote compute capacity to perform remote batch runs. More on Amazon's EC2 can be found at  \href{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html}{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html}.
 
-Amazon EC2 based batch runs begin with setting up a remote machine instance that runs an Amazon Machine Image (AMI). The batch run will login into this instance using SSH and perform the runs on it. The setup only needs to be done once. After that, the instance can be stopped and started as needed. The Amazon EC2 Getting Started docs describe this process: \href{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html}{\\http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2\_GetStarted.html}. (Note that Amazon, at the time of writing, has 12 month free tier. See the links in the EC2 Getting Started Guide for more info.) Follow the Getting Started Guide to set up your instance. Choose the 64 bit Ubuntu Server 12.04 LTS (figure \ref{fig:ubuntu_ami}) as the launch configuration in Step 2. of the Getting Started Guide. 
+Amazon EC2 based batch runs begin with setting up a remote machine instance that runs an Amazon Machine Image (AMI). The batch run will login into this instance using SSH and perform the runs on it. The setup only needs to be done once. After that, the instance can be stopped and started as needed. The Amazon EC2 Getting Started docs describe this process: \href{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html}{\\http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2\_GetStarted.html}. (Note that Amazon, at the time of writing, has 12 month free tier. See the links in the EC2 Getting Started Guide for more info.) Follow the Getting Started Guide to set up your instance. Choose the 64 bit Ubuntu Server 12.04 LTS (figure \ref{fig:ubuntu_ami}) as the launch configuration in Step 2. of the Getting Started Guide.
 
 \begin{figure}[h]
 \begin{center}
@@ -669,8 +679,8 @@ Amazon EC2 has its own public key authentication setup that is described in its 
 \end{figure}
 
 \label{sec:gui_launch}
-\section{Launching the Batch Run Configuration GUI} 
-Batch Run Configuration GUI can be launched in 3 different ways. 
+\section{Launching the Batch Run Configuration GUI}
+Batch Run Configuration GUI can be launched in 3 different ways.
 
 \begin{enumerate}
 \item Using the Launch Button found in the runtime
@@ -678,7 +688,7 @@ Batch Run Configuration GUI can be launched in 3 different ways.
 \item Using the stand alone Batch Run applications
 \end{enumerate}
 \noindent
-We have covered the first of these in section \ref{sec:gui}. The remaining two allow you to launch the configuration GUI and thus batch runs without launching the repast runtime. 
+We have covered the first of these in section \ref{sec:gui}. The remaining two allow you to launch the configuration GUI and thus batch runs without launching the repast runtime.
 
 \subsection{Launching from Eclipse}
 To launch the batch GUI from the eclipse launcher, open the launchers folder in your model's eclipse project and right click on the launch file that begins with ``Batch'' (fig \ref{fig:launcher}). Select ``Run As'' from the pop up menu and then the Batch model entry. This will launch the batch GUI and load the selected model into it. Note that when running via the launcher some of the output that would normally be in the Batch Run GUI Console will show up in Eclipse's console.
@@ -695,8 +705,8 @@ To launch the batch GUI from the eclipse launcher, open the launchers folder in 
 \end{figure}
 
 \subsection{Launching as a Standalone Application}
-To launch the batch GUI as a stand alone application navigate to where Repast Simphony is installed. Double click the batch\_runner.jar. 
- 
+To launch the batch GUI as a stand alone application navigate to where Repast Simphony is installed. Double click the batch\_runner.jar.
+
 \section{Running on a Cluster or HPC Machine}
 \label{sec:hpc}
 
@@ -825,4 +835,4 @@ usage: batch_runner
                            (only with -hl and without -r option)
 \end{verbatim}
 
-\end{document}  
+\end{document}
