@@ -106,11 +106,29 @@ files that are described in the section <<project-contents,Project Contents>>.
 .New ReLogo Project in the Workspace
 image::figures/new_relogo_project_workspace.png[width=750]
 
+[[update-repast-project]]
 === Updating an Existing Repast Project
-.TODO
-****
-TODO
-****
+Existing Repast projects starting with version 2.0 generally do not require any
+special steps to update the project or model components.  Users may optionally
+update the Repast model installer builder files that are located in the project's
+/installer folder by using an automated update feature.  The Repast model installer
+builder is a bundled utility that packages a Repast model into a self-contained
+JAR installer that can be distributed to other systems even if they do not have
+Repast installed on them.  Since some version-specific configuration details are 
+contained in the project's installation folder, it it sometime necessary to update
+these files after a new version of Repast is installed.  
+
+* *To update the model installer builder configuration files and right click on the Repast
+project, select Repast Simphony -> "Update model installer files".*  A dialog will
+appear asking to confirm the name of the model.  Typically the correct name of the
+model will be automatically filled in, however the user can change the name in case
+the project name was changed at some point.  Click OK and the model installer files
+will be updated.   Note that no project files outside of the /installer folder will
+be modified.
++
+[[update_project]]
+.Updating an Existing Repast Simphony Project
+image::figures/update_project.png[width=750]
 
 === Adding Repast to an Existing Project
 An existing Java project can be configured such that Repast and ReLogo models
@@ -138,17 +156,47 @@ configuration files>> will need to be manually added.
 .Workspace Showing the Repast Nature on a Java Project
 image::figures/project_repast_nature.png[width=750]
 
+[[importing-model]]
+=== Importing a Model
+Users who have existing Repast projects or who have received a Repast project from
+someone else may import the project into a new version of Repast Simphony using
+the following steps:
+
+1. *Right click on the Package Explorer and select "Import..."*  The Eclipse 
+import wizard dialog will appear prompting to select the type of Eclipse item to
+import.  Open the "General" folder, select "Existing Projects into Workspace" 
+and click Next as shown in the following figure. 
++
+[[eclipse_import]]
+.Eclipse Project Import Wizard Dialog
+image::figures/import_project_1.png[]
+
+2. *In the Eclipse project import dialog, browse and select the project folder to
+open.*  If the selected folder contains a valid Eclipse project, the project will
+be listed in the Projects box in the dialog as shown in the following figure.  In 
+this example, the "Autocatalysis" project is selected.  By default the option "Copy
+projects into workspace" is selected.  This will make a copy of the selected project
+and place it in the workspace location and is useful when users would like to maintain
+a backup of the original project, since workspace edits will not be made in the 
+workspace project location instead of the original project location.
++
+[[eclipse_import_select]]
+.Eclipse Project Import Wizard Dialog Showing Selected Project.
+image::figures/import_project_2.png[]
+
+
 [[project-contents]]
 === Project Contents and Model Configuration Files
 Repast and ReLogo projects contain a number of folders and files that are required
 and contain essential model configuration data.  Repast Java project developers
 typically modify these files to suit the model properties, however ReLogo project
-developers typically will not need to modify any of these files.  The following
-figure displays the project contents for a newly created Repast Java project.  If
+developers typically will not need to modify any of these files.  
+
+* *The following figure displays the project contents for a newly created Repast Java project.*  If
 the project contents are not visible, it may be necessary to switch to the Java 
 perspective by clicking the Java perspective button image:figures/eclipse_java_button.png[] 
 in the upper right corner.
-
++
 [[repast_project_contents]]
 .Workspace Showing the full contents of aRepast Java Project
 image::figures/repast_project_contents.png[width=750]
@@ -201,9 +249,22 @@ runtime.
 
 ----
 
-NOTE: The only unique entry in the user_path.xml file is the model name attribute
+TIP: In many cases, the default user_path.xml file does not need to be changed at all.
+
+NOTE: The only unique entry in the default user_path.xml file is the model name attribute
 which is the same as the project name.
 
+The *path element* is a reference to a directory or jar file. If the directory contains 
+jars then all those jars are added to the classpath. If the directory or its 
+children contain .class files then the directory is added to the classpath. More 
+than one path can be specified. Multiple paths should be comma-separated. For .class 
+files, the path functions as a classpath and so it must be the directory 
+immediately above the directories corresponding to the class packages. For 
+example, given the class repast.simphony.MyClass and the directory structure 
+X/bin/repast/simphony/MyClass.class, the path should be X/bin. This applies to 
+path in both entry and agents elements.
+
+.Agents path
 As may be evident, the purpose of the user_path.xml file is to provide the locations
 of the model agent classes to the Repast runtime.  The default user_path.xml sets
 the *agents path* value to "../bin" which is the default location of compiled class
@@ -231,40 +292,56 @@ myProject.somepackage.agents exists, and that the agent classes are located in t
 package.  Note that the wildcard character "*" is required to specify that all classes
 in the package should be loaded as agents.
 
+.Agents Element
+[options="header",width="80%",cols="3"]
+|====
+|Attribute Name |Description |Required
+|path |Path to agent classes folder |YES
+|filter |Specifies a class filter on the agents path(s) |NO
+|====
+
+.Entry path
+The entry path elements in the user_path.xml file provide other types of model classes
+to the Repast runtime that aren't necessarily considered agents.  Classes like utility
+functions, file loaders, etc that are used by agents, but are not agents themselves
+could be provided to an entry path.  The default value of "..lib" configures the 
+Repast runtime to scan this folder for model classes, and the user can place JAR
+files in the lib folder for things like third party libraries used by the model.  When
+a folder is specified as in the default user_path.xml, the entire contents of the
+folder is made available to the Repast runtime.
+
+By default, entry path values will not automatically be scanned for Java annotations
+as with the agents path entry.  If an entry path refers to classes that do contain
+Repast-specific annotations like @ScheduledMethod, then the annotations option 
+should be specified as follows:
+
 ----
-<model name="Model Name">
-  <classpath>
-    <entry path="..." annotations="[true|false]" />
-    <agents path="..." filter="..." />
-    <builtin fullname="..." />
-  </classpath>
-</model>
+<entry path="../somepath" annotations="true"/>
 ----
 
-* *path* is path statement to a directory or jar file. If the directory contains 
-jars then all those jars are added to the classpath. If the directory or its 
-children contain .class files then the directory is added to the classpath. More 
-than one path can be specified. Multiple paths should be "," separated. For .class 
-files, the path functions as a classpath and so it must be the directory 
-immediately above the directories corresponding to the class packages. For 
-example, given the class repast.simphony.MyClass and the directory structure 
-X/bin/repast/simphony/MyClass.class, the path should be X/bin. This applies to 
-path in both entry and agents elements.
+.Entry Element
+[options="header",width="80%",cols="4"]
+|====
+|Attribute Name |Description |Allowed Values |Required
+|path |Path to model classes folder |Any string |YES
+|annotations |Specifies if path should be scanned for Repast-specific annotations |true or false (default is false) |NO
+|====
 
-* *annotations* specified whether or not any classes found in the specified 
-path(s) should be processed for annotations. The default is false.
+.Builtin path
+Finally, the builtin path element is for cases when a user needs to add an agent class 
+existing in one of the Repast plugins. The user specifies the canonical class 
+name as the fullname as follows:
 
-* *agents* specifies the path where agent classes can be found. These are 
-automatically processed for annotations.
+----
+<builtin fullname="repast.simphony.someclass"/>
+----
 
-* *filter* specifies a class filter on the agents path(s). For example a filter 
-of "anl.gov.Agent" will filter out all classes but anl.gov.Agent as agent 
-classes. Filters can contain the wildcard "*". So for example, "anl.gov.*Agent" 
-will include any class in the package anl.gov whose class name ends with Agent.
-
-* *builtin* is for cases when a user needs to add an agent class 
-existing in one of the repast plugins. The user specifies the canonical class 
-name as the fullname.
+.Builtin Element
+[options="header",width="80%",cols="3"]
+|====
+|Attribute Name |Description |Required
+|fullname |Path to Repast agent classes |YES
+|====
 
 NOTE: For the builtins, since the class can be in any one of the repast plugins, 
 without hard coding the path, it is difficult to use the filter mechanism on all 
@@ -275,6 +352,27 @@ not a common usage.
 
 [[context-xml]]
 ==== context.xml
+The context.xml file located in the MyProject.rs folder provides information to 
+the Repast runtime about model meta-data such as the types of projections and
+context hierarchy.  The default context.xml file created by the Repast new project 
+wizard is shown below. In almost all cases, the default context.xml file needs to 
+be changed to include model specific details.
+
+----
+<context id="MyProject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
+  	
+</context>
+----
+
+TIP: In almost all cases, the default context.xml file needs to be changed to 
+include model specific details.
+
+As is apparent, the default context.xml is essentially empty, aside from the root
+context element which specifies the name of the root context "MyProject" which by
+default is the same as the project name.  The additional xmlns and xsi values
+specify the XML descriptor information which provides content assistence in XML
+editors like in Eclipse.
+
 context.xml contains the context heirarchy information.
 
 ----
@@ -419,6 +517,7 @@ For example:
 will create a network with an id of "MyNetwork". The network will be directed 
 and use the default RepastEdge as the edge type.
 
+[[distribute-model]]
 === Distributing Your Model
 
 // TODO Needs updating
@@ -435,9 +534,3 @@ To start the Install Builder, select Build Installer in the run menu
 The builder make take a few minutes to complete the installer. Once this process 
 is complete, a message "BUILD SUCCESSFUL" should be visible in the Console 
 window.
-
-=== Importing a Model
-.TODO
-****
-TODO
-****

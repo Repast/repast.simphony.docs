@@ -19,6 +19,25 @@ WARNING: Use --illegal-access=warn to enable warnings of further illegal reflect
 WARNING: All illegal access operations will be denied in a future release
 ----
 
+=== Eclipse: An out of memory error has occurred. 
+Eclipse may exceed the specified maximum memory it can use when building large
+projects.  The memory allocated to Eclipse is specified in the 
+https://wiki.eclipse.org/Eclipse.ini[eclipse.ini] file in the /eclipse folder and 
+can be directly edited with a text editor.   The arguments -Xms and -Xmx may be
+updated to allocate more memory, for example
+
+----
+-Xms256m
+-Xmx2048m
+----
+
+will allocate 2GB maximum to Eclipse.  The default values for -Xmx is usually much
+smaller.  As of Repast version 2.6, the eclipse.ini included with the Repast installer
+omits the -Xms and -Xmx entirely, as the JVM is able to automatically re-allocate
+memory up to the system available maximum.  For users who download their own copy
+of Eclipse, or for Repast versions prior to 2.6, the -Xms and -Xmx values can be
+removed or updated as needed.
+
 === SEVERE: Retrieval returned no content for \https://worldwind20.arc.nasa.gov/...
 This is a benign warning that sometimes occurs in GIS displays because the online
 server for layers like satellite imagery is unreachable or offline.  The only impact

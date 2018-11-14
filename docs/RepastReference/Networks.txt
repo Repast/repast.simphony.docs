@@ -76,6 +76,7 @@ Network network = builder.buildNetwork()
 
 Any networks created using this builder will then use that EdgeCreator.
 
+[[network-excel]]
 === Loading networks from input files
 Networks can also be loaded from a file. Currently, the builder can load networks from UCINet's dl format
 or from Excel. The relevant methods in the NetworkBuilder are:
