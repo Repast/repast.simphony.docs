@@ -3,8 +3,8 @@
 === My project does not show up on Eclipse's run (launch) button
 The project launch configuration has simply become hidden and needs to be manually
 added to the list of available programs to run.  Follow these steps:
-1. Choose "Organize Favorites" from the bottom of the Run menu 
-2. Press the "Add" button on the upper left of the resulting "Organize Run Favorites" window. 
+1. Choose "Organize Favorites" from the bottom of the Run menu
+2. Press the "Add" button on the upper left of the resulting "Organize Run Favorites" window.
 3. Select all of the items in the "Add Run Favorites" window.
 
 === WARNING: An illegal reflective access operation has occurred
@@ -19,10 +19,19 @@ WARNING: Use --illegal-access=warn to enable warnings of further illegal reflect
 WARNING: All illegal access operations will be denied in a future release
 ----
 
-=== Eclipse: An out of memory error has occurred. 
+=== WARNING: NSWindow drag regions should only be invalidated on the Main Thread!
+The following warning message occurs when using macOS Mojave, and has no impact
+on the model code, performance, or reliability, and can be safely ignored:
+
+----
+WARNING: NSWindow drag regions should only be invalidated on the Main Thread! ...
+...
+----
+
+=== Eclipse: An out of memory error has occurred.
 Eclipse may exceed the specified maximum memory it can use when building large
-projects.  The memory allocated to Eclipse is specified in the 
-https://wiki.eclipse.org/Eclipse.ini[eclipse.ini] file in the /eclipse folder and 
+projects.  The memory allocated to Eclipse is specified in the
+https://wiki.eclipse.org/Eclipse.ini[eclipse.ini] file in the /eclipse folder and
 can be directly edited with a text editor.   The arguments -Xms and -Xmx may be
 updated to allocate more memory, for example
 
@@ -71,20 +80,20 @@ The tick counter will not increment if no behaviors have been scheduled.  Schedu
 agent behaviors in the agent classes using the @ScheduledMethod annotation.
 
 === Error "log4j:WARN No appenders could be found for logger (MessageCenter.INTERNAL.repast.simphony.ui.RSUIPlugin)"
-An issue sometimes occurs with the Repast message logging system that results in 
+An issue sometimes occurs with the Repast message logging system that results in
 error messages like
 ----
 log4j:WARN No appenders could be found for logger (MessageCenter.INTERNAL.repast.simphony.ui.RSApplication).
 log4j:WARN Please initialize the log4j system properly.
 ----
 
-with some variability in the (MessageCenter....) part. In almost all cases, this 
-warning is NOT actually related to logging configuration errors, and more likely 
-it is related to problems in the user_path.xml file like incorrect paths, or 
+with some variability in the (MessageCenter....) part. In almost all cases, this
+warning is NOT actually related to logging configuration errors, and more likely
+it is related to problems in the user_path.xml file like incorrect paths, or
 missing agent class files.
 
-When you start a Repast model and you get the log4j message in the Eclipse console, 
-you can usually find more information from the Repast runtime error log. 
+When you start a Repast model and you get the log4j message in the Eclipse console,
+you can usually find more information from the Repast runtime error log.
 The error log is available when the icon in the lower right corner of the Repast runtime is flashing.
 
 === Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
@@ -96,9 +105,9 @@ to experience an OutOfMemoryError if a model uses an unusually large amount of m
 
 To increase the amount of system memory available to Java, a "VM" argument may be
 specified in the Eclipse launch configuration for the model as shown in <<vmargs_image>>.
-To increase the available memory (up to the physical system limit) use the -Xmx 
+To increase the available memory (up to the physical system limit) use the -Xmx
 argument and provide a numerical value for the memory using the 'M' or 'G' qualifier
-to specify megabytes or gigabytes.  For example -Xmx4000M and -Xmx4G both specify 
+to specify megabytes or gigabytes.  For example -Xmx4000M and -Xmx4G both specify
 a memory limit of 4 GB.
 
 [[vmargs_image, Foo]]
@@ -106,7 +115,7 @@ a memory limit of 4 GB.
 image::figures/vmargs.png[]
 
 === When I run the model I get the runtime error javax.media.opengl.GLException
-When running a Repast model with displays an error similar to that shown below is 
+When running a Repast model with displays an error similar to that shown below is
 seen and the displays do not show correctly in the Repast runtime GUI:
 ----
 javax.media.opengl.GLException: WindowsWGLDrawableFactory - Could not initialize shared resources...
@@ -114,12 +123,8 @@ ERROR [AWT-EventQueue-0] 12:13:10,314 repast.simphony.visualizationOGL2D.Display
 javax.media.opengl.GLException: Profile GL2 is not available on null, but: [GLProfile[GL2ES2/GL4.hw], GLProfile[GL4/GL4.hw], GLProfile[GL3/GL3.hw], GLProfile[GL4/GL4.hw], GLProfile[GL2GL3/GL4.hw]]
 	at javax.media.opengl.GLProfile.get(GLProfile.java:806)
 ----
-This is caused by the system's graphics card drivers being out of date, or the 
+This is caused by the system's graphics card drivers being out of date, or the
 system graphics hardware not supporting OpenGL.  The most common cause of this error
 is out of date graphics drivers.  The graphics drivers should be updated and are
 generally available from the computer manufaturer or directly from the GPU support
 sites of NVidia or ATI.
-
-
-
-
