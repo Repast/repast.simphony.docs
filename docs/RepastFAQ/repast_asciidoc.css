@@ -21,7 +21,7 @@ body {
 
 a {
   color: blue;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:visited {
   color: fuchsia;

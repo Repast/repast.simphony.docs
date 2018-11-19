@@ -128,3 +128,108 @@ system graphics hardware not supporting OpenGL.  The most common cause of this e
 is out of date graphics drivers.  The graphics drivers should be updated and are
 generally available from the computer manufaturer or directly from the GPU support
 sites of NVidia or ATI.
+
+=== OSX/macOS vecmath / jogl/ java3d related exceptions
+Under OSX, Apple has installed older obsolete versions of the vecmath and
+Java3D libraries. These may be located in a variety of locations such as 
+
+/System/Library/Java/Extensions
+
+/Library/Java/Extensions
+
+or
+
+<User Home>/Library/Java/Extensions
+
+Remove all the vecmath, java3d and jogl related jars and vecmath, java3d,
+jogl, and jnilib files from those directories.
+
+=== Problems with updating older Repast models
+==== I imported a previous workspace into a new version and now I get an error like "java.lang.UnsupportedClassVersionError....unsupported major.minor version 51.0"
+Older workspaces that previously worked with Simphony may be setup to use Java 1.6. 
+The workspace preferences must be updated to use Java 1.8 or later. Go to the 
+Preferences menu then select Java -> Installed JREs and choose a Java JRE 8 or 
+later that installed on your system.
+
+==== I tried the batch model launcher in Eclipse and I get class not found errors for the apache CLI classes.
+
+The current version of the batch GUI require a different classpath and
+older versions of the .launch file do not have the correct classpath. To
+fix this, open the .launch file as text and replace the line:
+
+----
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;
+standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry
+containerPath=&quot;STAND_ALONE_BATCH_CLASSPATH&quot;
+path=&quot;3&quot; type=&quot;3&quot;/&gt;&#10;"/>
+----
+
+with:
+
+----
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;
+standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry
+containerPath=&quot;STAND_ALONE_BATCH_LAUNCHER&quot;
+path=&quot;3&quot; type=&quot;4&quot;/&gt;&#10;"/>
+----
+
+==== When building the model installer I get an exception "[java] com.izforge.izpack.compiler.CompilerException"
+Models created with previous version of Repast should have their installer configuration
+files updated.  This can be done automatically.  If you created a Repast or ReLogo 
+project using a previous version of Repast Simphony and would like to update the 
+project files to a newer version of Repast, see the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#update-repast-project[Updating an Existing Repast Project].
+
+==== My Repast project includes JUnit unit tests but the tests won't compile (e.g. the imported packages won't import etc.).
+Eclipse included with Repast Simphony changed the name of its JUnit library plugin. 
+The project build path needs to be updated to this new JUnit library. To do this, 
+right click on the project name in the package explorer then Build Path -> 
+Add Libraries. Choose JUnit from the list, then Next, then Finish. That will add 
+Eclipse's current JUnit to the project.
+
+==== I imported an existing 2.0 project into 2.1 / 2.2 and created a statechart. The statechart code in my agent won't compile.
+By default a 2.0 project is not set up to generate and compile code from
+a statechart. To enable this, the project must be upgraded to a new verison of Repast Simphony.
+To do that, right click on the project name, then choose Repast Simphony
+from the menu and then Update Repast Simphony Nature. Now when you save the
+statechart you should see a src-gen directory in into which the statechart
+code is generated.
+
+==== Batch run GUI NullPointerException
+When running the Repast batch run GUI with a model created with an older version
+of Repast, you may see an error like:
+
+----
+Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+at repast.simphony.batch.gui.BatchConfigMediator.<init>(BatchConfigMediator.java:80)
+at repast.simphony.batch.gui.BatchConfigMediator.<init>(BatchConfigMediator.java:72)
+at repast.simphony.batch.gui.MainPanel.<init>(MainPanel.java:27)
+...
+----
+The MessageCenter.log4j.properties file in the model root folder is out of date 
+and needs to be updated.  Replace the current contents of that file with:
+----
+log4j.rootLogger = error
+log4j.logger.org.java.plugin = warn, stdout
+log4j.logger.org.apache.commons= warn, stdout
+log4j.logger.repast.simphony.plugin = warn, stdout
+
+log4j.logger.MessageCenter.INTERNAL.repast = info, stdout, R
+log4j.logger.MessageCenter.INTERNAL.saf = info, stdout, R
+
+log4j.logger.repast.simphony.batch = info, stdout, R
+log4j.logger.repast.simphony.batch.ssh.SSHSessionFactory = warn, stdout, R
+
+log4j.appender.stdout = org.apache.log4j.ConsoleAppender 
+log4j.appender.stdout.layout = simphony.util.messages.MessageCenterLayout 
+log4j.appender.stdout.layout.conversionPattern =%-5p [%t] %d{HH:mm:ss,SSS} %c - %m%n
+#log4j.appender.stdout.Threshold=debug 
+
+log4j.appender.R=org.apache.log4j.RollingFileAppender 
+log4j.appender.R.File=debug.log 
+log4j.appender.R.MaxFileSize=100KB 
+log4j.appender.R.MaxBackupIndex=1 
+#log4j.appender.R.Threshold=info 
+log4j.appender.R.layout=simphony.util.messages.MessageCenterLayout
+log4j.appender.R.layout.ConversionPattern=%-5p [%t] %d{ISO8601} %c - %m%n
+----
