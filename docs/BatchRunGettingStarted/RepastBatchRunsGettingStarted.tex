@@ -262,8 +262,9 @@ runtime is the default on the remote machine. If you receive class format or oth
 compiled with a later version of Java is not compatible with a previous version's runtime.
 
 \section{Preparing Your Model for Batch Runs}
+There are three requirements for a model to be successfully run in batch mode.
 
-The first requirement for a batch run is that your model must terminate each run. When running the model via the GUI this is typically done by clicking the stop button. In the batch run case, you must set and check some termination condition and then stop the model if that condition is met. Or, set the model to terminate at some specific tick. In the JZombies case, the first of these might look like:
+The first requirement is that your model must terminate each run. When running the model via the GUI this is typically done by clicking the stop button. In the batch run case, you must set and check some termination condition and then stop the model if that condition is met. Or, set the model to terminate at some specific tick. In the JZombies case, the first of these might look like:
 
 \begin{verbatim}
 if (context.getObjects(Human.class).size() == 0) {
@@ -282,6 +283,8 @@ RunEnvironment.getInstance().endAt(30);
 This schedules the simulation to end at tick 30. It can be placed in the ContextBuilder for your model.
 
 The second requirement concerns the model's file output. The batch mechanism assumes that the output will be written somewhere in the ``instance'' directory where the model runs. The best way to insure that this occurs is to specify the file with only the file name or a relative directory path followed by the file name. Make sure that the path or file name does not begin with a ``/'' (under OSX, Linux) or ``X:\textbackslash'' or ``\textbackslash'' (under windows where X is any drive letter). The name itself can be anything. Figure ~\ref{fig:file_name} is an example of an acceptable file. Output created via the Simphony's File Sinks will be automatically collected and aggregated. If you have created custom output, then you need to use the Output File Patterns GUI in the Batch Run Configuration GUI's model tab to specify where to find and how to treat that output.
+
+The third requirement is the exclusive use of the {\tt data} and {\tt lib} project directories for model data and additional model libraries, respectively. The contents of these folders will be included in the ``payload" archive file. Any data that is needed by the model will need to be referenced through the project's {\tt data} folder, e.g., {\tt "./data/input.csv"}. Any additional jar files required by the model that are in the {\tt lib} directory will automatically be made available for the model at runtime.
 
 \begin{figure}[h]
 \begin{center}
