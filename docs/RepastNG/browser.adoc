@@ -1,0 +1,106 @@
+= Running your Repast Simphony Model via a Browser
+
+New in Repast Simphony 2.7 is the ability to run your model using a web browser
+as the user interface. The browser-based GUI has the following features:
+
+* 2D grid, continuous space, and geography (GIS) visualization
+* Tabbed and freeform visualization layout
+* Time series plots
+* Agent probing
+* Model parameter setting
+* Model runtime interaction (run, stop, pause, etc.)
+
+The browser-based GUI is an alpha level feature in 2.7, and while most, if
+not all, models should load and run, the full array of existing visualizations
+and plots is not yet supported.
+
+== Getting Started
+
+. Launch the Repast Simphony Server
+.. If your model was created using 2.7, then the launcher should already exist in your
+model project's launchers folder. Right click on the launcher (e.g. `launchers/JZombies_Demo Server.launch`),
+then `Run As`, and then the server entry.
+.. If your model was created prior to 2.7, then the launcher needs to be added. Right click on your 
+model's top level project folder, select the `Repast Simphony` menu entry, then `Add Server Launcher`.
+Once the new launcher has been added, right click on it (e.g. `launchers/JZombies_Demo Server.launch`), then
+`Run As`, and then the server entry.
+. When the server starts, you should see the server output in your Eclipse console (e.g. <<img_console>>), and your default browser
+should be a launched with the browser-based GUI displayed. If your default browser, is already
+running then the browser-based GUI will open in a new tab. 
+.. If a browser cannot be launched automatically, open your browser and go to `http://localhost:5000`.
+. Click the `Initialize` button in the top right hand corner to initialize the model, after which the initial displays and 
+plots should appear.
+. Use the `Start` and `Stop` buttons in the top right hand corner to start and stop the model. You can repeatedly
+run the same model, while changing the parameters etc., by restarting the model with `Initialize` or `Start`
+after the model has stopped.
+. Click `Quit` to stop the server and quit the model.
+
+[[img_console, Server Console]]
+.Eclipse console with a successful server launch
+image::images/console.png[]
+
+The various parts of the GUI are described in greater detail below.
+
+== The GUI
+
+[[img_gui, Browser GUI]]
+.Repast Simphony Browser GUI
+image::images/gui.png[]
+
+The GUI is divided into 7 parts, labeled A - G in <<img_gui>>.
+
+A. Toolbar. The `Initialize`, `start`, and `Stop` buttons will initialize, start and stop 
+the model. `Quit` will stop the server and kill any running models. The server must be restarted
+in order to run the model. `Other Stuff - Kill Model,` will kill the model process, 
+and can be used if the GUI becomes unresponsive.
+
+B. Displays. The model visualizations will appear here. A display can be resized
+by dragging the display's black border, and it can be moved by clicking and holding down the mouse 
+on the header of the display (i.e. the darker section at the top of the display containing the
+display's title). In Tabbed layout, clicking on a tab will show the named display.
+
+C. Charts. Any time series charts will appear here. See <<img_charts>> for an example.
+Hover the mouse over a series (e.g. Zombie Count) to see the value at that point. Clicking
+on a tab will display the named chart.
+
+[[img_charts, Charts]]
+.Repast Simphony Charts Example
+image::images/charts.png[]
+
+[upperalpha,start=4]
+. Tick count. The tick count is displayed here.
+
+. Model parameters. Edit the model parameters here. The `Reset` button can
+be used to return the parameters to their defaults as defined in the model's
+`parameters.xml` file.
+
+. Agent properties. Probed agent properties are displayed here. Click on an
+agent's visual representation in one of the displays to to see that agent's 
+properties. Select a previously probed agent using the drop down box.
+
+. Display Layout. Select the display layout using the drop down box. Choices
+are `Tabbed` and `Freeform`.
+  - `Tabbed`. Show each display in a separate tab.
+  - `Freeform`. Show all the displays on a shared canvas. 
+
+== The Server
+
+The server port (default 5000) and whether to auto-launch a browser when
+the server is launched can be 
+configured in the servers launch configuration. See, for example, <<img_launcher>>.
+
+1. Goto to the `Run Menu` - `Run Configurations` (at the bottom of the menu)
+2. Click on the Server launcher you want to edit. 
+3. Click on the Arguments tab
+4. Edit the program arguments. The first argument (e.g. 5000) specifies the server
+port, the second the scenario folder of the model to run, and the 3rd argument
+determines whether or not to auto-launch a browser where +true+ means auto-launch.
+
+Note that if you change the server port, then browser will point to a different
+address.
+
+[[img_launcher, Launcher Configuration]]
+.Server Launcher Configuration Dialog
+image::images/launcher.png[]
+
+
