@@ -1,3 +1,4 @@
+[[gis]]
 == GIS Projections
 
 // TODO add GIS fundamentals such as feature type geometries and raster data
@@ -136,6 +137,7 @@ Additional queries are available for getting agents that intersect another agent
 the agents that touch another agent or geometry, and so on. See the classes in the
 repast.simphony.query.space.gis package for more information.
 
+[[gis-load-shapefile]]
 === Loading agent data from Shapefiles
 Agent geometry data can be loaded from standard ESRI shapefiles using the GeoToos API.
 An exmaple of creating a list of features from a shapefile filename string is provided 
@@ -185,7 +187,8 @@ Geometry geom = (Geometry)feature.getDefaultGeometry();
 geography.move(agent, geom);
 ----
 
-==== Coverage Raster Layers
+[[gis-raster]]
+=== Coverage Raster Layers
 Repast Geography projections support geolocated 2D grid coverage layers that 
 provide storage and reference of integer and floating point data.  Coverage layers
 can be stored in a Geography projection as a GeoTools GridCoverage2D via:
@@ -249,6 +252,7 @@ WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFr
 	File file, boolean forceLonLatAxisOrder)
 ----
 
+[[gis-network]]
 === Network Projections in GIS
 Repast Network projections can be displayed on a GIS display just like any other
 Repast Display type using the runtime Display wizards.  In this case no additional

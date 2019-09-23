@@ -2,6 +2,7 @@
 There are basically three ways to work with the Repast Simphony Scheduler. No 
 one is better than the other and they each have their specified purpose.
 
+[[schedule-direct]]
 === Directly Schedule an action
 This is similar to the way that actions have always been scheduled in repast 
 with a slight twist. In this scenario, you get a schedule and tell it the when 
@@ -38,6 +39,7 @@ looks like this:
 public void move(String direction, int distance)
 ----
 
+[[schedule-annotation]]
 === Schedule with Annotations
 Java 5 introduced several new and exciting features (some of which are used 
 above), but one of the most useful is Annotation support. Annotations, in java, 
@@ -77,6 +79,54 @@ The schedule will search the object for any methods which have annotations and
 add those methods to the schedule. This type of scheduling is not designed to 
 handle dynamic scheduling, but only scheduling, where the actions are well 
 defined at compile time.
+
+[[schedule-global]]
+=== Scheduling Global Behaviors
+There's at least two ways to do this. Both assume that you create your model in 
+your own ContextBuilder Java class.
+
+The first way requires that you have your ContextBuilder extend DefaultContext. 
+Once you've done this you can add @ScheduledMethods to this ContextBuilder to 
+perform some global action.
+
+-----
+public class MyContextBuilder extends DefaultContext implements ContextBuilder {
+  /**
+  * Builds and returns a context. Building a context consists of filling
+  * it with agents, adding projects and so forth. The returned context
+  * does not necessarily have to be the passed in context.
+  *
+  * @param context
+  * @return the built context .
+  */
+  public Context build ( Context <T> context ) {
+  ...
+  }
+
+  @ScheduledMethod ( start = 1)
+  public void step () { 
+    // my " global " behavior
+  }
+}
+-----
+
+The second way uses the RunEnvironment object to get a reference to the current 
+Schedule with which can add your behavior. For example
+
+-----
+public class MyContextBuilder implements ContextBuilder {
+  public Context build ( Context <T> context ) {
+
+    ISchedule schedule = RunEnviroment.getCurrentSchedule ();
+    ScheduleParameters params = ScheduleParameters.createOneTime(1);
+    schedule.schedule(params, this, " step ");
+  }
+  
+  public void step () {
+    // my global behavior
+  }
+}
+-----
 
 === Schedule with Watcher
 Scheduling using watchers is the most radical of the new scheduling approaches. 
@@ -182,3 +232,27 @@ within 2 'family' and not linked_to 'business'
 
 The queries are tested in WatcherQueryTests and defined as annotations in 
 MyWatcher.
+
+[[schedule-stop]]
+=== Stopping and Pausing the Model Using the Schedule.
+The Repast schedule can be stopped or paused by model code, either scheduled at 
+predetermined time, or immediately via some event.  The following scheduling options
+are available:
+
+* *RunEnvironment.getInstance().endAt(endAt);* will schedule the model end time at the
+double value endAt parameter.  
+
+* *RunEnvironment.getInstance().pauseAt(pauseAt);* will schedule the model pause time at
+the double value pauseAt parameter
+
+* *RunEnvironment.getInstance().pauseRun();* will pause the run immediately.
+
+* *RunEnvironment.getInstance().resumeRun();*  will resume the run from a paused 
+state.  Note that it is not possible to resume the run from a paused state if the
+resumeRun() method is dependent on model code, since the model code will never 
+execute from a paused state.  A model developer would typically call resumeRun()
+from some other model object listening for an event like a mouse input event.
+			
+* *RunEnvironment.getInstance().endRun();* will end the run immediately.
+
+

@@ -1,7 +1,5 @@
-Introduction
-------------
-
-Repast Simphony is a tightly integrated, richly interactive, cross platform 
+== Introduction
+Repast Simphony is a agent-based modeling toolkit and cross platform 
 Java-based modeling system that runs under Microsoft Windows, Apple macOS, 
 and Linux. Repast supports the development of extremely flexible models of 
 interacting agents for use on workstations and computing clusters. Repast 
@@ -13,74 +11,14 @@ This "cookbook style" reference manual provides background and code examples for
 many aspects of the Repast Simphony API but does not show how to build a 
 complete working model from scratch. It is recommended that new users first
 review the introductory tutorial documents included with the Repast installer 
-and available at the Repast online documentation page: 
-https://repast.github.io/docs.html
+and available at the online https://repast.github.io/docs.html[Repast documentation page]. 
 
-Support
-~~~~~~~
+=== Support
+The Repast development team maintains an active mail list monitors Stack Overflow
+questions related to Repast and agent-based modeling.  Please see the
+https://repast.github.io/support.html[Support page] for the most current help links.
 
-The primary means of obtaining help with Repast is the 
-http://lists.sourceforge.net/lists/listinfo/repast-interest[Repast Interest] 
-mailing list and the accumulated 
-https://sourceforge.net/p/repast/mailman/repast-interest[list archives]. 
-To post a technical question about any  edition of Repast to all of the list 
-members, please send an email message to repast-interest@lists.sourceforge.net. 
-(Due to spam, the repast-interest list now limits postings to subscribed users. 
-While questions are welcome and usually answered quickly, please check 
-the list archives before sending a message as your question may already have 
-been answered.
 
-For those interested in regularly hearing about Repast and learning from other's 
-technical questions, please consider subscribing to the Repast Interest mailing 
-list. 
-
-// TODO include StackOverflow info
-
-Installation
-~~~~~~~~~~~~
-
-Current software releases are available from 
-https://github.com/Repast/repast.simphony/releases/. 
-
-.Microsoft Windows
-https://www.java.com[Java] must be installed prior to running Repast Simphony.  
-We reccommend using both the 64-bit version of Java and Repast, which is 
-available as a 32-bit or 64-bit installer for Windows.  If you have 32-bit Java
-installed you must use the 32-bit Repast installer, and likewise if you have the
-64-bit version of Java installed, you must use the 64-bit Repast installer.
-
-.macOS
-macOS users should download the macOS Disk Image, double click on the 
-resulting file and follow the installation instructions that appear. You may 
-need to alter your Security & Privacy settings in System Preferences to allow 
-you to open Repast Simphony. Alternatively, right clicking on the Repast 
-Simphony application and selecting Open will allow you to authenticate and open 
-it. 
-
-.Linux
-Linux users and Unix-related system users should download 
-http://www.eclipse.org/downloads/packages/eclipse-ide-eclipse-committers/oxygen1[
-Eclipse IDE for Eclipse Committers Oxygen] then use the Eclipse Update Manager 
-(under Help -> Install New Software) to install Repast from its update site: 
-https://repocafe.cels.anl.gov/repos/repast/. Repast when installed via the 
-update site has the following additional requirement that can be installed using 
-Eclipse's Update Manager.
-
-From the Groovy Update Site (http://dist.springsource.org/snapshot/GRECLIPSE/e4.7/):
-
-* Extra Groovy Compilers
-* Groovy-Eclipse
-* Uncategorized
-
-Once you have downloaded eclipse and installed the plugins, the groovy compiler 
-version must be set to anything in the 2.0. version line. Anything else will 
-prevent Repast Simphony and especially ReLogo from working correctly. You can 
-set the groovy compiler preferences in either the workspace or project 
-preferences pane via the "Groovy Compiler" page.
-
-The demonstration models are not provided via the update site, but they can be 
-downloaded from the GitHub repository: 
-https://github.com/Repast/repast.simphony.models/. Once downloaded, start 
-Eclipse and switch to your chosen workspace. Right click in the package panel, 
-and choose import, General, Archive File and follow the wizard from there. 
-
+=== Installation
+Please see the online https://repast.github.io/download.html[Repast Downloads page] 
+for current release information. 

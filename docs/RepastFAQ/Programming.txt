@@ -16,155 +16,105 @@ informative book "Groovy in Action" by Dierk Koenig. https://www.manning.com/boo
 
 === How do I create a new Repast project?
 See the Repast Reference manual section 
-link:../RepastReference/RepastReference.html#_creating_a_new_repast_project[Creating a New Repast Project].
+link:../RepastReference/RepastReference.html#create-repast-project[Creating a New Repast Project].
 
 === How do I create a new ReLogo project?
 See the Repast Reference manual section 
-link:../RepastReference/RepastReference.html#_creating_a_new_relogo_project[Creating a New ReLogo Project].
+link:../RepastReference/RepastReference.html#create-relogo-project[Creating a New ReLogo Project].
 
 === How do I update an existing Repast or ReLogo Project?
 If you created a Repast or ReLogo project using a previous version of Repast Simphony
 and would like to update the project files to a newer version of Repast, see the 
 Repast Reference manual section 
-link:../RepastReference/RepastReference.html#_updating_an_existing_repast_project[Updating an Existing Repast Project].
+link:../RepastReference/RepastReference.html#update-repast-project[Updating an Existing Repast Project].
 
-=== How can I connect my model results to software tools for data analysis
-.TODO
-*****
-Discuss R, Excel Weka...
-*****
+// === How can I connect my model results to software tools for data analysis
+// .TODO
+// *****
+// Discuss R, Excel Weka...
+// *****
 
-=== Can I see a complete listing of all agents in a model at a specific time?
-.TODO
-*****
-Discuss agent table
-*****
+// === Can I see a complete listing of all agents in a model at a specific time?
+// .TODO
+// *****
+// Discuss agent table
+// *****
 
-=== How do I log data for model output?
-.TODO
-*****
-Discuss data sets and file outputters -> point to reference
-*****
+// === How do I log data for model output?
+// .TODO
+// *****
+// Discuss data sets and file outputters -> point to reference
+// *****
 
-=== How can I sample from a statistical distribution?
-.TODO
-*****
-TODO
-*****
+// === How can I sample from a statistical distribution?
+// .TODO
+// *****
+// TODO
+// *****
 
-=== How can I create a model in which Agents follow a road network?
-.TODO
-*****
-TODO
-*****
+// === How can I create a model in which Agents follow a road network?
+// .TODO
+// *****
+// TODO
+// *****
 
 === How can I load a network from an Excel file?
 See the Repast Reference manual section 
-link:../RepastReference/RepastReference.html#_loading_networks_from_input_files[Loading Networks from input files].
+link:../RepastReference/RepastReference.html#network-excel[Loading Networks from input files].
 
 === Scheduling
 ==== How can I schedule an agent behavior to execute at a regular tick interval?
-.TODO
-*****
-Discuss @ScheduledMethod -> point to reference manual
-*****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#schedule-annotation[Schedule with Annotations].
 
 ==== How do I schedule a "global" behavior, a behavior above the individual agent level?
-
-There's at least two ways to do this. Both assume that you create your model in 
-your own ContextBuilder Java class.
-
-The first way requires that you have your ContextBuilder extend DefaultContext. 
-Once you've done this you can add @ScheduledMethods to this ContextBuilder to 
-perform some global action.
-
------
-public class MyContextBuilder extends DefaultContext implements ContextBuilder {
-  /**
-  * Builds and returns a context. Building a context consists of filling
-  * it with agents, adding projects and so forth. The returned context
-  * does not necessarily have to be the passed in context.
-  *
-  * @param context
-  * @return the built context .
-  */
-  public Context build ( Context <T> context ) {
-  ...
-  }
-
-  @ScheduledMethod ( start = 1)
-  public void step () { 
-    // my " global " behavior
-  }
-}
------
-
-The second way uses the RunEnvironment object to get a reference to the current 
-Schedule with which can add your behavior. For example
-
------
-public class MyContextBuilder implements ContextBuilder {
-  public Context build ( Context <T> context ) {
-
-    ISchedule schedule = RunEnviroment.getCurrentSchedule ();
-    ScheduleParameters params = ScheduleParameters.createOneTime(1);
-    schedule.schedule(params, this, " step ");
-  }
-  
-  public void step () {
-    // my global behavior
-  }
-}
------
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#schedule-global[Scheduling Global Behaviors].
 
 ==== How can I dynamically schedule actions based on events?
-.TODO
-*****
-Discuss programmatic scheduling -> point to reference
-*****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#schedule-direct[Directly Schedule an Action].
 
 ==== How can I stop or pause the simulation at a specific time or event?
-.TODO
-*****
-Discuss scheduling pause, stop RunEnvironment.getInstance().endAt(endTime);
-*****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#schedule-stop[Stopping and Pausing the Model Using the Schedule].
 
 === Displays and GUI
-==== How can I change the tick format in the Runtime GUI?
-.TODO
-*****
-TODO
-*****
+// ==== How can I change the tick format in the Runtime GUI?
+// .TODO
+// *****
+// TODO
+// *****
 
-==== How do I add a background image to a display?
-.TODO
-*****
-Discuss adding background to 2D, GIS -> point to reference manual
-*****
+// ==== How do I add a background image to a display?
+// .TODO
+// *****
+// Discuss adding background to 2D, GIS -> point to reference manual
+// *****
 
-==== How can I track agent movement paths in a display?
-.TODO
-*****
-Discuss waypoints / network -> point to reference manual
-*****
+// ==== How can I track agent movement paths in a display?
+// .TODO
+// *****
+// Discuss waypoints / network -> point to reference manual
+// *****
 
-==== Can I add a custom display or controls to the Repast runtime GUI?
-.TODO
-*****
-Discuss adding displays programmatically and the user panel customization
-*****
+// ==== Can I add a custom display or controls to the Repast runtime GUI?
+// .TODO
+// *****
+// Discuss adding displays programmatically and the user panel customization
+// *****
 
-==== How do I add a custom listener to the runtime control buttons?
-.TODO
-*****
-TODO
-*****
+// ==== How do I add a custom listener to the runtime control buttons?
+// .TODO
+// *****
+// TODO
+// *****
 
-==== How do I change the color, shape, or size of agents in a display?
-.TODO
-*****
-Discuss styles...
-*****
+// ==== How do I change the color, shape, or size of agents in a display?
+// .TODO
+// *****
+// Discuss styles...
+// *****
 
 ==== How do I create a custom display?
 All Simphony displays implement IDisplay. link:CustomDisplay.java[CustomDisplay.java] 
@@ -190,17 +140,17 @@ For example
 model.initializer class="repast.simphony.demo.mousetrap.TrapInitializer"
 ----
 
-==== How can I change the mouse behavior in displays?
-.TODO
-*****
-Custom mouse listener from mail list -> reference guide section
-*****
+// ==== How can I change the mouse behavior in displays?
+// .TODO
+// *****
+// Custom mouse listener from mail list -> reference guide section
+// *****
 
-==== How can I save a movie or image of my Repast model displays?
-.TODO
-*****
-TODO
-*****
+// ==== How can I save a movie or image of my Repast model displays?
+// .TODO
+// *****
+// TODO
+// *****
 
 ==== Where can I find 3D models to use in displays?
 There are many online sources for 3D model files that can be used in Repast 3D 
@@ -222,40 +172,51 @@ and saved in the MS3D format.
 
 === Geographic GIS Modeling
 ==== Does Repast support geographic projections (GIS)?
-.TODO
-*****
-TODO
-*****
+Yes.  See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#gis[GIS Projections].
 
 ==== How can I import a GIS shapefile or raster into a Repast model?
-.TODO
-*****
-TODO
-*****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#gis-load-shapefile[Loading Agent Data from Shapefiles].
+
+==== Can I load or create GIS raster layers in Repast model?
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#gis-raster[Coverage Raster Layers].
+
+==== Can GIS and Network projections be combined?
+Yes. See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#gis-network[Network Projections in GIS].
 
 ==== What is the difference between the GIS and GIS 3D displays?
-.TODO
-*****
-TODO
-*****
+The GIS (legacy) displays are the original GIS displays from Repast version 1.0.
+These displays provide basic GIS functionality in a 2D projection with limited
+styles for polygon, line, and point features.  Current releases of Repast Simphony
+still support the original GIS displays.  The GIS 3D displays provide more
+advanced GIS display functionality and are based on 
+https://worldwind.arc.nasa.gov/java/[NASA WorldWind Java].  GIS 3D displays can 
+produce shapes for polygon, line, and points, along with raster layers, and online
+GIS image data such as background satellite imagery and 
+https://www.openstreetmap.org/#map=4/38.01/-95.84[OpenStreetMap] layers.  It is 
+recommended to use the newer GIS 3D displays for Geography projections since the
+displays provide a much higher degree of customization over the legacy 2D diaplays.
 
-==== How do I find agents in a geography within some distance from a specific point?
-.TODO
-*****
-TODO
-*****
+// ==== How do I find agents in a geography within some distance from a specific point?
+// .TODO
+// *****
+// TODO
+// *****
 
-==== How do I find the straight line distance between points in a geography?
-.TODO
-*****
-TODO
-*****
+// ==== How do I find the straight line distance between points in a geography?
+// .TODO
+// *****
+// TODO
+// *****
 
-==== How do I find the distance between a point and a polygon in a geography?
-.TODO
-*****
-TODO
-*****
+// ==== How do I find the distance between a point and a polygon in a geography?
+// .TODO
+// *****
+// TODO
+// *****
 
 === Running Models
 ==== How can I run Repast Simphony from another Java application?
@@ -307,23 +268,23 @@ In this case you won't use either the RepastMain (GUI) or the BatchMain (batch m
 but use the runner class directly. Note that you will need to include the classes 
 from repast.simphony.runtime and repast.simphony.Batch in your classpath to run.
 
-==== How can I run a Repast model from the command line?
-.TODO
-*****
-TODO
-*****
+// ==== How can I run a Repast model from the command line?
+// .TODO
+// *****
+// TODO
+// *****
 
-==== How can I ensure repeatability across runs?
-.TODO
-*****
-Discuss using only Repast RandomHelper and not using Math.rand()...shuffle, iterating over map values
-*****
+// ==== How can I ensure repeatability across runs?
+// .TODO
+// *****
+// Discuss using only Repast RandomHelper and not using Math.rand()...shuffle, iterating over map values
+// *****
 
-==== Can I execute multiple model runs in parallel?
-.TODO
-*****
-TODO
-*****
+// ==== Can I execute multiple model runs in parallel?
+// .TODO
+// *****
+// TODO
+// *****
 
 === Model Configuration
 ==== How can I convert my Repast Simphony 1.0, 1.1 or 1.2 model to run in Repast Simphony 2.0 and later?
@@ -351,26 +312,20 @@ are direct ports from the Repast J models, so comparing these will provide some
 additional help on porting models.
 
 ==== How do I include a third-party library in my model?
-
-.TODO
-*****
-TODO
-*****
+Simply place the .jar files in the project /lib folder and the Repast runtime
+will automatically load them.  See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#user-path[user_path] for more details.
 
 ==== How can I give my Repast model to someone else?
-.TODO
-*****
-TODO
-*****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#distribute-model[Distributing Your Model].
 
 ==== How do I open a Repast model that someone else gave me?
-.TODO
-*****
-TODO
-*****
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#importing-model[Importing a Model].
 
-==== Can I use Maven with a Repast project in Eclipse?
-.TODO
-*****
-TODO
-*****
+// ==== Can I use Maven with a Repast project in Eclipse?
+// .TODO
+// *****
+// TODO
+// *****

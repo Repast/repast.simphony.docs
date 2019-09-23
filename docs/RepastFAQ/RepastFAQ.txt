@@ -1,6 +1,6 @@
 Repast Simphony Frequently Asked Questions
 ==========================================
-November 2018
+October 2019
 //:theme: asciidoc
 //:toc2:
 :toc:
