@@ -1,5 +1,5 @@
 = Repast Simphony Reference Manual
-Version 2.6 November 2018
+Version 2.7 October 2019
 //:themedir: ../RepastReference
 //:theme: asciidoc
 :toc2:
