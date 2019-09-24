@@ -1,7 +1,6 @@
 = Repast Simphony Reference Manual
 Version 2.7 October 2019
-//:themedir: ../RepastReference
-//:theme: asciidoc
+// NO SPACES BETWEEN LEADING TEXT AND : OPTIONS
 :toc2:
 :icons:
 :numbered:

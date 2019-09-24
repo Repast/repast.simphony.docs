@@ -29,13 +29,10 @@ body {
 
 a {
   color: blue;
-  text-decoration: none;
+  text-decoration: underline;
 }
 a:visited {
   color: fuchsia;
-}
-a:hover {
-    text-decoration: underline;
 }
 
 em {
@@ -1013,7 +1010,7 @@ CM Macal, Journal of Simulation, 10:2, 144-156, 2016.
 <p>
 <strong>Hammer or Tongs: How Best to Build Agent-Based Models?</strong>, North M.J.,
 In Advances in Practical Applications of Agents, Multi-Agent Systems, and
-Complexity: The PAAMS Collection. PAAMS 2019. Lecture Notes in Computer Science,
+Complexity: The PAAMS Collection. PAAMS 2018. Lecture Notes in Computer Science,
 vol 10978. Springer.  <a href="https://doi.org/10.1007/978-3-319-94580-4_1">https://doi.org/10.1007/978-3-319-94580-4_1</a>
 </p>
 </li>
@@ -1050,7 +1047,7 @@ Michael J. North and Charles M. Macal, Oxford University Press, 2007.
 <p>
 <strong>Hammer or Tongs: How Best to Build Agent-Based Models?</strong>, North M.J.,
 In Advances in Practical Applications of Agents, Multi-Agent Systems, and
-Complexity: The PAAMS Collection. PAAMS 2019. Lecture Notes in Computer Science,
+Complexity: The PAAMS Collection. PAAMS 2018. Lecture Notes in Computer Science,
 vol 10978. Springer.  <a href="https://doi.org/10.1007/978-3-319-94580-4_1">https://doi.org/10.1007/978-3-319-94580-4_1</a>
 </p>
 </li>
@@ -1464,14 +1461,14 @@ needed by an application, because the default amount or "heap space" was very sm
 Java 9 and later generally have better memory management, however it is still possible
 to experience an OutOfMemoryError if a model uses an unusually large amount of memory.</p></div>
 <div class="paragraph"><p>To increase the amount of system memory available to Java, a "VM" argument may be
-specified in the Eclipse launch configuration for the model as shown in <a href="#vmargs_image">[vmargs_image]</a>.
+specified in the <a href="#vmargs_image">Eclipse launch configuration for the model.</a>
 To increase the available memory (up to the physical system limit) use the -Xmx
 argument and provide a numerical value for the memory using the <em>M</em> or <em>G</em> qualifier
 to specify megabytes or gigabytes.  For example -Xmx4000M and -Xmx4G both specify
 a memory limit of 4 GB.</p></div>
 <div class="imageblock" id="vmargs_image">
 <div class="content">
-<img src="figures/vmargs.png" alt="figures/vmargs.png" />
+<img src="figures/vmargs_sm.png" alt="figures/vmargs_sm.png" />
 </div>
 <div class="title">Figure 1. Eclipse launch configuration dialog showing VM arguments options.</div>
 </div>
@@ -1607,7 +1604,7 @@ log4j.appender.R.layout.ConversionPattern=%-5p [%t] %d{ISO8601} %c - %m%n</code>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-11-09 18:10:39 Central Standard Time
+Last updated 2019-09-24 10:55:11 Central Daylight Time
 </div>
 </div>
 </body>

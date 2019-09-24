@@ -1,8 +1,6 @@
-Repast Simphony Frequently Asked Questions
-==========================================
+= Repast Simphony Frequently Asked Questions
 October 2019
-//:theme: asciidoc
-//:toc2:
+// NO SPACES BETWEEN LEADING TEXT AND : OPTIONS
 :toc:
 :icons:
 :numbered:
