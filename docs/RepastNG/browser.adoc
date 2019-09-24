@@ -17,9 +17,10 @@ as the user interface. The browser-based GUI has the following features:
 * Model parameter setting
 * Model runtime interaction (run, stop, pause, etc.)
 
-The browser-based GUI is an alpha level feature in 2.7, and while most, if
-not all, models should load and run, the full array of existing visualizations
-and plots is not yet supported.
+The browser-based GUI is an alpha level feature in Repast Simphony 2.7, and while most, if
+not all, models should load and run, the full array of existing GUI elements
+is not yet supported. For example, controlling simulations through the User Panel
+and visualizing ReLogo displays other than charts is not yet supported.
 
 For feedback and questions about this browser-based visualization capability please contact us through our https://repast.github.io/support.html[regular support channels].
 
