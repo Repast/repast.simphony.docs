@@ -1,16 +1,87 @@
-Runtime GUI
------------
+== Runtime GUI
 
-Charts
-~~~~~~
+// TODO Toolbar with plugins descriptions, etc.
+
+=== Scneario Tree
+The <<runtime_gui_scenario_tree, scenario tree>> in the Repast runtime GUI provides access to wizards and menus
+for creating and modifying runtime components like charts, displays, and data
+logging.  The Repast runtime components reflect the state of the model simulation
+in various ways, like displaying the positions of the agents in space.  The Repast
+runtime components do not actually have an effect on model behavior, except for when
+the parameters or custome user panel components are adjusted.  In other words, 
+creating a chart or a display, or an absence of these components will not affect 
+model behavior.
+
+The scenario tree contains a fixed set of available runtime components including
+time series and histogram charts, data loaders, data sets, displays (2D, 3D, GIS),
+file (data) sinks, and User Panel options.  Right clicking on any of the top-level
+component categories provides the option to create new entries for each.  Double
+cliking on existing entries in each category will provide access to specific options.
+
+The scenario tree is just one of the available runtime interfaces available in the
+left panel of the runtime window.  Additional panels can be accessed by clicking on
+the named tabs in the left side panel for Run Options, Parameters, and User Panel.
+
+[[runtime_gui_scenario_tree]]
+.Repast runtime GUI with scenario tree (left).
+image::figures/runtime_gui_scenario.png[]
+
+=== Run Options
+The <<runtime_gui_run_options, runtime run options panel>> provides access to options for controlling the 
+model run state.  These include:
+
+* Pause At: a double precision value that indicates the tick at which to automatically
+pause the model.  Default value of zero disables this option.
+
+* Stop At: a double precision value that indicates the tick at which to automatically
+stop the model.  Default value of zero disables this option.
+
+* Schedule Tick Delay: The value of the slider indicates the time in milliseconds
+for which to delay the model between scheduled ticks. Default value of zero 
+disables this option.
+
+[TIP]
+Increasing the shedule tick delay will slow down the model execution speed and can
+be useful when observing agent behaviors that execute too quickly.
+
+[[runtime_gui_run_options]]
+.Repast runtime GUI with run options panel (left).
+image::figures/runtime_gui_run_options.png[]
+
+=== Parameters
+
 .TODO
 ****
 needs updating
 ****
 
+=== User Panel
 
-Data Loaders
-~~~~~~~~~~~~
+.TODO
+****
+needs updating
+****
+
+=== Data Sets
+
+.TODO
+****
+needs updating
+****
+
+=== Charts
+
+.TODO
+****
+needs updating
+****
+
+==== Time Series Charts
+
+==== Histogram Charts
+
+
+=== Data Loaders
 
 anchor:DataLoaders[]
 Data Loaders...
@@ -20,29 +91,30 @@ Data Loaders...
 needs updating
 **** 
 
-Data Sets
-~~~~~~~~~
+=== Displays
+
 .TODO
 ****
 needs updating
 ****
 
-Displays
-~~~~~~~~
+=== Text Sinks
+
 .TODO
 ****
 needs updating
 ****
 
-Text Sinks
-~~~~~~~~~~
+=== User Panel
+
 .TODO
 ****
 needs updating
 ****
 
-User Panel
-~~~~~~~~~~.TODO
+=== Docking Layout
+
+.TODO
 ****
 needs updating
 ****

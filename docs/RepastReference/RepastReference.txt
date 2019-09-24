@@ -32,7 +32,7 @@ include::Random.txt[]
 include::GUI.txt[]
 
 // TODO GUI
-//include::RuntimeGUI.txt[]
+include::RuntimeGUI.txt[]
 
 include::Batch.txt[]
 

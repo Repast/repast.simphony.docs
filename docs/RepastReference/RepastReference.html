@@ -3771,10 +3771,161 @@ For example:</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_batch_runs">12. Batch Runs</h2>
+<h2 id="_runtime_gui">12. Runtime GUI</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_batch_parameters">12.1. Batch Parameters</h3>
+<h3 id="_scneario_tree">12.1. Scneario Tree</h3>
+<div class="paragraph"><p>The <a href="#runtime_gui_scenario_tree">scenario tree</a> in the Repast runtime GUI provides access to wizards and menus
+for creating and modifying runtime components like charts, displays, and data
+logging.  The Repast runtime components reflect the state of the model simulation
+in various ways, like displaying the positions of the agents in space.  The Repast
+runtime components do not actually have an effect on model behavior, except for when
+the parameters or custome user panel components are adjusted.  In other words,
+creating a chart or a display, or an absence of these components will not affect
+model behavior.</p></div>
+<div class="paragraph"><p>The scenario tree contains a fixed set of available runtime components including
+time series and histogram charts, data loaders, data sets, displays (2D, 3D, GIS),
+file (data) sinks, and User Panel options.  Right clicking on any of the top-level
+component categories provides the option to create new entries for each.  Double
+cliking on existing entries in each category will provide access to specific options.</p></div>
+<div class="paragraph"><p>The scenario tree is just one of the available runtime interfaces available in the
+left panel of the runtime window.  Additional panels can be accessed by clicking on
+the named tabs in the left side panel for Run Options, Parameters, and User Panel.</p></div>
+<div class="imageblock" id="runtime_gui_scenario_tree">
+<div class="content">
+<img src="figures/runtime_gui_scenario.png" alt="figures/runtime_gui_scenario.png" />
+</div>
+<div class="title">Figure 17. Repast runtime GUI with scenario tree (left).</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_options">12.2. Run Options</h3>
+<div class="paragraph"><p>The <a href="#runtime_gui_run_options">runtime run options panel</a> provides access to options for controlling the
+model run state.  These include:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Pause At: a double precision value that indicates the tick at which to automatically
+pause the model.  Default value of zero disables this option.
+</p>
+</li>
+<li>
+<p>
+Stop At: a double precision value that indicates the tick at which to automatically
+stop the model.  Default value of zero disables this option.
+</p>
+</li>
+<li>
+<p>
+Schedule Tick Delay: The value of the slider indicates the time in milliseconds
+for which to delay the model between scheduled ticks. Default value of zero
+disables this option.
+</p>
+</li>
+</ul></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Increasing the shedule tick delay will slow down the model execution speed and can
+be useful when observing agent behaviors that execute too quickly.</td>
+</tr></table>
+</div>
+<div class="imageblock" id="runtime_gui_run_options">
+<div class="content">
+<img src="figures/runtime_gui_run_options.png" alt="figures/runtime_gui_run_options.png" />
+</div>
+<div class="title">Figure 18. Repast runtime GUI with run options panel (left).</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parameters">12.3. Parameters</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_user_panel">12.4. User Panel</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_data_sets">12.5. Data Sets</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_charts">12.6. Charts</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+<div class="sect3">
+<h4 id="_time_series_charts">12.6.1. Time Series Charts</h4>
+</div>
+<div class="sect3">
+<h4 id="_histogram_charts">12.6.2. Histogram Charts</h4>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_loaders">12.7. Data Loaders</h3>
+<div class="paragraph"><p><a id="DataLoaders"></a>
+Data Loaders&#8230;</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_displays">12.8. Displays</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_text_sinks">12.9. Text Sinks</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_user_panel_2">12.10. User Panel</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_docking_layout">12.11. Docking Layout</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">TODO</div>
+<div class="paragraph"><p>needs updating</p></div>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_batch_runs">13. Batch Runs</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_batch_parameters">13.1. Batch Parameters</h3>
 <div class="paragraph"><p>Repast Simphony supports the creation of a parameter sweep through an xml file or through a scripted
 bsf file. Both define a sweep through the defintion of parameter setters. These setters may be constant
 setters such that the parameter value remains at its initial value, or the setters may define a list of values
@@ -3895,10 +4046,10 @@ will use the same random seed.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_advanced_topics">13. Advanced Topics</h2>
+<h2 id="_advanced_topics">14. Advanced Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_adding_controller_actions">13.1. Adding Controller Actions</h3>
+<h3 id="_adding_controller_actions">14.1. Adding Controller Actions</h3>
 <div class="paragraph"><p>Controller actions can be added and integrated into the controller tree via
 plugin extension points. The repast.simphony.core plugin defines the following:</p></div>
 <div class="listingblock">
@@ -3988,10 +4139,10 @@ files and related code is a good place to learn more.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_developer_topics">14. Developer Topics</h2>
+<h2 id="_developer_topics">15. Developer Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_creating_a_dynamic_wizard">14.1. Creating a Dynamic Wizard</h3>
+<h3 id="_creating_a_dynamic_wizard">15.1. Creating a Dynamic Wizard</h3>
 <div class="paragraph"><p>I&#8217;ve made a wizard framework that dynamically loads its options based on
 "options" specified in plugin.xmls. I&#8217;ve used it in enough places that I&#8217;ve gone
 ahead and generalized it. If you wish to use this setup I made it fairly
@@ -4096,7 +4247,7 @@ steps (as needed).
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_freezedrying_of_custom_projections">14.2. Enabling FreezeDrying of Custom Projections</h3>
+<h3 id="_enabling_freezedrying_of_custom_projections">15.2. Enabling FreezeDrying of Custom Projections</h3>
 <div class="paragraph"><p>When building a new Projection, some things should be done if it is to be integrated into the whole
 system. In particular, if it is to be freeze dryable, some special considerations may need to be made.
 Since the freeze dryer generally just writes out all the fields of an object, this may or may not function
@@ -4187,7 +4338,7 @@ method.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-24 10:54:56 Central Daylight Time
+Last updated 2019-09-24 13:57:23 Central Daylight Time
 </div>
 </div>
 </body>
