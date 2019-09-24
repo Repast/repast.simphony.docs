@@ -104,15 +104,15 @@ Java 9 and later generally have better memory management, however it is still po
 to experience an OutOfMemoryError if a model uses an unusually large amount of memory.
 
 To increase the amount of system memory available to Java, a "VM" argument may be
-specified in the Eclipse launch configuration for the model as shown in <<vmargs_image>>.
+specified in the <<vmargs_image, Eclipse launch configuration for the model.>>
 To increase the available memory (up to the physical system limit) use the -Xmx
 argument and provide a numerical value for the memory using the 'M' or 'G' qualifier
 to specify megabytes or gigabytes.  For example -Xmx4000M and -Xmx4G both specify
 a memory limit of 4 GB.
 
-[[vmargs_image, Foo]]
+[[vmargs_image]]
 .Eclipse launch configuration dialog showing VM arguments options.
-image::figures/vmargs.png[]
+image::figures/vmargs_sm.png[]
 
 === When I run the model I get the runtime error javax.media.opengl.GLException
 When running a Repast model with displays an error similar to that shown below is
