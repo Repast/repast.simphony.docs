@@ -20,9 +20,11 @@ as the user interface. The browser-based GUI has the following features:
 The browser-based GUI is an alpha level feature in Repast Simphony 2.7, and while most, if
 not all, models should load and run, the full array of existing GUI elements
 is not yet supported. For example, controlling simulations through the User Panel
-and visualizing ReLogo displays other than charts is not yet supported.
+and visualizing ReLogo displays other than charts are both not yet supported.
+The `Geography`, `JZombies`, `GlidersGrid`, and `GridGameOfLife` demonstration models provide 
+the best examples of the newly implemented browser GUI.
 
-For feedback and questions about this browser-based visualization capability please contact us through our https://repast.github.io/support.html[regular support channels].
+For feedback and questions about the browser GUI please contact us through our https://repast.github.io/support.html[regular support channels].
 
 == Getting Started
 
