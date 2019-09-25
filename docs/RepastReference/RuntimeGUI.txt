@@ -178,19 +178,10 @@ to the type.
 .Adding a new integer parameter with list values.
 image::figures/runtime_gui_add_parameter_list.png[]
 
-=== User Panel
+// TODO User Panel
+//=== User Panel
 
-.TODO
-****
-needs updating
-****
-
-=== Data Sets
-
-.TODO
-****
-needs updating
-****
+include::DataSets.txt[]
 
 === Charts
 

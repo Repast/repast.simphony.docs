@@ -4057,37 +4057,131 @@ to the type.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_user_panel">12.4. User Panel</h3>
-<div class="sidebarblock">
+<h3 id="_data_sets">12.4. Data Sets</h3>
+<div class="paragraph"><p>Repast Simphony records data from data sources of two types - Aggregate and
+Non-Aggregate.  Aggregate data sources receive a collection of objects (agents,
+for example) and typically return an aggregate value derived from the set of
+all of the objects. For example, an aggregate data source might call a method on
+each object and return the maximum value or mean of all values. A non-aggregate
+data source takes a single object (e.g. a single agent) and returns a single
+value for each object. For example, a non-aggregate data source might call a
+method on an agent and return the result of that method call. Data sources are
+grouped into named data sets. A data set is a collection of data sources.</p></div>
+<div class="paragraph"><p>Once a data set is defined, the Repast runtime will record the data produced by
+the data set&#8217;s data sources. However, the recorded data will not be written to a
+file or displayed in a chart. For that to occur, a data sink must be defined. A
+data sink takes the data produced by data sources and writes them to a file, the
+console or displays them in a chart. The same data set can be connected to multiple
+data sinks.</p></div>
+<div class="sect3">
+<h4 id="_creating_a_data_set">12.4.1. Creating a Data Set</h4>
+<div class="paragraph"><p>Data collection is set up in Repast Simphony by defining the data sets and data
+sources described above. To create a data set, right click on the Data Sets node
+in the <a href="#runtime_gui_scenario_tree">scenario tree</a> and select "Add Data Set."
+The <a href="#runtime_gui_add_dataset">Data Set Editor dialog</a> will appear in which
+the name the data set can be specified, along with the data set type. Data sets
+are able to record <a href="#runtme_gui_aggregate_data">aggregate</a> and
+<a href="#runtme_gui_nonaggregate_data">non-aggregate data sources</a>.</p></div>
+<div class="imageblock" id="runtime_gui_add_dataset">
 <div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>needs updating</p></div>
-</div></div>
+<img src="figures/runtime_gui_add_dataset.png" alt="figures/runtime_gui_add_dataset.png" />
+</div>
+<div class="title">Figure 27. Repast runtime add new Data Set dialog.</div>
+</div>
+<div class="paragraph"><p>In the next step (click Next), the data sources from which data will be recorded
+are defined. In the data source step there are three different tabs in which data
+sources are selected and defined.</p></div>
+<div class="paragraph"><p>The first tab <a href="#runtime_gui_add_dataset_std">Standard Sources</a> is common to
+aggregate and non-aggregate sources, and includes the model <strong>Tick Count</strong>,
+<strong>Random Seed</strong>, and <strong>Run Number</strong>.  Selecting these sources will automatically insert
+the current value of these variables into the data set. The tick count value is
+selected by default and is almost always needed to record the timing of events,
+say to create a time-series chart, and in general simply to understand how the
+model progresses over time. The random seed parameter is useful to include in
+models with stochastic behavior so that specific results can be re-created by
+using the same random seed in additional model runs.  Finally, the run number is
+useful to include in logged data when more than one model run will be executed,
+say in batch mode, so that each of the run data are indexed in the data set.</p></div>
+<div class="paragraph"><p>The remaining two tabs include Method Data Sources and Custom Data Sources, and
+define which data is logged from the model components, and function differently
+depending on the data set type (aggregate or non-) and are described below.</p></div>
+<div class="imageblock" id="runtime_gui_add_dataset_std">
+<div class="content">
+<img src="figures/runtime_gui_add_dataset_std.png" alt="figures/runtime_gui_add_dataset_std.png" />
+</div>
+<div class="title">Figure 28. Repast runtime add new Data Set dialog standard sources.</div>
+</div>
+<div class="sect4">
+<h5 id="runtme_gui_aggregate_data">Aggregate Data Sources</h5>
+<div class="paragraph"><p>For an aggregate data set, the method data source tab allows one to define a data
+source that calls a method on each of the agents of a specified type
+and then perform an aggregate operation on the results of those method calls. For
+example, if a model contains "person" agents, each of which have a getAge()
+method that returns the agent&#8217;s age, you can create an aggregate data source to
+record the mean, maximum, and minimum age for the population of person agents.</p></div>
+<div class="paragraph"><p>To add an aggregate Method Data Source, click the Add button. A new row in the
+method data source table will be added. The type of agent for which to record
+data can be selected by double clicking on the cell in the <strong>Agent Type</strong> column. When
+multiple agent types are available in the model, double clicking will display a
+list of agents from which to chose.  Next, the method for the selected agent type
+is set by clicking on the cell in the <strong>Method</strong> column and selecting the available
+agent methods for the data source row.  Since aggregate data sources perform a
+data operation on all of the agents for the specified type, the operation needs
+to be selected in the <strong>Aggregate Operation</strong> column.  Double clicking on the cell
+in this column provides a list of available data operations such as min, max, mean,
+standard deviation, and others.  Finally, the data source should be provided with
+a unique name that can be typed into the cell in the <strong>Source Name</strong> column.</p></div>
+<div class="paragraph"><p>An <a href="#runtime_gui_add_dataset_agg1_1">example aggregate data set source</a> is shown
+below in which the average energy for the "Human" agent type is aggregated into
+a mean value.</p></div>
+<div class="paragraph"><p>Note that boolean operations can be summed, averaged, and so forth. True is equal
+to 1 and false is equal to 0. You will also need to provide a name for the data
+source by double clicking and typing a name in the cell in the Source Name column.</p></div>
+<div class="imageblock" id="runtime_gui_add_dataset_agg1_1">
+<div class="content">
+<img src="figures/runtime_gui_add_dataset_agg_1.png" alt="figures/runtime_gui_add_dataset_agg_1.png" />
+</div>
+<div class="title">Figure 29. Selecting data sources for an aggregate data set</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">If no methods are listed for the agent type in the data source, this means that
+the agent class does not have publicly visible methods.  Make sure that the agent
+has methods that return numeric data types and have public visibility.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>An additional aggregate operation is provided that does not require a method.
+This Count operation will return the current number of agents of the specified
+type in the simulation. In the example in  the Human
+Count data source will return the current number ofHuman agents whenever it
+is called. By selecting the Count operation the Method column cell with be
+set to a N/A (non-applicable) value indicating that the Count operation
+doesn&#8217;t require a method call.</p></div>
+</div>
+<div class="sect4">
+<h5 id="runtme_gui_nonaggregate_data">Non-Aggregate Data Sources</h5>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_data_sets">12.5. Data Sets</h3>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>needs updating</p></div>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="_charts">12.6. Charts</h3>
+<h3 id="_charts">12.5. Charts</h3>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">TODO</div>
 <div class="paragraph"><p>needs updating</p></div>
 </div></div>
 <div class="sect3">
-<h4 id="_time_series_charts">12.6.1. Time Series Charts</h4>
+<h4 id="_time_series_charts">12.5.1. Time Series Charts</h4>
 </div>
 <div class="sect3">
-<h4 id="_histogram_charts">12.6.2. Histogram Charts</h4>
+<h4 id="_histogram_charts">12.5.2. Histogram Charts</h4>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_data_loaders">12.7. Data Loaders</h3>
+<h3 id="_data_loaders">12.6. Data Loaders</h3>
 <div class="paragraph"><p><a id="DataLoaders"></a>
 Data Loaders&#8230;</p></div>
 <div class="sidebarblock">
@@ -4097,7 +4191,7 @@ Data Loaders&#8230;</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_displays">12.8. Displays</h3>
+<h3 id="_displays">12.7. Displays</h3>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">TODO</div>
@@ -4105,7 +4199,7 @@ Data Loaders&#8230;</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_text_sinks">12.9. Text Sinks</h3>
+<h3 id="_text_sinks">12.8. Text Sinks</h3>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">TODO</div>
@@ -4113,7 +4207,7 @@ Data Loaders&#8230;</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_user_panel_2">12.10. User Panel</h3>
+<h3 id="_user_panel">12.9. User Panel</h3>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">TODO</div>
@@ -4121,7 +4215,7 @@ Data Loaders&#8230;</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_docking_layout">12.11. Docking Layout</h3>
+<h3 id="_docking_layout">12.10. Docking Layout</h3>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">TODO</div>
