@@ -28,12 +28,12 @@ For feedback and questions about this browser-based visualization capability ple
 
 . Launch the Repast Simphony Server
 .. If your model was created using 2.7, then the launcher should already exist in your
-model project's launchers folder. Right click on the launcher (e.g. `launchers/JZombies_Demo Server.launch`),
+model project's launchers folder (you may need to switch to the Repast Simphony perspective if the launchers folder is not visible). Right click on the launcher (e.g. `launchers/JZombies_Demo Server.launch`),
 then `Run As`, and then the server entry.
 .. If your model was created prior to 2.7, then the launcher needs to be added. Right click on your 
 model's top level project folder, select the `Repast Simphony` menu entry, then `Add Server Launcher`.
 Once the new launcher has been added, right click on it (e.g. `launchers/JZombies_Demo Server.launch`), then
-`Run As`, and then the server entry.
+`Run As`, and then the server entry (you may need to switch to the Repast Simphony perspective if the launchers folder is not visible).
 . When the server starts, you should see the server output in your Eclipse console (e.g. <<img_console,Eclipse console>>), and your default browser
 should be launched with the browser-based GUI displayed. If your default browser, is already
 running then the browser-based GUI will open in a new tab. 
