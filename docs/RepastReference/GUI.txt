@@ -4,6 +4,8 @@
 //  probe registration stuff and update the annotations that can be used on agent 
 //   properties, e.g., the statecharts agent property annotation)
 
+// TODO describe how to access model paramters in the code!
+
 .GUI Parameters
 GUI Parameters are the simulation parameters that appear in the parameters view 
 in the application GUI. These parameters are automatically created from the 
@@ -15,6 +17,7 @@ This section describes how  to save, load and "set as default" parameters using
 the parameters tools menu, and the last section looks  at the parameters 
 returned from agent probes.
 
+[[parameter_convertors]]
 .Convertors and custom parameter types
 Repast Simphony can internally handle the conversion of numeric and boolean 
 types to and from the Strings in the gui display and the parameter file. 

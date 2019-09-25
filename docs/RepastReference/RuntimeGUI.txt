@@ -8,7 +8,7 @@ for creating and modifying runtime components like charts, displays, and data
 logging.  The Repast runtime components reflect the state of the model simulation
 in various ways, like displaying the positions of the agents in space.  The Repast
 runtime components do not actually have an effect on model behavior, except for when
-the parameters or custome user panel components are adjusted.  In other words, 
+the parameters or custom user panel components are adjusted.  In other words, 
 creating a chart or a display, or an absence of these components will not affect 
 model behavior.
 
@@ -16,7 +16,7 @@ The scenario tree contains a fixed set of available runtime components including
 time series and histogram charts, data loaders, data sets, displays (2D, 3D, GIS),
 file (data) sinks, and User Panel options.  Right clicking on any of the top-level
 component categories provides the option to create new entries for each.  Double
-cliking on existing entries in each category will provide access to specific options.
+clicking on existing entries in each category will provide access to specific options.
 
 The scenario tree is just one of the available runtime interfaces available in the
 left panel of the runtime window.  Additional panels can be accessed by clicking on
@@ -27,21 +27,21 @@ the named tabs in the left side panel for Run Options, Parameters, and User Pane
 image::figures/runtime_gui_scenario.png[]
 
 === Run Options
-The <<runtime_gui_run_options, runtime run options panel>> provides access to options for controlling the 
-model run state.  These include:
+The <<runtime_gui_run_options, runtime run options panel>> provides access to 
+options for controlling the model run state.  These include:
 
-* Pause At: a double precision value that indicates the tick at which to automatically
+* *Pause At:* a double precision value that indicates the tick at which to automatically
 pause the model.  Default value of zero disables this option.
 
-* Stop At: a double precision value that indicates the tick at which to automatically
+* *Stop At:* a double precision value that indicates the tick at which to automatically
 stop the model.  Default value of zero disables this option.
 
-* Schedule Tick Delay: The value of the slider indicates the time in milliseconds
+* *Schedule Tick Delay:* The value of the slider indicates the time in milliseconds
 for which to delay the model between scheduled ticks. Default value of zero 
 disables this option.
 
 [TIP]
-Increasing the shedule tick delay will slow down the model execution speed and can
+Increasing the schedule tick delay will slow down the model execution speed and can
 be useful when observing agent behaviors that execute too quickly.
 
 [[runtime_gui_run_options]]
@@ -50,10 +50,133 @@ image::figures/runtime_gui_run_options.png[]
 
 === Parameters
 
-.TODO
-****
-needs updating
-****
+The <<runtime_gui_parameters, parameters panel>> shows the list of available model
+parameters and their values, and allows each parameter value to be changed before
+or during a model run.  Model parameters will typically be represented in the GUI
+by an editable text box with the current value, or a check box that can be toggled
+for boolean true/false values, or a fixed list of allowed values, depending on how
+the parameters are defined.  When a model is initialized or reset, the parameter values
+are set to their default values.  Parameter values can be changed before or after
+a simulation is started, however the impact on model behavior id dependent on how
+the model parameters are accessed in the model code.  In one model, the parameters
+might only be read during initialization in which case changing parameter values 
+after the model has started will have no affect on behavior.  In another model, the
+design could incorporate a check of model parameters at regular intervals and in this
+case changing parameter values after the model has started would affect behavior.
+
+[TIP]
+To impact model behavior after the simulation is started, parameters need to be
+updated in the model code in a regularly scheduled agent behavior.
+
+[[runtime_gui_parameters]]
+.Repast runtime GUI with parameters panel (left).
+image::figures/runtime_gui_parameters.png[]
+
+==== Modifying existing parameters
+Model parameters can be added and deleted using the toolbar in the parameters panel.
+To delete an existing model parameter click the image:figures/button_cancel.png[]
+button and then select the parameters to delete in the <<delete_parameter, Delete 
+Parameter dialog>>, and click OK.
+
+[[delete_parameter]]
+.Dialog window for deleting existing model parameters.
+image::figures/remove_parameter.png[]
+
+Additional parameter modification options include setting the default values from
+the currently visible values in the panel.  When the model is initialized or reset,
+the default value is displayed for each parameter.  However, to change
+the default value of the parameters simply change the value of the parameters in
+the panel and click the image:figures/redo.png[] button.  Changing the default values 
+in this way is only temporary unless the parameters are saved.  To save the parameter
+default values, click the image:figures/filesave16.png[] button.  When the parameters
+are saved, their default values will persist even when the Repast runtime GUI is 
+closed and restarted.
+
+[TIP]
+Save the model parameters any time the default value is changed or parameters are
+added or removed.
+
+==== Adding new parameters
+New model parameters can be created by clicking on the image:figures/edit_add.png[] 
+button which will bring up the <<runtime_gui_add_parameter, Add Parameter>> dialog.
+All of the fields in the Add Parameter dialog are empty and require information that
+defines the parameter name, type, default value, and additional meta data.
+
+The required parameter options are:
+
+* *Name:* a string value that represents the parameter name used in the model code
+when referencing the parameter value, e.g. "zombie_count." (Don't include quotes).
+
+* *Display Name:* a human-readable name for the parameter that will be shown in the
+parameter panel, e.g. "Zombie Count." (Don't include quotes).
+
+* *Type:* the parameter type. The type can be any Java class or primitive types like
+int or double.  Typical examples and use cases may include:
+
+** *int:* for representing integer numbers like the total count of some type of agent.
+** *double:* for representing floating-point numbers like a movement speed of an agent.
+** *boolean:* for representing a true/false parameter.
+** *String:* for repressing a string parameter. 
+
+* *Default Value:* the initial value for the parameter when the runtime is started.
+The default value should be appropriate to the type, e.g. a numeric value for int
+or double, true/false for boolean, and a string value for string type parameters.
+
+The optional parameter options are:
+
+* *Converter:* an implementation of a <<parameter_convertors, Repast parameter converter.>> 
+
+* *Values:* a _space-separated list_ of allowed values for the parameter, e.g. "1,5,10,20" 
+(Don't include quotes).  When the value list is provided, the parameter representation
+in the parameter panel changes from a text box to a list box from which the specified
+parameter values may be selected.
+
+[[runtime_gui_add_parameter]]
+.Repast runtime add new parameter dialog.
+image::figures/runtime_gui_add_parameter.png[]
+
+[NOTE]
+When adding new parameters, the parameter panel may take a few seconds to update
+after the OK button is pressed in the parameter dialog.
+
+==== Example Model Parameters
+Several example Add Parameter dialogs are shown below for different types of model
+parameters represented in the <<runtime_gui_parameters, parameters panel>>.
+
+===== Integer Parameter
+An example integer parameter is shown below.
+
+.Adding a new integer parameter.
+image::figures/runtime_gui_add_parameter_int.png[]
+
+===== Double Parameter
+An example double parameter is shown below.
+
+.Adding a new double parameter.
+image::figures/runtime_gui_add_parameter_double.png[]
+
+===== Boolean Parameter
+An example boolean parameter is shown below.  Notethat default values are only 
+'true' or 'false'.
+
+.Adding a new boolean parameter.
+image::figures/runtime_gui_add_parameter_boolean.png[]
+
+===== String Parameter
+An example String parameter is shown below.  Note that the type *String* is 
+capitalized. Default values with spaces should be wrapped in single quote characters.
+
+.Adding a new String parameter.
+image::figures/runtime_gui_add_parameter_string.png[]
+
+===== Integer Parameter with List Values
+An example integer parameter with list values is shown below.  This will produce
+a list box in the parameter panel with the values 0, 1, 5, 10, and 15.  Value 
+list parameters can be used for any parameter type as long as the values correspond
+to the type.
+
+.Adding a new integer parameter with list values.
+image::figures/runtime_gui_add_parameter_list.png[]
 
 === User Panel
 

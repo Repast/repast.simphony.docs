@@ -3502,7 +3502,7 @@ parameters of more complicated types can be defined using an xml based format.
 This section describes how  to save, load and "set as default" parameters using
 the parameters tools menu, and the last section looks  at the parameters
 returned from agent probes.</p></div>
-<div class="paragraph"><div class="title">Convertors and custom parameter types</div><p>Repast Simphony can internally handle the conversion of numeric and boolean
+<div class="paragraph" id="parameter_convertors"><div class="title">Convertors and custom parameter types</div><p>Repast Simphony can internally handle the conversion of numeric and boolean
 types to and from the Strings in the gui display and the parameter file.
 However, if you wish to use a type other than these, then you must provide a
 converter that will convert an Object to and from a String representation. A
@@ -3780,14 +3780,14 @@ for creating and modifying runtime components like charts, displays, and data
 logging.  The Repast runtime components reflect the state of the model simulation
 in various ways, like displaying the positions of the agents in space.  The Repast
 runtime components do not actually have an effect on model behavior, except for when
-the parameters or custome user panel components are adjusted.  In other words,
+the parameters or custom user panel components are adjusted.  In other words,
 creating a chart or a display, or an absence of these components will not affect
 model behavior.</p></div>
 <div class="paragraph"><p>The scenario tree contains a fixed set of available runtime components including
 time series and histogram charts, data loaders, data sets, displays (2D, 3D, GIS),
 file (data) sinks, and User Panel options.  Right clicking on any of the top-level
 component categories provides the option to create new entries for each.  Double
-cliking on existing entries in each category will provide access to specific options.</p></div>
+clicking on existing entries in each category will provide access to specific options.</p></div>
 <div class="paragraph"><p>The scenario tree is just one of the available runtime interfaces available in the
 left panel of the runtime window.  Additional panels can be accessed by clicking on
 the named tabs in the left side panel for Run Options, Parameters, and User Panel.</p></div>
@@ -3800,24 +3800,24 @@ the named tabs in the left side panel for Run Options, Parameters, and User Pane
 </div>
 <div class="sect2">
 <h3 id="_run_options">12.2. Run Options</h3>
-<div class="paragraph"><p>The <a href="#runtime_gui_run_options">runtime run options panel</a> provides access to options for controlling the
-model run state.  These include:</p></div>
+<div class="paragraph"><p>The <a href="#runtime_gui_run_options">runtime run options panel</a> provides access to
+options for controlling the model run state.  These include:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Pause At: a double precision value that indicates the tick at which to automatically
+<strong>Pause At:</strong> a double precision value that indicates the tick at which to automatically
 pause the model.  Default value of zero disables this option.
 </p>
 </li>
 <li>
 <p>
-Stop At: a double precision value that indicates the tick at which to automatically
+<strong>Stop At:</strong> a double precision value that indicates the tick at which to automatically
 stop the model.  Default value of zero disables this option.
 </p>
 </li>
 <li>
 <p>
-Schedule Tick Delay: The value of the slider indicates the time in milliseconds
+<strong>Schedule Tick Delay:</strong> The value of the slider indicates the time in milliseconds
 for which to delay the model between scheduled ticks. Default value of zero
 disables this option.
 </p>
@@ -3828,7 +3828,7 @@ disables this option.
 <td class="icon">
 <img src="./images/tip.png" alt="Tip" />
 </td>
-<td class="content">Increasing the shedule tick delay will slow down the model execution speed and can
+<td class="content">Increasing the schedule tick delay will slow down the model execution speed and can
 be useful when observing agent behaviors that execute too quickly.</td>
 </tr></table>
 </div>
@@ -3841,11 +3841,220 @@ be useful when observing agent behaviors that execute too quickly.</td>
 </div>
 <div class="sect2">
 <h3 id="_parameters">12.3. Parameters</h3>
-<div class="sidebarblock">
+<div class="paragraph"><p>The <a href="#runtime_gui_parameters">parameters panel</a> shows the list of available model
+parameters and their values, and allows each parameter value to be changed before
+or during a model run.  Model parameters will typically be represented in the GUI
+by an editable text box with the current value, or a check box that can be toggled
+for boolean true/false values, or a fixed list of allowed values, depending on how
+the parameters are defined.  When a model is initialized or reset, the parameter values
+are set to their default values.  Parameter values can be changed before or after
+a simulation is started, however the impact on model behavior id dependent on how
+the model parameters are accessed in the model code.  In one model, the parameters
+might only be read during initialization in which case changing parameter values
+after the model has started will have no affect on behavior.  In another model, the
+design could incorporate a check of model parameters at regular intervals and in this
+case changing parameter values after the model has started would affect behavior.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">To impact model behavior after the simulation is started, parameters need to be
+updated in the model code in a regularly scheduled agent behavior.</td>
+</tr></table>
+</div>
+<div class="imageblock" id="runtime_gui_parameters">
 <div class="content">
-<div class="title">TODO</div>
-<div class="paragraph"><p>needs updating</p></div>
-</div></div>
+<img src="figures/runtime_gui_parameters.png" alt="figures/runtime_gui_parameters.png" />
+</div>
+<div class="title">Figure 19. Repast runtime GUI with parameters panel (left).</div>
+</div>
+<div class="sect3">
+<h4 id="_modifying_existing_parameters">12.3.1. Modifying existing parameters</h4>
+<div class="paragraph"><p>Model parameters can be added and deleted using the toolbar in the parameters panel.
+To delete an existing model parameter click the <span class="image">
+<img src="figures/button_cancel.png" alt="figures/button_cancel.png" />
+</span>
+button and then select the parameters to delete in the <a href="#delete_parameter">Delete Parameter dialog</a>, and click OK.</p></div>
+<div class="imageblock" id="delete_parameter">
+<div class="content">
+<img src="figures/remove_parameter.png" alt="figures/remove_parameter.png" />
+</div>
+<div class="title">Figure 20. Dialog window for deleting existing model parameters.</div>
+</div>
+<div class="paragraph"><p>Additional parameter modification options include setting the default values from
+the currently visible values in the panel.  When the model is initialized or reset,
+the default value is displayed for each parameter.  However, to change
+the default value of the parameters simply change the value of the parameters in
+the panel and click the <span class="image">
+<img src="figures/redo.png" alt="figures/redo.png" />
+</span> button.  Changing the default values
+in this way is only temporary unless the parameters are saved.  To save the parameter
+default values, click the <span class="image">
+<img src="figures/filesave16.png" alt="figures/filesave16.png" />
+</span> button.  When the parameters
+are saved, their default values will persist even when the Repast runtime GUI is
+closed and restarted.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Save the model parameters any time the default value is changed or parameters are
+added or removed.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_new_parameters">12.3.2. Adding new parameters</h4>
+<div class="paragraph"><p>New model parameters can be created by clicking on the <span class="image">
+<img src="figures/edit_add.png" alt="figures/edit_add.png" />
+</span>
+button which will bring up the <a href="#runtime_gui_add_parameter">Add Parameter</a> dialog.
+All of the fields in the Add Parameter dialog are empty and require information that
+defines the parameter name, type, default value, and additional meta data.</p></div>
+<div class="paragraph"><p>The required parameter options are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Name:</strong> a string value that represents the parameter name used in the model code
+when referencing the parameter value, e.g. "zombie_count." (Don&#8217;t include quotes).
+</p>
+</li>
+<li>
+<p>
+<strong>Display Name:</strong> a human-readable name for the parameter that will be shown in the
+parameter panel, e.g. "Zombie Count." (Don&#8217;t include quotes).
+</p>
+</li>
+<li>
+<p>
+<strong>Type:</strong> the parameter type. The type can be any Java class or primitive types like
+int or double.  Typical examples and use cases may include:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>int:</strong> for representing integer numbers like the total count of some type of agent.
+</p>
+</li>
+<li>
+<p>
+<strong>double:</strong> for representing floating-point numbers like a movement speed of an agent.
+</p>
+</li>
+<li>
+<p>
+<strong>boolean:</strong> for representing a true/false parameter.
+</p>
+</li>
+<li>
+<p>
+<strong>String:</strong> for repressing a string parameter.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<strong>Default Value:</strong> the initial value for the parameter when the runtime is started.
+The default value should be appropriate to the type, e.g. a numeric value for int
+or double, true/false for boolean, and a string value for string type parameters.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The optional parameter options are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Converter:</strong> an implementation of a <a href="#parameter_convertors">Repast parameter converter.</a>
+</p>
+</li>
+<li>
+<p>
+<strong>Values:</strong> a <em>space-separated list</em> of allowed values for the parameter, e.g. "1,5,10,20"
+(Don&#8217;t include quotes).  When the value list is provided, the parameter representation
+in the parameter panel changes from a text box to a list box from which the specified
+parameter values may be selected.
+</p>
+</li>
+</ul></div>
+<div class="imageblock" id="runtime_gui_add_parameter">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter.png" alt="figures/runtime_gui_add_parameter.png" />
+</div>
+<div class="title">Figure 21. Repast runtime add new parameter dialog.</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/note.png" alt="Note" />
+</td>
+<td class="content">When adding new parameters, the parameter panel may take a few seconds to update
+after the OK button is pressed in the parameter dialog.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_model_parameters">12.3.3. Example Model Parameters</h4>
+<div class="paragraph"><p>Several example Add Parameter dialogs are shown below for different types of model
+parameters represented in the <a href="#runtime_gui_parameters">parameters panel</a>.</p></div>
+<div class="sect4">
+<h5 id="_integer_parameter">Integer Parameter</h5>
+<div class="paragraph"><p>An example integer parameter is shown below.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_int.png" alt="figures/runtime_gui_add_parameter_int.png" />
+</div>
+<div class="title">Figure 22. Adding a new integer parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_double_parameter">Double Parameter</h5>
+<div class="paragraph"><p>An example double parameter is shown below.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_double.png" alt="figures/runtime_gui_add_parameter_double.png" />
+</div>
+<div class="title">Figure 23. Adding a new double parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_boolean_parameter">Boolean Parameter</h5>
+<div class="paragraph"><p>An example boolean parameter is shown below.  Notethat default values are only
+<em>true</em> or <em>false</em>.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_boolean.png" alt="figures/runtime_gui_add_parameter_boolean.png" />
+</div>
+<div class="title">Figure 24. Adding a new boolean parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_string_parameter">String Parameter</h5>
+<div class="paragraph"><p>An example String parameter is shown below.  Note that the type <strong>String</strong> is
+capitalized. Default values with spaces should be wrapped in single quote characters.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_string.png" alt="figures/runtime_gui_add_parameter_string.png" />
+</div>
+<div class="title">Figure 25. Adding a new String parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_integer_parameter_with_list_values">Integer Parameter with List Values</h5>
+<div class="paragraph"><p>An example integer parameter with list values is shown below.  This will produce
+a list box in the parameter panel with the values 0, 1, 5, 10, and 15.  Value
+list parameters can be used for any parameter type as long as the values correspond
+to the type.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_list.png" alt="figures/runtime_gui_add_parameter_list.png" />
+</div>
+<div class="title">Figure 26. Adding a new integer parameter with list values.</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_user_panel">12.4. User Panel</h3>
