@@ -20,20 +20,22 @@ as the user interface. The browser-based GUI has the following features:
 The browser-based GUI is an alpha level feature in Repast Simphony 2.7, and while most, if
 not all, models should load and run, the full array of existing GUI elements
 is not yet supported. For example, controlling simulations through the User Panel
-and visualizing ReLogo displays other than charts is not yet supported.
+and visualizing ReLogo displays other than charts are both not yet supported.
+The `Geography`, `JZombies`, `GlidersGrid`, and `GridGameOfLife` demonstration models provide 
+the best examples of the newly implemented browser GUI.
 
-For feedback and questions about this browser-based visualization capability please contact us through our https://repast.github.io/support.html[regular support channels].
+For feedback and questions about the browser GUI please contact us through our https://repast.github.io/support.html[regular support channels].
 
 == Getting Started
 
 . Launch the Repast Simphony Server
 .. If your model was created using 2.7, then the launcher should already exist in your
-model project's launchers folder. Right click on the launcher (e.g. `launchers/JZombies_Demo Server.launch`),
+model project's launchers folder (you may need to switch to the Repast Simphony perspective if the launchers folder is not visible). Right click on the launcher (e.g. `launchers/JZombies_Demo Server.launch`),
 then `Run As`, and then the server entry.
 .. If your model was created prior to 2.7, then the launcher needs to be added. Right click on your 
 model's top level project folder, select the `Repast Simphony` menu entry, then `Add Server Launcher`.
 Once the new launcher has been added, right click on it (e.g. `launchers/JZombies_Demo Server.launch`), then
-`Run As`, and then the server entry.
+`Run As`, and then the server entry (you may need to switch to the Repast Simphony perspective if the launchers folder is not visible).
 . When the server starts, you should see the server output in your Eclipse console (e.g. <<img_console,Eclipse console>>), and your default browser
 should be launched with the browser-based GUI displayed. If your default browser, is already
 running then the browser-based GUI will open in a new tab. 
