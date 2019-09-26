@@ -42,8 +42,8 @@ running then the browser-based GUI will open in a new tab.
 .. If a browser cannot be launched automatically, open your browser and go to `http://localhost:5000`.
 . Click the `Initialize` button in the top right hand corner to initialize the model, after which the initial displays and 
 plots should appear.
-. Use the `Start` and `Stop` buttons in the top right hand corner to start and stop the model. You can repeatedly
-run the same model, while changing the parameters etc., by restarting the model with `Initialize` or `Start`
+. Use the `Start`, `Step` and `Stop` buttons in the top right hand corner to start, step, and stop the model. You can repeatedly
+run the same model, while changing the parameters etc., by restarting the model with `Initialize`, `Start`, or `Step`
 after the model has stopped.
 . Click `Quit` to stop the server and quit the model.
 
@@ -61,7 +61,7 @@ image::images/gui.png[]
 
 The GUI is divided into 7 parts, labeled A - G in the <<img_gui,browser GUI>>.
 
-A. Toolbar. The `Initialize`, `Start`, and `Stop` buttons will initialize, start and stop 
+A. Toolbar. The `Initialize`, `Start`, `Step`, and `Stop` buttons will initialize, start, step and stop 
 the model. `Quit` will stop the server and kill any running models. The server must be restarted
 in order to run the model. `Other Stuff -> Kill Model,` will kill the model process, 
 and can be used if the GUI becomes unresponsive.
