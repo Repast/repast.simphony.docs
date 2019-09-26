@@ -4077,7 +4077,7 @@ data sinks.</p></div>
 <h4 id="_creating_a_data_set">12.4.1. Creating a Data Set</h4>
 <div class="paragraph"><p>Data collection is set up in Repast Simphony by defining the data sets and data
 sources described above. To create a data set, right click on the Data Sets node
-in the <a href="#runtime_gui_scenario_tree">scenario tree</a> and select "Add Data Set."
+in the <a href="#runtime_gui_scenario_tree">scenario tree</a> and select <strong>Add Data Set.</strong>
 The <a href="#runtime_gui_add_dataset">Data Set Editor dialog</a> will appear in which
 the name the data set can be specified, along with the data set type. Data sets
 are able to record <a href="#runtme_gui_aggregate_data">aggregate</a> and
@@ -4088,10 +4088,12 @@ are able to record <a href="#runtme_gui_aggregate_data">aggregate</a> and
 </div>
 <div class="title">Figure 27. Repast runtime add new Data Set dialog.</div>
 </div>
-<div class="paragraph"><p>In the next step (click Next), the data sources from which data will be recorded
+<div class="sect4">
+<h5 id="_standard_data_sources">Standard Data Sources</h5>
+<div class="paragraph"><p>In the next step (click <strong>Next</strong>), the data sources from which data will be recorded
 are defined. In the data source step there are three different tabs in which data
 sources are selected and defined.</p></div>
-<div class="paragraph"><p>The first tab <a href="#runtime_gui_add_dataset_std">Standard Sources</a> is common to
+<div class="paragraph"><p>The first tab <a href="#runtime_gui_add_dataset_std"><strong>Standard Sources</strong></a> is common to
 aggregate and non-aggregate sources, and includes the model <strong>Tick Count</strong>,
 <strong>Random Seed</strong>, and <strong>Run Number</strong>.  Selecting these sources will automatically insert
 the current value of these variables into the data set. The tick count value is
@@ -4102,7 +4104,7 @@ models with stochastic behavior so that specific results can be re-created by
 using the same random seed in additional model runs.  Finally, the run number is
 useful to include in logged data when more than one model run will be executed,
 say in batch mode, so that each of the run data are indexed in the data set.</p></div>
-<div class="paragraph"><p>The remaining two tabs include Method Data Sources and Custom Data Sources, and
+<div class="paragraph"><p>The remaining two tabs include <strong>Method Data Sources</strong> and <strong>Custom Data Sources</strong>, and
 define which data is logged from the model components, and function differently
 depending on the data set type (aggregate or non-) and are described below.</p></div>
 <div class="imageblock" id="runtime_gui_add_dataset_std">
@@ -4111,15 +4113,25 @@ depending on the data set type (aggregate or non-) and are described below.</p><
 </div>
 <div class="title">Figure 28. Repast runtime add new Data Set dialog standard sources.</div>
 </div>
+</div>
 <div class="sect4">
 <h5 id="runtme_gui_aggregate_data">Aggregate Data Sources</h5>
-<div class="paragraph"><p>For an aggregate data set, the method data source tab allows one to define a data
-source that calls a method on each of the agents of a specified type
+<div class="paragraph"><p>For an aggregate data set, the <strong>Method Data Sources</strong> tab allows one to define data
+sources that call a method on each of the agents of a specified type
 and then perform an aggregate operation on the results of those method calls. For
-example, if a model contains "person" agents, each of which have a getAge()
-method that returns the agent&#8217;s age, you can create an aggregate data source to
-record the mean, maximum, and minimum age for the population of person agents.</p></div>
-<div class="paragraph"><p>To add an aggregate Method Data Source, click the Add button. A new row in the
+example, if a model contains "Human" agents, each of which have a getEnergy()
+method that returns the agent&#8217;s energy as a double value, an aggregate data
+source can record the mean, maximum, and minimum energy for the population of
+Human agents.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Use an aggregate data source to perform statistical summaries of agent properties.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>To add an aggregate Method Data Source, click the <strong>Add</strong> button. A new row in the
 method data source table will be added. The type of agent for which to record
 data can be selected by double clicking on the cell in the <strong>Agent Type</strong> column. When
 multiple agent types are available in the model, double clicking will display a
@@ -4131,17 +4143,19 @@ to be selected in the <strong>Aggregate Operation</strong> column.  Double click
 in this column provides a list of available data operations such as min, max, mean,
 standard deviation, and others.  Finally, the data source should be provided with
 a unique name that can be typed into the cell in the <strong>Source Name</strong> column.</p></div>
-<div class="paragraph"><p>An <a href="#runtime_gui_add_dataset_agg1_1">example aggregate data set source</a> is shown
+<div class="paragraph"><p>An <a href="#runtime_gui_add_dataset_agg_1">example aggregate data set source</a> is shown
 below in which the average energy for the "Human" agent type is aggregated into
 a mean value.</p></div>
 <div class="paragraph"><p>Note that boolean operations can be summed, averaged, and so forth. True is equal
 to 1 and false is equal to 0. You will also need to provide a name for the data
 source by double clicking and typing a name in the cell in the Source Name column.</p></div>
-<div class="imageblock" id="runtime_gui_add_dataset_agg1_1">
+<div class="paragraph"><p>After all of the desired data sources are defined, the data set update behavior
+needs to be defined via the <a href="#runtime_gui_schedule_dataset"><strong>Schedule Parameters</strong></a>.</p></div>
+<div class="imageblock" id="runtime_gui_add_dataset_agg_1">
 <div class="content">
 <img src="figures/runtime_gui_add_dataset_agg_1.png" alt="figures/runtime_gui_add_dataset_agg_1.png" />
 </div>
-<div class="title">Figure 29. Selecting data sources for an aggregate data set</div>
+<div class="title">Figure 29. Selecting data sources for an aggregate data set.</div>
 </div>
 <div class="admonitionblock">
 <table><tr>
@@ -4153,16 +4167,138 @@ the agent class does not have publicly visible methods.  Make sure that the agen
 has methods that return numeric data types and have public visibility.</td>
 </tr></table>
 </div>
-<div class="paragraph"><p>An additional aggregate operation is provided that does not require a method.
-This Count operation will return the current number of agents of the specified
-type in the simulation. In the example in  the Human
-Count data source will return the current number ofHuman agents whenever it
-is called. By selecting the Count operation the Method column cell with be
-set to a N/A (non-applicable) value indicating that the Count operation
-doesn&#8217;t require a method call.</p></div>
+<div class="paragraph"><p>An additional aggregate <strong>Count</strong> operation is available that will return the
+current number of agents of the specified type in the simulation. The Count
+operation does not require an agent method return value, but rather it simply
+sums up all instances of the agent type, and is thus useful for calculating
+population size during a model run. <a href="#runtime_gui_add_dataset_agg_2">A Count data source is created by clicking</a>
+the Add button in the <strong>Method Data Sources</strong> tab and selecting Count in the
+Aggregate Operation column. By selecting the Count operation the Method column
+cell with be set to a "N/A" (non-applicable) value indicating that the Count
+operation doesn&#8217;t require a method call.  The Count operation will apply to the
+class specified in the Agent Type column.  A unique name for the Count source
+should be provided in the Source Name column.</p></div>
+<div class="imageblock" id="runtime_gui_add_dataset_agg_2">
+<div class="content">
+<img src="figures/runtime_gui_add_dataset_agg_2.png" alt="figures/runtime_gui_add_dataset_agg_2.png" />
+</div>
+<div class="title">Figure 30. Creating a Count data source for an aggregate data set.</div>
+</div>
+<div class="paragraph"><p>The <strong>Custom Data Sources</strong> tab allows you to specify custom data sources that are
+provided via a user-defined data source class that implements the
+repast.simphon.data2.AggregateDataSource interface. Type the name
+of the implementing class into the text box next to the Add button, then
+click the Add button. The new data source should appear in the list below
+the text box.</p></div>
 </div>
 <div class="sect4">
 <h5 id="runtme_gui_nonaggregate_data">Non-Aggregate Data Sources</h5>
+<div class="paragraph"><p>For an non-aggregate data set, the <strong>Method Data Sources</strong> tab allows one to define data
+sources that call a method on each of the agents of a specified type and returns
+a <strong>separate result for each agent instance</strong> of that type. Unlike the aggregate
+data source, an aggregate operation is not performed. For example, if a model
+contains "Human" agents, each of which have a getEnergy() method that returns
+the agent&#8217;s energy as a double value, a non-aggregate data source will record the
+individual energy value for each agent as a separate entry in the data set.
+Non-aggregate data sources are therefore useful for tracking the individual agent
+properties during a simulation.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Use a non-aggregate data source to record the individual property values of each
+agent during a simulation.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>To define a non-aggregate Method Data Source, select the source class in the
+<strong>Source Class</strong> combo box and then click <strong>Add</strong> to add a new row to the method data
+source table.</p></div>
+<div class="paragraph"><p>Next, the method for the selected agent type is set by clicking on the cell in
+the <strong>Method</strong> column and selecting the available agent methods for the data source
+row. Finally, the data source should be provided with a unique name that can be
+typed into the cell in the <strong>Source Name</strong> column. Note that only a single source
+class can be used, that is, all the method data sources need to be method calls
+on that selected class.</p></div>
+<div class="paragraph"><p>An <a href="#runtime_gui_add_dataset_nonagg">example non-aggregate data set source</a> is shown
+below in which the energy for all individual "Human" agents type is logged as
+discrete values.</p></div>
+<div class="paragraph"><p>After all of the desired data sources are defined, the data set update behavior
+needs to be defined via the <a href="#runtime_gui_schedule_dataset"><strong>Schedule Parameters</strong></a>.</p></div>
+<div class="imageblock" id="runtime_gui_add_dataset_nonagg">
+<div class="content">
+<img src="figures/runtime_gui_add_dataset_nonagg.png" alt="figures/runtime_gui_add_dataset_nonagg.png" />
+</div>
+<div class="title">Figure 31. Creating a Count data source for an aggregate data set.</div>
+</div>
+<div class="paragraph"><p>The <strong>Custom Data Sources</strong> tab allows you to specify custom data sources that are
+provided via a user-defined data source class that implements the
+repast.simphon.data2.NonAggregateDataSource interface. Type the name
+of the implementing class into the text box next to the Add button, then
+click the Add button. The new data source should appear in the list below
+the text box.</p></div>
+</div>
+<div class="sect4">
+<h5 id="runtime_gui_schedule_dataset">Scheduling Data Sets</h5>
+<div class="paragraph"><p>After data sources are defined, clicking the <strong>Next</strong> button displays the
+<a href="#runtime_gui_schedule_params">Schedule Parameters dialog</a> in which to specify
+the start time, priority, frequency, and interval (assuming a repeating frequency).
+These parameters are as follows:</p></div>
+<div class="imageblock" id="runtime_gui_schedule_params">
+<div class="content">
+<img src="figures/runtime_gui_schedule_params.png" alt="figures/runtime_gui_schedule_params.png" />
+</div>
+<div class="title">Figure 32. Specifying schedule parameters for a data set.</div>
+</div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Start Time:</strong> a double precision value that specifies the tick count at which
+to begin data collection, as defined in the data set&#8217;s data sources.
+</p>
+</li>
+<li>
+<p>
+<strong>Priority:</strong> a value of either <strong>Random</strong>, <strong>First</strong>, or <strong>Last</strong> that determines when the
+data collection occurs in a single simulation tick, relative to all other scheduled
+simulation behaviors.  Typically this value is <strong>Last</strong> which indicates that all
+scheduled agent behaviors will execute in a single time step before the data is collected.
+</p>
+</li>
+<li>
+<p>
+<strong>Frequency:</strong> a value of either <strong>Repeat</strong> or <strong>One Time</strong> that determines if the data
+collection should occur on a regular repeating interval, or just a single time.
+</p>
+</li>
+<li>
+<p>
+<strong>Interval:</strong> a double precision value that specifies the interval frequency at which
+to collect the data.
+</p>
+</li>
+<li>
+<p>
+<strong>Also At End:</strong> check this box to perform an additional data collection when the
+simulation ends.
+</p>
+</li>
+<li>
+<p>
+<strong>Only A End:</strong> check this box to only record data at the end of the simulation.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Clicking <strong>Finish</strong> will create the data set for the current scenario. To actually
+save the data set parameters in the scenario, select <strong>File &#8594; Save</strong> in the GUI.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Don&#8217;t forget to save the scenario after adding new data sets.</td>
+</tr></table>
+</div>
 </div>
 </div>
 </div>
