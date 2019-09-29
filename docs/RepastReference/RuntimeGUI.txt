@@ -183,52 +183,20 @@ image::figures/runtime_gui_add_parameter_list.png[]
 
 include::DataSets.txt[]
 
-=== Charts
+include::TextSinks.txt[]
 
-.TODO
-****
-needs updating
-****
-
-==== Time Series Charts
-
-==== Histogram Charts
+include::Charts.txt[]
 
 
-=== Data Loaders
 
-anchor:DataLoaders[]
-Data Loaders...
 
-.TODO
-****
-needs updating
-**** 
+//=== Data Loaders
 
-=== Displays
 
-.TODO
-****
-needs updating
-****
+//=== Displays
 
-=== Text Sinks
 
-.TODO
-****
-needs updating
-****
+//=== User Panel
 
-=== User Panel
 
-.TODO
-****
-needs updating
-****
-
-=== Docking Layout
-
-.TODO
-****
-needs updating
-****
+//=== Docking Layout

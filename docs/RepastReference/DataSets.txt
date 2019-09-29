@@ -1,3 +1,4 @@
+[[runtime_gui_datasets]]
 === Data Sets
 Repast Simphony records data from data sources of two types - Aggregate and 
 Non-Aggregate.  Aggregate data sources receive a collection of objects (agents, 
@@ -9,14 +10,13 @@ value for each object. For example, a non-aggregate data source might call a
 method on an agent and return the result of that method call. Data sources are 
 grouped into named data sets. A data set is a collection of data sources. 
 
-// TODO link to sink and chart sections
-
 Once a data set is defined, the Repast runtime will record the data produced by 
 the data set's data sources. However, the recorded data will not be written to a 
-file or displayed in a chart. For that to occur, a data sink must be defined. A 
-data sink takes the data produced by data sources and writes them to a file, the 
-console or displays them in a chart. The same data set can be connected to multiple 
-data sinks. 
+file or displayed in a chart. For that to occur, a <<runtime_gui_textsinks, 
+Text Sink>> must be defined. A text sink takes the data produced by data sources 
+and writes them to a file or the console. Similarly, a <<runtime_gui_charts, Chart>>
+may be used to display the data set content in a time series or histogram.
+A single data set can be connected to multiple text sinks and charts.
 
 ==== Creating a Data Set
 Data collection is set up in Repast Simphony by defining the data sets and data 
@@ -92,6 +92,10 @@ source by double clicking and typing a name in the cell in the Source Name colum
 
 After all of the desired data sources are defined, the data set update behavior
 needs to be defined via the <<runtime_gui_schedule_dataset, *Schedule Parameters*>>.
+
+[NOTE]
+The example *Data Set* dialogs in this section display content from the *JZombies*
+demo.  The actual content of the dialogs will vary by model data set content.
 
 [[runtime_gui_add_dataset_agg_1]]
 .Selecting data sources for an aggregate data set.

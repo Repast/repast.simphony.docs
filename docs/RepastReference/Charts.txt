@@ -1,0 +1,9 @@
+[[runtime_gui_charts]]
+=== Charts
+
+Charts...
+
+
+==== Time Series Charts
+
+==== Histogram Charts

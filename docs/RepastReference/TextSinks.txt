@@ -1,0 +1,140 @@
+[[runtime_gui_textsinks]]
+=== Text Sinks
+<<runtime_gui_datasets, Data sets>> allow the Repast runtime to record model data 
+in memory, but data sets themselves do not provide access to the data in a 
+human-readable format and their contents are lost when the Repast runtime is closed.  
+Data set content can be directed to Text Sinks that will direct the data to either
+the Eclipse program console or to an output file. Console output will show up in 
+Eclipse's console tab and can be useful for debugging. 
+
+[[runtime_gui_textsinks_filesink]]
+==== File Sinks
+To write data to a file, a file sink needs to be defined. To create a file sink 
+right click *Text Sinks* in the Scenario Tree and click *Add File Sink*. The
+<<runtime_gui_add_filesink_1, File Sink Editor dialog>> will appear.  The *Name*
+box contains a default value for the file sink and this should be changed to a 
+meaningful and unique description for the file sink that will appear in the scenario
+tree.  Next, select the *Data Set ID* from the list of available data sets that 
+have created. When the data set is selecte, a list of the data sources in that 
+data set in the list box on the left hand side. Select the sources to write to a 
+file and click the right arrow to move them over to the list of data sources to 
+be written. The order in which sources will be written can be changed using the 
+up and down arrows. 
+
+[NOTE]
+The example *File Sink* dialogs in this section display content from the *JZombies*
+demo.  The actual content of the dialogs will vary by model data set content.
+
+[[runtime_gui_add_filesink_1]]
+.Repast runtime add new File Sink dialog.
+image::figures/runtime_gui_add_filesink_1.png[]
+
+Once the desired data sources to record have been selected, click *Next* to define 
+the <runtime_gui_add_filesink_2, output file properties>>.  The *File Name* specifies
+the name of the file to which to write the data.  When only the file name without
+a directory path is entered, the file path is relative to the model root folder. 
+The *Browse* button can be used to facilitate locating the output file if it is 
+desired to save it in a location other than the model folder.  The checkbox below
+the file name can be used to insert the current system data and time into the 
+file name.  This feature is extremely useful to prevent overwriting an existing 
+file name with the same name.
+
+[[runtime_gui_add_filesink_2]]
+.Repast runtime add new File Sink (File Properties) dialog.
+image::figures/runtime_gui_add_filesink_2.png[]
+
+[TIP]
+When only the output file name without a directory path is entered, the file path 
+is relative to the model root folder. 
+
+[CAUTION]
+Enable the checkbox to insert the current time into the output file name to avoid
+overwriting existing model output data.
+
+The *Delimiter* character is used use to separate the data entries in the output 
+file. Comma-delimitted files are common and can be imported into most spreadsheet
+applications and data analysis packages.  Other example delimiters are the colon ':',
+or semi-colon ';' characters, although any character may be used.
+
+Data can be written in two formats. *Tabular* format writes the data in typical 
+spreadsheet type tabular format. Each data source will be a column in the table 
+and the name of the data source will be the column header. For example, the raw
+file output would look like:
+
+----
+"tick", "Human Count", "Zombie Count"
+1.0, 199, 6
+2.0, 199, 6
+3.0, 198, 7
+4.0, 195, 10
+---- 
+
+And this same data imported into a spreadsheet application would appear as in 
+the following table:
+ 
+.Tabular view of data
+[options="header",width="50%",cols="3"]
+|====
+|tick |Human Count |Zombie Count
+|1.0 |199 |6
+|2.0 |199 |6
+|3.0 |198 |7
+|4.0 |195 |10
+|====
+
+*Line* format writes the data out on a single line where the data source name is 
+followed by a colon followed by the value. For example,
+
+----
+tick: 1.0, Human Count: 199, Zombie Count: 6
+tick: 2.0, Human Count: 198, Zombie Count: 7
+----
+
+The choice of using either tabular or line format output files is entirely 
+dependent on how the data will be used after the simulation run is completed.
+Click *Finish* to add the file sink to the scenario and don't forget to save the 
+scenario.
+
+[TIP]
+Don't forget to save the scenario after adding new file sinks.
+
+==== Console Sinks
+To define a console sink, click on the *Text Sinks* node in the scenario tree 
+and select *Add Console Sink*. The steps to define a console sink are nearly 
+identical those used to define a <<runtime_gui_textsinks_filesink, file sink>>. 
+
+As with File Sinks, the data set and data sources are selected, along with a 
+delimiter and a format type. A console sink can also be enabled or disabled using
+the checkbox in the Configure Console Properties in the console sink wizard. 
+This can be useful to enable a console sink for debugging and then disable it 
+for production runs.
+
+==== Batch Runs
+Output during batch runs now consists of a single file. The file will automatically 
+include the batch run number. For example,
+
+----
+"run", "tick", "Human Count", "Zombie Count"
+1, 1.0, 199, 6
+1, 2.0, 199, 6
+1, 3.0, 198, 7
+...
+2, 1.0, 199, 5
+2, 2.0, 199, 5
+2, 3.0, 198, 7
+----
+
+where "run" is the batch run number. A parameter mapping file will also be 
+produced that describes what parameters were used for each run. For example,
+
+----
+"run","randomSeed","human_count","zombie_count"
+1, 1, 200, 5
+2, 1, 200, 6
+----
+
+Here, run 1 was run with a random seed of 1, a human count of 200 and zombie 
+count of 5. Run 2 was run with a random seed of 1, a human count of 200 and 
+zombie count of 6. This mapping file will have the same name as the output file 
+with "batch_param_map" inserted. So, ModelOutput.2012.Jan.27.14_23_34.txt 
+will have a mapping file of ModelOutput.2012.Jan.27.14_23_34.batch_param_Map.txt.
