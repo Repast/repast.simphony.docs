@@ -645,7 +645,7 @@ To shut down the virtual machine when you no longer need it, you can close the w
 \subsection{Amazon Cloud Services}
 Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides resizable compute capacity in the cloud. It is designed to make web-scale computing easier for developers. It is possible to use this remote compute capacity to perform remote batch runs. More on Amazon's EC2 can be found at  \href{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html}{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html}.
 
-Amazon EC2 based batch runs begin with setting up a remote machine instance that runs an Amazon Machine Image (AMI). The batch run will login into this instance using SSH and perform the runs on it. The setup only needs to be done once. After that, the instance can be stopped and started as needed. The Amazon EC2 Getting Started docs describe this process: \href{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html}{\\http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2\_GetStarted.html}. (Note that Amazon, at the time of writing, has 12 month free tier. See the links in the EC2 Getting Started Guide for more info.) Follow the Getting Started Guide to set up your instance. Choose the 64 bit Ubuntu Server 12.04 LTS (figure \ref{fig:ubuntu_ami}) as the launch configuration in Step 2. of the Getting Started Guide.
+Amazon EC2 based batch runs begin with setting up a remote machine instance that runs an Amazon Machine Image (AMI). The batch run will login into this instance using SSH and perform the runs on it. The setup only needs to be done once. After that, the instance can be stopped and started as needed. The Amazon EC2 Getting Started docs describe this process: \href{hhttps://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html}{\\https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html}. (Note that Amazon, at the time of writing, has 12 month free tier. See the links in the EC2 Getting Started Guide for more info.) Follow the Getting Started Guide to set up your instance. Choose the 64 bit Ubuntu Server 18.04 LTS (HVM) (figure \ref{fig:ubuntu_ami}) as the Amazon Machine Image (AMI) when creating an instance.
 
 \begin{figure}[h]
 \begin{center}
@@ -653,20 +653,20 @@ Amazon EC2 based batch runs begin with setting up a remote machine instance that
 \centerline {
 \includegraphics[width=6in]{images/ubuntu_ami.png}
 }
-\caption{Select the Ubuntu 12.04 AMI}
+\caption{Select the Ubuntu Server 18.04 LTS AMI}
 \label{fig:ubuntu_ami}
 \end{center}
 \end{figure}
 
-Once your instance is running, log into and explore the instance as described in Step 3 and Step 4 of the Amazon Getting Started Guide. You do NOT need to attach an EBS volume, but you do need to install Java on the instance. From the command line that you should see after you've logged in, run the following commands (type them in and press enter after each one):
+Once your instance is running, log into and explore the instance using SSH as described in Step 2 of the Amazon Getting Started Guide. You will need to install Java on the instance. From the command line that you should see after you've logged in, run the following commands (type them in and press enter after each one):
 
 \begin{Verbatim}
 sudo apt-get update
-sudo apt-get install openjdk-7-jre-headless
+sudo apt-get install openjdk-11-jre-headless
 sudo apt-get install zip
 \end{Verbatim}
 
-After each command, you may get a question about whether to continue with the install. Accept the default 'Yes' by pressing the enter key. Once you've done this, your instance should be ready to perform a batch run. The username to log in with is {\tt ubuntu} as is the password. To see the address of your instance, click on the instance in your EC2 Instances console. The host address for your batch configuration should appear in the instance details below it (figure \ref{fig:instance_addr}). If you do not see the instance address there, click on the refresh button (the circular arrow) in the upper right hand corner of the instance console. Make sure to stop your instance when you are done using it. When you restart the instance the next time, the address will have changed so be sure to update your batch configuration properties.
+After each command, you may get a question about whether to continue with the install. Accept the default 'Yes' by pressing the enter key. Once you've done this, your instance should be ready to perform a batch run. The username to log in with is {\tt ubuntu} as is the password. To see the address of your instance, click on the instance in your EC2 Instances console. The host address for your batch configuration should appear in the instance details below it (figure \ref{fig:instance_addr}). Make sure to stop your instance when you are done using it. When you restart the instance the next time, the address will have changed so be sure to update your batch configuration properties.
 
 Amazon EC2 has its own public key authentication setup that is described in its Getting Started document. Consequently, the procedures described in section \ref{sec:distributed_runs} are not required here.
 

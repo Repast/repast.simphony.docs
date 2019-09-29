@@ -10,7 +10,7 @@ October 2019
 New in Repast Simphony 2.7 is the ability to run your model using a web browser
 as the user interface. The browser-based GUI has the following features:
 
-* 2D grid, continuous space, and geography (GIS) visualization
+* 2D grid, continuous space, and geography (GIS) visualization (currently restricted to edited styles only) 
 * Tabbed and freeform visualization layout
 * Time series plots
 * Agent probing
