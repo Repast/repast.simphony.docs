@@ -1,33 +1,34 @@
 === Displays
+Repast displays can be used to visually represent agent locations in 2D space, 
+3D space, and GIS projections.  Additionally, continuous space, grid, and value
+layer projections, along with network projections can be combined together in
+displays to create visually rich representations of the agent world.
 
-Creating displays involves the following common steps:
-
-Specifying:
+Creating displays involves the following common steps to specify:
 
 * The display type (2D, 3D, GIS)
-* The space projections to include in the display
+* The space projections to include in the display (continuous, grid, network, geography etc).
 * The agents that are visible in the display
-* How the agents are visually styled
-* How networks and value layers are visualy styled (if applicable)
+* How the agents are visually styled (color, shape, size)
+* How networks and value layers are visually styled (if applicable)
 * When the display is updated
 * Additional display-specific options
 
-Example displays
-
+// TODO example displays?
 
 ==== 2D Displays
 To create a 2D Display right click on the *Displays* node in the scenario tree 
 and choose *Add Display* and the <<runtime_gui_add_disp_2d_1, DIsplay Details 
 dialog>> will appear. Provide a meaningful *Name* for the display that will 
-appear in the Display title and in the scenario tree.  Duplicate chart names are 
+appear in the Display title and in the scenario tree. Duplicate chart names are 
 allowed.
 
 The *Type* list selector is used to specify the type of display.  Select *2D* for 
-a 2D display.  The *Projections and Value Layers* section provides a list of available
+a 2D display. The *Projections and Value Layers* section provides a list of available
 spatial projections like grid and continuous spaces, along with value layers that
-may be added to the display.  Select the desired projections and add them to the 
-right hand list using the arrows.  Projections on the right side can be moved back
-to the left side and they will not be included.  Note that projections cannot be
+may be added to the display. Select the desired projections and add them to the 
+right hand list using the arrows. Projections on the right side can be moved back
+to the left side and they will not be included. Note that projections cannot be
 added to or removed from a display after the display creation is finalized.
 
 [[runtime_gui_add_disp_2d_1]]
@@ -38,15 +39,15 @@ image::figures/runtime_gui_add_disp_2d_1.png[]
 Projections cannot be added to or removed from a display after the display is created.
 
 Click *Next* and the <<runtime_gui_add_disp_2d_2, Agent Selection>> will appear in
-which the agents that appear in the display will be selected.  The left hand list
-contains all user-defined classes in the model.  In many cases, only a subset of the
+which the agents that appear in the display will be selected. The left hand list
+contains all user-defined classes in the model. In many cases, only a subset of the
 model classes are actually agents, and therefore which types of classes are shown
-in the display must be selected.  For example, a model will normally also have a
+in the display must be selected. For example, a model will normally also have a
 ContextBuilder class, and additional utility classes that themselves are not agents.
-Such non-agent classes should not be included in the display.  Select the desired
-agents using the left-right arrows.  In 2D displays, the *layer order* is 
+Such non-agent classes should not be included in the display. Select the desired
+agents using the left-right arrows. In 2D displays, the *layer order* is 
 important as agents that are collocated may obscure agent layers depending on their
-ordering.  Use the up-down arrows to arrange the layer orders from foreground (top)
+ordering. Use the up-down arrows to arrange the layer orders from foreground (top)
 to background (bottom). 
 
 [[runtime_gui_add_disp_2d_2]]
@@ -54,16 +55,15 @@ to background (bottom).
 image::figures/runtime_gui_add_disp_2d_2.png[]
 
 ===== Agent Styles
-
 Click *Next* and the <<runtime_gui_add_disp_2d_3, Agent Style dialog>> will appear
-in which the appearance of the agents will be defined.  The *Agents* list in the 
+in which the appearance of the agents will be defined. The *Agents* list in the 
 left hand side contains the list of agents that were selected in the previous step.
 All of these agents will appear in the display and must have a visual style defined
 for each.  The *Agent Class* box displays the model class that corresponds to the 
 selected agent in the list for informational purposes only, and is not editable.
 The *Style Class* box contains the default style class initially and may be used
 to specify a user-defined custom style class for the agent. This list box will 
-contain any user-defined style class that implements *StyleOGL2D*.  Any style 
+contain any user-defined style class that implements *StyleOGL2D*. Any style 
 classes that implement this interface and are in the model classpath will be 
 available for selection and assignment to agents in the list.
 
@@ -73,15 +73,15 @@ image::figures/runtime_gui_add_disp_2d_3.png[]
 
 An alternative to defining an agent style class is to use the built-in 
 <<runtime_gui_add_disp_2d_4, Style Editor>> by clicking the 
-image:figures/edit.png[] icon next to the style class selection list.  The style 
+image:figures/edit.png[] icon next to the style class selection list. The style 
 editor provides a simple method to define the agent shape, color, and label using
-a wizard-based interface and does not require user-defined style classes.  The 
+a wizard-based interface and does not require user-defined style classes. The 
 *Icon Shape and Color* section in the upper left can be used to specify the 2D
 shape from a list of available shapes, and the color by clicking on the color
-button.  When the shape and color are changed, the *Icon Preview* at right will
-be updated.  Additionally, an *Icon File* can be used to provide the agent icon
-and genrally is a good way to specify complex agent icons in the display since
-any existing image file can be used.  Supported file types include GIF, JPG, PNG,
+button. When the shape and color are changed, the *Icon Preview* at right will
+be updated. Additionally, an *Icon File* can be used to provide the agent icon
+and generally is a good way to specify complex agent icons in the display since
+any existing image file can be used. Supported file types include GIF, JPG, PNG,
 and BMP.  The use of small resolution (less than 50x50) PNG files is suggested
 for best results.
 
@@ -93,14 +93,14 @@ image::figures/runtime_gui_add_disp_2d_4.png[]
 Complex and interesting agent shapes can easily be achieved using predefined 
 image files. Use small resolution (less than 50x50) PNG files for best results.
 
-The *Icon Size* section specifies the size of the agent icon in the display.  The
+The *Icon Size* section specifies the size of the agent icon in the display. The
 *Value* box allows either a fixed number, or an agent method that returns a number.
 When a fixed value is used, the agent icon will be the same size during a model 
 run.  Using a method in the value box allows the agent size to change during a 
-simulation, depending on the value returned by the method.  For example, an agent's
+simulation, depending on the value returned by the method. For example, an agent's
 energy value could be used to increase the size of the icon as the energy increase
 over time. When a method value is used, the *Minimum*, *Maximum*, and *Scaling*
-values can be used to scale the method value accordingly.  For example, if the desired
+values can be used to scale the method value accordingly. For example, if the desired
 agent size is around 15.0, and the returned energy value ranges from 0-300, the 
 maximum value specified should be 300, the minimum value should be 0, and the 
 scaling should be 15.0  The min and max values will scale the method value between
@@ -112,18 +112,18 @@ used is defined according to the formula:
 ----
 
 The *Icon Label* section specified if and how a text label should appear next to
-each agent icon in the display.  The *Value* box may contain either a constant 
+each agent icon in the display. The *Value* box may contain either a constant 
 String value, or a method that returns a string or numeric type. The *Position*
 box specifies the label position relative to the agent icon, with the specified 
-*Offset* distance.  The *Precision* box specifies the numerical precision in number
-of decimal places to be displayed for numerical labels.  The *Icon Label Font*
+*Offset* distance. The *Precision* box specifies the numerical precision in number
+of decimal places to be displayed for numerical labels. The *Icon Label Font*
 section specifies the icon font type, size, style, and color.
 
 The *Variable Icon Color* section can be used to specify how the icon color changes
 based on agent attributes. Variable icon coloring only applies to base icon shapes
 (circle, square, triangle, etc) and not image-based icons. As with the icon size,
 the value, min, max, and scaling can be specified using either a fixed numerical
-value or an agent method that returns a number.  When a method value is specified,
+value or an agent method that returns a number. When a method value is specified,
 the min and max should reflect the expected range of this returned value. Generally,
 a scaling value of 1.0 is used because each of the Red, Green, and Blue values is
 used to construct an RGB color using a range of 0-1 for each.
@@ -142,11 +142,11 @@ image::figures/runtime_gui_add_disp_2d_5.png[]
 
 Similar to the 2D agent icon styling, a <<runtime_gui_add_disp_2d_6, Network Style 
 Editor>> is available by clicking the image:figures/edit.png[] icon next to the 
-style class selection list.  The *Edge Color* can be specified by clicking on the
-color button an choosing the desired color.  The line thickness can be specified
+style class selection list. The *Edge Color* can be specified by clicking on the
+color button an choosing the desired color. The line thickness can be specified
 by either a constant numerical value, or by a method that returns a value from the
 edge.  The *getWeight* method is available by default on RepastEdge implementations,
-which are the default edges used in Repast Networks.  User-defined network edge
+which are the default edges used in Repast Networks. User-defined network edge
 classes can provide additional methods from which to set the line thickness.
 
 The line thickness and color can also be variable based on a method value and is
@@ -161,8 +161,374 @@ After all styles are defined, clicking the *Next* button to proceed to the
 the display update frequency and finally save the new display.
 
 ==== 3D Displays
+To create a 3D Display right click on the *Displays* node in the scenario tree 
+and choose *Add Display* and the <<runtime_gui_add_disp_3d_1, DIsplay Details 
+dialog>> will appear. Provide a meaningful *Name* for the display that will 
+appear in the Display title and in the scenario tree. Duplicate chart names are 
+allowed.  Nearly all of the subsequent steps in creating 3D displays are the same
+as for 2D displays, however there are some differences.  Nevertheless, the complete
+sequence of steps for creating 3D displays is contained in this section.
+
+The *Type* list selector is used to specify the type of display.  Select *3D* for 
+a 3D display. The *Projections and Value Layers* section provides a list of available
+spatial projections like grid and continuous spaces, along with value layers that
+may be added to the display. Select the desired projections and add them to the 
+right hand list using the arrows. Projections on the right side can be moved back
+to the left side and they will not be included. Note that projections cannot be
+added to or removed from a display after the display creation is finalized.
+
+[[runtime_gui_add_disp_3d_1]]
+.Repast runtime add new 3D Display dialog.
+image::figures/runtime_gui_add_disp_3d_1.png[]
+
+[NOTE]
+Projections cannot be added to or removed from a display after the display is created.
+
+Click *Next* and the <<runtime_gui_add_disp_3d_2, Agent Selection>> will appear in
+which the agents that appear in the display will be selected. The left hand list
+contains all user-defined classes in the model. In many cases, only a subset of the
+model classes are actually agents, and therefore which types of classes are shown
+in the display must be selected. For example, a model will normally also have a
+ContextBuilder class, and additional utility classes that themselves are not agents.
+Such non-agent classes should not be included in the display. Select the desired
+agents using the left-right arrows. In 3D displays, the *layer order* has no effect
+on agent visibility, which is strictly determined by the agent's position in 3D space.
+
+[[runtime_gui_add_disp_3d_2]]
+.Repast runtime add new 3D Display (Agent Selection) dialog.
+image::figures/runtime_gui_add_disp_3d_2.png[]
+
+===== Agent Styles
+Click *Next* and the <<runtime_gui_add_disp_3d_3, Agent Style dialog>> will appear
+in which the appearance of the agents will be defined. The *Agents* list in the 
+left hand side contains the list of agents that were selected in the previous step.
+All of these agents will appear in the display and must have a visual style defined
+for each. The *Agent Class* box displays the model class that corresponds to the 
+selected agent in the list for informational purposes only, and is not editable.
+The *Style Class* box contains the default style class initially and may be used
+to specify a user-defined custom style class for the agent. This list box will 
+contain any user-defined style class that implements *Style3D*. Any style 
+classes that implement this interface and are in the model classpath will be 
+available for selection and assignment to agents in the list.
+
+[[runtime_gui_add_disp_3d_3]]
+.Repast runtime add new 3D Display (Agent Style) dialog.
+image::figures/runtime_gui_add_disp_3d_3.png[]
+
+An alternative to defining an agent style class is to use the built-in 
+<<runtime_gui_add_disp_3d_4, Style Editor>> by clicking the 
+image:figures/edit.png[] icon next to the style class selection list. The style 
+editor provides a simple method to define the agent shape, color, and label using
+a wizard-based interface and does not require user-defined style classes.  The 
+*Icon Shape and Color* section in the upper left can be used to specify the 3D
+shape from a list of available shapes, and the color by clicking on the color
+button. The *Icon Preview* at right is not active in the 3D style editor.  
+
+Alternatively, an *Model File* or *Texture* can be used to provide the 3D agent icon
+and generally is a good way to specify complex agent icons in the display since
+any existing 3D model files can be used. Supported 3D model formats include 
+Milkshape3D (http://www.milkshape3d.com/), Lightwave3D (https://www.lightwave3d.com/),
+and Wavefront OBJ (https://en.wikipedia.org/wiki/Wavefront_.obj_file).  Textures
+are simply image files that are wrapped around 3D objects and can be applied to 
+both simply objects and model files.  For example, an image of the Earth can be
+wrapped around a sphere icon to create a very realistic 3D Earth visualization.
+Creating 3D model files from scratch is difficult and requires either open source
+or commercial 3D modeling software, however a large number of free 3D model files
+are available via online repositories.
+
+[[runtime_gui_add_disp_3d_4]]
+.Repast runtime 3D Shape editor dialog.
+image::figures/runtime_gui_add_disp_3d_4.png[]
+
+[TIP]
+Complex and interesting agent shapes can easily be achieved using 3D model files
+and textures that are freely available online via third party repositories. 
+
+The *Icon Size* section specifies the size of the agent icon in the display. The
+*Value* box allows either a fixed number, or an agent method that returns a number.
+When a fixed value is used, the agent icon will be the same size during a model 
+run.  Using a method in the value box allows the agent size to change during a 
+simulation, depending on the value returned by the method. For example, an agent's
+energy value could be used to increase the size of the icon as the energy increase
+over time. When a method value is used, the *Minimum*, *Maximum*, and *Scaling*
+values can be used to scale the method value accordingly. For example, if the desired
+agent size is around 15.0, and the returned energy value ranges from 0-300, the 
+maximum value specified should be 300, the minimum value should be 0, and the 
+scaling should be 15.0  The min and max values will scale the method value between
+0 and 1, and the scaling will be multiplied by the 0-1 range. The actual size 
+used is defined according to the formula:
+
+----
+  icon_size = ((method_size - min) / (max - min) ) * scale
+----
+
+The *Icon Label* section specified if and how a text label should appear next to
+each agent icon in the display. The *Value* box may contain either a constant 
+String value, or a method that returns a string or numeric type. The *Position*
+box specifies the label position relative to the agent icon, with the specified 
+*Offset* distance.  The *Precision* box specifies the numerical precision in number
+of decimal places to be displayed for numerical labels. The *Icon Label Font*
+section specifies the icon font type, size, style, and color.
+
+The *Variable Icon Color* section can be used to specify how the icon color changes
+based on agent attributes. Variable icon coloring only applies to base icon shapes
+(circle, square, triangle, etc) and not image-based icons. As with the icon size,
+the value, min, max, and scaling can be specified using either a fixed numerical
+value or an agent method that returns a number. When a method value is specified,
+the min and max should reflect the expected range of this returned value. Generally,
+a scaling value of 1.0 is used because each of the Red, Green, and Blue values is
+used to construct an RGB color using a range of 0-1 for each.
+
+===== Network Styles
+When a display includes a *Network* projection, the appearance of the network edges
+can be specified in much the same way as agents are styled. The 
+<<runtime_gui_add_disp_3d_5, Network Edge Style dialog>> will automatically appear
+in displays that contain network projections, after the agent style step is complete.
+Selecting the network name in the left-hand box will allow the specification of a 
+style class for the network edges that implements EdgeStyle3D.  
+
+[NOTE]
+Unlike 2D displays, the network edges in 3D displays are not lines, but 3D cylinders.
+
+[[runtime_gui_add_disp_3d_5]]
+.Repast runtime 3D Network style dialog.
+image::figures/runtime_gui_add_disp_3d_5.png[]
+
+Similar to the 3D agent icon styling, a <<runtime_gui_add_disp_3d_6, Network Style 
+Editor>> is available by clicking the image:figures/edit.png[] icon next to the 
+style class selection list.  The *Edge Color* can be specified by clicking on the
+color button an choosing the desired color. The edge diameter can be specified
+by either a constant numerical value, or by a method that returns a value from the
+edge.  The *getWeight* method is available by default on RepastEdge implementations,
+which are the default edges used in Repast Networks. User-defined network edge
+classes can provide additional methods from which to set the edge diameter.
+
+The edge diameter and color can also be variable based on a method value and is
+defined in exactly the same way as the agent icon variable size and color.
+
+[[runtime_gui_add_disp_3d_6]]
+.Repast runtime 3D Network style editor dialog.
+image::figures/runtime_gui_add_disp_3d_6.png[]
+
+After all styles are defined, clicking the *Next* button to proceed to the  
+<<runtime_gui_schedule_disp, Schedule Details dialog>> in which to specify 
+the display update frequency and finally save the new display.
 
 ==== GIS Displays
+To create a GIS Display right click on the *Displays* node in the scenario tree 
+and choose *Add Display* and the <<runtime_gui_add_disp_gis_1, Display Details 
+dialog>> will appear. Provide a meaningful *Name* for the display that will 
+appear in the Display title and in the scenario tree. Duplicate chart names are 
+allowed.  Nearly all of the subsequent steps in creating GIS displays are the same
+as for Cartesian 2D and 3D displays, however there are some differences.  
+Nevertheless, the complete sequence of steps for creating GIS displays is 
+contained in this section.
+
+The *Type* list selector is used to specify the type of display.  Select *GIS 3D* for 
+a GIS display.  Note that there are two types of GIS displays available: *GIS* and
+*GIS 3D*.   The GIS displays are legacy display types with limited functionality 
+and are no longer supported in documentation. The GIS 3D display type is a fully
+featured GIS display and should be used normally for all GIS display applications.
+
+The *Projections and Value Layers* section provides a list of available
+spatial projections like grid and continuous spaces, along with value layers that
+may be added to the display. Select the desired projections and add them to the 
+right hand list using the arrows. A GIS display requires a *Geography* projection 
+and cannot be created unless a Geography projection is available in the model. 
+Projections on the right side can be moved back to the left side and they will 
+not be included. Note that projections cannot be added to or removed from a display 
+after the display creation is finalized.
+
+[[runtime_gui_add_disp_gis_1]]
+.Repast runtime add new GIS Display dialog.
+image::figures/runtime_gui_add_disp_gis_1.png[]
+
+[TIP]
+A GIS display requires a *Geography* projection and cannot be created
+unless a Geography projection is available in the model.
+
+[NOTE]
+Projections cannot be added to or removed from a display after the display is created.
+
+Click *Next* and the <<runtime_gui_add_disp_gis_2, Agent Selection>> will appear in
+which the agents that appear in the display will be selected. The left hand list
+contains all user-defined classes in the model. In many cases, only a subset of the
+model classes are actually agents, and therefore which types of classes are shown
+in the display must be selected. For example, a model will normally also have a
+ContextBuilder class, and additional utility classes that themselves are not agents.
+Such non-agent classes should not be included in the display. Select the desired
+agents using the left-right arrows. In GIS displays, the *layer order* is 
+important as agents that are collocated may obscure agent layers depending on their
+ordering. Use the up-down arrows to arrange the layer orders from foreground (top)
+to background (bottom). 
+
+[[runtime_gui_add_disp_gis_2]]
+.Repast runtime add new 3D Display (Agent Selection) dialog.
+image::figures/runtime_gui_add_disp_gis_2.png[]
+
+===== Agent Styles
+Click *Next* and the <<runtime_gui_add_disp_gis_3, Agent Style dialog>> will appear
+in which the appearance of the agents will be defined. The *Agents* list in the 
+left hand side contains the list of agents that were selected in the previous step.
+All of these agents will appear in the display and must have a visual style defined
+for each. The *Agent Class* box displays the model class that corresponds to the 
+selected agent in the list for informational purposes only, and is not editable.
+The *Style Class* box contains the default style class initially and may be used
+to specify a user-defined custom style class for the agent. This list box will 
+contain any user-defined style class that implements *MarkStyle* or 
+*SurfaceShapeStyle*. An important feature of GIS displays that is different from
+the 2D and 3D displays, is that the style class interface depends on the type of
+GIS feature that is being displays. In 2D and 3D displays, each agent location
+in space is a single coordinate, however GIS displays may contain agents with point
+locations, or multi-point locations that represent lines and polygons.  Point 
+location agents are styled with MarkStyle implementations, and line and polygon
+agents are styled with SurfaceShapeStyle implementations. The display wizard does
+not distinguish agent feature types so it is the user's responsibility to set the
+style class accordingly. Style classes that implement these interfaces and are 
+in the model classpath will be available for selection and assignment to agents 
+in the list.
+
+[[runtime_gui_add_disp_gis_3]]
+.Repast runtime add new GIS Display (Agent Style) dialog.
+image::figures/runtime_gui_add_disp_gis_3.png[]
+
+An alternative to defining an agent style class is to use the built-in 
+<<runtime_gui_add_disp_gis_4, Style Editor>> by clicking the 
+image:figures/edit.png[] icon next to the style class selection list. The style 
+editor provides a simple method to define the agent shape, color, and label using
+a wizard-based interface and does not require user-defined style classes.  The 
+*Icon Shape and Color* section in the upper left can be used to specify the GIS
+shape from a list of available shapes, and the color by clicking on the color
+button. The shape selection must specify either a shape for a single point marker
+style, or a line or polygon for those respective styles, depending on how the 
+agent is modeled in the geography.
+
+[CAUTION]
+The icon shape must specify a shape (cricle, square, etc) for single point location
+marker styles, or *line* or *polygon* for styles that represent agent line or 
+polygon geometries.
+
+When the shape and color are changed, the *Icon Preview* at right will
+be updated. Additionally, an *Icon File* can be used to provide the agent icon
+and generally is a good way to specify complex agent icons in the display since
+any existing image file can be used. Supported file types include GIF, JPG, PNG,
+and BMP.  The use of small resolution (less than 50x50) PNG files is suggested
+for best results.  
+
+[[runtime_gui_add_disp_gis_4]]
+.Repast runtime GIS Shape editor dialog.
+image::figures/runtime_gui_add_disp_gis_4.png[]
+
+[TIP]
+Complex and interesting agent shapes can easily be achieved using predefined 
+image files. Use small resolution (less than 50x50) PNG files for best results.
+
+The *Icon Size* section specifies the size of the agent icon in the display. The
+*Value* box allows either a fixed number, or an agent method that returns a number.
+When a fixed value is used, the agent icon will be the same size during a model 
+run.  Using a method in the value box allows the agent size to change during a 
+simulation, depending on the value returned by the method. For example, an agent's
+energy value could be used to increase the size of the icon as the energy increase
+over time. When a method value is used, the *Minimum*, *Maximum*, and *Scaling*
+values can be used to scale the method value accordingly. For example, if the desired
+agent size is around 15.0, and the returned energy value ranges from 0-300, the 
+maximum value specified should be 300, the minimum value should be 0, and the 
+scaling should be 15.0  The min and max values will scale the method value between
+0 and 1, and the scaling will be multiplied by the 0-1 range. The actual size 
+used is defined according to the formula:
+
+----
+  icon_size = ((method_size - min) / (max - min) ) * scale
+----
+
+The *Icon Label* section specified if and how a text label should appear next to
+each agent icon in the display. The *Value* box may contain either a constant 
+String value, or a method that returns a string or numeric type. The *Position*
+box specifies the label position relative to the agent icon, with the specified 
+*Offset* distance. The *Precision* box specifies the numerical precision in number
+of decimal places to be displayed for numerical labels. The *Icon Label Font*
+section specifies the icon font type, size, style, and color.
+
+The *Variable Icon Color* section can be used to specify how the icon color changes
+based on agent attributes. Variable icon coloring only applies to base icon shapes
+(circle, square, triangle, etc) and not image-based icons. As with the icon size,
+the value, min, max, and scaling can be specified using either a fixed numerical
+value or an agent method that returns a number. When a method value is specified,
+the min and max should reflect the expected range of this returned value. Generally,
+a scaling value of 1.0 is used because each of the Red, Green, and Blue values is
+used to construct an RGB color using a range of 0-1 for each.
+
+===== Coverage Styles
+Coverages in GIS displays represent 2D raster image data that is geolocated.  
+Example coverage data could include measured surface temperature, weather radar, 
+or population density. Coverages can also include static satellite image data.
+When a GIS display contains a coverage projection, the <<runtime_gui_add_disp_gis_5, 
+Coverage Layer Style dialog>> will appear automatically after the agent styles 
+are completed.
+
+As with the agent style step, the coverage style step contains a list of *Coverage
+Layers* on the left hand side that can be individually selected and styled. The 
+*Style Class* box contains the default style class initially and may be used
+to specify a user-defined custom style class for the coverage. This list box will 
+contain any user-defined style class that implements *CoverageStyle*.
+
+Static raster layers can also be added to the display from standard GIS raster
+data formats like ArcGrid and GeoTIFF by clicking the *+* icon and then selecting
+the desired image file.  Multiple static raster layers can be added to a single
+display.
+
+[[runtime_gui_add_disp_gis_5]]
+.Repast runtime GIS Coverage style dialog.
+image::figures/runtime_gui_add_disp_gis_5.png[]
+
+===== GIS Options
+After coverage styles are complete, the <<runtime_gui_add_disp_gis_6, GIS Options
+dialog>> appears in which GIS-specific display options can be specified. The 
+*View Type* of the GIS display is either *Fat* or *Globe* which results in the 
+display appearing as either a flat plane, or a rotatable globe, respectively.  The
+*Render Quality* determines how finely lines are displayed. Higher values will 
+produce crisper lines at the cost of rendering speed. Finally, the background 
+layers contains a list of available background raster data that can be included
+in the display. Many of these layers are available via third-party GIS data servers
+and require both an Internet connection and the server to be online. Checking the
+*Include* box for any entry will include the layer in the display, but will not 
+activate it by default. Checking the *Enable* box will also enable the layer by
+default when the display is initialized.
+
+[[runtime_gui_add_disp_gis_6]]
+.Repast runtime GIS options dialog.
+image::figures/runtime_gui_add_disp_gis_6.png[]
+
+===== Network Styles
+When a display includes a *Network* projection, the appearance of the network edges
+can be specified in much the same way as agents are styled. The 
+<<runtime_gui_add_disp_gis_7, Network Edge Style dialog>> will automatically appear
+in displays that contain network projections, after the agent style step is complete.
+Selecting the network name in the left-hand box will allow the specification of a 
+style class for the network edges that implements NetworkStyleGIS.
+
+[[runtime_gui_add_disp_gis_7]]
+.Repast runtime GIS Network style dialog.
+image::figures/runtime_gui_add_disp_gis_7.png[]
+
+Similar to the GIS agent icon styling, a <<runtime_gui_add_disp_gis_8, Network Style 
+Editor>> is available by clicking the image:figures/edit.png[] icon next to the 
+style class selection list. The *Edge Color* can be specified by clicking on the
+color button an choosing the desired color. The line thickness can be specified
+by either a constant numerical value, or by a method that returns a value from the
+edge. The *getWeight* method is available by default on RepastEdge implementations,
+which are the default edges used in Repast Networks. User-defined network edge
+classes can provide additional methods from which to set the line thickness. The 
+line thickness and color can also be variable based on a method value and is
+defined in exactly the same way as the agent icon variable size and color.
+
+[[runtime_gui_add_disp_gis_8]]
+.Repast runtime GIS Network style editor dialog.
+image::figures/runtime_gui_add_disp_gis_8.png[]
+
+After all styles are defined, clicking the *Next* button to proceed to the  
+<<runtime_gui_schedule_disp, Schedule Details dialog>> in which to specify 
+the display update frequency and finally save the new display.
 
 [[runtime_gui_schedule_disp]]
 ===== Scheduling Displays
