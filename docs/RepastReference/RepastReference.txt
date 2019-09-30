@@ -31,14 +31,11 @@ include::GIS.txt[]
 
 include::Random.txt[]
 
-include::GUI.txt[]
-
-// TODO GUI
 include::RuntimeGUI.txt[]
 
 include::Batch.txt[]
 
-// TODO Don't include adaptation with 2.5 release
+// TODO 
 //include::AgentAdaptation.txt[]
 
 include::AdvancedTopics.txt[]

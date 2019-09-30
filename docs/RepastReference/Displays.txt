@@ -1,0 +1,303 @@
+=== Displays
+
+Creating displays involves the following common steps:
+
+Specifying:
+
+* The display type (2D, 3D, GIS)
+* The space projections to include in the display
+* The agents that are visible in the display
+* How the agents are visually styled
+* How networks and value layers are visualy styled (if applicable)
+* When the display is updated
+* Additional display-specific options
+
+Example displays
+
+
+==== 2D Displays
+To create a 2D Display right click on the *Displays* node in the scenario tree 
+and choose *Add Display* and the <<runtime_gui_add_disp_2d_1, DIsplay Details 
+dialog>> will appear. Provide a meaningful *Name* for the display that will 
+appear in the Display title and in the scenario tree.  Duplicate chart names are 
+allowed.
+
+The *Type* list selector is used to specify the type of display.  Select *2D* for 
+a 2D display.  The *Projections and Value Layers* section provides a list of available
+spatial projections like grid and continuous spaces, along with value layers that
+may be added to the display.  Select the desired projections and add them to the 
+right hand list using the arrows.  Projections on the right side can be moved back
+to the left side and they will not be included.  Note that projections cannot be
+added to or removed from a display after the display creation is finalized.
+
+[[runtime_gui_add_disp_2d_1]]
+.Repast runtime add new 2D Display dialog.
+image::figures/runtime_gui_add_disp_2d_1.png[]
+
+[NOTE]
+Projections cannot be added to or removed from a display after the display is created.
+
+Click *Next* and the <<runtime_gui_add_disp_2d_2, Agent Selection>> will appear in
+which the agents that appear in the display will be selected.  The left hand list
+contains all user-defined classes in the model.  In many cases, only a subset of the
+model classes are actually agents, and therefore which types of classes are shown
+in the display must be selected.  For example, a model will normally also have a
+ContextBuilder class, and additional utility classes that themselves are not agents.
+Such non-agent classes should not be included in the display.  Select the desired
+agents using the left-right arrows.  In 2D displays, the *layer order* is 
+important as agents that are collocated may obscure agent layers depending on their
+ordering.  Use the up-down arrows to arrange the layer orders from foreground (top)
+to background (bottom). 
+
+[[runtime_gui_add_disp_2d_2]]
+.Repast runtime add new 2D Display (Agent Selection) dialog.
+image::figures/runtime_gui_add_disp_2d_2.png[]
+
+===== Agent Styles
+
+Click *Next* and the <<runtime_gui_add_disp_2d_3, Agent Style dialog>> will appear
+in which the appearance of the agents will be defined.  The *Agents* list in the 
+left hand side contains the list of agents that were selected in the previous step.
+All of these agents will appear in the display and must have a visual style defined
+for each.  The *Agent Class* box displays the model class that corresponds to the 
+selected agent in the list for informational purposes only, and is not editable.
+The *Style Class* box contains the default style class initially and may be used
+to specify a user-defined custom style class for the agent. This list box will 
+contain any user-defined style class that implements *StyleOGL2D*.  Any style 
+classes that implement this interface and are in the model classpath will be 
+available for selection and assignment to agents in the list.
+
+[[runtime_gui_add_disp_2d_3]]
+.Repast runtime add new 2D Display (Agent Style) dialog.
+image::figures/runtime_gui_add_disp_2d_3.png[]
+
+An alternative to defining an agent style class is to use the built-in 
+<<runtime_gui_add_disp_2d_4, Style Editor>> by clicking the 
+image:figures/edit.png[] icon next to the style class selection list.  The style 
+editor provides a simple method to define the agent shape, color, and label using
+a wizard-based interface and does not require user-defined style classes.  The 
+*Icon Shape and Color* section in the upper left can be used to specify the 2D
+shape from a list of available shapes, and the color by clicking on the color
+button.  When the shape and color are changed, the *Icon Preview* at right will
+be updated.  Additionally, an *Icon File* can be used to provide the agent icon
+and genrally is a good way to specify complex agent icons in the display since
+any existing image file can be used.  Supported file types include GIF, JPG, PNG,
+and BMP.  The use of small resolution (less than 50x50) PNG files is suggested
+for best results.
+
+[[runtime_gui_add_disp_2d_4]]
+.Repast runtime 2D Shape editor dialog.
+image::figures/runtime_gui_add_disp_2d_4.png[]
+
+[TIP]
+Complex and interesting agent shapes can easily be achieved using predefined 
+image files. Use small resolution (less than 50x50) PNG files for best results.
+
+The *Icon Size* section specifies the size of the agent icon in the display.  The
+*Value* box allows either a fixed number, or an agent method that returns a number.
+When a fixed value is used, the agent icon will be the same size during a model 
+run.  Using a method in the value box allows the agent size to change during a 
+simulation, depending on the value returned by the method.  For example, an agent's
+energy value could be used to increase the size of the icon as the energy increase
+over time. When a method value is used, the *Minimum*, *Maximum*, and *Scaling*
+values can be used to scale the method value accordingly.  For example, if the desired
+agent size is around 15.0, and the returned energy value ranges from 0-300, the 
+maximum value specified should be 300, the minimum value should be 0, and the 
+scaling should be 15.0  The min and max values will scale the method value between
+0 and 1, and the scaling will be multiplied by the 0-1 range. The actual size 
+used is defined according to the formula:
+
+----
+  icon_size = ((method_size - min) / (max - min) ) * scale
+----
+
+The *Icon Label* section specified if and how a text label should appear next to
+each agent icon in the display.  The *Value* box may contain either a constant 
+String value, or a method that returns a string or numeric type. The *Position*
+box specifies the label position relative to the agent icon, with the specified 
+*Offset* distance.  The *Precision* box specifies the numerical precision in number
+of decimal places to be displayed for numerical labels.  The *Icon Label Font*
+section specifies the icon font type, size, style, and color.
+
+The *Variable Icon Color* section can be used to specify how the icon color changes
+based on agent attributes. Variable icon coloring only applies to base icon shapes
+(circle, square, triangle, etc) and not image-based icons. As with the icon size,
+the value, min, max, and scaling can be specified using either a fixed numerical
+value or an agent method that returns a number.  When a method value is specified,
+the min and max should reflect the expected range of this returned value. Generally,
+a scaling value of 1.0 is used because each of the Red, Green, and Blue values is
+used to construct an RGB color using a range of 0-1 for each.
+
+===== Network Styles
+When a display includes a *Network* projection, the appearance of the network edges
+can be specified in much the same way as agents are styled. The 
+<<runtime_gui_add_disp_2d_5, Network Edge Style dialog>> will automatically appear
+in displays that contain network projections, after the agent style step is complete.
+Selecting the network name in the left-hand box will allow the specification of a 
+style class for the network edges that implements EdgeStyleOGL2D.
+
+[[runtime_gui_add_disp_2d_5]]
+.Repast runtime 2D Network style dialog.
+image::figures/runtime_gui_add_disp_2d_5.png[]
+
+Similar to the 2D agent icon styling, a <<runtime_gui_add_disp_2d_6, Network Style 
+Editor>> is available by clicking the image:figures/edit.png[] icon next to the 
+style class selection list.  The *Edge Color* can be specified by clicking on the
+color button an choosing the desired color.  The line thickness can be specified
+by either a constant numerical value, or by a method that returns a value from the
+edge.  The *getWeight* method is available by default on RepastEdge implementations,
+which are the default edges used in Repast Networks.  User-defined network edge
+classes can provide additional methods from which to set the line thickness.
+
+The line thickness and color can also be variable based on a method value and is
+defined in exactly the same way as the agent icon variable size and color.
+
+[[runtime_gui_add_disp_2d_6]]
+.Repast runtime 2D Network style editor dialog.
+image::figures/runtime_gui_add_disp_2d_6.png[]
+
+After all styles are defined, clicking the *Next* button to proceed to the  
+<<runtime_gui_schedule_disp, Schedule Details dialog>> in which to specify 
+the display update frequency and finally save the new display.
+
+==== 3D Displays
+
+==== GIS Displays
+
+[[runtime_gui_schedule_disp]]
+===== Scheduling Displays
+The last step which is common to all display creation wizards is scheduling the
+display update frequency. After all styles are defined, clicking the *Next* button 
+displays the <<runtime_gui_schedule_params_disp, Schedule Details dialog>> in which 
+to specify the start time, priority, frequency, and interval (assuming a repeating frequency).
+These parameters are as follows:
+
+[[runtime_gui_schedule_params_disp]]
+.Specifying schedule parameters for a display.
+image::figures/runtime_gui_schedule_params_disp.png[]
+
+* *Start Time:* a double precision value that specifies the tick count at which
+to begin display updates.
+
+* *Priority:* a value of either *Random*, *First*, or *Last* that determines when the 
+display update occurs in a single simulation tick, relative to all other scheduled
+simulation behaviors.  Typically this value is *Last* which indicates that all
+scheduled agent behaviors will execute in a single time step before the display
+is updated.
+
+* *Frequency:* a value of either *Repeat* or *One Time* that determines if the display
+update should occur on a regular repeating interval, or just a single time.
+
+* *Interval:* a double precision value that specifies the interval frequency at which
+to update the display.
+
+[TIP]
+The display frequency can have a significant impact on the simulation speed (except 
+in batch runs).  Frequent display updates can slow down the simulation when many
+agents are in the display.  Reducing the update interval to even once every 2 ticks can
+have a dramatic impact on speed.
+
+Clicking *Finish* will create the display for the current scenario. To actually
+save the new display parameters in the scenario, select *File -> Save* in the GUI.   
+
+[TIP]
+Don't forget to save the scenario after adding new data displays.
+
+==== Agent Probes
+An agent can be *probed* by clicking on its visual representation in a display. 
+The agent's parameters will then be displayed in a probe panel. By default, the 
+displayed parameters are derived from an agent's Java bean properties which are 
+themselves derived from get / set accessor method pairs. For example,
+
+----
+public class VizAgent {
+	...
+	public double getWealth() {
+		...
+	}
+	
+	public void setWealth(double val) {
+		...
+	}
+}
+----
+
+This creates a *wealth* parameter. The probe panel will display an entry for 
+wealth whose value is the result of the *getWealth* call. When the user enters 
+a new value in the wealth text field then the setWealth method will passed 
+this new value. Read-only parameters can be created by specifying only a 
+get-style method. The label for this field will be the simple Java bean 
+properties name. Which properties are treated as parameters, and how to display 
+them can be further refined by adding an *@Parameter* annotation to either the 
+getter or setter of a property method pair. (The information in the annotation 
+applies equally to both methods.) Using a Parameter annotation, a more 
+descriptive display name can be specified. For example:
+
+----
+public class VizAgent {
+	...
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)")
+	public double getWealth() {
+		...
+	}
+	
+	public void setWealth(double val) {
+		...
+	}
+}
+----
+
+The usageName should correspond to the Java bean property which is typically the 
+method name minus the get/set with the first character lower-cased. The 
+displayName specifies the gui label for this parameter in the probe window.
+
+[NOTE]
+If any method is annotated with @Parameter, then only @Parameter annotated 
+methods will be displayed in the probe panel.
+
+Using the @Parameter annotation, you can also specify the name of a converter to 
+convert to and from a displayable String. By specifying a converter, any type of 
+object contained by the agent can be displayed as a parameter. This converter is 
+identical that described above in the extended parameters section. See the 
+convertors and custom parameter types section above for more details. For 
+example,
+
+----
+public class VizAgent {
+	...
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+		converter="repast.demo.MoneyConverter")
+	public Money getWealth() {
+		...
+	}
+
+	public void setWealth(Money val) {
+		...
+	}
+}
+----
+
+In this case, the agent's wealth is represented by a Money class and a 
+MoneyConverter is used to convert to and from a String value. Lastly, by default 
+the probe's title will be the result of calling *toString()* on the probed 
+object  A more appropriate title can be specified either by overriding toString() 
+and returning the desired value, or annotating any method that returns the desired 
+title with @ProbeID. For example:
+
+----
+public class VizAgent {
+	... 
+	@ProbeID 
+	public String name() { return name;}
+
+	@Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+		converter="repast.demo.MoneyConverter")
+	public Money getWealth() {
+		...
+	}
+
+	public void setWealth(Money val) {
+		...
+	}
+}
+----

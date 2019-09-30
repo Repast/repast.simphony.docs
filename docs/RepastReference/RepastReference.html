@@ -3499,26 +3499,301 @@ complicated than it sounds, and functions simply like:</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_gui_parameters_and_probes">11. GUI Parameters and Probes</h2>
+<h2 id="_runtime_gui">11. Runtime GUI</h2>
 <div class="sectionbody">
-<div class="paragraph"><div class="title">GUI Parameters</div><p>GUI Parameters are the simulation parameters that appear in the parameters view
-in the application GUI. These parameters are automatically created from the
-parameters XML file or from any @Parameters method annotations that are used in
-a Context. At the moment, these two options only allow for the creation of
-unconstrained numeric, boolean and String parameters. However, constrained
-parameters of more complicated types can be defined using an xml based format.
-This section describes how  to save, load and "set as default" parameters using
-the parameters tools menu, and the last section looks  at the parameters
-returned from agent probes.</p></div>
-<div class="paragraph" id="parameter_convertors"><div class="title">Convertors and custom parameter types</div><p>Repast Simphony can internally handle the conversion of numeric and boolean
-types to and from the Strings in the gui display and the parameter file.
+<div class="sect2">
+<h3 id="_scneario_tree">11.1. Scneario Tree</h3>
+<div class="paragraph"><p>The <a href="#runtime_gui_scenario_tree">scenario tree</a> in the Repast runtime GUI provides access to wizards and menus
+for creating and modifying runtime components like charts, displays, and data
+logging.  The Repast runtime components reflect the state of the model simulation
+in various ways, like displaying the positions of the agents in space.  The Repast
+runtime components do not actually have an effect on model behavior, except for when
+the parameters or custom user panel components are adjusted.  In other words,
+creating a chart or a display, or an absence of these components will not affect
+model behavior.</p></div>
+<div class="paragraph"><p>The scenario tree contains a fixed set of available runtime components including
+time series and histogram charts, data loaders, data sets, displays (2D, 3D, GIS),
+file (data) sinks, and User Panel options.  Right clicking on any of the top-level
+component categories provides the option to create new entries for each.  Double
+clicking on existing entries in each category will provide access to specific options.</p></div>
+<div class="paragraph"><p>The scenario tree is just one of the available runtime interfaces available in the
+left panel of the runtime window.  Additional panels can be accessed by clicking on
+the named tabs in the left side panel for Run Options, Parameters, and User Panel.</p></div>
+<div class="imageblock" id="runtime_gui_scenario_tree">
+<div class="content">
+<img src="figures/runtime_gui_scenario.png" alt="figures/runtime_gui_scenario.png" />
+</div>
+<div class="title">Figure 17. Repast runtime GUI with scenario tree (left).</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_options">11.2. Run Options</h3>
+<div class="paragraph"><p>The <a href="#runtime_gui_run_options">runtime run options panel</a> provides access to
+options for controlling the model run state.  These include:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Pause At:</strong> a double precision value that indicates the tick at which to automatically
+pause the model.  Default value of zero disables this option.
+</p>
+</li>
+<li>
+<p>
+<strong>Stop At:</strong> a double precision value that indicates the tick at which to automatically
+stop the model.  Default value of zero disables this option.
+</p>
+</li>
+<li>
+<p>
+<strong>Schedule Tick Delay:</strong> The value of the slider indicates the time in milliseconds
+for which to delay the model between scheduled ticks. Default value of zero
+disables this option.
+</p>
+</li>
+</ul></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Increasing the schedule tick delay will slow down the model execution speed and can
+be useful when observing agent behaviors that execute too quickly.</td>
+</tr></table>
+</div>
+<div class="imageblock" id="runtime_gui_run_options">
+<div class="content">
+<img src="figures/runtime_gui_run_options.png" alt="figures/runtime_gui_run_options.png" />
+</div>
+<div class="title">Figure 18. Repast runtime GUI with run options panel (left).</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parameters">11.3. Parameters</h3>
+<div class="paragraph"><p>The <a href="#runtime_gui_parameters">parameters panel</a> shows the list of available model
+parameters and their values, and allows each parameter value to be changed before
+or during a model run.  Model parameters will typically be represented in the GUI
+by an editable text box with the current value, or a check box that can be toggled
+for boolean true/false values, or a fixed list of allowed values, depending on how
+the parameters are defined.  When a model is initialized or reset, the parameter values
+are set to their default values.  Parameter values can be changed before or after
+a simulation is started, however the impact on model behavior id dependent on how
+the model parameters are accessed in the model code.  In one model, the parameters
+might only be read during initialization in which case changing parameter values
+after the model has started will have no affect on behavior.  In another model, the
+design could incorporate a check of model parameters at regular intervals and in this
+case changing parameter values after the model has started would affect behavior.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">To impact model behavior after the simulation is started, parameters need to be
+updated in the model code in a regularly scheduled agent behavior.</td>
+</tr></table>
+</div>
+<div class="imageblock" id="runtime_gui_parameters">
+<div class="content">
+<img src="figures/runtime_gui_parameters.png" alt="figures/runtime_gui_parameters.png" />
+</div>
+<div class="title">Figure 19. Repast runtime GUI with parameters panel (left).</div>
+</div>
+<div class="sect3">
+<h4 id="_modifying_existing_parameters">11.3.1. Modifying existing parameters</h4>
+<div class="paragraph"><p>Model parameters can be added and deleted using the toolbar in the parameters panel.
+To delete an existing model parameter click the <span class="image">
+<img src="figures/button_cancel.png" alt="figures/button_cancel.png" />
+</span>
+button and then select the parameters to delete in the <a href="#delete_parameter">Delete Parameter dialog</a>, and click OK.</p></div>
+<div class="imageblock" id="delete_parameter">
+<div class="content">
+<img src="figures/remove_parameter.png" alt="figures/remove_parameter.png" />
+</div>
+<div class="title">Figure 20. Dialog window for deleting existing model parameters.</div>
+</div>
+<div class="paragraph"><p>Additional parameter modification options include setting the default values from
+the currently visible values in the panel.  When the model is initialized or reset,
+the default value is displayed for each parameter.  However, to change
+the default value of the parameters simply change the value of the parameters in
+the panel and click the <span class="image">
+<img src="figures/redo.png" alt="figures/redo.png" />
+</span> button.  Changing the default values
+in this way is only temporary unless the parameters are saved.  To save the parameter
+default values, click the <span class="image">
+<img src="figures/filesave16.png" alt="figures/filesave16.png" />
+</span> button.  When the parameters
+are saved, their default values will persist even when the Repast runtime GUI is
+closed and restarted.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Save the model parameters any time the default value is changed or parameters are
+added or removed.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_new_parameters">11.3.2. Adding new parameters</h4>
+<div class="paragraph"><p>New model parameters can be created by clicking on the <span class="image">
+<img src="figures/edit_add.png" alt="figures/edit_add.png" />
+</span>
+button which will bring up the <a href="#runtime_gui_add_parameter">Add Parameter</a> dialog.
+All of the fields in the Add Parameter dialog are empty and require information that
+defines the parameter name, type, default value, and additional meta data.</p></div>
+<div class="paragraph"><p>The required parameter options are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Name:</strong> a string value that represents the parameter name used in the model code
+when referencing the parameter value, e.g. "zombie_count." (Don&#8217;t include quotes).
+</p>
+</li>
+<li>
+<p>
+<strong>Display Name:</strong> a human-readable name for the parameter that will be shown in the
+parameter panel, e.g. "Zombie Count." (Don&#8217;t include quotes).
+</p>
+</li>
+<li>
+<p>
+<strong>Type:</strong> the parameter type. The type can be any Java class or primitive types like
+int or double.  Typical examples and use cases may include:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>int:</strong> for representing integer numbers like the total count of some type of agent.
+</p>
+</li>
+<li>
+<p>
+<strong>double:</strong> for representing floating-point numbers like a movement speed of an agent.
+</p>
+</li>
+<li>
+<p>
+<strong>boolean:</strong> for representing a true/false parameter.
+</p>
+</li>
+<li>
+<p>
+<strong>String:</strong> for repressing a string parameter.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<strong>Default Value:</strong> the initial value for the parameter when the runtime is started.
+The default value should be appropriate to the type, e.g. a numeric value for int
+or double, true/false for boolean, and a string value for string type parameters.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The optional parameter options are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Converter:</strong> an implementation of a <a href="#parameter_convertors">Repast parameter converter.</a>
+</p>
+</li>
+<li>
+<p>
+<strong>Values:</strong> a <em>space-separated list</em> of allowed values for the parameter, e.g. "1,5,10,20"
+(Don&#8217;t include quotes).  When the value list is provided, the parameter representation
+in the parameter panel changes from a text box to a list box from which the specified
+parameter values may be selected.
+</p>
+</li>
+</ul></div>
+<div class="imageblock" id="runtime_gui_add_parameter">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter.png" alt="figures/runtime_gui_add_parameter.png" />
+</div>
+<div class="title">Figure 21. Repast runtime add new parameter dialog.</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/note.png" alt="Note" />
+</td>
+<td class="content">When adding new parameters, the parameter panel may take a few seconds to update
+after the OK button is pressed in the parameter dialog.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_model_parameters">11.3.3. Example Model Parameters</h4>
+<div class="paragraph"><p>Several example Add Parameter dialogs are shown below for different types of model
+parameters represented in the <a href="#runtime_gui_parameters">parameters panel</a>.</p></div>
+<div class="sect4">
+<h5 id="_integer_parameter">Integer Parameter</h5>
+<div class="paragraph"><p>An example integer parameter is shown below.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_int.png" alt="figures/runtime_gui_add_parameter_int.png" />
+</div>
+<div class="title">Figure 22. Adding a new integer parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_double_parameter">Double Parameter</h5>
+<div class="paragraph"><p>An example double parameter is shown below.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_double.png" alt="figures/runtime_gui_add_parameter_double.png" />
+</div>
+<div class="title">Figure 23. Adding a new double parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_boolean_parameter">Boolean Parameter</h5>
+<div class="paragraph"><p>An example boolean parameter is shown below.  Notethat default values are only
+<em>true</em> or <em>false</em>.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_boolean.png" alt="figures/runtime_gui_add_parameter_boolean.png" />
+</div>
+<div class="title">Figure 24. Adding a new boolean parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_string_parameter">String Parameter</h5>
+<div class="paragraph"><p>An example String parameter is shown below.  Note that the type <strong>String</strong> is
+capitalized. Default values with spaces should be wrapped in single quote characters.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_string.png" alt="figures/runtime_gui_add_parameter_string.png" />
+</div>
+<div class="title">Figure 25. Adding a new String parameter.</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_integer_parameter_with_list_values">Integer Parameter with List Values</h5>
+<div class="paragraph"><p>An example integer parameter with list values is shown below.  This will produce
+a list box in the parameter panel with the values 0, 1, 5, 10, and 15.  Value
+list parameters can be used for any parameter type as long as the values correspond
+to the type.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/runtime_gui_add_parameter_list.png" alt="figures/runtime_gui_add_parameter_list.png" />
+</div>
+<div class="title">Figure 26. Adding a new integer parameter with list values.</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="parameter_convertors">11.3.4. Convertors and custom parameter types</h4>
+<div class="paragraph"><p>Repast Simphony can internally handle the conversion of numeric and boolean
+types to and from the Strings in the GUI display and the parameter XML file.
 However, if you wish to use a type other than these, then you must provide a
 converter that will convert an Object to and from a String representation. A
 converter is class that implements StringConverter and is used to create the
-appropriate Object from a string representation when reading the xml file and
+appropriate Object from a string representation when reading the XML file and
 taking input from the gui. The converter also converts the object to a string
 representation. This string is then used when writing the object out and
-displaying the parameter&#8217;s value in the gui.</p></div>
+displaying the parameter&#8217;s value in the GUI.</p></div>
 <div class="paragraph"><p>For example, supposing you wish use the following Name class as a Parameter.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -3559,7 +3834,7 @@ displaying the parameter&#8217;s value in the gui.</p></div>
         }
 }</code></pre>
 </div></div>
-<div class="paragraph"><p>Your parameter XML then would look something like:</p></div>
+<div class="paragraph"><p>The parameter XML then would look something like:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;parameters&gt; ...
@@ -3650,422 +3925,10 @@ of a converted parameter. For example:</p></div>
 Strings that can be converted using the converter. If you do constrain a
 converted parameter in this way, you must override equals (and hashCode) in your
 custom type. If not, then the constraint validation will most likely fail.</p></div>
-<div class="paragraph"><div class="title">Parameters Panel Tools</div><p>The menu on the parameters panels allows the user to save and load parameter
-values, and set the current parameter values as the default.</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Saving - clicking the save menu item will prompt for a file name and then save
-the current parameter values into that file.
-</p>
-</li>
-<li>
-<p>
-Loading - clicking the load menu item will prompt for a file name and then
-load the parameter values from that file into the current parameters. This
-assumes that the current parameters are compatible with those being loaded,
-that is, that the names and types of parameters in the file match the current
-parameters.
-</p>
-</li>
-<li>
-<p>
-Set as Default - this allows the user to set current parameter values as
-defaults such that these values will be used when the simulation is reset.
-Clicking this menu item prompts for which parameters to set as defaults and then
-sets those as the new defaults.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><div class="title">Agent Probes</div><p>An agent can be probed by clicking on its visual representation in the gui. The
-agent&#8217;s parameters will then be displayed in a probe panel. By default, the
-displayed parameters are derived from an agent&#8217;s Java bean properties which are
-themselves derived from get / set accessor method pairs. For example,</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public class VizAgent {
-        ...
-        public double getWealth() {
-                ...
-        }
-
-        public void setWealth(double val) {
-                ...
-        }
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>This creates a "wealth" parameter. The probe panel will display an entry for
-"wealth" whose value is the result of the "getWealth" call. When the user enters
-a new value in the "wealth" text field then the setWealth method will passed
-this new value. Read-only parameters can be created by specifying only a
-get-style method. The label for this field will be the simple java bean
-properties name. Which properties are treated as parameters, and how to display
-them can be further refined by adding an @Parameter annotation to either the
-getter or setter of a property method pair. (The information in the annotation
-applies equally to both methods.) Using a Parameter annotation, a more
-descriptive display name can be specified. For example:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public class VizAgent {
-        ...
-        @Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)")
-        public double getWealth() {
-                ...
-        }
-
-        public void setWealth(double val) {
-                ...
-        }
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>The usageName should correspond to the java bean property which is typically the
-method name minus the get/set with the first character lower-cased. The
-displayName specifies the gui label for this parameter in the probe window.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/note.png" alt="Note" />
-</td>
-<td class="content">If any method is annotated with @Parameter, then only @Parameter annotated
-methods will be displayed in the probe panel.</td>
-</tr></table>
-</div>
-<div class="paragraph"><p>Using the @Parameter annotation, you can also specify the name of a converter to
-convert to and from a displayable String. By specifying a converter, any type of
-object contained by the agent can be displayed as a parameter. This converter is
-identical that described above in the extended parameters section. See the
-convertors and custom parameter types section above for more details. For
-example,</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public class VizAgent {
-        ...
-        @Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
-                converter="repast.demo.MoneyConverter")
-        public Money getWealth() {
-                ...
-        }
-
-        public void setWealth(Money val) {
-                ...
-        }
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>In this case, the agent&#8217;s wealth is represented by a Money class and a
-MoneyConverter is used to convert to and from a String value. Lastly, by default
-the probe&#8217;s title will be the result of calling "toString()" on the probed
-object (e.g. <a href="mailto:VizAgent@55927f">VizAgent@55927f</a>, in the above screen shot). A more appropriate
-title can be specified either by overriding toString() and returning the desired
-value, or annotating any method that returns the desired title with @ProbeID.
-For example:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public class VizAgent {
-        ...
-        @ProbeID
-        public String name() { return name;}
-
-        @Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
-                converter="repast.demo.MoneyConverter")
-        public Money getWealth() {
-                ...
-        }
-
-        public void setWealth(Money val) {
-                ...
-        }
-}</code></pre>
-</div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_runtime_gui">12. Runtime GUI</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_scneario_tree">12.1. Scneario Tree</h3>
-<div class="paragraph"><p>The <a href="#runtime_gui_scenario_tree">scenario tree</a> in the Repast runtime GUI provides access to wizards and menus
-for creating and modifying runtime components like charts, displays, and data
-logging.  The Repast runtime components reflect the state of the model simulation
-in various ways, like displaying the positions of the agents in space.  The Repast
-runtime components do not actually have an effect on model behavior, except for when
-the parameters or custom user panel components are adjusted.  In other words,
-creating a chart or a display, or an absence of these components will not affect
-model behavior.</p></div>
-<div class="paragraph"><p>The scenario tree contains a fixed set of available runtime components including
-time series and histogram charts, data loaders, data sets, displays (2D, 3D, GIS),
-file (data) sinks, and User Panel options.  Right clicking on any of the top-level
-component categories provides the option to create new entries for each.  Double
-clicking on existing entries in each category will provide access to specific options.</p></div>
-<div class="paragraph"><p>The scenario tree is just one of the available runtime interfaces available in the
-left panel of the runtime window.  Additional panels can be accessed by clicking on
-the named tabs in the left side panel for Run Options, Parameters, and User Panel.</p></div>
-<div class="imageblock" id="runtime_gui_scenario_tree">
-<div class="content">
-<img src="figures/runtime_gui_scenario.png" alt="figures/runtime_gui_scenario.png" />
-</div>
-<div class="title">Figure 17. Repast runtime GUI with scenario tree (left).</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_run_options">12.2. Run Options</h3>
-<div class="paragraph"><p>The <a href="#runtime_gui_run_options">runtime run options panel</a> provides access to
-options for controlling the model run state.  These include:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<strong>Pause At:</strong> a double precision value that indicates the tick at which to automatically
-pause the model.  Default value of zero disables this option.
-</p>
-</li>
-<li>
-<p>
-<strong>Stop At:</strong> a double precision value that indicates the tick at which to automatically
-stop the model.  Default value of zero disables this option.
-</p>
-</li>
-<li>
-<p>
-<strong>Schedule Tick Delay:</strong> The value of the slider indicates the time in milliseconds
-for which to delay the model between scheduled ticks. Default value of zero
-disables this option.
-</p>
-</li>
-</ul></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/tip.png" alt="Tip" />
-</td>
-<td class="content">Increasing the schedule tick delay will slow down the model execution speed and can
-be useful when observing agent behaviors that execute too quickly.</td>
-</tr></table>
-</div>
-<div class="imageblock" id="runtime_gui_run_options">
-<div class="content">
-<img src="figures/runtime_gui_run_options.png" alt="figures/runtime_gui_run_options.png" />
-</div>
-<div class="title">Figure 18. Repast runtime GUI with run options panel (left).</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_parameters">12.3. Parameters</h3>
-<div class="paragraph"><p>The <a href="#runtime_gui_parameters">parameters panel</a> shows the list of available model
-parameters and their values, and allows each parameter value to be changed before
-or during a model run.  Model parameters will typically be represented in the GUI
-by an editable text box with the current value, or a check box that can be toggled
-for boolean true/false values, or a fixed list of allowed values, depending on how
-the parameters are defined.  When a model is initialized or reset, the parameter values
-are set to their default values.  Parameter values can be changed before or after
-a simulation is started, however the impact on model behavior id dependent on how
-the model parameters are accessed in the model code.  In one model, the parameters
-might only be read during initialization in which case changing parameter values
-after the model has started will have no affect on behavior.  In another model, the
-design could incorporate a check of model parameters at regular intervals and in this
-case changing parameter values after the model has started would affect behavior.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/tip.png" alt="Tip" />
-</td>
-<td class="content">To impact model behavior after the simulation is started, parameters need to be
-updated in the model code in a regularly scheduled agent behavior.</td>
-</tr></table>
-</div>
-<div class="imageblock" id="runtime_gui_parameters">
-<div class="content">
-<img src="figures/runtime_gui_parameters.png" alt="figures/runtime_gui_parameters.png" />
-</div>
-<div class="title">Figure 19. Repast runtime GUI with parameters panel (left).</div>
-</div>
-<div class="sect3">
-<h4 id="_modifying_existing_parameters">12.3.1. Modifying existing parameters</h4>
-<div class="paragraph"><p>Model parameters can be added and deleted using the toolbar in the parameters panel.
-To delete an existing model parameter click the <span class="image">
-<img src="figures/button_cancel.png" alt="figures/button_cancel.png" />
-</span>
-button and then select the parameters to delete in the <a href="#delete_parameter">Delete Parameter dialog</a>, and click OK.</p></div>
-<div class="imageblock" id="delete_parameter">
-<div class="content">
-<img src="figures/remove_parameter.png" alt="figures/remove_parameter.png" />
-</div>
-<div class="title">Figure 20. Dialog window for deleting existing model parameters.</div>
-</div>
-<div class="paragraph"><p>Additional parameter modification options include setting the default values from
-the currently visible values in the panel.  When the model is initialized or reset,
-the default value is displayed for each parameter.  However, to change
-the default value of the parameters simply change the value of the parameters in
-the panel and click the <span class="image">
-<img src="figures/redo.png" alt="figures/redo.png" />
-</span> button.  Changing the default values
-in this way is only temporary unless the parameters are saved.  To save the parameter
-default values, click the <span class="image">
-<img src="figures/filesave16.png" alt="figures/filesave16.png" />
-</span> button.  When the parameters
-are saved, their default values will persist even when the Repast runtime GUI is
-closed and restarted.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/tip.png" alt="Tip" />
-</td>
-<td class="content">Save the model parameters any time the default value is changed or parameters are
-added or removed.</td>
-</tr></table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_adding_new_parameters">12.3.2. Adding new parameters</h4>
-<div class="paragraph"><p>New model parameters can be created by clicking on the <span class="image">
-<img src="figures/edit_add.png" alt="figures/edit_add.png" />
-</span>
-button which will bring up the <a href="#runtime_gui_add_parameter">Add Parameter</a> dialog.
-All of the fields in the Add Parameter dialog are empty and require information that
-defines the parameter name, type, default value, and additional meta data.</p></div>
-<div class="paragraph"><p>The required parameter options are:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<strong>Name:</strong> a string value that represents the parameter name used in the model code
-when referencing the parameter value, e.g. "zombie_count." (Don&#8217;t include quotes).
-</p>
-</li>
-<li>
-<p>
-<strong>Display Name:</strong> a human-readable name for the parameter that will be shown in the
-parameter panel, e.g. "Zombie Count." (Don&#8217;t include quotes).
-</p>
-</li>
-<li>
-<p>
-<strong>Type:</strong> the parameter type. The type can be any Java class or primitive types like
-int or double.  Typical examples and use cases may include:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-<strong>int:</strong> for representing integer numbers like the total count of some type of agent.
-</p>
-</li>
-<li>
-<p>
-<strong>double:</strong> for representing floating-point numbers like a movement speed of an agent.
-</p>
-</li>
-<li>
-<p>
-<strong>boolean:</strong> for representing a true/false parameter.
-</p>
-</li>
-<li>
-<p>
-<strong>String:</strong> for repressing a string parameter.
-</p>
-</li>
-</ul></div>
-</li>
-<li>
-<p>
-<strong>Default Value:</strong> the initial value for the parameter when the runtime is started.
-The default value should be appropriate to the type, e.g. a numeric value for int
-or double, true/false for boolean, and a string value for string type parameters.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>The optional parameter options are:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<strong>Converter:</strong> an implementation of a <a href="#parameter_convertors">Repast parameter converter.</a>
-</p>
-</li>
-<li>
-<p>
-<strong>Values:</strong> a <em>space-separated list</em> of allowed values for the parameter, e.g. "1,5,10,20"
-(Don&#8217;t include quotes).  When the value list is provided, the parameter representation
-in the parameter panel changes from a text box to a list box from which the specified
-parameter values may be selected.
-</p>
-</li>
-</ul></div>
-<div class="imageblock" id="runtime_gui_add_parameter">
-<div class="content">
-<img src="figures/runtime_gui_add_parameter.png" alt="figures/runtime_gui_add_parameter.png" />
-</div>
-<div class="title">Figure 21. Repast runtime add new parameter dialog.</div>
-</div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<img src="./images/note.png" alt="Note" />
-</td>
-<td class="content">When adding new parameters, the parameter panel may take a few seconds to update
-after the OK button is pressed in the parameter dialog.</td>
-</tr></table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_example_model_parameters">12.3.3. Example Model Parameters</h4>
-<div class="paragraph"><p>Several example Add Parameter dialogs are shown below for different types of model
-parameters represented in the <a href="#runtime_gui_parameters">parameters panel</a>.</p></div>
-<div class="sect4">
-<h5 id="_integer_parameter">Integer Parameter</h5>
-<div class="paragraph"><p>An example integer parameter is shown below.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="figures/runtime_gui_add_parameter_int.png" alt="figures/runtime_gui_add_parameter_int.png" />
-</div>
-<div class="title">Figure 22. Adding a new integer parameter.</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_double_parameter">Double Parameter</h5>
-<div class="paragraph"><p>An example double parameter is shown below.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="figures/runtime_gui_add_parameter_double.png" alt="figures/runtime_gui_add_parameter_double.png" />
-</div>
-<div class="title">Figure 23. Adding a new double parameter.</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_boolean_parameter">Boolean Parameter</h5>
-<div class="paragraph"><p>An example boolean parameter is shown below.  Notethat default values are only
-<em>true</em> or <em>false</em>.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="figures/runtime_gui_add_parameter_boolean.png" alt="figures/runtime_gui_add_parameter_boolean.png" />
-</div>
-<div class="title">Figure 24. Adding a new boolean parameter.</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_string_parameter">String Parameter</h5>
-<div class="paragraph"><p>An example String parameter is shown below.  Note that the type <strong>String</strong> is
-capitalized. Default values with spaces should be wrapped in single quote characters.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="figures/runtime_gui_add_parameter_string.png" alt="figures/runtime_gui_add_parameter_string.png" />
-</div>
-<div class="title">Figure 25. Adding a new String parameter.</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_integer_parameter_with_list_values">Integer Parameter with List Values</h5>
-<div class="paragraph"><p>An example integer parameter with list values is shown below.  This will produce
-a list box in the parameter panel with the values 0, 1, 5, 10, and 15.  Value
-list parameters can be used for any parameter type as long as the values correspond
-to the type.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="figures/runtime_gui_add_parameter_list.png" alt="figures/runtime_gui_add_parameter_list.png" />
-</div>
-<div class="title">Figure 26. Adding a new integer parameter with list values.</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="runtime_gui_datasets">12.4. Data Sets</h3>
+<h3 id="runtime_gui_datasets">11.4. Data Sets</h3>
 <div class="paragraph"><p>Repast Simphony records data from data sources of two types - Aggregate and
 Non-Aggregate.  Aggregate data sources receive a collection of objects (agents,
 for example) and typically return an aggregate value derived from the set of
@@ -4082,7 +3945,7 @@ and writes them to a file or the console. Similarly, a <a href="#runtime_gui_cha
 may be used to display the data set content in a time series or histogram.
 A single data set can be connected to multiple text sinks and charts.</p></div>
 <div class="sect3">
-<h4 id="_creating_a_data_set">12.4.1. Creating a Data Set</h4>
+<h4 id="_creating_a_data_set">11.4.1. Creating a Data Set</h4>
 <div class="paragraph"><p>Data collection is set up in Repast Simphony by defining the data sets and data
 sources described above. To create a data set, right click on the Data Sets node
 in the <a href="#runtime_gui_scenario_tree">scenario tree</a> and select <strong>Add Data Set.</strong>
@@ -4320,7 +4183,7 @@ save the data set parameters in the scenario, select <strong>File &#8594; Save</
 </div>
 </div>
 <div class="sect2">
-<h3 id="runtime_gui_textsinks">12.5. Text Sinks</h3>
+<h3 id="runtime_gui_textsinks">11.5. Text Sinks</h3>
 <div class="paragraph"><p><a href="#runtime_gui_datasets">Data sets</a> allow the Repast runtime to record model data
 in memory, but data sets themselves do not provide access to the data in a
 human-readable format and their contents are lost when the Repast runtime is closed.
@@ -4328,7 +4191,7 @@ Data set content can be directed to Text Sinks that will direct the data to eith
 the Eclipse program console or to an output file. Console output will show up in
 Eclipse&#8217;s console tab and can be useful for debugging.</p></div>
 <div class="sect3">
-<h4 id="runtime_gui_textsinks_filesink">12.5.1. File Sinks</h4>
+<h4 id="runtime_gui_textsinks_filesink">11.5.1. File Sinks</h4>
 <div class="paragraph"><p>To write data to a file, a file sink needs to be defined. To create a file sink
 right click <strong>Text Sinks</strong> in the Scenario Tree and click <strong>Add File Sink</strong>. The
 <a href="#runtime_gui_add_filesink_1">File Sink Editor dialog</a> will appear.  The <strong>Name</strong>
@@ -4476,7 +4339,7 @@ scenario.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_console_sinks">12.5.2. Console Sinks</h4>
+<h4 id="_console_sinks">11.5.2. Console Sinks</h4>
 <div class="paragraph"><p>To define a console sink, click on the <strong>Text Sinks</strong> node in the scenario tree
 and select <strong>Add Console Sink</strong>. The steps to define a console sink are nearly
 identical those used to define a <a href="#runtime_gui_textsinks_filesink">file sink</a>.</p></div>
@@ -4487,7 +4350,7 @@ This can be useful to enable a console sink for debugging and then disable it
 for production runs.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_batch_runs">12.5.3. Batch Runs</h4>
+<h4 id="_batch_runs">11.5.3. Batch Runs</h4>
 <div class="paragraph"><p>Output during batch runs now consists of a single file. The file will automatically
 include the batch run number. For example,</p></div>
 <div class="listingblock">
@@ -4517,7 +4380,7 @@ will have a mapping file of ModelOutput.2012.Jan.27.14_23_34.batch_param_Map.txt
 </div>
 </div>
 <div class="sect2">
-<h3 id="runtime_gui_charts">12.6. Charts</h3>
+<h3 id="runtime_gui_charts">11.6. Charts</h3>
 <div class="paragraph"><p>Repast allows you to create two different kinds of charts: time series and
 histograms.</p></div>
 <div class="imageblock" id="runtime_gui_ts_chart_example_agg">
@@ -4539,7 +4402,7 @@ histograms.</p></div>
 <div class="title">Figure 37. Repast runtime example histogram chart.</div>
 </div>
 <div class="sect3">
-<h4 id="_time_series_charts">12.6.1. Time Series Charts</h4>
+<h4 id="_time_series_charts">11.6.1. Time Series Charts</h4>
 <div class="paragraph"><p>To create a time series chart right click on the Charts node in the scenario tree
 and choose <strong>Add Time Series Chart</strong> and the <a href="#runtime_gui_add_ts_chart_1">Time Series Chart dialog</a> will appear. Provide a meaningful <strong>Name</strong> for the chart that will
 appear in the Chart title and in the scenario tree.  Duplicate chart names are
@@ -4647,7 +4510,7 @@ the figure legend will improve chart legibility.</td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_histogram_charts">12.6.2. Histogram Charts</h4>
+<h4 id="_histogram_charts">11.6.2. Histogram Charts</h4>
 <div class="paragraph"><p>To create a histogram chart right click on the <strong>Charts</strong> node in the scenario tree
 and choose <strong>Add Histogram Chart</strong> and the <a href="#runtime_gui_add_hist_chart_1">Histogram Chart dialog</a> will appear. Provide a meaningful <strong>Name</strong> for the chart that will
 appear in the Chart title and in the scenario tree.  Duplicate chart names are
@@ -4733,13 +4596,389 @@ the scenario. Don&#8217;t forget to save the scenario after adding new charts.</
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_displays">11.7. Displays</h3>
+<div class="paragraph"><p>Creating displays involves the following common steps:</p></div>
+<div class="paragraph"><p>Specifying:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+The display type (2D, 3D, GIS)
+</p>
+</li>
+<li>
+<p>
+The space projections to include in the display
+</p>
+</li>
+<li>
+<p>
+The agents that are visible in the display
+</p>
+</li>
+<li>
+<p>
+How the agents are visually styled
+</p>
+</li>
+<li>
+<p>
+How networks and value layers are visualy styled (if applicable)
+</p>
+</li>
+<li>
+<p>
+When the display is updated
+</p>
+</li>
+<li>
+<p>
+Additional display-specific options
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Example displays</p></div>
+<div class="sect3">
+<h4 id="_2d_displays">11.7.1. 2D Displays</h4>
+<div class="paragraph"><p>To create a 2D Display right click on the <strong>Displays</strong> node in the scenario tree
+and choose <strong>Add Display</strong> and the <a href="#runtime_gui_add_disp_2d_1">DIsplay Details dialog</a> will appear. Provide a meaningful <strong>Name</strong> for the display that will
+appear in the Display title and in the scenario tree.  Duplicate chart names are
+allowed.</p></div>
+<div class="paragraph"><p>The <strong>Type</strong> list selector is used to specify the type of display.  Select <strong>2D</strong> for
+a 2D display.  The <strong>Projections and Value Layers</strong> section provides a list of available
+spatial projections like grid and continuous spaces, along with value layers that
+may be added to the display.  Select the desired projections and add them to the
+right hand list using the arrows.  Projections on the right side can be moved back
+to the left side and they will not be included.  Note that projections cannot be
+added to or removed from a display after the display creation is finalized.</p></div>
+<div class="imageblock" id="runtime_gui_add_disp_2d_1">
+<div class="content">
+<img src="figures/runtime_gui_add_disp_2d_1.png" alt="figures/runtime_gui_add_disp_2d_1.png" />
+</div>
+<div class="title">Figure 45. Repast runtime add new 2D Display dialog.</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/note.png" alt="Note" />
+</td>
+<td class="content">Projections cannot be added to or removed from a display after the display is created.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Click <strong>Next</strong> and the <a href="#runtime_gui_add_disp_2d_2">Agent Selection</a> will appear in
+which the agents that appear in the display will be selected.  The left hand list
+contains all user-defined classes in the model.  In many cases, only a subset of the
+model classes are actually agents, and therefore which types of classes are shown
+in the display must be selected.  For example, a model will normally also have a
+ContextBuilder class, and additional utility classes that themselves are not agents.
+Such non-agent classes should not be included in the display.  Select the desired
+agents using the left-right arrows.  In 2D displays, the <strong>layer order</strong> is
+important as agents that are collocated may obscure agent layers depending on their
+ordering.  Use the up-down arrows to arrange the layer orders from foreground (top)
+to background (bottom).</p></div>
+<div class="imageblock" id="runtime_gui_add_disp_2d_2">
+<div class="content">
+<img src="figures/runtime_gui_add_disp_2d_2.png" alt="figures/runtime_gui_add_disp_2d_2.png" />
+</div>
+<div class="title">Figure 46. Repast runtime add new 2D Display (Agent Selection) dialog.</div>
+</div>
+<div class="sect4">
+<h5 id="_agent_styles">Agent Styles</h5>
+<div class="paragraph"><p>Click <strong>Next</strong> and the <a href="#runtime_gui_add_disp_2d_3">Agent Style dialog</a> will appear
+in which the appearance of the agents will be defined.  The <strong>Agents</strong> list in the
+left hand side contains the list of agents that were selected in the previous step.
+All of these agents will appear in the display and must have a visual style defined
+for each.  The <strong>Agent Class</strong> box displays the model class that corresponds to the
+selected agent in the list for informational purposes only, and is not editable.
+The <strong>Style Class</strong> box contains the default style class initially and may be used
+to specify a user-defined custom style class for the agent. This list box will
+contain any user-defined style class that implements <strong>StyleOGL2D</strong>.  Any style
+classes that implement this interface and are in the model classpath will be
+available for selection and assignment to agents in the list.</p></div>
+<div class="imageblock" id="runtime_gui_add_disp_2d_3">
+<div class="content">
+<img src="figures/runtime_gui_add_disp_2d_3.png" alt="figures/runtime_gui_add_disp_2d_3.png" />
+</div>
+<div class="title">Figure 47. Repast runtime add new 2D Display (Agent Style) dialog.</div>
+</div>
+<div class="paragraph"><p>An alternative to defining an agent style class is to use the built-in
+<a href="#runtime_gui_add_disp_2d_4">Style Editor</a> by clicking the
+<span class="image">
+<img src="figures/edit.png" alt="figures/edit.png" />
+</span> icon next to the style class selection list.  The style
+editor provides a simple method to define the agent shape, color, and label using
+a wizard-based interface and does not require user-defined style classes.  The
+<strong>Icon Shape and Color</strong> section in the upper left can be used to specify the 2D
+shape from a list of available shapes, and the color by clicking on the color
+button.  When the shape and color are changed, the <strong>Icon Preview</strong> at right will
+be updated.  Additionally, an <strong>Icon File</strong> can be used to provide the agent icon
+and genrally is a good way to specify complex agent icons in the display since
+any existing image file can be used.  Supported file types include GIF, JPG, PNG,
+and BMP.  The use of small resolution (less than 50x50) PNG files is suggested
+for best results.</p></div>
+<div class="imageblock" id="runtime_gui_add_disp_2d_4">
+<div class="content">
+<img src="figures/runtime_gui_add_disp_2d_4.png" alt="figures/runtime_gui_add_disp_2d_4.png" />
+</div>
+<div class="title">Figure 48. Repast runtime 2D Shape editor dialog.</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Complex and interesting agent shapes can easily be achieved using predefined
+image files. Use small resolution (less than 50x50) PNG files for best results.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>The <strong>Icon Size</strong> section specifies the size of the agent icon in the display.  The
+<strong>Value</strong> box allows either a fixed number, or an agent method that returns a number.
+When a fixed value is used, the agent icon will be the same size during a model
+run.  Using a method in the value box allows the agent size to change during a
+simulation, depending on the value returned by the method.  For example, an agent&#8217;s
+energy value could be used to increase the size of the icon as the energy increase
+over time. When a method value is used, the <strong>Minimum</strong>, <strong>Maximum</strong>, and <strong>Scaling</strong>
+values can be used to scale the method value accordingly.  For example, if the desired
+agent size is around 15.0, and the returned energy value ranges from 0-300, the
+maximum value specified should be 300, the minimum value should be 0, and the
+scaling should be 15.0  The min and max values will scale the method value between
+0 and 1, and the scaling will be multiplied by the 0-1 range. The actual size
+used is defined according to the formula:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>  icon_size = ((method_size - min) / (max - min) ) * scale</code></pre>
+</div></div>
+<div class="paragraph"><p>The <strong>Icon Label</strong> section specified if and how a text label should appear next to
+each agent icon in the display.  The <strong>Value</strong> box may contain either a constant
+String value, or a method that returns a string or numeric type. The <strong>Position</strong>
+box specifies the label position relative to the agent icon, with the specified
+<strong>Offset</strong> distance.  The <strong>Precision</strong> box specifies the numerical precision in number
+of decimal places to be displayed for numerical labels.  The <strong>Icon Label Font</strong>
+section specifies the icon font type, size, style, and color.</p></div>
+<div class="paragraph"><p>The <strong>Variable Icon Color</strong> section can be used to specify how the icon color changes
+based on agent attributes. Variable icon coloring only applies to base icon shapes
+(circle, square, triangle, etc) and not image-based icons. As with the icon size,
+the value, min, max, and scaling can be specified using either a fixed numerical
+value or an agent method that returns a number.  When a method value is specified,
+the min and max should reflect the expected range of this returned value. Generally,
+a scaling value of 1.0 is used because each of the Red, Green, and Blue values is
+used to construct an RGB color using a range of 0-1 for each.</p></div>
+</div>
+<div class="sect4">
+<h5 id="_network_styles">Network Styles</h5>
+<div class="paragraph"><p>When a display includes a <strong>Network</strong> projection, the appearance of the network edges
+can be specified in much the same way as agents are styled. The
+<a href="#runtime_gui_add_disp_2d_5">Network Edge Style dialog</a> will automatically appear
+in displays that contain network projections, after the agent style step is complete.
+Selecting the network name in the left-hand box will allow the specification of a
+style class for the network edges that implements EdgeStyleOGL2D.</p></div>
+<div class="imageblock" id="runtime_gui_add_disp_2d_5">
+<div class="content">
+<img src="figures/runtime_gui_add_disp_2d_5.png" alt="figures/runtime_gui_add_disp_2d_5.png" />
+</div>
+<div class="title">Figure 49. Repast runtime 2D Network style dialog.</div>
+</div>
+<div class="paragraph"><p>Similar to the 2D agent icon styling, a <a href="#runtime_gui_add_disp_2d_6">Network Style Editor</a> is available by clicking the <span class="image">
+<img src="figures/edit.png" alt="figures/edit.png" />
+</span> icon next to the
+style class selection list.  The <strong>Edge Color</strong> can be specified by clicking on the
+color button an choosing the desired color.  The line thickness can be specified
+by either a constant numerical value, or by a method that returns a value from the
+edge.  The <strong>getWeight</strong> method is available by default on RepastEdge implementations,
+which are the default edges used in Repast Networks.  User-defined network edge
+classes can provide additional methods from which to set the line thickness.</p></div>
+<div class="paragraph"><p>The line thickness and color can also be variable based on a method value and is
+defined in exactly the same way as the agent icon variable size and color.</p></div>
+<div class="imageblock" id="runtime_gui_add_disp_2d_6">
+<div class="content">
+<img src="figures/runtime_gui_add_disp_2d_6.png" alt="figures/runtime_gui_add_disp_2d_6.png" />
+</div>
+<div class="title">Figure 50. Repast runtime 2D Network style editor dialog.</div>
+</div>
+<div class="paragraph"><p>After all styles are defined, clicking the <strong>Next</strong> button to proceed to the
+<a href="#runtime_gui_schedule_disp">Schedule Details dialog</a> in which to specify
+the display update frequency and finally save the new display.</p></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_3d_displays">11.7.2. 3D Displays</h4>
+</div>
+<div class="sect3">
+<h4 id="_gis_displays">11.7.3. GIS Displays</h4>
+<div class="sect4">
+<h5 id="runtime_gui_schedule_disp">Scheduling Displays</h5>
+<div class="paragraph"><p>The last step which is common to all display creation wizards is scheduling the
+display update frequency. After all styles are defined, clicking the <strong>Next</strong> button
+displays the <a href="#runtime_gui_schedule_params_disp">Schedule Details dialog</a> in which
+to specify the start time, priority, frequency, and interval (assuming a repeating frequency).
+These parameters are as follows:</p></div>
+<div class="imageblock" id="runtime_gui_schedule_params_disp">
+<div class="content">
+<img src="figures/runtime_gui_schedule_params_disp.png" alt="figures/runtime_gui_schedule_params_disp.png" />
+</div>
+<div class="title">Figure 51. Specifying schedule parameters for a display.</div>
+</div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Start Time:</strong> a double precision value that specifies the tick count at which
+to begin display updates.
+</p>
+</li>
+<li>
+<p>
+<strong>Priority:</strong> a value of either <strong>Random</strong>, <strong>First</strong>, or <strong>Last</strong> that determines when the
+display update occurs in a single simulation tick, relative to all other scheduled
+simulation behaviors.  Typically this value is <strong>Last</strong> which indicates that all
+scheduled agent behaviors will execute in a single time step before the display
+is updated.
+</p>
+</li>
+<li>
+<p>
+<strong>Frequency:</strong> a value of either <strong>Repeat</strong> or <strong>One Time</strong> that determines if the display
+update should occur on a regular repeating interval, or just a single time.
+</p>
+</li>
+<li>
+<p>
+<strong>Interval:</strong> a double precision value that specifies the interval frequency at which
+to update the display.
+</p>
+</li>
+</ul></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">The display frequency can have a significant impact on the simulation speed (except
+in batch runs).  Frequent display updates can slow down the simulation when many
+agents are in the display.  Reducing the update interval to even once every 2 ticks can
+have a dramatic impact on speed.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Clicking <strong>Finish</strong> will create the display for the current scenario. To actually
+save the new display parameters in the scenario, select <strong>File &#8594; Save</strong> in the GUI.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/tip.png" alt="Tip" />
+</td>
+<td class="content">Don&#8217;t forget to save the scenario after adding new data displays.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_agent_probes">11.7.4. Agent Probes</h4>
+<div class="paragraph"><p>An agent can be <strong>probed</strong> by clicking on its visual representation in a display.
+The agent&#8217;s parameters will then be displayed in a probe panel. By default, the
+displayed parameters are derived from an agent&#8217;s Java bean properties which are
+themselves derived from get / set accessor method pairs. For example,</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>public class VizAgent {
+        ...
+        public double getWealth() {
+                ...
+        }
+
+        public void setWealth(double val) {
+                ...
+        }
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>This creates a <strong>wealth</strong> parameter. The probe panel will display an entry for
+wealth whose value is the result of the <strong>getWealth</strong> call. When the user enters
+a new value in the wealth text field then the setWealth method will passed
+this new value. Read-only parameters can be created by specifying only a
+get-style method. The label for this field will be the simple Java bean
+properties name. Which properties are treated as parameters, and how to display
+them can be further refined by adding an <strong>@Parameter</strong> annotation to either the
+getter or setter of a property method pair. (The information in the annotation
+applies equally to both methods.) Using a Parameter annotation, a more
+descriptive display name can be specified. For example:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>public class VizAgent {
+        ...
+        @Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)")
+        public double getWealth() {
+                ...
+        }
+
+        public void setWealth(double val) {
+                ...
+        }
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>The usageName should correspond to the Java bean property which is typically the
+method name minus the get/set with the first character lower-cased. The
+displayName specifies the gui label for this parameter in the probe window.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/note.png" alt="Note" />
+</td>
+<td class="content">If any method is annotated with @Parameter, then only @Parameter annotated
+methods will be displayed in the probe panel.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Using the @Parameter annotation, you can also specify the name of a converter to
+convert to and from a displayable String. By specifying a converter, any type of
+object contained by the agent can be displayed as a parameter. This converter is
+identical that described above in the extended parameters section. See the
+convertors and custom parameter types section above for more details. For
+example,</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>public class VizAgent {
+        ...
+        @Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+                converter="repast.demo.MoneyConverter")
+        public Money getWealth() {
+                ...
+        }
+
+        public void setWealth(Money val) {
+                ...
+        }
+}</code></pre>
+</div></div>
+<div class="paragraph"><p>In this case, the agent&#8217;s wealth is represented by a Money class and a
+MoneyConverter is used to convert to and from a String value. Lastly, by default
+the probe&#8217;s title will be the result of calling <strong>toString()</strong> on the probed
+object  A more appropriate title can be specified either by overriding toString()
+and returning the desired value, or annotating any method that returns the desired
+title with @ProbeID. For example:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>public class VizAgent {
+        ...
+        @ProbeID
+        public String name() { return name;}
+
+        @Parameter(usageName="wealth", displayName="Agent Wealth (in Euros)",
+                converter="repast.demo.MoneyConverter")
+        public Money getWealth() {
+                ...
+        }
+
+        public void setWealth(Money val) {
+                ...
+        }
+}</code></pre>
+</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_batch_runs_2">13. Batch Runs</h2>
+<h2 id="_batch_runs_2">12. Batch Runs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_batch_parameters">13.1. Batch Parameters</h3>
+<h3 id="_batch_parameters">12.1. Batch Parameters</h3>
 <div class="paragraph"><p>Repast Simphony supports the creation of a parameter sweep through an xml file or through a scripted
 bsf file. Both define a sweep through the defintion of parameter setters. These setters may be constant
 setters such that the parameter value remains at its initial value, or the setters may define a list of values
@@ -4860,10 +5099,10 @@ will use the same random seed.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_advanced_topics">14. Advanced Topics</h2>
+<h2 id="_advanced_topics">13. Advanced Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_adding_controller_actions">14.1. Adding Controller Actions</h3>
+<h3 id="_adding_controller_actions">13.1. Adding Controller Actions</h3>
 <div class="paragraph"><p>Controller actions can be added and integrated into the controller tree via
 plugin extension points. The repast.simphony.core plugin defines the following:</p></div>
 <div class="listingblock">
@@ -4953,10 +5192,10 @@ files and related code is a good place to learn more.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_developer_topics">15. Developer Topics</h2>
+<h2 id="_developer_topics">14. Developer Topics</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_creating_a_dynamic_wizard">15.1. Creating a Dynamic Wizard</h3>
+<h3 id="_creating_a_dynamic_wizard">14.1. Creating a Dynamic Wizard</h3>
 <div class="paragraph"><p>I&#8217;ve made a wizard framework that dynamically loads its options based on
 "options" specified in plugin.xmls. I&#8217;ve used it in enough places that I&#8217;ve gone
 ahead and generalized it. If you wish to use this setup I made it fairly
@@ -5061,7 +5300,7 @@ steps (as needed).
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_freezedrying_of_custom_projections">15.2. Enabling FreezeDrying of Custom Projections</h3>
+<h3 id="_enabling_freezedrying_of_custom_projections">14.2. Enabling FreezeDrying of Custom Projections</h3>
 <div class="paragraph"><p>When building a new Projection, some things should be done if it is to be integrated into the whole
 system. In particular, if it is to be freeze dryable, some special considerations may need to be made.
 Since the freeze dryer generally just writes out all the fields of an object, this may or may not function
@@ -5152,7 +5391,7 @@ method.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-29 19:12:20 Central Daylight Time
+Last updated 2019-09-29 23:32:56 Central Daylight Time
 </div>
 </div>
 </body>
