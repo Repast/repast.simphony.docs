@@ -1,9 +1,168 @@
 [[runtime_gui_charts]]
 === Charts
 
-Charts...
+Repast allows you to create two different kinds of charts: time series and 
+histograms.
 
+[[runtime_gui_ts_chart_example_agg]]
+.Repast runtime example aggregate data time series chart.
+image::figures/runtime_gui_ts_chart_example_agg.png[]
+
+[[runtime_gui_ts_chart_example_nonagg]]
+.Repast runtime example non-aggregate data time series chart.
+image::figures/runtime_gui_ts_chart_example_nonagg.png[]
+
+[[runtime_gui_hist_chart_example_nonagg]]
+.Repast runtime example histogram chart.
+image::figures/runtime_gui_hist_chart_example.png[]
 
 ==== Time Series Charts
+To create a time series chart right click on the Charts node in the scenario tree 
+and choose *Add Time Series Chart* and the <<runtime_gui_add_ts_chart_1, Time Series
+Chart dialog>> will appear. Provide a meaningful *Name* for the chart that will 
+appear in the Chart title and in the scenario tree.  Duplicate chart names are 
+allowed.
+
+Select the <<runtime_gui_datasets, *Data Set*>> that will serve as the source of 
+the chart data. Note that the data set must contain a data source named *tick* 
+in order to create a time series. The standard data source *current tick count* 
+will provide this. The tick value will be the x-axis value. The next step will be 
+different depending on the type (aggregate or non-) of data set you have chosen. 
+
+[[runtime_gui_add_ts_chart_1]]
+.Repast runtime add new Time Series Chart dialog.
+image::figures/runtime_gui_add_ts_chart_1.png[]
+
+[CAUTION]
+Time series charts require that the source data set contain a "tick" source.
+
+[NOTE]
+The frequency at which the chart data are updated depends on the 
+<<runtime_gui_schedule_dataset, schedule parameters of the data set>>.
+
+When charting <<runtme_gui_aggregate_data, aggregate data>>, each data source in 
+the data set can become a series in the chart. The *Chart Data* step specifies 
+which of the data sources defined in the chosen data set will be displayed as 
+series in the chart. A data source for display in the chart is selected by 
+clicking the *check box* in the left most column of the table. Only the selected
+data will be shown in the chart, and not all data needs to be selected. The 
+*Color* of the displayed series is specified by double clicking on the relevant
+ cell in the color column. This will bring up a color selection dialog from which
+a color for the series may be chosen. The *Label* column boxes can be edited to 
+change the series label as it will appear in the chart legend.
+
+[[runtime_gui_add_ts_chart_2]]
+.Repast runtime add new Time Series Chart (Data) dialog.
+image::figures/runtime_gui_add_ts_chart_2.png[]
+
+When charting <<runtme_gui_nonaggregate_data, non-aggregate data>>, the series 
+definition works differently. A non-aggregate data set generates a row of data 
+for each object rather than aggregating the individual data into a single row. 
+
+When creating a time series from non-aggregate data, each series will represent 
+an individual agent and the y-value will be the value of some selected property 
+or properties of that agent. Consequently, in the <<runtime_gui_add_ts_chart_3, 
+data selection step for non-aggregate data>>, a *Series ID* needs to be 
+selected that uniquely identifies a particular agent, e.g. the agent's name or
+label.  The Series ID corresponds to a data source in the data set.  This can be
+a String value like the agent's label, or an integer ID.  Each series line in 
+the chart will be colored uniquely and will represent the property of a single 
+agent.
+
+In addition to the Series ID, the actual agent property to plot is selected from
+the available set of data on the left side list and then click the right point 
+arrow to add it to the list of data to display. Data sources can removed from 
+the list of those to display by clicking on the right hand side entries and 
+clicking on the left pointing arrow.
+
+[[runtime_gui_add_ts_chart_3]]
+.Repast runtime add new Time Series Chart (Non-Aggregate Data) dialog.
+image::figures/runtime_gui_add_ts_chart_3.png[]
+
+The final step in the time series wizard is the same regardless of the data set 
+type. In this step, the <<runtime_gui_add_ts_chart_4, chart display properties>> 
+are specified, such as the chart *Title* and the *X-Axis* and *Y-axis* labels. 
+The *Background Color* and *Grid Line Color* of the chart may also be changed by 
+clicking their respective buttons. The chart gridlines can be turned on or off 
+using the *Show Grid Lines* check box. 
+
+The *X-Axis Range* can be set and specifies how much of the X-Axis is visible in
+the chart. For example, a range of 20 means that only the last 20 ticks will be 
+visible. A value of *-1* indicates that the entire plot should be displayed. The 
+*Show Legend* check box specifies whether the chart legend will be displayed or not.
+Click *Finish* to add the time series to the scenario. Don't forget to save the 
+scenario after adding new charts.
+
+[[runtime_gui_add_ts_chart_4]]
+.Repast runtime add new Time Series Chart (Properties) dialog.
+image::figures/runtime_gui_add_ts_chart_4.png[]
+
+[TIP]
+When creating a time series chart with non-aggregate data and many agents, disabling
+the figure legend will improve chart legibility.
+
+[TIP]
+Don't forget to save the scenario after adding new charts.
 
 ==== Histogram Charts
+To create a histogram chart right click on the *Charts* node in the scenario tree 
+and choose *Add Histogram Chart* and the <<runtime_gui_add_hist_chart_1, Histogram
+Chart dialog>> will appear. Provide a meaningful *Name* for the chart that will 
+appear in the Chart title and in the scenario tree.  Duplicate chart names are 
+allowed.
+
+Select the <<runtime_gui_datasets, *Data Set*>> and the *Data* source that will 
+serve as the source of the chart data. Only <<runtme_gui_nonaggregate_data, 
+non-aggregate data>> sources are used with histogram charts.  The chart will 
+histogram the data recorded by a single data source and then display it. 
+For example, suppose a non-aggregate data set is defined with a data source that 
+records the amount of energy of each agent in the model. Each time data is 
+recorded, that data set will record a number of energy values equal to the current 
+number of agents in the model. The histogram chart will histogram these values and 
+update the chart to display the histogram in a bar chart. 
+
+[[runtime_gui_add_hist_chart_1]]
+.Repast runtime add new Histogram Chart dialog.
+image::figures/runtime_gui_add_hist_chart_1.png[]
+
+Click *Next* to move to the <<runtime_gui_add_hist_chart_2, histogram properties
+dialog>>.  The *Bin Count* specifies how many histogram bin categories will exist
+and is constant when the chart is displaying during the simulation. The value of
+the bin count determines the resolution of the histogram chart.  Too many bins 
+will generate many columns in the chart resulting in noisy information that is 
+difficult to interpret, and too few bins will lump data together and may hide 
+important details.
+
+[[runtime_gui_add_hist_chart_2]]
+.Repast runtime add new Histogram Chart (Properties) dialog.
+image::figures/runtime_gui_add_hist_chart_2.png[]
+
+The *Histogram Type* parameter indicates if the histogram is *Dynamic*, meaning 
+that the X-Axis range will dynamically change depending on the data values, or if
+the histogram is *Static*, meaning that the X-Axis range is fixed. For static 
+histograms, the *Maximum* and *Minimum* values need to be provided along
+with how values outside that range are handled. The Out of Range options are:
+
+* *Ignore:* out of range values will be ignored
+* *Add to Min / Max Bins:* items less than min will count in the minimum value 
+bin and items greater than max will count in the maximum value bin
+* *Display Values in Chart Subtitle:* a chart subtitle will display overflow and 
+underflow counts.
+
+The <<runtime_gui_add_hist_chart_3, final step in the histogram chart wizard>>
+specifies chart properties such as the chart *Title* and the *X-Axis* and *Y-axis* labels. 
+The *Background Color* and *Grid Line Color* of the chart may also be changed by 
+clicking their respective buttons. The chart gridlines can be turned on or off 
+using the *Show Grid Lines* check box. Click *Finish* to add the time series to 
+the scenario. Don't forget to save the scenario after adding new charts.
+
+[[runtime_gui_add_hist_chart_3]]
+.Repast runtime add new Histogram Chart (Properties) dialog.
+image::figures/runtime_gui_add_hist_chart_3.png[]
+
+[TIP]
+Don't forget to save the scenario after adding new charts.
+
+[NOTE]
+The frequency at which the chart data are updated depends on the 
+<<runtime_gui_schedule_dataset, schedule parameters of the data set>>.

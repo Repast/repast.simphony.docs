@@ -98,6 +98,10 @@ scenario.
 [TIP]
 Don't forget to save the scenario after adding new file sinks.
 
+[NOTE]
+The frequency at which the data are saved to the file sink depends on the 
+<<runtime_gui_schedule_dataset, schedule parameters of the data set>>.
+
 ==== Console Sinks
 To define a console sink, click on the *Text Sinks* node in the scenario tree 
 and select *Add Console Sink*. The steps to define a console sink are nearly 
