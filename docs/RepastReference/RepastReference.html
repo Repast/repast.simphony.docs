@@ -347,6 +347,10 @@ div.colist td img {
   margin-bottom: 2.5em;
 }
 
+/* Only underline links on hover */
+#toc a:link {text-decoration: none; }
+#toc a:hover { text-decoration: underline; }
+
 #toctitle {
   color: #527bbd;
   font-size: 1.1em;
@@ -538,7 +542,8 @@ body.manpage div.sectionbody {
 @media screen {
   body {
     max-width: 50em; /* approximately 80 characters wide */
-/*    margin-left: 16em; */
+
+    /* increase the default margin size a bit for wider toc panel  */
     margin-left: 23em;
   }
 
@@ -547,11 +552,12 @@ body.manpage div.sectionbody {
     top: 0;
     left: 0;
     bottom: 0;
- /*   width: 13em; */
+    /* increase the default toc width a bit */
     width: 20em;
     padding: 0.5em;
     padding-bottom: 1.5em;
     margin: 0;
+    margin-bottom: 1.5em;
     overflow: auto;
     border-right: 3px solid #f8f8f8;
     background-color: white;
@@ -572,7 +578,7 @@ body.manpage div.sectionbody {
   }
 
 }
-
+/* Only underline links on hover */
 #toc a:link {text-decoration: none; }
 #toc a:hover { text-decoration: underline; }
 
@@ -5809,7 +5815,7 @@ method.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-30 09:15:45 CDT
+Last updated 2019-09-29 23:32:56 Central Daylight Time
 </div>
 </div>
 </body>
