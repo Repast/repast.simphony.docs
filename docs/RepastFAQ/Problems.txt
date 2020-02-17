@@ -28,6 +28,18 @@ WARNING: NSWindow drag regions should only be invalidated on the Main Thread! ..
 ...
 ----
 
+=== "Inconsistency detected by ld.so ..." 
+There are reported issues with the standard Java 11 install on Ubuntu 18.04 that result in 
+this error being generated when a model is initialized. The issue can be avoided by either 
+downgrading to Java 8 or by installing the Adopt OpenJDK version of Java 11: 
+
+https://adoptopenjdk.net/installation.html#linux-pkg , 
+
+where the last line would be:
+
+`apt-get install adoptopenjdk-11-hotspot`
+
+
 === Eclipse: An out of memory error has occurred.
 Eclipse may exceed the specified maximum memory it can use when building large
 projects.  The memory allocated to Eclipse is specified in the

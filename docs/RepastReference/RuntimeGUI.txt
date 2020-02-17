@@ -2,14 +2,14 @@
 
 // TODO Toolbar with plugins descriptions, etc.
 
-=== Scneario Tree
+=== Scenario Tree
 The <<runtime_gui_scenario_tree, scenario tree>> in the Repast runtime GUI provides access to wizards and menus
 for creating and modifying runtime components like charts, displays, and data
 logging.  The Repast runtime components reflect the state of the model simulation
 in various ways, like displaying the positions of the agents in space.  The Repast
 runtime components do not actually have an effect on model behavior, except for when
 the parameters or custom user panel components are adjusted.  In other words, 
-creating a chart or a display, or an absence of these components will not affect 
+creating a chart or a display, or an absence of these components, will not affect 
 model behavior.
 
 The scenario tree contains a fixed set of available runtime components including
@@ -180,7 +180,7 @@ image::figures/runtime_gui_add_parameter_list.png[]
 
 
 [[parameter_convertors]]
-==== Convertors and custom parameter types
+==== Converters and custom parameter types
 Repast Simphony can internally handle the conversion of numeric and boolean 
 types to and from the Strings in the GUI display and the parameter XML file. 
 However, if you wish to use a type other than these, then you must provide a 
@@ -194,7 +194,8 @@ displaying the parameter's value in the GUI.
 For example, supposing you wish use the following Name class as a Parameter.
 
 ----
-package repast.test.viz;public class Name {
+package repast.test.viz;
+public class Name {
 	private String first, last;
 	private int hashCode;
 	

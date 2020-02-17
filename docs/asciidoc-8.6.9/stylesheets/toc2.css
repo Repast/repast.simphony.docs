@@ -1,7 +1,8 @@
 @media screen {
   body {
     max-width: 50em; /* approximately 80 characters wide */
-/*    margin-left: 16em; */
+    
+    /* increase the default margin size a bit for wider toc panel  */
     margin-left: 23em;
   }
 
@@ -10,11 +11,12 @@
     top: 0;
     left: 0;
     bottom: 0;
- /*   width: 13em; */
+    /* increase the default toc width a bit */
     width: 20em;
     padding: 0.5em;
     padding-bottom: 1.5em;
     margin: 0;
+    margin-bottom: 1.5em;
     overflow: auto;
     border-right: 3px solid #f8f8f8;
     background-color: white;
@@ -35,7 +37,7 @@
   }
 
 }
-
+/* Only underline links on hover */
 #toc a:link {text-decoration: none; }
 #toc a:hover { text-decoration: underline; }
 
