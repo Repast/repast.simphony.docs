@@ -79,7 +79,32 @@ The above example compares the agent's happiness to a random number between 0
 and 1, in (0, 1), if the random number is greater than the agent's happiness it 
 will move.
 
-=== Multiple Stream / Non Uniform Stream Usage
+=== Custom Random Engine and Streams
+Advanced applications that require multiple different random streams
+can use the RandomHelper's registerGenerator(String, int) method.
+This method will create a new random stream (a RandomEngine) with
+the specified name and seed.This stream can then be used to create distributions.
+See https://github.com/Repast/repast.simphony/blob/master/repast.simphony.core/src/repast/simphony/random/DefaultRandomRegistry.java[Simphony's DefaultRandomRegistry]
+implementation for examples of how to create distributions from the RandomEngine.
+RandomHelper's registerDistribution(String, AbstractDistribution) and getDistribution(String) 
+methods can be used to store and retrieve custom distributions in and from
+the RandomHelper.
+
+For example,
+
+----
+public void customStreamExample {
+   RandomEngine eng = RandomHelper.registerGenerator("MyStream", 42);
+   Uniform myUniform = new Uniform(5, 10, eng);
+   RandomHelper.registerDistribution("MyUniform", myUniform);
+   ...
+   Uniform uni = (Uniform)RandomHelper.getDistribution("MyUniform");
+   double f = uni.nextDouble();
+}
+----
+
+
+Multiple Stream / Non Uniform Stream Usage
 As with the single streams, you generally are going to want to create your 
 Random number streams when your model is initializing, primarily in a 
 ParameterSetter, at the point the ParameterSetter will be executed the run's 
