@@ -81,7 +81,7 @@ will move.
 
 === Custom Random Engine and Streams
 Advanced applications that require multiple different random streams
-can use the RandomHelper's registerGenerator(String, int) method.
+can use RandomHelper's registerGenerator(String, int) method.
 This method will create a new random stream (a RandomEngine) with
 the specified name and seed.This stream can then be used to create distributions.
 See https://github.com/Repast/repast.simphony/blob/master/repast.simphony.core/src/repast/simphony/random/DefaultRandomRegistry.java[Simphony's DefaultRandomRegistry]
@@ -100,69 +100,5 @@ public void customStreamExample {
    ...
    Uniform uni = (Uniform)RandomHelper.getDistribution("MyUniform");
    double f = uni.nextDouble();
-}
-----
-
-
-Multiple Stream / Non Uniform Stream Usage
-As with the single streams, you generally are going to want to create your 
-Random number streams when your model is initializing, primarily in a 
-ParameterSetter, at the point the ParameterSetter will be executed the run's 
-RandomRegistry will be setup, and you can feel free to use the RandomHelper.
-
-With these streams you are going to need to consistently use the same stream 
-name(s) when working with the RandomHelper or the RandomRegistry. You will need 
-to pass this name into the methods, so that that the helper/registry knows where 
-to get the values from. For example, let's say that you want 2 random number 
-streams; one a Poisson distribution, and one a Normal distribution. With both of 
-these using a distinct random seed.
-
-So an example initialization would look like:
-
-----
-public class MySetter extends ParameterSetter {
-  public void next(Parameters params) {
-    // first create the normal distribution
-    // we pass in null so that it will use the current random registry
-    RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
-    // next we create the poisson distribution
-
-    RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
-  }
-}
-----
-
-The above code created a normal distribution named "MyNormal" that has a mean of 
-0, a standard deviation of 1, and some seed (normalSeed). It then creates a 
-poisson distribution named "MyPoisson" with a mean of 0 and some specified seed 
-(poissonSeed). It is worth noticing however that unlike the default stream, if 
-you do not setup these streams with the given name they will not be created for 
-you. You must create them in some way (for instance like above) or you will not 
-be able to use them.
-
-You can then use these distributions from your code. If you wanted to do the 
-same thing as the single stream example, but with the normal stream you would do:
-
-----
-public void agentAction() {
-	if (myHappiness < RandomHelper.getNormal("MyNormal").nextDouble()) {
-		move();
-	}
-}
-----
-
-The Poisson stream is slightly less straighforward to use, in that direct helper 
-methods are not provided that will cast the stream to a Poisson distribution. 
-For this distribution you must cast the stream yourself. This is more 
-complicated than it sounds, and functions simply like:
-
-----
-public void agentAction() {
-	// grab the distribution with the given name, casting it to a Poisson distribution
-	Poisson randomStream = (Poisson) RandomHelper.getStream("MyPoisson");
-	// now use it
-	if (myHappiness < randomStream.nextDouble()) {
-		move();
-	}
 }
 ----
