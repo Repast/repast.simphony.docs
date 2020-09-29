@@ -138,6 +138,9 @@ image::figures/runtime_gui_add_parameter.png[]
 [NOTE]
 When adding new parameters, the parameter panel may take a few seconds to update
 after the OK button is pressed in the parameter dialog.
+[NOTE]
+By default, the parameters are displayed in alphabetical order. <<parameter_order, A custom
+order>> can be set by editing the parameters.xml to a "displayOrder" attribute.
 
 ==== Example Model Parameters
 Several example Add Parameter dialogs are shown below for different types of model
@@ -327,6 +330,47 @@ When constraining a converted parameter, the elements in the values list must be
 Strings that can be converted using the converter. If you do constrain a 
 converted parameter in this way, you must override equals (and hashCode) in your 
 custom type. If not, then the constraint validation will most likely fail.
+
+[[parameter_order]]
+==== Custom Parameter Order
+By default parameters are ordered alphabetically. A custom
+parameter order can be set using the "displayOrder" parameter numeric attribute.
+This attribute must be number and parameters are sorted using this value
+in ascending order. All the parameters with a displayOrder attribute will be
+sorted and display first, followed by those with no displayOrder attribute. The 
+latter group will be displayed in alphabetical order. 
+Currently, the only way to add this attribute is by editing parameters.xml directly. 
+An example:
+
+----
+<parameters>
+
+	<parameter name="zombie_count" displayName="Zombie Count" type="int" 
+		defaultValue="10" 
+		isReadOnly="false" 
+		displayOrder="0.0
+	/>
+					
+	<parameter name="human_count" 
+		displayName="Human Count" type="int" 
+		defaultValue="120" 
+		isReadOnly="false"
+		range="0.0 200.0 20.0"	
+		displayOrder="1.0"
+	/>
+				
+	
+			
+	<parameter name="stop_at" displayName="Batch Stop At" type="int" 
+		defaultValue="2000" 
+		isReadOnly="false" 
+		displayOrder="2.0"
+	/>
+</parameters>
+----
+
+Here Zombie Count (displayOrder = 0.0) will be displayed at the top of the parameters
+panel, followed by Human Count (displayOrder=1.0), and Batch Stop At (displayOrder=2.0)
 
 // TODO
 //=== User Panel
