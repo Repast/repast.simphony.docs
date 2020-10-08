@@ -50,6 +50,7 @@ context.removeSubContext(subContext);
 ----
 
 === Finding Objects in Contexts
+==== Finding objects using Repast 2.7 or earlier
 Objects (typically agents) contained in a context can be referenced in several 
 ways. 
 
@@ -79,6 +80,56 @@ for (Object o : collection){
 	// do something with o here.
 }
 ----
+
+==== Finding objects using Repast 2.8 or later
+Starting with verion 2.8, contexts can provide objects and random objects using 
+https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html[Java streams] 
+which provide higher performance and flexibility in handling agents.  
+
+* To get a stream of all objects of type MyClass:
++
+----
+Stream<MyClass> s = context.getObjectsAsStream(MyClass.class);
+----
+* To get a random stream of some (count) objects of type MyClass:
++
+----
+Stream<MyClass> s = context.getRandomObjectsAsStream(MyClass.class, count);
+----
+
+Java Streams provide flexibility in how the stream is processes and added to
+collections like lists.  For example, to create a list of objects in a stream:
+
+----
+List<MyClass> myList = s.collect(Collectors.toList());
+----
+
+To pass each object in the stream to a method myMethod:
+
+----
+s.forEach(this::myFunction)
+----
+
+=== Querying Objects in Contexts
+Starting with verion 2.8, queries on objects within contexts can be performed using
+https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html[Java streams] 
+filters.  A stream filter processes the entire stream of objects returned by the context
+and passes only those objects that satisfy the conditions in the filter.  Complex filter
+conditions can be used to find objects whose attributes meet a set of conditions.  The use of
+stream filters is recommended over the legacy Property queries due to significant improvements
+in performance. 
+
+As an example of a stream filter, if an agent has a property "energy" and a getter method 
+"getEnergy()"  The following will generate a list of agents whose energy value is less than 4:
+
+----
+Stream<MyAgent> s = context.getObjectsAsStream(MyAgent.class);
+List<MyAgent> list = s.filter(c -> c.getEnergy() < 4).collect(Collectors.toList());
+----
+
+TIP: The use of stream filters is recommended over the legacy Property queries due to 
+significant improvements in performance. 
+
 
 === Implementing Custom Contexts
 User models can implement their own custom Context implementations, either by 
