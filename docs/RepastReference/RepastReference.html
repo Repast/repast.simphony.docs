@@ -3510,61 +3510,26 @@ and 1, in (0, 1), if the random number is greater than the agent&#8217;s happine
 will move.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_multiple_stream_non_uniform_stream_usage">10.4. Multiple Stream / Non Uniform Stream Usage</h3>
-<div class="paragraph"><p>As with the single streams, you generally are going to want to create your
-Random number streams when your model is initializing, primarily in a
-ParameterSetter, at the point the ParameterSetter will be executed the run&#8217;s
-RandomRegistry will be setup, and you can feel free to use the RandomHelper.</p></div>
-<div class="paragraph"><p>With these streams you are going to need to consistently use the same stream
-name(s) when working with the RandomHelper or the RandomRegistry. You will need
-to pass this name into the methods, so that that the helper/registry knows where
-to get the values from. For example, let&#8217;s say that you want 2 random number
-streams; one a Poisson distribution, and one a Normal distribution. With both of
-these using a distinct random seed.</p></div>
-<div class="paragraph"><p>So an example initialization would look like:</p></div>
+<h3 id="_custom_random_engine_and_streams">10.4. Custom Random Engine and Streams</h3>
+<div class="paragraph"><p>Advanced applications that require multiple different random streams
+can use RandomHelper&#8217;s registerGenerator(String, int) method.
+This method will create a new random stream (a RandomEngine) with
+the specified name and seed.This stream can then be used to create distributions.
+See <a href="https://github.com/Repast/repast.simphony/blob/master/repast.simphony.core/src/repast/simphony/random/DefaultRandomRegistry.java">Simphony&#8217;s DefaultRandomRegistry</a>
+implementation for examples of how to create distributions from the RandomEngine.
+RandomHelper&#8217;s registerDistribution(String, AbstractDistribution) and getDistribution(String)
+methods can be used to store and retrieve custom distributions in and from
+the RandomHelper.</p></div>
+<div class="paragraph"><p>For example,</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>public class MySetter extends ParameterSetter {
-  public void next(Parameters params) {
-    // first create the normal distribution
-    // we pass in null so that it will use the current random registry
-    RandomHelper.createNormal(null, "MyNormal", normalSeed, 0, 1);
-    // next we create the poisson distribution
-
-    RandomHelper.createPoisson(null, "MyPoisson", poissonSeed, 0);
-  }
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>The above code created a normal distribution named "MyNormal" that has a mean of
-0, a standard deviation of 1, and some seed (normalSeed). It then creates a
-poisson distribution named "MyPoisson" with a mean of 0 and some specified seed
-(poissonSeed). It is worth noticing however that unlike the default stream, if
-you do not setup these streams with the given name they will not be created for
-you. You must create them in some way (for instance like above) or you will not
-be able to use them.</p></div>
-<div class="paragraph"><p>You can then use these distributions from your code. If you wanted to do the
-same thing as the single stream example, but with the normal stream you would do:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public void agentAction() {
-        if (myHappiness &lt; RandomHelper.getNormal("MyNormal").nextDouble()) {
-                move();
-        }
-}</code></pre>
-</div></div>
-<div class="paragraph"><p>The Poisson stream is slightly less straighforward to use, in that direct helper
-methods are not provided that will cast the stream to a Poisson distribution.
-For this distribution you must cast the stream yourself. This is more
-complicated than it sounds, and functions simply like:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>public void agentAction() {
-        // grab the distribution with the given name, casting it to a Poisson distribution
-        Poisson randomStream = (Poisson) RandomHelper.getStream("MyPoisson");
-        // now use it
-        if (myHappiness &lt; randomStream.nextDouble()) {
-                move();
-        }
+<pre><code>public void customStreamExample {
+   RandomEngine eng = RandomHelper.registerGenerator("MyStream", 42);
+   Uniform myUniform = new Uniform(5, 10, eng);
+   RandomHelper.registerDistribution("MyUniform", myUniform);
+   ...
+   Uniform uni = (Uniform)RandomHelper.getDistribution("MyUniform");
+   double f = uni.nextDouble();
 }</code></pre>
 </div></div>
 </div>
@@ -3794,6 +3759,14 @@ parameter values may be selected.
 after the OK button is pressed in the parameter dialog.</td>
 </tr></table>
 </div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/note.png" alt="Note" />
+</td>
+<td class="content">By default, the parameters are displayed in alphabetical order. <a href="#parameter_order">A custom order</a> can be set by editing the parameters.xml to a "displayOrder" attribute.</td>
+</tr></table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_example_model_parameters">11.3.3. Example Model Parameters</h4>
@@ -3998,6 +3971,46 @@ of a converted parameter. For example:</p></div>
 Strings that can be converted using the converter. If you do constrain a
 converted parameter in this way, you must override equals (and hashCode) in your
 custom type. If not, then the constraint validation will most likely fail.</p></div>
+</div>
+<div class="sect3">
+<h4 id="parameter_order">11.3.5. Custom Parameter Order</h4>
+<div class="paragraph"><p>By default parameters are ordered alphabetically. A custom
+parameter order can be set using the "displayOrder" parameter numeric attribute.
+This attribute must be number and parameters are sorted using this value
+in ascending order. All the parameters with a displayOrder attribute will be
+sorted and display first, followed by those with no displayOrder attribute. The
+latter group will be displayed in alphabetical order.
+Currently, the only way to add this attribute is by editing parameters.xml directly.
+An example:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>&lt;parameters&gt;
+
+        &lt;parameter name="zombie_count" displayName="Zombie Count" type="int"
+                defaultValue="10"
+                isReadOnly="false"
+                displayOrder="0.0
+        /&gt;
+
+        &lt;parameter name="human_count"
+                displayName="Human Count" type="int"
+                defaultValue="120"
+                isReadOnly="false"
+                range="0.0 200.0 20.0"
+                displayOrder="1.0"
+        /&gt;
+
+
+
+        &lt;parameter name="stop_at" displayName="Batch Stop At" type="int"
+                defaultValue="2000"
+                isReadOnly="false"
+                displayOrder="2.0"
+        /&gt;
+&lt;/parameters&gt;</code></pre>
+</div></div>
+<div class="paragraph"><p>Here Zombie Count (displayOrder = 0.0) will be displayed at the top of the parameters
+panel, followed by Human Count (displayOrder=1.0), and Batch Stop At (displayOrder=2.0)</p></div>
 </div>
 </div>
 <div class="sect2">
