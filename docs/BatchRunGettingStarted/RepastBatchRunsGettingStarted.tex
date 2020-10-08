@@ -721,7 +721,10 @@ The first step for running a model on an HPC machine is to copy the payload comp
 unzip complete_model.jar
 \end{verbatim}
 
-We will be using the Portable Batch System (PBS) job scheduler for this example. This is a common job scheduler. If your system uses a different scheduler, it should be possible to adapt the instructions below. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. The top section of the file looks like:
+Simphony includes submission files for two common job schedulers, PBS and Slurm. If your system uses a different scheduler, it should be possible to adapt instructions below. 
+
+\subsection{PBS}
+We begin with the Portable Batch System (PBS) job scheduler. The first file to look at is the repast.pbs file. This is the file that is submitted to the PBS scheduler. It calls repastwrapper.sh to launch each instance and perform the actual runs. The top section of the file looks like:
 \begin{verbatim}
 #!/bin/bash
 #PBS -N <Job_Name>
@@ -741,12 +744,55 @@ The next step is to make sure that all the scripts are executable by issuing the
 \begin{verbatim}
 chmod +x *.sh
 \end{verbatim}
-At this point the job is ready for submission and can be submitted via the command:
+At this point the job is ready for submission and can be submitted from within the unzipped complete\_model jar directory via the command:
 \begin{verbatim}
 qsub repast.pbs
 \end{verbatim}
 
-The job is submitted to the specified queue and will run when the scheduler decides to run the job. Depending on the particular setup of the scheduler, you may receive an email alert when the job has finished running. Whichever method you use to figure out when the job has completed executing, you can run an output combiner to combine the data output from the individual simulations that were run with the command:
+The job is submitted to the specified queue and will run when the scheduler decides to run the job. Depending on the particular setup of the scheduler, you may receive an email alert when the job has finished running. 
+
+Whichever method you use to figure out when the job has completed executing, you can run an output combiner to combine the data output from the individual simulations that were run with the command:
+\begin{verbatim}
+./outputcombiner.sh
+\end{verbatim}
+The combines data will be placed in a combined\_data directory in the current directory.
+
+\subsection{Slurm}
+The slurm submission script is repast.slurm. It calls repastwrapper\_slurm.sh to launch each instance and perform the actual runs. The basic idea is that we calculate the total number of process available for work, and run an instance on each process. The number of individual runs for each instance is determined by dividing the total number of runs (the number of lines in the unrolled parameter file) by the number of processes and distributing any remainder across instances as appropriate.  The submission script (repast.slurm) defines the total number of processes to allocate by specifying the number of nodes and the number of tasks per node. The wrapper (repastwrapper\_slurm.sh) does the actual math to determine which lines of the full unrolled parameter file that a particular instance will run, using the unique process id (SLURM\_PROCID) for each instance.
+
+The first step is specify the required options in ther repast.slurm file. The top section of the file looks like:
+\begin{verbatim}
+#!/bin/bash
+#SBATCH --job-name=<Job_Name>                                                                                   
+#SBATCH --partition=<Queue_Name>                                                                                
+#SBATCH --nodes=<nodes>                                                                                         
+#SBATCH --ntasks-per-node=<ppn>                                                                                 
+#SBATCH --time=<walltime>                                                                                       
+#SBATCH --output=output.txt                                                                                     
+#SBATCH --mail-user=<email>                                                                                     
+#SBATCH --mail-type=all                                                                                         
+\end{verbatim}
+
+\noindent where, as in the PBS case, the elements in the angled brackets are meant to be edited for each individual use case. So, for example, if we wanted to name the job ``Zombies\_Test", submit the job to the ``shared" queue,  use 2 nodes and 8 processors per node with a wall time of 1 hour an email of klopp@lfc.com we might issue the following \texttt{sed} command, all one line:
+\begin{verbatim}
+sed -i -e 's/<Job_Name>/Zombies_Test/' -e 's/<Queue_Name>/shared/'
+-e 's/<nodes>/2/' -e 's/<ppn>/8/' -e 's/<walltime>/01:00:00/' 
+-e 's/<email>/klopp@lfc.com/' repast.slurm
+\end{verbatim}
+Alternatively the repast.slurm file can be edited by hand. The particulars for each system may be slightly different so you may need to consult with the reference manual or online help of the system you will be using.  You can always add any additional arguments to the SBATCH or srun arguments, of course. For example, you may have to set mem-per-cpu if the default on your hpc machine is not adequate.
+
+The next step is to make sure that all the scripts are executable by issuing the command:
+\begin{verbatim}
+chmod +x *.sh
+\end{verbatim}
+At this point the job is ready for submission and can be submitted from within the unzipped complete\_model jar directory via the command:
+\begin{verbatim}
+sbatch repast.slurm
+\end{verbatim}
+
+The job is submitted to the specified queue and will run when the scheduler decides to run the job. Depending on the particular setup of the scheduler, you may receive an email alert when the job has finished running. 
+
+Whichever method you use to figure out when the job has completed executing, you can run an output combiner to combine the data output from the individual simulations that were run with the command:
 \begin{verbatim}
 ./outputcombiner.sh
 \end{verbatim}
