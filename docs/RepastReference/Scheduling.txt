@@ -2,6 +2,64 @@
 There are basically three ways to work with the Repast Simphony Scheduler. No 
 one is better than the other and they each have their specified purpose.
 
+[[schedule-model-initializer]]
+=== Using the Model Initializer
+
+There are a couple of approaches to perform model initialization/setup and 
+appropriate method depends on specific modeling needs.
+
+To initialize a model run without user input by say setting model parameters, 
+reading input data, etc, then the ContextBuilder implementation is be the 
+preferred approach since the build(…) method is called once every time the 
+model is initialized or started via the GUI.
+
+To perform any programmatic actions before init/run via the GUI, use a Model 
+Initializer to perform the setup behavior by creating a class that implements 
+repast.simphony.scenario.ModelInitializer. The initialize(…) method is called 
+only once as the Repast GUI is created and before the model init/run button is pushed. 
+The MouseTrap demo model provides an example of using the ModelInitializer.
+
+The Eclipse new class wizard will create a template class with the initialize(…) method 
+in which model initialization code may be included. The ModelInitializer implementation 
+code will execute only once per runtime session, even if the model is reset/restarted 
+and before the ContextBuilder code is executed. The ModelInitializer class needs to be specified 
+in the scenario.xml as follows, assuming the class is named myModel.MyModelInitializer. 
+The MouseTrap demo contains an example of this.
+
+----
+<model.initializer class="myModel.MyModelInitializer" />
+----
+
+To provide user interaction with the model setup/init before pushing the init/run button, 
+the ModelInitializer could be used to create an external JFrame/Panel that contains custom 
+GUI elements. This approach could be used to store the user input information in a static 
+singleton that is accessible by the model during the ContextBuilder.build(). 
+
+A common model initialization design is to consider the GUI initialization at tick = 0, the model 
+initialization at tick = 1, and then schedule all model behaviors at tick > 1. This allows the 
+use of the GUI parameters and User Panel to set any model initialization information.  A more
+detailed sequence of events is as follows:
+
+* The GUI init/run is pressed, the ContextBuilder.build() is called. This is tick = 0. 
+Model parameters are available in the model code and the User Panel is created. Here we don’t 
+actually want to create the model components since they may depend on user input. Instead, we 
+create a "model creator" class that will be scheduled at tick = 1 (or any arbitrary time later) 
+that creates all of the model components. We can simply move the current contents of the 
+ContextBuilder.build(…) into the new model creator class and schedule it for tick = 1. 
+Pausing the model at tick = 0 for good measure so that the schedule will not advance before 
+user input is received:
+
+----
+* RunEnvironment.getInstance().pauseAt(0);
+----
+
+* Optionally, the UserPanel is populated in the model post-initialization by creating an implementation of repast.simphony.userpanel.ui.UserPanelCreator and by specifying this class in the Repast GUI “User Panel” item. The UserPanelCreator class will return a JPanel via the createPanel() method and can contain any Java Swing GUI components. The UserPanel is re-created each time the model is reset.
+
+* The new model creator create() method is called. This is tick = 1. All model init code 
+that is normally in the ContextBuilder.build() will be called here. We can access the model 
+parameters set via the GUI, and any information that was input via the User Panel.
+
+
 [[schedule-direct]]
 === Directly Schedule an action
 This is similar to the way that actions have always been scheduled in repast 

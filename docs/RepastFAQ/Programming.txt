@@ -63,6 +63,10 @@ See the Repast Reference manual section
 link:../RepastReference/RepastReference.html#network-excel[Loading Networks from input files].
 
 === Scheduling
+==== How can I initialize my model?
+See the Repast Reference manual section 
+link:../RepastReference/RepastReference.html#schedule-model-initializer[Using the Model Initializer].
+
 ==== How can I schedule an agent behavior to execute at a regular tick interval?
 See the Repast Reference manual section 
 link:../RepastReference/RepastReference.html#schedule-annotation[Schedule with Annotations].

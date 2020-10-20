@@ -1,5 +1,5 @@
 = Repast Simphony Frequently Asked Questions
-October 2019
+October 2020
 // NO SPACES BETWEEN LEADING TEXT AND : OPTIONS
 :toc:
 :icons:
