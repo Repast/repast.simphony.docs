@@ -229,13 +229,15 @@ On the local side, that is, on the machine you are running the batch configurati
 \noindent
 Other sites exist as well,  google ``ssh public key authentication'' for more information.
 
+Currently, the new OpenSSH format is not supported (OpenSSH 7.8 and newer). Ensure the key you are using starts with {\tt-----BEGIN RSA PRIVATE KEY-----} rather than {\tt-----BEGIN OPENSSH PRIVATE KEY-----}.
+
 The situation on windows is more complicated. OSX and Linux come with ssh and thus the built-in ability to generate public / private key pairs. Unfortunately, this is not the case for Windows and thus some setup is required. The following steps describe one way to generate the key pair and copy it to the remote machine under Windows.
 
 \begin{enumerate}
 \item Download and install the Git Client from \href{http://git-scm.com/download/win}{http://git-scm.com/download/win}.
 \item From the start menu, run ``Git Bash''. You may need to navigate to the Git folder in "All Programs". Git Bash is terminal program in which you can type the commands to create the key pairs.
 \item Check if you have a key pair already generated. If the files id\_rsa and id\_rsa.pub exist in an .ssh directory in your home directory (e.g. C:\textbackslash Users\textbackslash nick\textbackslash .ssh) then the keys already exist and you can skip to step 5.
-\item In the Git Bash terminal type {\tt ssh-keygen -t rsa -C "your\_email@example.com"} We want the default settings so when asked to enter a file in which to save the key just press enter. Then enter a short passphrase. You should see see something like figure \ref{fig:win_ssh}
+\item In the Git Bash terminal type {\tt ssh-keygen -m PEM -C "your-email@example.com"}. We want the default settings so when asked to enter a file in which to save the key just press enter.\footnote{Do specify a different name of the newly generated SSH key if you currently have one installed, as the default settings with overwrite {\tt~/.ssh/id\_rsa} and {\tt~/.ssh/id\_rsa}} Do not specify a passphrase. You should see see something like figure \ref{fig:win_ssh}
 \item In the Git Bash terminal type {\tt scp \textasciitilde/.ssh/id\_rsa.pub user@machine:\textasciitilde} where user is the user name used to login to the remote machine and machine is the machine name or ip address. This will copy the public key into the home directory on the remote machine.
 \item Login to the remote machine. Type {\tt ssh user@machine} replacing user and machine as appropriate. You will be asked for the password to login to the remote machine.
 \item Type {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} to add the public key to the list of authorized keys on the remote machine. If you get a ``no such file or directory'' message, type {\tt mkdir .ssh; touch .ssh/authorized\_keys} and then  {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} . If you get an error that .ssh already exists when trying to create the directory with {\tt mkdir}, type {\tt touch .ssh/authorized\_keys} and then  {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} .
