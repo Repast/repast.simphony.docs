@@ -19,6 +19,57 @@ WARNING: Use --illegal-access=warn to enable warnings of further illegal reflect
 WARNING: All illegal access operations will be denied in a future release
 ----
 
+=== FATAL: java.lang.UnsupportedClassVersionError
+
+This can occur when Elipse's compiler compliance level is greater than the current JRE. For exammple, the following
+will occur when the compiler compliance is 16 and the JRE is 11.
+
+----
+FATAL [AWT-EventQueue-0] 13:46:13,958 repast.simphony.ui.RSUIPlugin - Fatal error starting Repast
+java.lang.UnsupportedClassVersionError: jzombies/Human has been compiled by a more recent version of the Java Runtime (class file version 60.0), 
+this version of the Java Runtime only recognizes class file versions up to 55.0
+----
+
+This can be fixed by setting the compiler compliance level to our recommended 1.8. In Eclipse, Preferences -> Java -> Compiler and
+set the compiler compliance level to 1.8. 
+
+=== FATAL java.lang.ExceptionInInitializerError (caused by java.lang.reflect.InaccessibleObjectException)
+
+This will occur when using a JRE > 11. For example,
+
+----
+FATAL [AWT-EventQueue-0] 13:55:14,856 repast.simphony.ui.RSUIPlugin - Fatal error starting Repast
+java.lang.ExceptionInInitializerError
+    at com.thoughtworks.xstream.XStream.setupConverters(XStream.java:807)
+    at com.thoughtworks.xstream.XStream.<init>(XStream.java:574)
+    at com.thoughtworks.xstream.XStream.<init>(XStream.java:496)
+    ...
+Caused by: java.lang.reflect.InaccessibleObjectException: Unable to make field private final java.util.Comparator java.util.TreeMap.comparator accessible: module java.base does not "opens java.util" to unnamed module @371ef662
+    at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:357)
+----
+
+We recommend using Java/JRE 11 which will avoid this issue, but if you must
+use a JRE > 11 then these errors can be fixed by using the `--add-opens` VM argument. 
+The format is `--add-opens=<module>/<package>=ALL-UNNAMED`. For example,
+if the error specifies `module java.base does not "opens java.util" to unnamed module @371ef662`,
+then the module is `java.base` and the package is `java.util`, and the VM argument is
+`--add-opens=java.base/java.util=ALL-UNNAMED`.
+
+There are likely to be more than one of these arguments required. For example,
+the JZombies demo needs:
+
+----
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--add-opens=java.base/java.util=ALL-UNNAMED
+--add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens=java.base/java.text=ALL-UNNAMED
+--add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+----
+
+VM arguments for a particular model can be added in that model's run configuration. 
+Run -> Run Configurations -> Select the Model, and add the VM arguments in
+the VM arguments text panel in the Arguments tab.
+
 === WARNING: NSWindow drag regions should only be invalidated on the Main Thread!
 The following warning message occurs when using macOS Mojave, and has no impact
 on the model code, performance, or reliability, and can be safely ignored:
@@ -133,7 +184,7 @@ seen and the displays do not show correctly in the Repast runtime GUI:
 javax.media.opengl.GLException: WindowsWGLDrawableFactory - Could not initialize shared resources...
 ERROR [AWT-EventQueue-0] 12:13:10,314 repast.simphony.visualizationOGL2D.DisplayOGL2D - Error initializing OGL 2D display. JOGL must be installed and computer must support open gl rendering
 javax.media.opengl.GLException: Profile GL2 is not available on null, but: [GLProfile[GL2ES2/GL4.hw], GLProfile[GL4/GL4.hw], GLProfile[GL3/GL3.hw], GLProfile[GL4/GL4.hw], GLProfile[GL2GL3/GL4.hw]]
-	at javax.media.opengl.GLProfile.get(GLProfile.java:806)
+    at javax.media.opengl.GLProfile.get(GLProfile.java:806)
 ----
 This is caused by the system's graphics card drivers being out of date, or the
 system graphics hardware not supporting OpenGL.  The most common cause of this error
