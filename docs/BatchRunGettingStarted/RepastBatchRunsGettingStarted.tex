@@ -125,11 +125,14 @@ The fields in the table are defined as follows:
 Specifying output patterns is optional, and only necessary if you do not generate file output using the default File Sink mechanism.
 
 The Run Properties sections defines properties that are used during the actual model run.
-
+\label{sec:run_props}
 \begin{description}
 \item[SSH Key Directory] The directory that contains the user's public ssh rsa key. See the distributed runs section (section \ref{sec:distributed_runs}) below for more details.
 \item[VM Arguments] The virtual machine arguments to use when performing the actual model runs.
-\item[Poll Frequency] The frequency with which the master process will poll its clients to determine if they have finished.\end{description}
+\item[Poll Frequency] The frequency with which the master process will poll its clients to determine if they have finished.
+\end{description}
+
+The VM arguments should be space separated and quoted if the argument itself contains a space.
 
 \subsection{Batch Parameters Panel}
 The batch parameters panel (fig. ~\ref{fig:batch_params})  is used to define the parameter space that the batch run will iterate over.
@@ -229,13 +232,15 @@ On the local side, that is, on the machine you are running the batch configurati
 \noindent
 Other sites exist as well,  google ``ssh public key authentication'' for more information.
 
+Currently, the new OpenSSH format is not supported (OpenSSH 7.8 and newer). Ensure the key you are using starts with {\tt-----BEGIN RSA PRIVATE KEY-----} rather than {\tt-----BEGIN OPENSSH PRIVATE KEY-----}.
+
 The situation on windows is more complicated. OSX and Linux come with ssh and thus the built-in ability to generate public / private key pairs. Unfortunately, this is not the case for Windows and thus some setup is required. The following steps describe one way to generate the key pair and copy it to the remote machine under Windows.
 
 \begin{enumerate}
 \item Download and install the Git Client from \href{http://git-scm.com/download/win}{http://git-scm.com/download/win}.
 \item From the start menu, run ``Git Bash''. You may need to navigate to the Git folder in "All Programs". Git Bash is terminal program in which you can type the commands to create the key pairs.
 \item Check if you have a key pair already generated. If the files id\_rsa and id\_rsa.pub exist in an .ssh directory in your home directory (e.g. C:\textbackslash Users\textbackslash nick\textbackslash .ssh) then the keys already exist and you can skip to step 5.
-\item In the Git Bash terminal type {\tt ssh-keygen -t rsa -C "your\_email@example.com"} We want the default settings so when asked to enter a file in which to save the key just press enter. Then enter a short passphrase. You should see see something like figure \ref{fig:win_ssh}
+\item In the Git Bash terminal type {\tt ssh-keygen -m PEM -C "your-email@example.com"}. We want the default settings so when asked to enter a file in which to save the key just press enter.\footnote{Do specify a different name of the newly generated SSH key if you currently have one installed, as the default settings with overwrite {\tt~/.ssh/id\_rsa} and {\tt~/.ssh/id\_rsa}} Do not specify a passphrase. You should see see something like figure \ref{fig:win_ssh}
 \item In the Git Bash terminal type {\tt scp \textasciitilde/.ssh/id\_rsa.pub user@machine:\textasciitilde} where user is the user name used to login to the remote machine and machine is the machine name or ip address. This will copy the public key into the home directory on the remote machine.
 \item Login to the remote machine. Type {\tt ssh user@machine} replacing user and machine as appropriate. You will be asked for the password to login to the remote machine.
 \item Type {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} to add the public key to the list of authorized keys on the remote machine. If you get a ``no such file or directory'' message, type {\tt mkdir .ssh; touch .ssh/authorized\_keys} and then  {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} . If you get an error that .ssh already exists when trying to create the directory with {\tt mkdir}, type {\tt touch .ssh/authorized\_keys} and then  {\tt cat id\_rsa.pub >> .ssh/authorized\_keys} .
@@ -450,17 +455,17 @@ INFO  [SwingWorker-pool-1-thread-2] 16:56:23,197
   repast.simphony.batch.ssh.RemoteSession - Copying Finished.
 \end{verbatim}
 
-Before a remote run is attempted,  a check is made to see if Java is installed on the remote host. If it is not, then you will see an error. In this case, we can see that the java version is 1.7.0\_21.
+Before a remote run is attempted, a check is made to see if Java is installed on the remote host. If it is not, then you will see an error. In this case, we can see that the java version is 1.8.0\_232.
 
 \begin{verbatim}
 INFO  [SwingWorker-pool-1-thread-2] 16:56:33,369
   repast.simphony.batch.ssh.RemoteSession -
   Checking for java on ubuntu@ec2-107-20-23-221.compute-1.amazonaws.com
 INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,691
-  repast.simphony.batch.ssh.SSHSession - java version "1.7.0_21"
+  repast.simphony.batch.ssh.SSHSession - java version "1.8.0_232"
 INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,692
   repast.simphony.batch.ssh.SSHSession - OpenJDK Runtime Environment (IcedTea 2.3.9)
-  (7u21-2.3.9-0ubuntu0.11.10.1)
+  (1.8.0u232-2.3.9-0ubuntu0.11.10.1)
 INFO  [Connect thread ec2-107-20-23-221.compute-1.amazonaws.com session] 16:56:33,692
   repast.simphony.batch.ssh.SSHSession -
   OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
@@ -518,6 +523,40 @@ INFO  [SwingWorker-pool-1-thread-2] 16:57:00,267
   repast.simphony.batch.ssh.SessionsDriver - Finished. Elapsed Time: 1.5906
 \end{verbatim}
 
+If the Java version (local or remote) is greater than 11, you may see errors like:
+
+\begin{verbatim}
+INFO  [Thread-1] 16:57:38,496 repast.simphony.batch.ssh.LocalSession - 
+  ERROR [main] 16:57:38,494 repast.simphony.batch.InstanceRunner - 
+  Error while running model
+INFO  [Thread-1] 16:57:38,496 repast.simphony.batch.ssh.LocalSession - 
+  repast.simphony.scenario.ScenarioLoadException: Unable to make protected 
+  final java.lang.Class java.lang.ClassLoader.defineClass(java.lang.String,byte[],
+    int,int,java.security.ProtectionDomain) throws java.lang.ClassFormatError 
+    accessible: module java.base does not "opens java.lang" to unnamed 
+    module @324e4822
+\end{verbatim}
+
+If possible, we recommend using Java/JRE 11 for the batch run Java.
+However, these errors can be fixed by using the {\tt--add-opens} VM argument. 
+\linebreak The format is {\tt --add-opens=<module>/<package>=ALL-UNNAMED}. For example,
+if the error specifies {\tt module java.base does not "opens java.util to unnamed module @371ef662}, 
+then the module is {\tt java.base} and the package is {\tt java.util}, and the VM argument is \linebreak{\tt --add-opens=java.base/java.util=ALL-UNNAMED}.
+
+The {\tt --add-opens} arguments can be added to the VM arguments text box in the
+model panel (\ref{sec:run_props}). The should be separated by spaces.
+
+There are likely to be more than one of these arguments required. For example,
+the JZombies demo needs:
+
+\begin{verbatim}
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--add-opens=java.base/java.util=ALL-UNNAMED
+--add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens=java.base/java.text=ALL-UNNAMED
+--add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+\end{verbatim}
+
 \begin{figure}[h]
 \begin{center}
 \vspace{.2in}
@@ -533,7 +572,7 @@ INFO  [SwingWorker-pool-1-thread-2] 16:57:00,267
 \section{Remote Machine Setup}
 \label{sec:remote_machines}
 
-In order to perform a run on a remote machine that machine must be set up to accept an ssh connection and you must have an account on the remote machine. Once the remote machine has been setup for ssh logins, you then need to add your public key to its authorized\_keys file as described in section \ref{sec:distributed_runs}. The remote machine must have Java 7 installed and it must be be the default Java.
+In order to perform a run on a remote machine that machine must be set up to accept an ssh connection and you must have an account on the remote machine. Once the remote machine has been setup for ssh logins, you then need to add your public key to its authorized\_keys file as described in section \ref{sec:distributed_runs}. The remote machine must have at least Java 8 installed and it must be be the default Java on that machine.
 
 \subsection{OSX }
 Allowing remote logins on OSX is done using the System Preferences on the machine you want to remotely login to. Start System Preferences and double click on the sharing icon. Select the Remote Login as seen in figure \ref{fig:osx_sys}. Make sure you allow access for the user you will be logging in as. You should now be able to ssh into the remote machine and copy your public keys to the server as described in links given in section \ref{sec:distributed_runs}.
