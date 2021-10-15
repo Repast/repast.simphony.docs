@@ -1734,7 +1734,7 @@ along with a Java Runtime Environment (JRE) on the target machine.</p></div>
 <td class="icon">
 <img src="./images/note.png" alt="Note" />
 </td>
-<td class="content">When distributing a model as a portable archive note that
+<td class="content">When distributing a model as a portable archive
 the archive does not include a JRE which must be separately installed on the target machine.</td>
 </tr></table>
 </div>
@@ -1750,13 +1750,15 @@ on the number of files in the project.</p></div>
 </td>
 <td class="content">Advanced model developers may wish to customize the
 contents of the portable model archive which can be done by modifying the
-/installer/create_model_archive.xml file that defines an <a href="https://ant.apache.org/">ant</a> build process for the archive.</td>
+installer/create_model_archive.xml file that defines an <a href="https://ant.apache.org/">ant</a>
+build process for the archive.</td>
 </tr></table>
 </div>
-<div class="paragraph"><p>The portable model archive can then be distributed to any individual and contains all
+<div class="paragraph"><p>The portable model archive can then be copied to another computer and contains all of the
 components needed to run the Repast Simphony model.  Simply extract the model archive and
 double click or run the included start_model.bat for Windows, or start_model.command for
-linux or macOS.</p></div>
+Linux or macOS. Depending on your Linux distribution and settings, double clicking
+start_model.command may be enough to run the model, otherwise run it from the terminal.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_building_a_model_installer_application">2.7.2. Building a Model Installer Application</h4>
@@ -1786,7 +1788,7 @@ later versions of Java.</td>
 </div>
 <div class="paragraph"><p>To build the model installer application, select "Build Installer &#8230;" in the run menu.
 You will be prompted to select a folder in which to save the model installer, which
-will be written to setup.jar. The builder make take a few minutes to complete the installer.
+will be written to setup.jar. The builder may take a few minutes to complete the installer.
 Once this process is complete, a message "BUILD SUCCESSFUL" should be visible in the Console
 window.  The setup.jar file is an executable Java jar file that when double clicked will launch
 the model installer application on the target machine.</p></div>
@@ -1795,9 +1797,9 @@ the model installer application on the target machine.</p></div>
 <td class="icon">
 <img src="./images/tip.png" alt="Tip" />
 </td>
-<td class="content">Advanced model developers may wish to customize the contents and the installer options of
+<td class="content">Advanced model developers may wish to customize the contents and the installer options of the
 IzPack-based model installer application and can be done by modifying the
-/installer/installation_coordinator.xml file that defines an <a href="https://ant.apache.org/">ant</a> build process for the installer.
+installer/installation_coordinator.xml file that defines an <a href="https://ant.apache.org/">ant</a> build process for the installer.
 The IzPack installer configuration information is contained in the installation_components.xml file
 and defines the available steps in the installer applications, along with what options are available
 when installing the model.  The IzPack installer configuration used by Repast Simphony models
@@ -1808,7 +1810,7 @@ See the <a href="https://izpack.atlassian.net/wiki/home">IzPack Wiki</a> for mor
 <div class="paragraph"><p>After the Repast Simphony model installer is run on the target machine, it will create a folder
 containing the model files and the Repast Simphonhy components.  On Windows systems, their may be
 shortcuts available to run the model if this option was selected during the installation process.
-On macOS and linux, the model can be executed using the start_model.command.</p></div>
+On macOS and Linux, the model can be executed using the start_model.command.</p></div>
 </div>
 </div>
 </div>

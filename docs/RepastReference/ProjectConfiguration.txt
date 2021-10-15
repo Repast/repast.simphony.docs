@@ -544,12 +544,14 @@ on the number of files in the project.
 
 TIP: Advanced model developers may wish to customize the 
 contents of the portable model archive which can be done by modifying the 
-installer/create_model_archive.xml file that defines an https://ant.apache.org/[ant] build process for the archive.
+installer/create_model_archive.xml file that defines an https://ant.apache.org/[ant] 
+build process for the archive.
 
-The portable model archive can then be distributed to any individual and contains all
+The portable model archive can then be copied to another computer and contains all of the
 components needed to run the Repast Simphony model.  Simply extract the model archive and
 double click or run the included start_model.bat for Windows, or start_model.command for
-Linux or macOS.
+Linux or macOS. Depending on your Linux distribution and settings, double clicking 
+start_model.command may be enough to run the model, otherwise run it from the terminal.
 
 ==== Building a Model Installer Application
 The second option for creating a distributable model requires the creation of an installer
