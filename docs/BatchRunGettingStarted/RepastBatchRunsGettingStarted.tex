@@ -539,9 +539,9 @@ INFO  [Thread-1] 16:57:38,496 repast.simphony.batch.ssh.LocalSession -
 
 If possible, we recommend using Java/JRE 11 for the batch run Java.
 However, these errors can be fixed by using the {\tt--add-opens} VM argument. 
-\linebreak The format is {\tt --add-opens=<module>/<package>=ALL-UNNAMED}. For example,
+\linebreak The format is {\tt --add-opens <module>/<package>=ALL-UNNAMED}. For example,
 if the error specifies {\tt module java.base does not "opens java.util to unnamed module @371ef662}, 
-then the module is {\tt java.base} and the package is {\tt java.util}, and the VM argument is \linebreak{\tt --add-opens=java.base/java.util=ALL-UNNAMED}.
+then the module is {\tt java.base} and the package is {\tt java.util}, and the VM argument is \linebreak{\tt --add-opens java.base/java.util=ALL-UNNAMED}.
 
 The {\tt --add-opens} arguments can be added to the VM arguments text box in the
 model panel (\ref{sec:run_props}). The should be separated by spaces.
@@ -550,11 +550,11 @@ There are likely to be more than one of these arguments required. For example,
 the JZombies demo needs:
 
 \begin{verbatim}
---add-opens=java.base/java.lang=ALL-UNNAMED
---add-opens=java.base/java.util=ALL-UNNAMED
---add-opens=java.base/java.lang.reflect=ALL-UNNAMED
---add-opens=java.base/java.text=ALL-UNNAMED
---add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens java.base/java.text=ALL-UNNAMED
+--add-opens java.desktop/java.awt.font=ALL-UNNAMED
 \end{verbatim}
 
 \begin{figure}[h]

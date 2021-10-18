@@ -50,20 +50,20 @@ Caused by: java.lang.reflect.InaccessibleObjectException: Unable to make field p
 
 We recommend using Java/JRE 11 which will avoid this issue, but if you must
 use a JRE > 11 then these errors can be fixed by using the `--add-opens` VM argument. 
-The format is `--add-opens=<module>/<package>=ALL-UNNAMED`. For example,
+The format is `--add-opens <module>/<package>=ALL-UNNAMED`. For example,
 if the error specifies `module java.base does not "opens java.util" to unnamed module @371ef662`,
 then the module is `java.base` and the package is `java.util`, and the VM argument is
-`--add-opens=java.base/java.util=ALL-UNNAMED`.
+`--add-opens java.base/java.util=ALL-UNNAMED`.
 
 There are likely to be more than one of these arguments required. For example,
 the JZombies demo needs:
 
 ----
---add-opens=java.base/java.lang=ALL-UNNAMED
---add-opens=java.base/java.util=ALL-UNNAMED
---add-opens=java.base/java.lang.reflect=ALL-UNNAMED
---add-opens=java.base/java.text=ALL-UNNAMED
---add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens java.base/java.text=ALL-UNNAMED
+--add-opens java.desktop/java.awt.font=ALL-UNNAMED
 ----
 
 VM arguments for a particular model can be added in that model's run configuration. 
