@@ -1409,19 +1409,19 @@ Caused by: java.lang.reflect.InaccessibleObjectException: Unable to make field p
 </div></div>
 <div class="paragraph"><p>We recommend using Java/JRE 11 which will avoid this issue, but if you must
 use a JRE &gt; 11 then these errors can be fixed by using the <code>--add-opens</code> VM argument.
-The format is <code>--add-opens=&lt;module&gt;/&lt;package&gt;=ALL-UNNAMED</code>. For example,
+The format is <code>--add-opens &lt;module&gt;/&lt;package&gt;=ALL-UNNAMED</code>. For example,
 if the error specifies <code>module java.base does not "opens java.util" to unnamed module @371ef662</code>,
 then the module is <code>java.base</code> and the package is <code>java.util</code>, and the VM argument is
-<code>--add-opens=java.base/java.util=ALL-UNNAMED</code>.</p></div>
+<code>--add-opens java.base/java.util=ALL-UNNAMED</code>.</p></div>
 <div class="paragraph"><p>There are likely to be more than one of these arguments required. For example,
 the JZombies demo needs:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>--add-opens=java.base/java.lang=ALL-UNNAMED
---add-opens=java.base/java.util=ALL-UNNAMED
---add-opens=java.base/java.lang.reflect=ALL-UNNAMED
---add-opens=java.base/java.text=ALL-UNNAMED
---add-opens=java.desktop/java.awt.font=ALL-UNNAMED</code></pre>
+<pre><code>--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens java.base/java.text=ALL-UNNAMED
+--add-opens java.desktop/java.awt.font=ALL-UNNAMED</code></pre>
 </div></div>
 <div class="paragraph"><p>VM arguments for a particular model can be added in that model&#8217;s run configuration.
 Run &#8594; Run Configurations &#8594; Select the Model, and add the VM arguments in
