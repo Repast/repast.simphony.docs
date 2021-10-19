@@ -30,7 +30,7 @@ In particular, the:
 
 demonstration models provide the best examples of the newly implemented browser GUI.
 
-NOTE: As of this writing, an https://github.com/mrdoob/three.js/issues/22582[issue] has been reported for an incompatibility 
+Note: As of this writing, an https://github.com/mrdoob/three.js/issues/22582[issue] has been reported for an incompatibility 
 between the three.js library and the Safari browser (version 15.0), causing the user interface to not load properly.
 You can either use another browser or navigate to the `Developer` menu in Safari and enable `Experimental Features > WebGL via Metal`.
 
