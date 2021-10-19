@@ -27,6 +27,7 @@ In particular, the:
 * `JZombies`
 * `GlidersGrid`
 * `GridGameOfLife`
+
 demonstration models provide the best examples of the newly implemented browser GUI.
 
 NOTE: As of this writing, an https://github.com/mrdoob/three.js/issues/22582[issue] has been reported for an incompatibility 
