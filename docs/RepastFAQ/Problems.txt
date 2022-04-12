@@ -89,8 +89,7 @@ macOS `client.js` can be found at:
 +
 On Windows, `client.js` can be found at:
 +
-TODO: complete windows location
-`C:\Users\<username>\RepastSimphony-x.x.x`
+`C:\Users\<username>\RepastSimphony-x.x.x\eclipse\plugins\repast.simphony.server_2.9.1\web\static\js\client.js`
 +
 And on Linux, at:
 +
