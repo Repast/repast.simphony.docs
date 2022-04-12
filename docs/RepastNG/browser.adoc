@@ -111,7 +111,7 @@ are `Tabbed` and `Freeform`.
 
 The server port (default 5000) and whether to auto-launch a browser when
 the server is launched can be 
-configured in the server's launch configuration (see, <<img_launcher,Launcher Configuration>>).
+configured in the server's launch configuration (see, <<img_launcher,Launcher Configuration>>). 
 
 1. Go to the `Run Menu` -> `Run Configurations` (at the bottom of the menu)
 2. Click on the Server launcher you want to edit. 
@@ -120,11 +120,31 @@ configured in the server's launch configuration (see, <<img_launcher,Launcher Co
 port, the second the scenario folder of the model to run, and the third argument
 determines whether or not to auto-launch a browser where +true+ means auto-launch.
 
-Note that if you change the server port, then the browser will point to a different
-address.
-
 [[img_launcher]]
 .Server Launcher Configuration Dialog
 image::images/launcher.png[]
 
+Note that if you change the server port, you will need update the port
+number in the javascript code for the web sever itself. To do that,
+you need to edit the `client.js` file in the repast.simphony.server plugin. On
+macOS `client.js` can be found at:
 
+`/Applications/Repast Simphony x.x.x/Eclipse.app/Contents/Eclipse/plugins/repast.simphony.server_x.x.x/web/static/js/client.js`
+
+where `x.x.x` is the version number (e.g., 2.9.1). On Windows, `client.js` can be found at:
+
+TODO: windows location
+
+And on Linux, at:
+
+`Z/Eclipse/plugins/repast.simphony.server_x.x.x/web/static/js/client.js`
+
+where `Z` is the install location.
+
+In `client.js` the port number is set on line 187:
+
+`socket = new WebSocket('ws://localhost:5000/simphony/simsocket');`
+
+Change `5000` to another port. For example, 
+
+`socket = new WebSocket('ws://localhost:11219/simphony/simsocket');`
