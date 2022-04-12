@@ -72,7 +72,7 @@ the VM arguments text panel in the Arguments tab.
 
 === "Port Already in Use" Error when running Repast Simphony Web Server
 
-When attempting to start the Repast Simphony Web Server in order to 
+When attempting to start the Repast Simphony Web Server to 
 run a model in a browser, the network port used by the server may be
 already in use, and the following exception will appear. 
 
@@ -111,7 +111,7 @@ configured in the server's launch configuration.
     a. Go to the `Run Menu` -> `Run Configurations` (at the bottom of the menu)
     b. Click on the Server launcher you want to edit. 
     c. Click on the Arguments tab
-    d. Edit the program arguments. The first argument (e.g. 5000) specifies the server
+    d. Edit the program arguments. The first argument (e.g., 5000) specifies the server
     port, the second the scenario folder of the model to run, and the third argument
     determines whether or not to auto-launch a browser where +true+ means auto-launch.
 
