@@ -80,32 +80,8 @@ Exception in thread "main" java.lang.RuntimeException: Port already in use. Make
 using port 5000 and try again.
 	at io.javalin.Javalin.start(Javalin.java:158)
 
-The error can be avoided by changing the port number. This must be done in two places.
-
-1. Update the port number in the javascript code (`client.js`) for the webserver. On
-macOS `client.js` can be found at:
-+
-`/Applications/Repast Simphony x.x.x/Eclipse.app/Contents/Eclipse/plugins/repast.simphony.server_x.x.x/web/static/js/client.js`
-+
-On Windows, `client.js` can be found at:
-+
-`C:\Users\<username>\RepastSimphony-x.x.x\eclipse\plugins\repast.simphony.server_x.x.x\web\static\js\client.js`
-+
-And on Linux, at:
-+
-`X/Eclipse/plugins/repast.simphony.server_x.x.x/web/static/js/client.js`
-+
-where `X` is the install location and `x.x.x` is the version number (e.g., 2.9.1). 
-+
-In `client.js` the port number is set on line 187:
-+
-`socket = new WebSocket('ws://localhost:5000/simphony/simsocket');`
-+
-Change `5000` to another port. For example, 
-+
-`socket = new WebSocket('ws://localhost:11219/simphony/simsocket');`
-+
-2. Update the launch configuration to point to the new port. The server port can be 
+The error can be avoided by changing the port number in the launch configuration.
+The server port can be 
 configured in the server's launch configuration.
 +
     a. Go to the `Run Menu` -> `Run Configurations` (at the bottom of the menu)
