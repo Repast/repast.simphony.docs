@@ -41,7 +41,7 @@
 
 \title{Repast Model Testing Guide}
 \author{Jonathan Ozik, Nick Collier - Repast Development Team}
-\date{\today}                                           % Activate to display a given date or no date
+%\date{\today}                                           % Activate to display a given date or no date
 
 \begin{document} 
 \maketitle
@@ -51,9 +51,9 @@
 
 \section{Getting Started with Repast Simphony Model Testing}
 
-Developing a useful agent-based simulation involves acquiring sufficient knowledge of a modelÕs domain, developing the conceptual model, often while grounding it in more abstract theories of the domain, and then translating the model into software. The work can be complex and is rarely a waterfall type process where each step is completed before the next step begins. Rather, the process in an iterative one where the development of the model may require additional domain knowledge that, in turn, requires changes in the software. Furthermore, model specifications and requirements may change also requiring changes in the software. Test-driven development (TDD) is a general software development technique that can help with managing this complexity. In TDD the development of software is driven by the creation of many small automated unit tests each of which exercise some small part of the larger system's behavior. An aspect of the extreme-programming movement that has gained popularity since the late 1990s, the technique itself gained in prominence with the publication of Kent Beck's seminal work ``Test-Driven Development: By Example"\footnote{Beck, K. 2003. Test Driven Development: By Example. Boston, Massachusetts: Addison-Wesley.}.
+Developing a useful agent-based simulation involves acquiring sufficient knowledge of a model's domain, developing the conceptual model, often while grounding it in more abstract theories of the domain, and then translating the model into software. The work can be complex and is rarely a waterfall type process where each step is completed before the next step begins. Rather, the process in an iterative one where the development of the model may require additional domain knowledge that, in turn, requires changes in the software. Furthermore, model specifications and requirements may change also requiring changes in the software. Test-driven development (TDD) is a general software development technique that can help with managing this complexity. In TDD the development of software is driven by the creation of many small automated unit tests each of which exercise some small part of the larger system's behavior. An aspect of the extreme-programming movement that has gained popularity since the late 1990s, the technique itself gained in prominence with the publication of Kent Beck's seminal work ``Test-Driven Development: By Example"\footnote{Beck, K. 2003. Test Driven Development: By Example. Boston, Massachusetts: Addison-Wesley.}.
 
-The present guide will walk you through a number of agent-model TDD use cases with Repast Simphony. For those interested in learning more about agent-model testing, including the benefits of TDD when developing agent models, see Collier and Ozik (2013)\footnote{Collier, N, and J Ozik. ÒTest-Driven Agent-Based Simulation Development.Ó To appear in WSC 2013 Proceedings. Washington, D.C., 2013.}. For more information on the JUnit testing framework that we will be using, see \href{http://junit.org}{http://junit.org}.
+The present guide will walk you through a number of agent-model TDD use cases with Repast Simphony. For those interested in learning more about agent-model testing, including the benefits of TDD when developing agent models, see Collier and Ozik (2013)\footnote{Collier, N, and J Ozik. 2013. ``Test-Driven Agent-Based Simulation Development.'' In 2013 Winter Simulations Conference (WSC), 1551â€“59. \url{https://doi.org/10.1109/WSC.2013.6721538}.}. For more information on the JUnit testing framework that we will be using, see \href{http://junit.org}{http://junit.org}.
 
 \section{Agent-model Testing Use Cases with Repast Simphony}
 To add tests into an existing Repast Simphony project, we recommend the following setup steps:
@@ -321,7 +321,7 @@ If statecharts are used in the ReLogo model, Line 18 should be included as well.
 %
 %-DrsFolder=${workspace_loc:NewProject}/NewProject.rs 
 %
-%Tried Spock but the dependencies werenÕt convenient.
+%Tried Spock but the dependencies werenï¿½t convenient.
 
 
 \end{document}  
