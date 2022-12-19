@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
-    <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-        <listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
-    </listAttribute>
-    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="C:\Python27\python.exe"/>
-    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="docs/asciidoc-8.6.9/asciidoc.py -a toc -a toclevels=3 --backend=xhtml11 -a icons -a iconsdir=./images docs/RepastReference/RepastReference.txt"/>
-    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/repast.simphony.docs}"/>
-</launchConfiguration>
