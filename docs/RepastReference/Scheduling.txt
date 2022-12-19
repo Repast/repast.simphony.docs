@@ -26,6 +26,7 @@ and before the ContextBuilder code is executed. The ModelInitializer class needs
 in the scenario.xml as follows, assuming the class is named myModel.MyModelInitializer. 
 The MouseTrap demo contains an example of this.
 
+[source,java]
 ----
 <model.initializer class="myModel.MyModelInitializer" />
 ----
@@ -48,9 +49,10 @@ that creates all of the model components. We can simply move the current content
 ContextBuilder.build(…) into the new model creator class and schedule it for tick = 1. 
 Pausing the model at tick = 0 for good measure so that the schedule will not advance before 
 user input is received:
-
++
+[source,java]
 ----
-* RunEnvironment.getInstance().pauseAt(0);
+RunEnvironment.getInstance().pauseAt(0);
 ----
 
 * Optionally, the UserPanel is populated in the model post-initialization by creating an implementation of repast.simphony.userpanel.ui.UserPanelCreator and by specifying this class in the Repast GUI “User Panel” item. The UserPanelCreator class will return a JPanel via the createPanel() method and can contain any Java Swing GUI components. The UserPanel is re-created each time the model is reset.
@@ -67,6 +69,7 @@ with a slight twist. In this scenario, you get a schedule and tell it the when
 and what to run. An example of adding an item to the schedule this way is as 
 follows:
 
+[source,java]
 ----
 //Specify that the action should start at tick 1 and execute every other tick
 ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
@@ -80,6 +83,7 @@ set up the parameters for the action like you would in repast 3, you just use
 an instance of ScheduleParameters. ScheduleParameters can be created using one 
 of several convient factory methods if desired. A slight alteration of this is:
 
+[source,java]
 ----
 //Specify that the action should start at tick 1 and execute every other tick
 ScheduleParameters params = ScheduleParameters.createRepeating(1, 2);
@@ -93,6 +97,7 @@ arguments to the method that is to be called. The "Forward" and 4 will be passed
 as arguments to the method move. The assumption is that the signature for move 
 looks like this:
 
+[source,java]
 ----
 public void move(String direction, int distance)
 ----
@@ -114,6 +119,7 @@ method using annotations. Without going into extensive documentation about how
 annotations work (if you want that look at Java 5 Annotations), here is how you 
 would schedule an action using annotations:
 
+[source,java]
 ----
 @ScheduledMethod(start=1 , interval=2)
 public void deliverPaper()
@@ -128,6 +134,7 @@ schedule, however, if you create a new object while your simulation is running,
 this may not be the case. Fortunately, the schedule object makes it very easy to 
 schedule objects with annoations.
 
+[source,java]
 ----
 //Add the annotated methods from the agent to the schedule.
 schedule.schedule(myAgent);
@@ -147,6 +154,7 @@ The first way requires that you have your ContextBuilder extend DefaultContext.
 Once you've done this you can add @ScheduledMethods to this ContextBuilder to 
 perform some global action.
 
+[source,java]
 -----
 public class MyContextBuilder extends DefaultContext implements ContextBuilder {
   /**
@@ -171,6 +179,7 @@ public class MyContextBuilder extends DefaultContext implements ContextBuilder {
 The second way uses the RunEnvironment object to get a reference to the current 
 Schedule with which can add your behavior. For example
 
+[source,java]
 -----
 public class MyContextBuilder implements ContextBuilder {
   public Context build ( Context <T> context ) {
@@ -198,6 +207,7 @@ to execute the action. That's a bit of a mouthfull, so let's take a look at an
 example to hopefully clarify how this works. (this code is from the 
 SimpleHappyAgent model which ships with Repast Simphony)
 
+[source,java]
 ----
 @Watch(watcheeClassName = "repast.demo.simple.SimpleHappyAgent", 
 	watcheeFieldName = "happiness", query = "linked_from",
@@ -239,9 +249,11 @@ the transformers to which it is connected, and when the transformer's status
 changes to OFF, then the plant can schedule to shut down in the future. All done 
 with a single annotation. It could look like this:
 
+[source,java]
 ----
-@Watch(watcheeClassName = "infr.Transformer", watcheeFieldName = "status", query =
-	"linked_from", whenToTrigger = WatcherTriggerSchedule.LATER, scheduleTriggerDelta = 1)
+@Watch(watcheeClassName = "infr.Transformer", watcheeFieldName = "status", 
+	query = "linked_from", whenToTrigger = WatcherTriggerSchedule.LATER, 
+	scheduleTriggerDelta = 1)
 public void shutDown(){
 	operational = false;
 }

@@ -18,6 +18,7 @@ Creating a geography in repast simphony is similar to creating the other project
 exist in the context in order to exist in the geography, and you want to create the geograhy using a
 factory to make sure that it is initialized properly.
 
+[source,java]
 ----
 GeographyParameters<Object> params = new GeographyParameters<Object>();
 GeographyFactory factory = GeographyFactoryFinder.createGeographyFactory(null);
@@ -52,6 +53,7 @@ prime meridian is Greenwich.
 === Moving in a Geography
 Moving a Geography is typically accomplished using the following method
 
+[source,java]
 ----
 move(T agent, Geometry geom)
 ----
@@ -66,6 +68,7 @@ geometry.
 
 An agent's current Geometry (i.e. its location) can be retrieved with:
 
+[source,java]
 ----
 Geometry getGeometry(Object agent);
 ----
@@ -73,6 +76,7 @@ Geometry getGeometry(Object agent);
 This returned Geometry can be used to move the agent without recreating a Geometry and passing that
 new Geometry to the move method. For example, where "this" refers to an agent,
 
+[source,java]
 ----
 Geometry geom = geography.getGeometry(this);
 Coordinate coord = geom.getCoordinate();
@@ -85,6 +89,7 @@ In this case, we know the Geometry is a Point and so it has a single coordinate 
 can change. Note that its important to call move here to register the move with the Geography.
 Geography has additional move methods that can move by displacement etc.:
 
+[source,java]
 ----
 /**
 * Displaces the specified object by the specified lon and lat amount.
@@ -123,6 +128,7 @@ Geometry moveByVector(T object, double distance, double angleInRadians);
 .Queries
 A Geography can also be queried spatially to return the objects within a particular envelope.
 
+[source,java]
 ----
 /**
 * Gets an iterable over all the objects within the specified envelope.
@@ -145,6 +151,7 @@ below.
 
 TIP: The Repast Geography demo provides examples of loading agent shapes from shapefiles.
 
+[source,java]
 ----
 private List<SimpleFeature> loadFeaturesFromShapefile(String filename){
 	URL url = null;
@@ -182,6 +189,7 @@ private List<SimpleFeature> loadFeaturesFromShapefile(String filename){
 After the list of SimpleFeature objects is obtained, they can be assigned to the
 agent geometry in the Geography projection via:
 
+[source,java]
 ----
 Geometry geom = (Geometry)feature.getDefaultGeometry();
 geography.move(agent, geom);
@@ -193,6 +201,7 @@ Repast Geography projections support geolocated 2D grid coverage layers that
 provide storage and reference of integer and floating point data.  Coverage layers
 can be stored in a Geography projection as a GeoTools GridCoverage2D via:
 
+[source,java]
 ----
 geography.addCoverage("My coverage", coverage);
 ----
@@ -202,6 +211,7 @@ TIP: The Repast Geography demo provides examples of using coverage layers.
 The Geography.addCoverage(...) method assigns the provided coverage and name to the
 Geography and can be later referenced using:
 
+[source,java]
 ----
 GridCoverage2D coverage = geography.getCoverage("My coverage");
 ---- 
@@ -215,6 +225,7 @@ RepastCoverageFactory provides a number of static methods for creating writable 
 that can be both written to and read from using agent code.  For example, to create
 a 2D coverage of size 10x10 grid cells with float data and data range of 0-10:
 
+[source,java]
 ----
 WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFloat(
 				"My data", 10, 10, env, null, -1, 0, 10, -1);
@@ -223,6 +234,7 @@ WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFl
 The env argument is a Geotools ReferenceEnevelope that defines the lat/lon coordinates
 of the grid coverage, for example:
 
+[source,java]
 ----
 ReferencedEnvelope env = new ReferencedEnvelope(-87.761278, -87.742395, 
 				41.778022, 41.791462, DefaultGeographicCRS.WGS84);
@@ -233,6 +245,7 @@ allowed by the respective data types.  GIS raster data can also be (and is often
 category type data using integer or byte data.  The RepastCoverageFactory provides the 
 ability to create writable indexed coverages with user-defined category data.  For example:
 
+[source,java]
 ----
 // Simple 3-category coverage with no-data
 Category[] categories	= new Category[] {	
@@ -247,6 +260,7 @@ WritableGridCoverage2D coverage2 = RepastCoverageFactory.createWritableByteIndex
 
 Finally, writable coverage layers can be loaded from raster data files using:
 
+[source,java]
 ----
 WritableGridCoverage2D coverage = RepastCoverageFactory.createWritableCoverageFromFile(
 	File file, boolean forceLonLatAxisOrder)
@@ -266,6 +280,7 @@ and updates the Geography when Network events occur.   The GISNetworkListener wi
 create and move line geometries in a Geography Projection when changes occur in a Nework.
 GISNetworkListener is used as follows:
 
+[source,java]
 ----
 new GISNetworkListener(context, geography, network);
 ----

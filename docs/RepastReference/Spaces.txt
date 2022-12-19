@@ -19,6 +19,7 @@ projections. Your agents must exist in the context in order to exist in the
 continuous space, and you want to create the continuous spaceusing a factory to 
 make sure that it is initialized properly. 
 
+[source,java]
 ----
 ContinuousSpace factory = ContinuousSpaceFactoryFinder.createGridFactory(new HashMap());
 ContinuousSpace space = factory.createContinuousSpace("My Space", context, 
@@ -35,6 +36,7 @@ is added to the context, it is automatically added to the projection. But where 
 continuous space? That's where the ContinuousSpaceAdder interface comes in. The adder allows you to
 specify where to place an object once it has been added to the context. It has a simple method:
 
+[source,java]
 ----
 public void add(ContinuousSpace destination, U object);
 ----
@@ -46,6 +48,7 @@ something with it in the supplied projection. Ok, let's get a bit more concrete.
 ContinuousSpace and when an object is added to the continuous space, we want to locate it randomly.
 Here is the implementation for that:
 
+[source,java]
 ----
 public void add(ContinuousSpace<T> space, T obj) {
   Dimensions dims = space.getDimensions();
@@ -69,6 +72,7 @@ This behaviour may not be what you want. The most basic Adder we provide is the
 SimpleCartesianAdder. This Adder doesn't actually locate the object anywhere in the grid. It just allows
 the object to be used in the grid. The object won't appear to have a location until you call
 
+[source,java]
 ----
 continuousSpace.moveTo(object, x, y);
 ----
@@ -80,6 +84,7 @@ Let's look at one example of writing your own Adder. In this case, let's assume 
 their continuous space coordinates stored. The adder just needs to use those coordinates to locate the
 agents properly. We'll call the Interface Located:
 
+[source,java]
 ----
 public interface Located{
   public int getX();
@@ -88,6 +93,7 @@ public interface Located{
 ----
 Let's write an adder that know how to work with this:
 
+[source,java]
 ----
 public class LocatedAdder<Located> implements ContinuousAdder<Located> {
   public void add(ContinuousSpace<Located> grid, Located object){
@@ -123,6 +129,7 @@ moveTo and moveBy across the border will cross the border and enter the opposite
 ==== Moving in a Continuous Space
 Movement on a continuous space is accomplished with 3 methods.
 
+[source,java]
 ----
 moveTo(T object, double... newLocation)
 ----
@@ -133,6 +140,7 @@ to introduce objects into the grid if they do not yet have a grid location. This
 if the object is not already in the space, if the number of dimensions in the location does not agree with
 the number in the space, or if the object is moved outside the continuous space's dimensions.
 
+[source,java]
 ----
 NdPoint moveByDisplacement(T object, double... displacement)
 ----
@@ -146,6 +154,7 @@ return the new location as a NdPoint if the move was successful, otherwise it wi
 it will throw a SpatialException if the object is not already in the space or if the number of dimensions in
 the displacement is greater than the number of continuous space dimensions.
 
+[source,java]
 ----
 NdPoint moveByVector(T object, double distance, double... anglesInRadians)
 ----

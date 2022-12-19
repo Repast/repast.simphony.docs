@@ -1,0 +1,10 @@
+
+/* Custom CSS for Repast AsciiDoc documents*/
+
+/* Body Only underline links on hover */
+a:link {text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* TOC Only underline links on hover */
+#toc a:link {text-decoration: none; }
+#toc a:hover { text-decoration: underline; }

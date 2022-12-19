@@ -53,6 +53,7 @@ The other (correct) way is in a ParameterSetter.
 In the ParameterSetter you are going to want to call RandomHelper's setSeed 
 method, as below:
 
+[source,java]
 ----
 public class MySimpleSetter extends SimpleParameterSetter {
   public void next(Parameters params) {
@@ -67,6 +68,7 @@ their runInitialize methods) can use the default distribution and will recieve
 numbers based off of that seed. For example if you had an agent that wanted to 
 move based on some random condition, that could look like:
 
+[source,java]
 ----
 public void agentAction() {
   if (myHappiness < RandomHelper.nextDouble()) {
@@ -92,6 +94,7 @@ the RandomHelper.
 
 For example,
 
+[source,java]
 ----
 public void customStreamExample {
    RandomEngine eng = RandomHelper.registerGenerator("MyStream", 42);

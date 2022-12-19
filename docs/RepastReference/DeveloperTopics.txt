@@ -30,6 +30,7 @@ be grabbed from, and finally a boolean parameter that specifies whether or not t
 with the DynamicWizard (this is important for using the DynamicWizard, and generally should be true).
 This assumes the extension point will have a class field specified in it, so it could look like so:
 
+[source,xml]
 ----
 <extension-point id="repast.simphony.data.mappingwizard.options">
 	<parameter-def id="class"/>
@@ -38,6 +39,7 @@ This assumes the extension point will have a class field specified in it, so it 
 
 Or alternatively, you can just create a new extension point inherting its properties off the default one:
 
+[source,xml]
 ----
 <extension-point id="wizard.options" parent-plugin-id="repast.simphony.plugin.util"
 	parent-point-id="wizard.options">
@@ -46,6 +48,7 @@ Or alternatively, you can just create a new extension point inherting its proper
 
 And extensions would then look like (assuming the plugin id is repast.simphony.data)
 
+[source,xml]
 ----
 <extension plugin-id="repast.simphony.data" 
 	point-id="repast.simphony.data.mappingwizard.options" id="data.bsf.basicoption">
@@ -59,6 +62,7 @@ access to the PluginManager. For now the best way to do this is from a menu or o
 creator. Hopefully at some point a more generic method will exist. You then can store the loaded options
 somewhere so that you can have direct access to them if you desire. So for instance this could look like
 
+[source,java]
 ----
 public void init(PluginManager manager) {
 	// grab all the available wizard options
@@ -75,6 +79,7 @@ Finally, to actually display a wizard that uses these options you use DynamicWiz
 arguments in the DynamicWizard as of now, so it is best to wrap the creation of the wizards in some
 other static method. So an example method could look like:
 
+[source,java]
 ----
 public static DynamicWizard create(Scenario scenario, Object contextID) {
 	return new DynamicWizard(WIZARD_OPTIONS_ID, scenario, contextID, "Select Data Source
@@ -142,6 +147,7 @@ instance, in a Network these properties could be a list of edges in the network.
 of the form "edges"->((node1, node2, edgeWeight), (node2, node3, 1.2), ...)). So it would be
 implemented by:
 
+[source,java]
 ----
 protected void addProperties(Context context, MyNetwork net, Map<String, Object> properties) {
 	super.addProperties(context, net, properties);
@@ -162,6 +168,7 @@ At some later point the context will be rehydrated and the projection will need 
 projection will need to be instantiated, and accordingly, the instantiate method would be called. For our
 MyNetwork class this may be something like this:
 
+[source,java]
 ----
 protected T instantiate(Context<?> context, Map<String, Object> properties) {
 	String name = (String) properties.get(NAME_KEY);
@@ -174,6 +181,7 @@ This simply fetches the projection's name (which will be stored in ProjectionDry
 name. Next the network's properties need to be loaded, which, according to our addProperties method
 will be like so:
 
+[source,java]
 ----
 protected void loadProperties(Context<?> context, MyNetwork net, Map<String, Object>
 properties) {

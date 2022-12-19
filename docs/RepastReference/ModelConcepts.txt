@@ -123,9 +123,6 @@ checks.
 Repast Simphony's combination of Contexts, Projections, Queries, and Watchers 
 provides a powerful and flexible environment for ABMS implementation.
 
-
-
-
 === Projections
 While Contexts create a container to hold your agents, Projections impose a 
 structure upon those agents. Simply using Contexts, one could never write a 
@@ -144,6 +141,7 @@ for example, for a context to contain a grid, a geography, and a network.
 Agents may reference projections through their containing context by specifying
 the name of the projections, e.g. "mynetwork":
 
+[source,java]
 ----
 Context context = ContextUtils.getContext (this)
 Projection projection = context.getProjection("mynetwork");
@@ -152,6 +150,7 @@ Projection projection = context.getProjection("mynetwork");
 The returned Projection object will have limited value unless is is cast to the
 specific type (e.g. Network or Grid):
 
+[source,java]
 ----
 Context context = ContextUtils.getContext (this)
 Network network = (Network)context.getProjection("mynetwork");
@@ -168,10 +167,12 @@ way.
 // TODO Use complete examples or merge with the following sections
 // TODO Fill in the spacea attribute options and alloed values
 
+[source,java]
 ----
 GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
 Grid grid = factory.createGrid("Simple Grid", context, ...);
 ----
+[source,java]
 ----
 ContinuousSpaceFactory factory = ContinuousSpaceFactoryFinder.createContinuousSpaceFactory(new HashMap());
 ContinuousSpace space = factory.createContinuousSpace("Simple Space", context, ...);

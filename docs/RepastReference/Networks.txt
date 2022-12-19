@@ -20,6 +20,7 @@ network creation to create specific kinds of networks. This "tuning" is done by 
 the builder. If none of these methods are called then a simple "plain vanilla" network is created. For
 example,
 
+[source,java]
 ----
 NetworkBuilder builder = new NetworkBuilder("Network", context, true);
 Network network = builder.buildNetwork()
@@ -36,6 +37,7 @@ edge between the source and target.
 Using the builder, you can customize this edge creation process by
 specifying an EdgeCreator on the NetworkBuilder. The EdgeCreator interface looks like:
 
+[source,java]
 ----
 /**
 * Factory class for creating edges.
@@ -68,6 +70,7 @@ The intention is that the user implement the createEdge method to customize the 
 All edges created on the network via addEdge(source, target, ...) will forward edge creation to this
 method. Specifying the edge creator on the builder looks like:
 
+[source,java]
 ----
 NetworkBuilder builder = new NetworkBuilder("Network", context, true);
 builder.setEdgeCreator(myEdgeCreator);
@@ -81,6 +84,7 @@ Any networks created using this builder will then use that EdgeCreator.
 Networks can also be loaded from a file. Currently, the builder can load networks from UCINet's dl format
 or from Excel. The relevant methods in the NetworkBuilder are:
 
+[source,java]
 ----
 /**
 * Sets this NetworkBuilder to create the network from a file. This
@@ -142,6 +146,7 @@ column to be blank and as before, for the data to begin in cell 2,2.<p>
 
 An example of the network builder loading a file:
 
+[source,java]
 ----
 NetworkBuilder builder = new NetworkBuilder("Network", context, true);
 builder.load("./data/mynetwork.xls",
@@ -153,6 +158,7 @@ Lastly, a NetworkGenerator can be set on the NetworkBuilder. NetworkGenerators t
 the context already contains the nodes / agents and the generator arranges them in the appropriate
 topography (e.g. a Small World). For example,
 
+[source,java]
 ----
 // make sure the agents are in the context before
 // creating the network with the generator

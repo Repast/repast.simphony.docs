@@ -22,6 +22,7 @@ Creating a grid in Repast Simphony is similar to creating the other projections.
 Your agents must exist in the context in order to exist in the grid, and you want 
 to create the grid using a factory to make sure that it is initialized properly.
 
+[source,java]
 ----
 GridFactory factory = GridFactoryFinder.createGridFactory(new HashMap());
 Grid grid = factory.createGrid("My Grid", context, gridBuilderParameters);
@@ -36,6 +37,7 @@ as its dimensions, its border behavior, and how agents are initially added to th
 The GridBuilderParameters class contains a variety of static methods for creating specific types of
 GridBuilderParameters. For example,
 
+[source,java]
 ----
 GridBuilderParameters params = GridBuilderParameters.singleOccupancy2DTorus(
 		new SimpleAdder<Agent>(), 10, 10);
@@ -52,6 +54,7 @@ is added to the context, it is automatically added to the projection. But where 
 That's where the GridAdder interface comes in. The adder allows you to specify where to place an object
 once it has been added to the context. It has a simple method:
 
+[source,java]
 ----
 public void add(Grid destination, U object);
 ----
@@ -63,6 +66,7 @@ something with it in the supplied projection. Ok, let's get a bit more concrete.
 Grid and when an object is added to the grid, we want to locate it randomly. Here is the implementation
 for that:
 
+[source,java]
 ----
 public void add(Grid<T> space, T obj) {
   Dimensions dims = space.getDimensions();
@@ -87,6 +91,7 @@ behaviour may not be what you want. The most basic Adder we provide is the Simpl
 doesn't actually locate the object anywhere in the grid. It just allows the object to be used in the grid.
 The object won't appear to have a location until you call
 
+[source,java]
 ----
 grid.moveTo(object, x, y);
 ----
@@ -96,6 +101,7 @@ advance. Let's look at one example of writing your own Adder. In this case, let'
 their grid coordinates stored. The adder just needs to use those coordinates to locate the agents
 properly. We'll call the Interface Located:
 
+[source,java]
 ----
 public interface Located{
   public int getX();
@@ -105,6 +111,7 @@ public interface Located{
 
 Let's write an adder that knows how to work with this:
 
+[source,java]
 ----
 public class LocatedAdder<Located> implements GridAdder<Located> {
   public void add(Grid<Located> grid, Located object){
@@ -141,6 +148,7 @@ when crossing the border and moveBy will invoke the border behavior.
 === Moving on a Grid
 Movement on the grid is accomplished with 3 methods.
 
+[source,java]
 ----
 moveTo(T object, int... newLocation)
 ----
@@ -151,6 +159,7 @@ violate any border behaviors. This method can be used to introduce objects into 
 number of dimensions in the location does not agree with the number in the space, or if the object is
 moved outside the grid dimensions.
 
+[source,java]
 ----
 GridPoint moveByDisplacement(T object, int... displacement)
 ----
@@ -164,6 +173,7 @@ location as a GridPoint if the move was successful, otherwise it will return nul
 SpatialException if the object is not already in the space or if the number of dimensions in the
 displacement is greater than the number of grid dimensions.
 
+[source,java]
 ----
 GridPoint moveByVector(T object, double distance, double... anglesInRadians)
 ----

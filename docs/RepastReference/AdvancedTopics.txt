@@ -7,6 +7,7 @@ Adding Controller Actions
 Controller actions can be added and integrated into the controller tree via 
 plugin extension points. The repast.simphony.core plugin defines the following:
 
+[source,xml]
 ----
 <extension-point id="composite.action">
 	<parameter-def id="creatorClass"/>
@@ -28,6 +29,8 @@ CNDataLoaderControllerActionIO class is responsible for serializing and deserial
 data loader action.
 
 The repast.simphony.gui plugin extends these two extension points with:
+
+[source,xml]
 ----
 <extension-point id="composite.action" parent-plugin-id="repast.simphony.core" parent-point-id="composite.action">
 	<parameter-def id="label"/>

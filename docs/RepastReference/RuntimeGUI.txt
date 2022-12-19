@@ -196,6 +196,7 @@ displaying the parameter's value in the GUI.
 
 For example, supposing you wish use the following Name class as a Parameter.
 
+[source,java]
 ----
 package repast.test.viz;
 public class Name {
@@ -237,6 +238,7 @@ public class Name {
 ----
 
 The parameter XML then would look something like:
+[source,xml]
 ----
 <parameters> ...
 	<parameter name="name" displayName="Full Name" type="repast.test.viz.Name" 
@@ -249,6 +251,7 @@ and the converter is the fully qualified name of the converter class. The
 converter must implement the StringConverter interface. StringConverter has two 
 methods for converting to and from a String representation.
 
+[source,java]
 ----
 package repast.parameter;
 
@@ -283,6 +286,7 @@ public interface StringConverter<T> {
 
 The NameConverter then looks like:
 
+[source,java]
 ----
 package repast.test.viz;
 import repast.parameter.*;
@@ -318,6 +322,7 @@ public class NameConverter implements StringConverter<Name> {
 It is also possible to use the values attribute to constrain the possible values 
 of a converted parameter. For example:
 
+[source,xml]
 ----
 <parameters> ...
 	<parameter name="name" displayName="Full Name" type="repast.test.viz.Name" 
@@ -342,25 +347,22 @@ latter group will be displayed in alphabetical order.
 Currently, the only way to add this attribute is by editing parameters.xml directly. 
 An example:
 
+[source,xml]
 ----
 <parameters>
 
 	<parameter name="zombie_count" displayName="Zombie Count" type="int" 
 		defaultValue="10" 
 		isReadOnly="false" 
-		displayOrder="0.0
+		displayOrder="0.0"
 	/>
-					
 	<parameter name="human_count" 
 		displayName="Human Count" type="int" 
 		defaultValue="120" 
 		isReadOnly="false"
 		range="0.0 200.0 20.0"	
 		displayOrder="1.0"
-	/>
-				
-	
-			
+	/>		
 	<parameter name="stop_at" displayName="Batch Stop At" type="int" 
 		defaultValue="2000" 
 		isReadOnly="false" 

@@ -575,6 +575,7 @@ The agent's parameters will then be displayed in a probe panel. By default, the
 displayed parameters are derived from an agent's Java bean properties which are 
 themselves derived from get / set accessor method pairs. For example,
 
+[source,java]
 ----
 public class VizAgent {
 	...
@@ -599,6 +600,7 @@ getter or setter of a property method pair. (The information in the annotation
 applies equally to both methods.) Using a Parameter annotation, a more 
 descriptive display name can be specified. For example:
 
+[source,java]
 ----
 public class VizAgent {
 	...
@@ -628,6 +630,7 @@ identical that described above in the extended parameters section. See the
 convertors and custom parameter types section above for more details. For 
 example,
 
+[source,java]
 ----
 public class VizAgent {
 	...
@@ -650,6 +653,7 @@ object  A more appropriate title can be specified either by overriding toString(
 and returning the desired value, or annotating any method that returns the desired 
 title with @ProbeID. For example:
 
+[source,java]
 ----
 public class VizAgent {
 	... 

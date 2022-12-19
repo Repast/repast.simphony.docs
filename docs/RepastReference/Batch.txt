@@ -19,6 +19,8 @@ by a child is fully iterated through before the parent is incremented.
 .Parameter XML file
 Individual parameters are identified as parameter elements and have two required attributes: name
 and type.
+
+[source,xml]
 ----
 <parameter name="parameter_1" type=["number", "list", "constant"] ... />
 ----
@@ -36,6 +38,7 @@ Currently 3 types of parameters are supported.
 sweep mechanism will sweep through the space defined by these values by incrementing the
 starting value with the step value until the ending value is reached. For example,
 
+[source,xml]
 ----
 <parameter name="num_1" type="number" start="1" end="4" step="1"/>
 ----
@@ -54,6 +57,7 @@ more digits (e.g. 4.0) then the type will be a double. Otherwise, the type will 
 
 * list -- the list type defines a parameter space as a list.
 
+[source,xml]
 ----
 <parameter name="list_val" type="list" value_type=["string", "boolean", "double", "int",
 "long", "float"] values="x y z"/>
@@ -64,6 +68,7 @@ value_type attribute defines the type of the list elements and can be one of str
 double, int, long, float. Elements are delimited by a blank space. String elements can be surrounded
 by single quotes (') if they contain blank space. For example,
 
+[source,xml]
 ----
 <parameter name="list_val" type="list" value_type="string" values="'foo bar' 'bar' 'baz'"/>
 defines 3 elements foo bar, bar and baz.
@@ -71,6 +76,7 @@ defines 3 elements foo bar, bar and baz.
 
 * constant -- constant types define a parameter space consisting of a single constant value.
 
+[source,xml]
 ----
 <parameter name="const_1" type="constant" constant_type=["number", "boolean", "string"]
 value="x"/>
@@ -85,6 +91,7 @@ Parameters can be nested such that the space defined by the child or nested para
 before incrementing any values in the parent parameter at which point the child will be reset to its
 starting value. For example,
 
+[source,xml]
 ----
 <parameter name="numAgents" type="number" start="1000" end="2000" step="10">
 	<parameter name="wealth" type="list" value_type="float" values="10.1 12.3 1234.23 23" />
@@ -99,6 +106,7 @@ that all the combinations of numAgents and wealth values are explored.
 The default random seed (i.e. the seed for the default random stream) can be specified in a parameter
 file using a number type parameter with a name of "randomSeed". For example,
 
+[source,xml]
 ----
 <parameter name="randomSeed" type="number" start="1" end="4" step="1"/>
 ----

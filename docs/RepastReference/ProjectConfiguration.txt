@@ -239,6 +239,7 @@ does not need to be changed at all since the default configuration is the least
 constrained in terms of what agents and libraries are made available to the Repast
 runtime. 
 
+[source,xml]
 ----
 <model name="MyProject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://repast.org/scenario/user_path">
   <classpath>
@@ -282,6 +283,7 @@ agents path may be fine, however when projects become very large, it may be bene
 to *filter* what types of classes the Repast runtime considers "agents".  The filter
 can be specified in the agents path element as follows:
 
+[source,xml]
 ----
 <agents path="../bin" filter="myProject.somepackage.agents.*"/>
 ----
@@ -315,6 +317,7 @@ as with the agents path entry.  If an entry path refers to classes that do conta
 Repast-specific annotations like @ScheduledMethod, then the annotations option 
 should be specified as follows:
 
+[source,xml]
 ----
 <entry path="../somepath" annotations="true"/>
 ----
@@ -332,6 +335,7 @@ Finally, the builtin path element is for cases when a user needs to add an agent
 existing in one of the Repast plugins. The user specifies the canonical class 
 name as the fullname as follows:
 
+[source,xml]
 ----
 <builtin fullname="repast.simphony.someclass"/>
 ----
@@ -358,6 +362,7 @@ context hierarchy.  The default context.xml file created by the Repast new proje
 wizard is shown below. In almost all cases, the default context.xml file needs to 
 be changed to include model specific details.
 
+[source,xml]
 ----
 <context id="MyProject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
   	
@@ -375,6 +380,7 @@ editors like in Eclipse.
 
 context.xml contains the context hierarchy information.
 
+[source,xml]
 ----
 <context id="..." class="...">
   <attribute id="..." value="..." type="[int|long|double|float|boolean|string|...]" 
@@ -412,6 +418,8 @@ to convert the attribute to and from a string representation |NO
 |====
 
 For example:
+
+[source,xml]
 ----
 <context id="MyContext">
   <attribute id="numAgents" value="20" type="int" display_name="Initial No. Agents"/>
@@ -454,6 +462,8 @@ each cell |true or false (default is false) |boolean |NO
 |====
 
 For example:
+
+[source,xml]
 ----
 <context id="MyContext">
   <projection id="MyGrid" type="grid">
@@ -482,6 +492,8 @@ a space's borders. |bouncy, sticky, strict, or periodic |string |YES
 |====
 
 For example:
+
+[source,xml]
 ----
 <context id="MyContext">
   <projection id="MySpace" type="continuous space">
@@ -506,6 +518,8 @@ of this type. |Any properly formatted class name extending RepastEdge |string |N
 |====
 
 For example:
+
+[source,xml]
 ----
 <context id="MyContext">
   <projection id="MyNetwork" type="network">
