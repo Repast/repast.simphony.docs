@@ -1,5 +1,5 @@
 = Running your Repast Simphony Model via a Browser
-December 2022
+June 2024
 // NO SPACES BETWEEN LEADING TEXT AND : OPTIONS
 :toc:
 :icons:
@@ -7,7 +7,7 @@ December 2022
 :max-width: 55em
 :website: http://repast.github.io
 
-New in Repast Simphony 2.7 is the ability to run your model using a web browser
+Repast Simphony version 2.7 and later has the ability to run your model using a web browser
 as the user interface. The browser-based GUI has the following features:
 
 * 2D grid, continuous space, and geography (GIS) visualization (currently restricted to edited styles only) 

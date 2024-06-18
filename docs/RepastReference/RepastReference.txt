@@ -1,5 +1,5 @@
 = Repast Simphony Reference Manual
-Version 2.10 December 2022
+Version 2.11 June 2024
 // NO SPACES BETWEEN LEADING TEXT AND : OPTIONS
 // Note that the asciidoc toc2.css was changed to allow larger body and toc width,
 // and also added custom link styles so that links in TOC are not all underlined.
